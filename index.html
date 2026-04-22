@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peñíscola Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <button type="button" class="mode-toggle" id="mode-toggle" aria-label="Cambiar módulo" tabindex="0" onclick="if(window.toggleDashboardMode)window.toggleDashboardMode();return false;">Ir a Residuos</button>
+      <div class="logo">
+        <span class="logo-icon">📊</span>
+        <h1>Peñíscola</h1>
+        <span class="subtitle">Dashboard</span>
+      </div>
+      <nav class="nav" id="nav-camaras">
+        <a href="#" class="nav-item active" data-section="camaras-entradas"><span class="nav-icon">📊</span><span>Entradas/Salidas</span></a>
+        <a href="#" class="nav-item" data-section="camaras-trafico"><span class="nav-icon">🚗</span><span>Tráfico por vehículo</span></a>
+        <a href="#" class="nav-item" data-section="camaras-camara"><span class="nav-icon">📷</span><span>Por cámara</span></a>
+        <a href="#" class="nav-item" data-section="camaras-nacionalidad"><span class="nav-icon">🌍</span><span>Nacionalidad</span></a>
+        <a href="#" class="nav-item" data-section="camaras-color"><span class="nav-icon">🎨</span><span>Colores</span></a>
+      </nav>
+      <nav class="nav" id="nav-residuos" style="display:none">
+        <a href="#" class="nav-item active" data-section="kpis"><span class="nav-icon">📊</span><span>KPIs</span></a>
+        <a href="#" class="nav-item" data-section="reciclaje"><span class="nav-icon">♻️</span><span>Reciclaje</span></a>
+        <a href="#" class="nav-item" data-section="hoteles"><span class="nav-icon">🏨</span><span>Hoteles</span></a>
+        <a href="#" class="nav-item" data-section="mapa"><span class="nav-icon">🗺️</span><span>Mapa</span></a>
+        <a href="#" class="nav-item" data-section="zonas"><span class="nav-icon">📍</span><span>Por zonas</span></a>
+        <a href="#" class="nav-item" data-section="tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
+      </nav>
+      <div class="sidebar-footer" id="sidebar-footer">Cámaras de tráfico</div>
+    </aside>
+    <main class="main">
+      <header class="header" id="header-camaras">
+        <h2>Cámaras LPR - Entradas y salidas</h2>
+        <div class="header-actions">
+          <button type="button" class="reload-btn" id="camaras-reload">Recargar</button>
+        </div>
+      </header>
+      <header class="header" id="header-residuos" style="display:none">
+        <h2>Residuos - KPIs</h2>
+        <div class="header-actions">
+          <button type="button" class="reload-btn" id="residuos-reload">Recargar</button>
+        </div>
+      </header>
+
+      <div id="main-camaras">
+      <section id="section-camaras-entradas" class="section active">
+        <div class="camaras-data-source" id="camaras-data-source" style="display:none" aria-hidden="true"></div>
+        <div class="camaras-placeholder" id="camaras-placeholder">
+          <h3>Cargando datos de cámaras...</h3>
+          <p>Esperando data/camaras/todos.json</p>
+        </div>
+        <div id="camaras-content" aria-hidden="true" style="display:none">
+          <div class="camaras-lpr-filters">
+            <label for="camaras-year-select">Año</label>
+            <select id="camaras-year-select" class="fuente-select"></select>
+            <label for="camaras-mes-select">Mes</label>
+            <select id="camaras-mes-select" class="fuente-select"></select>
+          </div>
+          <div class="camaras-kpi-cards">
+            <div class="camaras-kpi-card camaras-kpi-entradas">
+              <span class="camaras-kpi-label">Entradas (Avance)</span>
+              <span class="camaras-kpi-value" id="camaras-kpi-entradas">—</span>
+              <span class="camaras-kpi-sub" id="camaras-kpi-entradas-sub">—</span>
+            </div>
+            <div class="camaras-kpi-card camaras-kpi-salidas">
+              <span class="camaras-kpi-label">Salidas (Retroceso)</span>
+              <span class="camaras-kpi-value" id="camaras-kpi-salidas">—</span>
+              <span class="camaras-kpi-sub" id="camaras-kpi-salidas-sub">—</span>
+            </div>
+          </div>
+          <div class="camaras-charts-row">
+            <div class="camaras-chart-card">
+              <h4>Entradas/Salidas por mes</h4>
+              <div class="chart-container" style="height:280px">
+                <canvas id="chart-camaras-mes"></canvas>
+              </div>
+            </div>
+            <div class="camaras-chart-card">
+              <h4>Entradas/Salidas por día</h4>
+              <div class="chart-container" style="height:280px">
+                <canvas id="chart-camaras-dia"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-camaras-trafico" class="section">
+        <h3 class="section-title">Tráfico por Vehículo y Dirección</h3>
+        <div class="camaras-trafico-filters">
+          <label>Cámaras</label>
+          <select id="trafico-camara-select" class="fuente-select"><option value="">Todas</option></select>
+          <label>Mes</label>
+          <select id="trafico-mes-select" class="fuente-select"><option value="">Todas</option></select>
+          <label>Fecha</label>
+          <select id="trafico-fecha-select" class="fuente-select"><option value="">Todas</option></select>
+        </div>
+        <div class="camaras-trafico-kpis">
+          <div class="camaras-trafico-kpi">
+            <span class="camaras-trafico-kpi-label">Balance Neto</span>
+            <span class="camaras-trafico-kpi-value" id="trafico-balance">—</span>
+            <span class="camaras-trafico-kpi-sub" id="trafico-balance-sub">Balance mes anterior: —</span>
+          </div>
+          <div class="camaras-trafico-kpi">
+            <span class="camaras-trafico-kpi-label">Entradas al Pueblo</span>
+            <span class="camaras-trafico-kpi-value" id="trafico-entradas">—</span>
+            <span class="camaras-trafico-kpi-sub" id="trafico-entradas-sub">Entradas mes anterior: —</span>
+          </div>
+          <div class="camaras-trafico-kpi">
+            <span class="camaras-trafico-kpi-label">Salidas del Pueblo</span>
+            <span class="camaras-trafico-kpi-value" id="trafico-salidas">—</span>
+            <span class="camaras-trafico-kpi-sub" id="trafico-salidas-sub">Salidas mes anterior: —</span>
+          </div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Entradas y Salidas por Hora del Día</h4>
+            <div class="chart-container" style="height:300px">
+              <canvas id="chart-trafico-hora"></canvas>
+            </div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>Entradas y Salidas por Día del Mes</h4>
+            <div class="chart-container" style="height:300px">
+              <canvas id="chart-trafico-dia"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-camaras-camara" class="section">
+        <div class="camaras-chart-card">
+          <h4>Mapa de cámaras</h4>
+          <div id="mapa-camaras" class="mapa-camaras"></div>
+        </div>
+        <div class="camaras-chart-card">
+          <h4>Tráfico por cámara (total)</h4>
+          <div class="chart-container" style="height:400px">
+            <canvas id="chart-camaras-por-camara"></canvas>
+          </div>
+        </div>
+      </section>
+      <section id="section-camaras-nacionalidad" class="section">
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Tráfico por nacionalidad (top 15)</h4>
+            <div class="chart-container" style="height:350px">
+              <canvas id="chart-camaras-nacionalidad"></canvas>
+            </div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>Nacionalidad (dona)</h4>
+            <div class="chart-container" style="height:350px">
+              <canvas id="chart-camaras-nacionalidad-dona"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="section-camaras-color" class="section">
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Vehículos por color</h4>
+            <div class="chart-container" style="height:350px">
+              <canvas id="chart-camaras-color"></canvas>
+            </div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>Colores (dona)</h4>
+            <div class="chart-container" style="height:350px">
+              <canvas id="chart-camaras-color-dona"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      </div>
+
+      <div id="main-residuos" style="display:none">
+        <div class="filters-bar" id="residuos-filters-bar">
+          <label>Año</label>
+          <select id="residuos-year" class="fuente-select"></select>
+          <label>Mes</label>
+          <select id="residuos-mes" class="fuente-select"></select>
+          <label class="comparar-label">Comparar con</label>
+          <select id="residuos-compare" class="fuente-select">
+            <option value="mes_anterior">Mes anterior</option>
+            <option value="año_anterior">Año anterior</option>
+            <option value="mismo_mes_año">Mismo mes año anterior</option>
+          </select>
+        </div>
+        <section id="section-kpis" class="section active">
+          <div class="kpi-principal kpi-cards">
+            <div class="kpi-card-compare" id="kpi-card-excel">
+              <span class="kpi-label">KG RESIDUOS EXCEL (Pesajes)</span>
+              <span class="kpi-periodo" id="kpi-periodo-excel">—</span>
+              <span class="kpi-value" id="kpi-value-excel">—</span>
+              <span class="kpi-compare" id="kpi-compare-excel">—</span>
+            </div>
+            <div class="kpi-card-compare" id="kpi-card-camion">
+              <span class="kpi-label">KG RESIDUOS CAMIÓN</span>
+              <span class="kpi-periodo" id="kpi-periodo-camion">—</span>
+              <span class="kpi-value" id="kpi-value-camion">—</span>
+              <span class="kpi-compare" id="kpi-compare-camion">—</span>
+            </div>
+            <div class="kpi-card-compare" id="kpi-card-salidas">
+              <span class="kpi-label">SALIDAS DEL CAMIÓN</span>
+              <span class="kpi-periodo" id="kpi-periodo-salidas">—</span>
+              <span class="kpi-value" id="kpi-value-salidas">—</span>
+              <span class="kpi-compare" id="kpi-compare-salidas">—</span>
+            </div>
+          </div>
+          <div class="charts-grid">
+            <div class="chart-card"><h3>Kg por zonas</h3><div class="chart-container"><canvas id="chart-zonas"></canvas></div></div>
+            <div class="chart-card"><h3>Tipos de basura</h3><div class="chart-container"><canvas id="chart-tipos"></canvas></div></div>
+            <div class="chart-card full-width"><h3>Hoteles y campings (kg/mes)</h3><div class="chart-container"><canvas id="chart-hoteles"></canvas></div></div>
+          </div>
+        </section>
+        <section id="section-reciclaje" class="section">
+          <div class="residuos-section-card">
+            <h3 class="section-title">Tipos de residuos (reciclaje)</h3>
+            <div class="chart-container residuos-tab-chart"><canvas id="chart-residuos-tipos-tab"></canvas></div>
+            <div id="tabla-reciclaje-container"></div>
+          </div>
+        </section>
+        <section id="section-hoteles" class="section">
+          <div class="residuos-section-card">
+            <h3 class="section-title">Hoteles y campings (kg)</h3>
+            <div class="chart-container residuos-tab-chart"><canvas id="chart-residuos-hoteles-tab"></canvas></div>
+            <div id="tabla-hoteles-container"></div>
+          </div>
+        </section>
+        <section id="section-mapa" class="section section-mapa-solo">
+          <div id="mapa-residuos" class="mapa-residuos mapa-residuos-full"></div>
+        </section>
+        <section id="section-zonas" class="section">
+          <div class="residuos-section-card">
+            <h3 class="section-title">Kg por zonas</h3>
+            <div class="chart-container residuos-tab-chart"><canvas id="chart-residuos-zonas-tab"></canvas></div>
+            <div id="mapa-zonas-residuos" class="mapa-residuos mapa-zonas-embed"></div>
+            <div id="tabla-zonas-container"></div>
+          </div>
+        </section>
+        <section id="section-tablas" class="section">
+          <div class="residuos-section-card">
+            <h3 class="section-title">Tablas de datos</h3>
+            <p class="residuos-tablas-hint">Mismos datos que arriba; revisa año y mes en los filtros.</p>
+            <h4 class="residuos-tabla-subtitle">Zonas</h4>
+            <div id="tabla-completa-zonas"></div>
+            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Tipos de residuos</h4>
+            <div id="tabla-completa-tipos"></div>
+            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Hoteles y campings</h4>
+            <div id="tabla-completa-hoteles"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="js/dashboard.js?v=20"></script>
+</body>
+</html>

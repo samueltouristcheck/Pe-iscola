@@ -1,0 +1,10 @@
+PESAJES - Excels aquí
+=====================
+
+Suelta aquí tus archivos Excel (.xlsx, .xls) de pesajes.
+
+Estructura opcional:
+- Por año: 2022/, 2023/, 2024/... con Excels dentro
+- O directamente en esta carpeta
+
+Luego ejecuta: python preparar_datos.py

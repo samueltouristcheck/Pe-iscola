@@ -1,0 +1,34 @@
+INFORME RESIDUOS {{MES_AÑO}}
+
+RESUMEN GENERAL
+
+En el período analizado se han recogido un total de {{TOTAL_KG}} kg de residuos según los datos del camión (RFID). Se han registrado {{SALIDAS}} salidas del camión.
+
+Comparado con el mismo período del año anterior ({{PERIODO_ANTERIOR}}): variación de {{DIF_CAMION}} en kg camión, {{DIF_SALIDAS}} en salidas.
+
+Los residuos de hoteles y campings representan el {{PCT_HOTELES}} del total.
+
+
+RESIDUOS POR ZONA
+
+{{ZONAS}}
+
+
+RESIDUOS POR TIPO DE CONTENEDOR
+
+{{CONTENEDORES}}
+
+
+RESIDUOS POR HOTEL/CAMPING
+
+{{HOTELES}}
+
+
+TIPOS DE RESIDUO
+
+{{TIPOS}}
+
+
+CONCLUSIONES
+
+{{CONCLUSIONES}}

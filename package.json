@@ -1,0 +1,21 @@
+{
+  "name": "peniscola-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard residuos Peñíscola",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "preparar": "node scripts/preparar_todo.js",
+    "preparar-residuos": "python preparar_datos.py",
+    "procesar-camaras": "node procesar_camaras.js"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "docx": "^9.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mammoth": "^1.11.0",
+    "pdf-parse": "^2.4.5",
+    "xlsx": "^0.18.5"
+  }
+}

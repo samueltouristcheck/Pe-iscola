@@ -1,0 +1,11 @@
+node_modules/
+.env
+__pycache__/
+*.pyc
+
+# GitHub límite 100 MB/archivo: crudos locales; el dashboard usa todos.json agregados
+data/camaras/Trafico_camaras/CSV/
+data/RESIDUOS/camion/JSON/2022/
+data/RESIDUOS/camion/JSON/2023/
+data/RESIDUOS/camion/JSON/2024/
+data/RESIDUOS/camion/JSON/2025/

@@ -1,0 +1,21 @@
+INFORME DE RESIDUOS - PEÑÍSCOLA
+Período: Enero 2024
+
+1. RESUMEN EJECUTIVO
+En el período analizado se han recogido un total de X kg de residuos según pesajes (Excel) y Y kg según datos del camión (RFID). Se han registrado Z salidas del camión.
+
+2. DATOS POR FUENTE
+- Excel (pesajes): X kg
+- Camión (RFID): Y kg
+
+3. DISTRIBUCIÓN POR ZONAS
+[Listado de zonas con kg, ordenado de mayor a menor]
+
+4. TIPOS DE RESIDUO
+[Distribución por tipo de basura con kg]
+
+5. OBSERVACIONES
+[Comentarios breves sobre tendencias o comparaciones con períodos anteriores]
+
+---
+Añade aquí tus propios informes de ejemplo. El sistema usará su formato para generar nuevos informes con ChatGPT.

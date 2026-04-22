@@ -1,0 +1,14 @@
+PORTADA DEL INFORME
+===================
+
+Para que el informe Word y PDF muestre la imagen de portada (castillo de Peñíscola),
+coloca una de estas imágenes en esta carpeta:
+
+  - Imagen_portada.png
+  - imagen_portada.png  
+  - portada.png
+  - portada.jpg
+
+Puedes extraer la imagen de un informe Word existente ejecutando:
+
+  node extraer_portada.js "ruta\al\informe.docx"
