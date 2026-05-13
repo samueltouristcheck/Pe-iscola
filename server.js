@@ -827,8 +827,17 @@ app.post('/api/generate-report', async (req, res) => {
     }
 });
 
-// Al arrancar: procesar cámaras en segundo plano para que los datos estén ya listos
+// Al arrancar: regenerar cámaras desde los CSV crudos SOLO si los CSV están presentes.
+// En producción (Render) los CSV de LPR no están subidos al repo por tamaño,
+// así que mejor usar el todos.json ya comprometido en git y no sobrescribirlo.
 function asegurarDatosCamaras() {
+    const lprDir = path.join(__dirname, 'data', 'camaras', 'Trafico_camaras', 'CSV');
+    const lprPresentes = fs.existsSync(lprDir) && fs.readdirSync(lprDir).some((f) => /\.csv$/i.test(f));
+    const todosJson = path.join(__dirname, 'data', 'camaras', 'todos.json');
+    if (!lprPresentes) {
+        console.log(`Cámaras: CSV de LPR no presentes; usando ${fs.existsSync(todosJson) ? 'data/camaras/todos.json del repo' : '(sin datos)'} sin regenerar.`);
+        return;
+    }
     const { spawn } = require('child_process');
     const proc = spawn('node', ['procesar_camaras.js'], { cwd: __dirname, stdio: 'ignore' });
     proc.on('close', (code) => {
