@@ -7,6 +7,8 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const XLSX = require('xlsx');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const EJEMPLOS_DIR = path.join(__dirname, 'informes_ejemplo');
@@ -90,6 +92,9 @@ function walkPesajesExcels(absDir, baseDir, out) {
     }
 }
 
+// Compresión gzip/brotli para JSON grandes (data/* a veces > 10 MB)
+app.use(compression());
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -98,6 +103,35 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.json());
+
+// Health check público (Render lo usa para "is the service alive?")
+app.get('/api/status', (req, res) => res.json({ ok: true, server: 'Node.js', htmlReport: true }));
+
+// Basic Auth: si DASH_USER y DASH_PASS están definidos, el resto del sitio requiere login.
+// En local sin esas variables, no hay auth (modo dev).
+app.use((req, res, next) => {
+    const u = process.env.DASH_USER;
+    const p = process.env.DASH_PASS;
+    if (!u || !p) return next();
+    const header = req.headers.authorization || '';
+    if (header.startsWith('Basic ')) {
+        try {
+            const [user, pass] = Buffer.from(header.slice(6), 'base64').toString('utf8').split(':');
+            if (user === u && pass === p) return next();
+        } catch (_) { /* malformed header */ }
+    }
+    res.setHeader('WWW-Authenticate', 'Basic realm="Peniscola Dashboard", charset="UTF-8"');
+    res.status(401).send('Autenticación requerida');
+});
+
+// Rate limit en /api/chat para proteger la cuota de OpenAI
+const chatLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 20,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Demasiadas peticiones. Espera un minuto.' }
+});
 
 // Ruta raíz: devolver index.html
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
@@ -559,10 +593,7 @@ app.get('/data/zonas_peniscola.geojson', (req, res) => {
 // Archivos estáticos (css, js, data, etc.)
 app.use(express.static(path.join(__dirname)));
 
-// Verificación: si ves {"ok":true} al abrir /api/status, estás usando el servidor Node correcto
-app.get('/api/status', (req, res) => res.json({ ok: true, server: 'Node.js', htmlReport: true }));
-
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', chatLimiter, async (req, res) => {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
         return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
@@ -807,8 +838,9 @@ function asegurarDatosCamaras() {
     proc.on('error', (e) => console.warn('Cámaras:', e.message));
 }
 
-// Al arrancar: descarga inicial si no existe + revisión periódica cada N horas.
-const TURISMO_REFRESH_HORAS = parseFloat(process.env.TURISMO_REFRESH_HORAS || '24');
+// Al arrancar: descarga inicial si los datos del INE son más antiguos que TURISMO_REFRESH_HORAS.
+// Por defecto 3 semanas (504 h) — el usuario también puede forzar el refresco con el botón "Actualizar INE".
+const TURISMO_REFRESH_HORAS = parseFloat(process.env.TURISMO_REFRESH_HORAS || '504');
 function asegurarDatosTurismo() {
     const p = path.join(__dirname, 'data', 'TURISMO', 'todos.json');
     const existe = fs.existsSync(p);
@@ -826,5 +858,4 @@ app.listen(PORT, () => {
     console.log(`Dashboard: http://localhost:${PORT}`);
     asegurarDatosCamaras();
     asegurarDatosTurismo();
-    setInterval(asegurarDatosTurismo, TURISMO_REFRESH_HORAS * 3600 * 1000);
 });

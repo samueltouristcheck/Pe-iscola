@@ -1,0 +1,32 @@
+# Render.com — configuración del despliegue del dashboard de Peñíscola.
+# Plan: Free. La app se duerme tras 15 min sin uso; primer click reactiva ~30 s.
+#
+# Pasos en Render tras conectar el repo:
+# 1. Render detectará este archivo y propondrá crear un Web Service.
+# 2. Definir manualmente las variables marcadas como `sync: false` (secrets) en
+#    el dashboard Web (no se commitean al repo):
+#      - OPENAI_API_KEY  → tu clave de OpenAI
+#      - DASH_USER       → usuario para entrar al dashboard (Basic Auth)
+#      - DASH_PASS       → contraseña (mín 14 chars recomendado)
+services:
+  - type: web
+    name: peniscola-dashboard
+    runtime: node
+    plan: free
+    region: frankfurt        # latencia razonable desde España
+    branch: main
+    buildCommand: npm ci
+    startCommand: node server.js
+    healthCheckPath: /api/status
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TURISMO_REFRESH_HORAS
+        value: "504"        # 3 semanas; el INE publica datos mensuales, no hace falta más
+      - key: OPENAI_API_KEY
+        sync: false         # se configura desde la web de Render (secret)
+      - key: DASH_USER
+        sync: false
+      - key: DASH_PASS
+        sync: false
