@@ -8,7 +8,7 @@ data/camaras/Trafico_camaras/CSV/
 data/RESIDUOS/camion/JSON/
 data/RESIDUOS/camion/todos.json
 data/RESIDUOS/camion/mapa.json
-data/RESIDUOS/camion/mapa_sample.json
+# mapa_sample.json SÍ se sube (reducido a ~3 MB para que cuadre en GitHub)
 
 # Logs y artefactos locales
 server_log.txt

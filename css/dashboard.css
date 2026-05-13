@@ -429,10 +429,15 @@
 
 .section-mapa-solo {
     padding: 0;
-    margin: 0 calc(-1 * var(--spacing-page));
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
 .mapa-residuos-hint {
