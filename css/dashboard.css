@@ -726,6 +726,148 @@
     padding-top: 14px;
 }
 
+/* Logo clickable (vuelve a landing) */
+.logo-link { text-decoration: none; cursor: pointer; }
+.logo-link:hover .logo-img { transform: scale(1.04); transition: transform 150ms ease; }
+
+/* ============================================================
+   Landing — pantalla de selección de módulo (3 tarjetas)
+   ============================================================ */
+#main-landing {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.10) 0%, rgba(37, 99, 235, 0) 50%),
+      radial-gradient(circle at 90% 30%, rgba(249, 115, 22, 0.10) 0%, rgba(249, 115, 22, 0) 55%),
+      radial-gradient(circle at 50% 100%, rgba(0, 168, 138, 0.10) 0%, rgba(0, 168, 138, 0) 50%),
+      var(--bg-app);
+}
+.landing-wrapper {
+    max-width: 1100px;
+    width: 100%;
+    text-align: center;
+}
+.landing-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+}
+.landing-logo {
+    width: 120px;
+    max-height: 110px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+.landing-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+}
+.landing-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 4px 0 4px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #00a88a 60%, #f97316 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+}
+.landing-subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 540px;
+    margin: 0 auto;
+}
+.landing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+.landing-card {
+    appearance: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    font-family: inherit;
+    color: var(--text-primary);
+    position: relative;
+    overflow: hidden;
+}
+.landing-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+}
+.landing-card-camaras::before  { background: linear-gradient(90deg, #2563eb, #0891b2); }
+.landing-card-residuos::before { background: linear-gradient(90deg, #00a88a, #2563eb); }
+.landing-card-turismo::before  { background: linear-gradient(90deg, #f97316, #e6157f); }
+.landing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px -14px rgba(15, 23, 42, 0.25);
+}
+.landing-card-camaras:hover  { border-color: #2563eb; }
+.landing-card-residuos:hover { border-color: #00a88a; }
+.landing-card-turismo:hover  { border-color: #f97316; }
+.landing-card-icon {
+    font-size: 44px;
+    line-height: 1;
+}
+.landing-card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+.landing-card-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    flex: 1;
+}
+.landing-card-cta {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 150ms ease;
+}
+.landing-card-camaras .landing-card-cta  { color: #2563eb; }
+.landing-card-residuos .landing-card-cta { color: #00a88a; }
+.landing-card-turismo .landing-card-cta  { color: #f97316; }
+.landing-card:hover .landing-card-cta { gap: 10px; }
+.landing-foot {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+@media (max-width: 600px) {
+    .landing-title { font-size: 28px; }
+    .landing-card { padding: 24px 20px; }
+}
+
 /* Main */
 .main {
     flex: 1;

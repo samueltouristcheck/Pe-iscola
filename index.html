@@ -16,10 +16,10 @@
 <body>
   <div class="app">
     <aside class="sidebar">
-      <div class="logo">
+      <a href="#" class="logo logo-link" id="logo-home" title="Volver al inicio">
         <img src="assets/logo-ajuntament.png" alt="Peñíscola" class="logo-img" decoding="async">
-      </div>
-      <nav class="nav" id="nav-camaras">
+      </a>
+      <nav class="nav" id="nav-camaras" style="display:none">
         <a href="#" class="nav-item active" data-section="camaras-entradas"><span class="nav-icon">📊</span><span>Entradas/Salidas</span></a>
         <a href="#" class="nav-item" data-section="camaras-trafico"><span class="nav-icon">🚗</span><span>Tráfico por vehículo</span></a>
         <a href="#" class="nav-item" data-section="camaras-camara"><span class="nav-icon">📷</span><span>Por cámara</span></a>
@@ -52,7 +52,38 @@
       </div>
     </aside>
     <main class="main">
-      <header class="header" id="header-camaras">
+      <div id="main-landing">
+        <div class="landing-wrapper">
+          <header class="landing-header">
+            <img src="assets/logo-ajuntament.png" alt="Peñíscola" class="landing-logo" decoding="async">
+            <span class="landing-eyebrow">Ayuntamiento de Peñíscola</span>
+            <h1 class="landing-title">Dashboard de gestión municipal</h1>
+            <p class="landing-subtitle">Selecciona un módulo para ver sus indicadores.</p>
+          </header>
+          <div class="landing-grid">
+            <button type="button" class="landing-card landing-card-camaras" data-target="camaras">
+              <span class="landing-card-icon" aria-hidden="true">📷</span>
+              <h2 class="landing-card-title">Cámaras LPR</h2>
+              <p class="landing-card-desc">Entradas y salidas del municipio. Tráfico por vehículo, hora, cámara y nacionalidad.</p>
+              <span class="landing-card-cta">Entrar <span aria-hidden="true">→</span></span>
+            </button>
+            <button type="button" class="landing-card landing-card-residuos" data-target="residuos">
+              <span class="landing-card-icon" aria-hidden="true">♻️</span>
+              <h2 class="landing-card-title">Residuos</h2>
+              <p class="landing-card-desc">Pesajes del vertedero, recogida del camión y reciclaje. KPIs, zonas y hoteles.</p>
+              <span class="landing-card-cta">Entrar <span aria-hidden="true">→</span></span>
+            </button>
+            <button type="button" class="landing-card landing-card-turismo" data-target="turismo">
+              <span class="landing-card-icon" aria-hidden="true">✨</span>
+              <h2 class="landing-card-title">Turismo</h2>
+              <p class="landing-card-desc">Hoteles, apartamentos, campings y movilidad turística según el INE.</p>
+              <span class="landing-card-cta">Entrar <span aria-hidden="true">→</span></span>
+            </button>
+          </div>
+          <p class="landing-foot">Datos públicos del INE, sensores municipales y registros de gestión.</p>
+        </div>
+      </div>
+      <header class="header" id="header-camaras" style="display:none">
         <h2>Cámaras LPR - Entradas y salidas</h2>
         <div class="header-actions">
           <button type="button" class="reload-btn" id="camaras-reload">Recargar</button>
@@ -72,7 +103,7 @@
         </div>
       </header>
 
-      <div id="main-camaras">
+      <div id="main-camaras" style="display:none">
       <section id="section-camaras-entradas" class="section active">
         <div class="camaras-data-source" id="camaras-data-source" style="display:none" aria-hidden="true"></div>
         <div class="camaras-placeholder" id="camaras-placeholder">
@@ -718,6 +749,6 @@
     /* Puerto de server.js (process.env.PORT o 7777). Si usas otro valor en .env, cámbialo aquí también. */
     window.__DASHBOARD_API_PORT__ = 7777;
   </script>
-  <script src="js/dashboard.js?v=62"></script>
+  <script src="js/dashboard.js?v=63"></script>
 </body>
 </html>

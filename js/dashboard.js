@@ -9,7 +9,7 @@
   let chartCamarasDia = null;
   let dataPesajes = [];
   let dataCamion = [];
-  let mode = 'camaras';
+  let mode = 'landing';
   let chartZonas = null;
   let chartTipos = null;
   let chartHoteles = null;
@@ -709,6 +709,7 @@
 
   function setMode(newMode) {
     mode = newMode;
+    const mainLanding = document.getElementById('main-landing');
     const mainResiduos = document.getElementById('main-residuos');
     const mainCamaras = document.getElementById('main-camaras');
     const mainTurismo = document.getElementById('main-turismo');
@@ -719,7 +720,9 @@
     const navCamaras = document.getElementById('nav-camaras');
     const navTurismo = document.getElementById('nav-turismo');
     const footer = document.getElementById('sidebar-footer');
+    const sidebar = document.querySelector('.sidebar');
     // Ocultar todo
+    if (mainLanding) mainLanding.style.display = 'none';
     if (mainResiduos) mainResiduos.style.display = 'none';
     if (mainCamaras) mainCamaras.style.display = 'none';
     if (mainTurismo) mainTurismo.style.display = 'none';
@@ -736,6 +739,13 @@
     if (btnCamaras) btnCamaras.style.display = mode === 'camaras' ? 'none' : 'block';
     if (btnResiduos) btnResiduos.style.display = mode === 'residuos' ? 'none' : 'block';
     if (btnTurismo) btnTurismo.style.display = mode === 'turismo' ? 'none' : 'block';
+    // Modo landing: ocultar sidebar y mostrar solo la pantalla de selección
+    if (mode === 'landing') {
+      if (sidebar) sidebar.style.display = 'none';
+      if (mainLanding) mainLanding.style.display = 'block';
+      return;
+    }
+    if (sidebar) sidebar.style.display = 'flex';
     if (mode === 'residuos') {
       if (mainResiduos) mainResiduos.style.display = 'block';
       if (headerResiduos) headerResiduos.style.display = 'flex';
@@ -3861,7 +3871,27 @@
     });
   }
 
+  function initLanding() {
+    document.querySelectorAll('#main-landing .landing-card').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = btn.getAttribute('data-target');
+        if (target) setMode(target);
+      });
+    });
+    const logoLink = document.getElementById('logo-home');
+    if (logoLink) {
+      logoLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        setMode('landing');
+      });
+    }
+    // Estado inicial: forzamos landing por si el HTML traía visible algún módulo
+    setMode('landing');
+  }
+
   function init() {
+    initLanding();
     initCamaras();
     initResiduos();
     initTurismo();
