@@ -1,13 +1,14 @@
 # Render.com — configuración del despliegue del dashboard de Peñíscola.
 # Plan: Free. La app se duerme tras 15 min sin uso; primer click reactiva ~30 s.
 #
+# Dashboard PÚBLICO: cualquiera con la URL accede sin login.
+# Si en el futuro quieres añadir contraseña, define DASH_USER y DASH_PASS en
+# el panel "Environment" de Render — el código ya lo soporta automáticamente.
+#
 # Pasos en Render tras conectar el repo:
 # 1. Render detectará este archivo y propondrá crear un Web Service.
-# 2. Definir manualmente las variables marcadas como `sync: false` (secrets) en
-#    el dashboard Web (no se commitean al repo):
+# 2. Definir manualmente la variable secreta:
 #      - OPENAI_API_KEY  → tu clave de OpenAI
-#      - DASH_USER       → usuario para entrar al dashboard (Basic Auth)
-#      - DASH_PASS       → contraseña (mín 14 chars recomendado)
 services:
   - type: web
     name: peniscola-dashboard
@@ -26,7 +27,3 @@ services:
         value: "504"        # 3 semanas; el INE publica datos mensuales, no hace falta más
       - key: OPENAI_API_KEY
         sync: false         # se configura desde la web de Render (secret)
-      - key: DASH_USER
-        sync: false
-      - key: DASH_PASS
-        sync: false
