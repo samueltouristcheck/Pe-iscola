@@ -1,0 +1,704 @@
+{
+  "files": [
+    {
+      "rel": "2018/01 - Pesajes enero 18.xls",
+      "name": "01 - Pesajes enero 18.xls",
+      "year": 2018,
+      "month": 1,
+      "yearMonth": "2018-01"
+    },
+    {
+      "rel": "2018/02 - Pesajes febrero 18.xlsx",
+      "name": "02 - Pesajes febrero 18.xlsx",
+      "year": 2018,
+      "month": 2,
+      "yearMonth": "2018-02"
+    },
+    {
+      "rel": "2018/03 - Pesajes marzo 18.xlsx",
+      "name": "03 - Pesajes marzo 18.xlsx",
+      "year": 2018,
+      "month": 3,
+      "yearMonth": "2018-03"
+    },
+    {
+      "rel": "2018/04 - Pesajes abril 18.xlsx",
+      "name": "04 - Pesajes abril 18.xlsx",
+      "year": 2018,
+      "month": 4,
+      "yearMonth": "2018-04"
+    },
+    {
+      "rel": "2018/05 - Pesajes mayo 18.xlsx",
+      "name": "05 - Pesajes mayo 18.xlsx",
+      "year": 2018,
+      "month": 5,
+      "yearMonth": "2018-05"
+    },
+    {
+      "rel": "2018/06 - Pesajes junio 18.xlsx",
+      "name": "06 - Pesajes junio 18.xlsx",
+      "year": 2018,
+      "month": 6,
+      "yearMonth": "2018-06"
+    },
+    {
+      "rel": "2018/07 - Pesajes julio 18.xlsx",
+      "name": "07 - Pesajes julio 18.xlsx",
+      "year": 2018,
+      "month": 7,
+      "yearMonth": "2018-07"
+    },
+    {
+      "rel": "2018/08 - Pesajes agosto 18.xlsx",
+      "name": "08 - Pesajes agosto 18.xlsx",
+      "year": 2018,
+      "month": 8,
+      "yearMonth": "2018-08"
+    },
+    {
+      "rel": "2018/09 - Pesajes septiembre 18.xlsx",
+      "name": "09 - Pesajes septiembre 18.xlsx",
+      "year": 2018,
+      "month": 9,
+      "yearMonth": "2018-09"
+    },
+    {
+      "rel": "2018/10 - Pesajes octubre 18.xlsx",
+      "name": "10 - Pesajes octubre 18.xlsx",
+      "year": 2018,
+      "month": 10,
+      "yearMonth": "2018-10"
+    },
+    {
+      "rel": "2018/11 - Pesajes noviembre 18.xlsx",
+      "name": "11 - Pesajes noviembre 18.xlsx",
+      "year": 2018,
+      "month": 11,
+      "yearMonth": "2018-11"
+    },
+    {
+      "rel": "2018/12 - Pesajes diciembre 18.xlsx",
+      "name": "12 - Pesajes diciembre 18.xlsx",
+      "year": 2018,
+      "month": 12,
+      "yearMonth": "2018-12"
+    },
+    {
+      "rel": "2019/01 - Pesajes enero 19.xlsx",
+      "name": "01 - Pesajes enero 19.xlsx",
+      "year": 2019,
+      "month": 1,
+      "yearMonth": "2019-01"
+    },
+    {
+      "rel": "2019/02 - Pesajes febrero 19.xlsx",
+      "name": "02 - Pesajes febrero 19.xlsx",
+      "year": 2019,
+      "month": 2,
+      "yearMonth": "2019-02"
+    },
+    {
+      "rel": "2019/03 - Pesajes marzo 19.xlsx",
+      "name": "03 - Pesajes marzo 19.xlsx",
+      "year": 2019,
+      "month": 3,
+      "yearMonth": "2019-03"
+    },
+    {
+      "rel": "2019/04 - Pesajes abril 19.xlsx",
+      "name": "04 - Pesajes abril 19.xlsx",
+      "year": 2019,
+      "month": 4,
+      "yearMonth": "2019-04"
+    },
+    {
+      "rel": "2019/05 - Pesajes mayo 19.xlsx",
+      "name": "05 - Pesajes mayo 19.xlsx",
+      "year": 2019,
+      "month": 5,
+      "yearMonth": "2019-05"
+    },
+    {
+      "rel": "2019/06 - Pesajes junio 19.xlsx",
+      "name": "06 - Pesajes junio 19.xlsx",
+      "year": 2019,
+      "month": 6,
+      "yearMonth": "2019-06"
+    },
+    {
+      "rel": "2019/07 - Pesajes julio 19.xlsx",
+      "name": "07 - Pesajes julio 19.xlsx",
+      "year": 2019,
+      "month": 7,
+      "yearMonth": "2019-07"
+    },
+    {
+      "rel": "2019/08 - Pesajes agosto 19.xlsx",
+      "name": "08 - Pesajes agosto 19.xlsx",
+      "year": 2019,
+      "month": 8,
+      "yearMonth": "2019-08"
+    },
+    {
+      "rel": "2019/09 - Pesajes septiembre 19.xlsx",
+      "name": "09 - Pesajes septiembre 19.xlsx",
+      "year": 2019,
+      "month": 9,
+      "yearMonth": "2019-09"
+    },
+    {
+      "rel": "2019/10 - Pesajes octubre 19.xlsx",
+      "name": "10 - Pesajes octubre 19.xlsx",
+      "year": 2019,
+      "month": 10,
+      "yearMonth": "2019-10"
+    },
+    {
+      "rel": "2019/11 - Pesajes noviembre 19.xlsx",
+      "name": "11 - Pesajes noviembre 19.xlsx",
+      "year": 2019,
+      "month": 11,
+      "yearMonth": "2019-11"
+    },
+    {
+      "rel": "2019/12 - Pesajes diciembre 19.xlsx",
+      "name": "12 - Pesajes diciembre 19.xlsx",
+      "year": 2019,
+      "month": 12,
+      "yearMonth": "2019-12"
+    },
+    {
+      "rel": "2020/01 - Pesajes enero 20.xlsx",
+      "name": "01 - Pesajes enero 20.xlsx",
+      "year": 2020,
+      "month": 1,
+      "yearMonth": "2020-01"
+    },
+    {
+      "rel": "2020/02 - Pesajes febrero 20.xlsx",
+      "name": "02 - Pesajes febrero 20.xlsx",
+      "year": 2020,
+      "month": 2,
+      "yearMonth": "2020-02"
+    },
+    {
+      "rel": "2020/03 - Pesajes marzo 20.xlsx",
+      "name": "03 - Pesajes marzo 20.xlsx",
+      "year": 2020,
+      "month": 3,
+      "yearMonth": "2020-03"
+    },
+    {
+      "rel": "2020/04 - Pesajes abril 20.xlsx",
+      "name": "04 - Pesajes abril 20.xlsx",
+      "year": 2020,
+      "month": 4,
+      "yearMonth": "2020-04"
+    },
+    {
+      "rel": "2020/05 - Pesajes mayo 20.xlsx",
+      "name": "05 - Pesajes mayo 20.xlsx",
+      "year": 2020,
+      "month": 5,
+      "yearMonth": "2020-05"
+    },
+    {
+      "rel": "2020/06 - Pesajes junio 20.xls",
+      "name": "06 - Pesajes junio 20.xls",
+      "year": 2020,
+      "month": 6,
+      "yearMonth": "2020-06"
+    },
+    {
+      "rel": "2020/07 - Pesajes julio 20.xlsx",
+      "name": "07 - Pesajes julio 20.xlsx",
+      "year": 2020,
+      "month": 7,
+      "yearMonth": "2020-07"
+    },
+    {
+      "rel": "2020/08 - Pesajes agosto 20.xlsx",
+      "name": "08 - Pesajes agosto 20.xlsx",
+      "year": 2020,
+      "month": 8,
+      "yearMonth": "2020-08"
+    },
+    {
+      "rel": "2020/09 - Pesajes septiembre 20.xlsx",
+      "name": "09 - Pesajes septiembre 20.xlsx",
+      "year": 2020,
+      "month": 9,
+      "yearMonth": "2020-09"
+    },
+    {
+      "rel": "2020/10 - Pesajes octubre 20.xlsx",
+      "name": "10 - Pesajes octubre 20.xlsx",
+      "year": 2020,
+      "month": 10,
+      "yearMonth": "2020-10"
+    },
+    {
+      "rel": "2020/11 - Pesajes noviembre 20.xlsx",
+      "name": "11 - Pesajes noviembre 20.xlsx",
+      "year": 2020,
+      "month": 11,
+      "yearMonth": "2020-11"
+    },
+    {
+      "rel": "2020/12 - Pesajes diciembre 20.xlsx",
+      "name": "12 - Pesajes diciembre 20.xlsx",
+      "year": 2020,
+      "month": 12,
+      "yearMonth": "2020-12"
+    },
+    {
+      "rel": "2021/01 - Pesajes enero 21.xlsx",
+      "name": "01 - Pesajes enero 21.xlsx",
+      "year": 2021,
+      "month": 1,
+      "yearMonth": "2021-01"
+    },
+    {
+      "rel": "2021/02 - Pesajes febrero 21.xlsx",
+      "name": "02 - Pesajes febrero 21.xlsx",
+      "year": 2021,
+      "month": 2,
+      "yearMonth": "2021-02"
+    },
+    {
+      "rel": "2021/03 - Pesajes marzo 21.xlsx",
+      "name": "03 - Pesajes marzo 21.xlsx",
+      "year": 2021,
+      "month": 3,
+      "yearMonth": "2021-03"
+    },
+    {
+      "rel": "2021/04 - Pesajes abril 21.xlsx",
+      "name": "04 - Pesajes abril 21.xlsx",
+      "year": 2021,
+      "month": 4,
+      "yearMonth": "2021-04"
+    },
+    {
+      "rel": "2021/05 - Pesajes mayo 21.xlsx",
+      "name": "05 - Pesajes mayo 21.xlsx",
+      "year": 2021,
+      "month": 5,
+      "yearMonth": "2021-05"
+    },
+    {
+      "rel": "2021/06 - Pesajes junio 21.xlsx",
+      "name": "06 - Pesajes junio 21.xlsx",
+      "year": 2021,
+      "month": 6,
+      "yearMonth": "2021-06"
+    },
+    {
+      "rel": "2021/07 - Pesajes julio 21.xlsx",
+      "name": "07 - Pesajes julio 21.xlsx",
+      "year": 2021,
+      "month": 7,
+      "yearMonth": "2021-07"
+    },
+    {
+      "rel": "2021/08 - Pesajes agosto 21.xlsx",
+      "name": "08 - Pesajes agosto 21.xlsx",
+      "year": 2021,
+      "month": 8,
+      "yearMonth": "2021-08"
+    },
+    {
+      "rel": "2021/09 - Pesajes septiembre 21.xlsx",
+      "name": "09 - Pesajes septiembre 21.xlsx",
+      "year": 2021,
+      "month": 9,
+      "yearMonth": "2021-09"
+    },
+    {
+      "rel": "2021/10 - Pesajes octubre 21.xlsx",
+      "name": "10 - Pesajes octubre 21.xlsx",
+      "year": 2021,
+      "month": 10,
+      "yearMonth": "2021-10"
+    },
+    {
+      "rel": "2021/11 - Pesajes noviembre 21.xlsx",
+      "name": "11 - Pesajes noviembre 21.xlsx",
+      "year": 2021,
+      "month": 11,
+      "yearMonth": "2021-11"
+    },
+    {
+      "rel": "2021/12 - Pesajes diciembre 21.xlsx",
+      "name": "12 - Pesajes diciembre 21.xlsx",
+      "year": 2021,
+      "month": 12,
+      "yearMonth": "2021-12"
+    },
+    {
+      "rel": "2022/01 - Pesajes enero 22.xlsx",
+      "name": "01 - Pesajes enero 22.xlsx",
+      "year": 2022,
+      "month": 1,
+      "yearMonth": "2022-01"
+    },
+    {
+      "rel": "2022/02 - Pesajes febrero 22.xlsx",
+      "name": "02 - Pesajes febrero 22.xlsx",
+      "year": 2022,
+      "month": 2,
+      "yearMonth": "2022-02"
+    },
+    {
+      "rel": "2022/03 - Pesajes marzo 22.xlsx",
+      "name": "03 - Pesajes marzo 22.xlsx",
+      "year": 2022,
+      "month": 3,
+      "yearMonth": "2022-03"
+    },
+    {
+      "rel": "2022/04 - Pesajes abril 22.xlsx",
+      "name": "04 - Pesajes abril 22.xlsx",
+      "year": 2022,
+      "month": 4,
+      "yearMonth": "2022-04"
+    },
+    {
+      "rel": "2022/05 - Pesajes mayo 22.xlsx",
+      "name": "05 - Pesajes mayo 22.xlsx",
+      "year": 2022,
+      "month": 5,
+      "yearMonth": "2022-05"
+    },
+    {
+      "rel": "2022/06 - Pesajes junio 22.xlsx",
+      "name": "06 - Pesajes junio 22.xlsx",
+      "year": 2022,
+      "month": 6,
+      "yearMonth": "2022-06"
+    },
+    {
+      "rel": "2022/07 - Pesajes julio 22.xlsx",
+      "name": "07 - Pesajes julio 22.xlsx",
+      "year": 2022,
+      "month": 7,
+      "yearMonth": "2022-07"
+    },
+    {
+      "rel": "2022/08 - Pesajes agosto 22.xlsx",
+      "name": "08 - Pesajes agosto 22.xlsx",
+      "year": 2022,
+      "month": 8,
+      "yearMonth": "2022-08"
+    },
+    {
+      "rel": "2022/09 - Pesajes septiembre 22.xlsx",
+      "name": "09 - Pesajes septiembre 22.xlsx",
+      "year": 2022,
+      "month": 9,
+      "yearMonth": "2022-09"
+    },
+    {
+      "rel": "2022/10 - Pesajes octubre 22.xlsx",
+      "name": "10 - Pesajes octubre 22.xlsx",
+      "year": 2022,
+      "month": 10,
+      "yearMonth": "2022-10"
+    },
+    {
+      "rel": "2022/11 - Pesajes noviembre 22.xlsx",
+      "name": "11 - Pesajes noviembre 22.xlsx",
+      "year": 2022,
+      "month": 11,
+      "yearMonth": "2022-11"
+    },
+    {
+      "rel": "2022/12 - Pesajes diciembre 22.xlsx",
+      "name": "12 - Pesajes diciembre 22.xlsx",
+      "year": 2022,
+      "month": 12,
+      "yearMonth": "2022-12"
+    },
+    {
+      "rel": "2023/01 - Pesajes enero 23.xlsx",
+      "name": "01 - Pesajes enero 23.xlsx",
+      "year": 2023,
+      "month": 1,
+      "yearMonth": "2023-01"
+    },
+    {
+      "rel": "2023/02 - Pesajes febrero 23.xlsx",
+      "name": "02 - Pesajes febrero 23.xlsx",
+      "year": 2023,
+      "month": 2,
+      "yearMonth": "2023-02"
+    },
+    {
+      "rel": "2023/03 - Pesajes marzo 23.xlsx",
+      "name": "03 - Pesajes marzo 23.xlsx",
+      "year": 2023,
+      "month": 3,
+      "yearMonth": "2023-03"
+    },
+    {
+      "rel": "2023/04 - Pesajes abril 23.xlsx",
+      "name": "04 - Pesajes abril 23.xlsx",
+      "year": 2023,
+      "month": 4,
+      "yearMonth": "2023-04"
+    },
+    {
+      "rel": "2023/05 - Pesajes mayo 23.xlsx",
+      "name": "05 - Pesajes mayo 23.xlsx",
+      "year": 2023,
+      "month": 5,
+      "yearMonth": "2023-05"
+    },
+    {
+      "rel": "2023/06 - Pesajes junio 23.xlsx",
+      "name": "06 - Pesajes junio 23.xlsx",
+      "year": 2023,
+      "month": 6,
+      "yearMonth": "2023-06"
+    },
+    {
+      "rel": "2023/07 - Pesajes julio 23.xlsx",
+      "name": "07 - Pesajes julio 23.xlsx",
+      "year": 2023,
+      "month": 7,
+      "yearMonth": "2023-07"
+    },
+    {
+      "rel": "2023/08 - Pesajes agosto 23.xlsx",
+      "name": "08 - Pesajes agosto 23.xlsx",
+      "year": 2023,
+      "month": 8,
+      "yearMonth": "2023-08"
+    },
+    {
+      "rel": "2023/09 - Pesajes septiembre 23.xlsx",
+      "name": "09 - Pesajes septiembre 23.xlsx",
+      "year": 2023,
+      "month": 9,
+      "yearMonth": "2023-09"
+    },
+    {
+      "rel": "2023/10 - Pesajes octubre 23.xlsx",
+      "name": "10 - Pesajes octubre 23.xlsx",
+      "year": 2023,
+      "month": 10,
+      "yearMonth": "2023-10"
+    },
+    {
+      "rel": "2023/11 - Pesajes noviembre 23.xlsx",
+      "name": "11 - Pesajes noviembre 23.xlsx",
+      "year": 2023,
+      "month": 11,
+      "yearMonth": "2023-11"
+    },
+    {
+      "rel": "2023/12 - Pesajes diciembre 23.xlsx",
+      "name": "12 - Pesajes diciembre 23.xlsx",
+      "year": 2023,
+      "month": 12,
+      "yearMonth": "2023-12"
+    },
+    {
+      "rel": "2024/01 - Pesajes enero 24.xlsx",
+      "name": "01 - Pesajes enero 24.xlsx",
+      "year": 2024,
+      "month": 1,
+      "yearMonth": "2024-01"
+    },
+    {
+      "rel": "2024/02 - Pesajes febrero 24.xlsx",
+      "name": "02 - Pesajes febrero 24.xlsx",
+      "year": 2024,
+      "month": 2,
+      "yearMonth": "2024-02"
+    },
+    {
+      "rel": "2024/03 - Pesajes marzo 24.xlsx",
+      "name": "03 - Pesajes marzo 24.xlsx",
+      "year": 2024,
+      "month": 3,
+      "yearMonth": "2024-03"
+    },
+    {
+      "rel": "2024/04 - Pesajes abril 24.xlsx",
+      "name": "04 - Pesajes abril 24.xlsx",
+      "year": 2024,
+      "month": 4,
+      "yearMonth": "2024-04"
+    },
+    {
+      "rel": "2024/05 - Pesajes mayo 24.xlsx",
+      "name": "05 - Pesajes mayo 24.xlsx",
+      "year": 2024,
+      "month": 5,
+      "yearMonth": "2024-05"
+    },
+    {
+      "rel": "2024/06 - Pesajes junio 24.xlsx",
+      "name": "06 - Pesajes junio 24.xlsx",
+      "year": 2024,
+      "month": 6,
+      "yearMonth": "2024-06"
+    },
+    {
+      "rel": "2024/07 - Pesajes julio 24.xlsx",
+      "name": "07 - Pesajes julio 24.xlsx",
+      "year": 2024,
+      "month": 7,
+      "yearMonth": "2024-07"
+    },
+    {
+      "rel": "2024/08 - Pesajes agosto 24.xlsx",
+      "name": "08 - Pesajes agosto 24.xlsx",
+      "year": 2024,
+      "month": 8,
+      "yearMonth": "2024-08"
+    },
+    {
+      "rel": "2024/09 - Pesajes septiembre 24.xlsx",
+      "name": "09 - Pesajes septiembre 24.xlsx",
+      "year": 2024,
+      "month": 9,
+      "yearMonth": "2024-09"
+    },
+    {
+      "rel": "2024/10 - Pesajes octubre 24.xlsx",
+      "name": "10 - Pesajes octubre 24.xlsx",
+      "year": 2024,
+      "month": 10,
+      "yearMonth": "2024-10"
+    },
+    {
+      "rel": "2024/11 - Pesajes noviembre 24.xlsx",
+      "name": "11 - Pesajes noviembre 24.xlsx",
+      "year": 2024,
+      "month": 11,
+      "yearMonth": "2024-11"
+    },
+    {
+      "rel": "2024/12 - Pesajes diciembre 24.xlsx",
+      "name": "12 - Pesajes diciembre 24.xlsx",
+      "year": 2024,
+      "month": 12,
+      "yearMonth": "2024-12"
+    },
+    {
+      "rel": "2025/01 - Pesajes enero 25.xlsx",
+      "name": "01 - Pesajes enero 25.xlsx",
+      "year": 2025,
+      "month": 1,
+      "yearMonth": "2025-01"
+    },
+    {
+      "rel": "2025/02 - Pesajes febrero 25.xlsx",
+      "name": "02 - Pesajes febrero 25.xlsx",
+      "year": 2025,
+      "month": 2,
+      "yearMonth": "2025-02"
+    },
+    {
+      "rel": "2025/03 - Pesajes marzo 25.xlsx",
+      "name": "03 - Pesajes marzo 25.xlsx",
+      "year": 2025,
+      "month": 3,
+      "yearMonth": "2025-03"
+    },
+    {
+      "rel": "2025/04 - Pesajes abril 25.xlsx",
+      "name": "04 - Pesajes abril 25.xlsx",
+      "year": 2025,
+      "month": 4,
+      "yearMonth": "2025-04"
+    },
+    {
+      "rel": "2025/05 - Pesajes mayo 25.xlsx",
+      "name": "05 - Pesajes mayo 25.xlsx",
+      "year": 2025,
+      "month": 5,
+      "yearMonth": "2025-05"
+    },
+    {
+      "rel": "2025/06 - Pesajes junio 25.xlsx",
+      "name": "06 - Pesajes junio 25.xlsx",
+      "year": 2025,
+      "month": 6,
+      "yearMonth": "2025-06"
+    },
+    {
+      "rel": "2025/07 - Pesajes julio 25.xlsx",
+      "name": "07 - Pesajes julio 25.xlsx",
+      "year": 2025,
+      "month": 7,
+      "yearMonth": "2025-07"
+    },
+    {
+      "rel": "2025/08 - Pesajes agosto 25.xlsx",
+      "name": "08 - Pesajes agosto 25.xlsx",
+      "year": 2025,
+      "month": 8,
+      "yearMonth": "2025-08"
+    },
+    {
+      "rel": "2025/09 - Pesajes septiembre 25.xlsx",
+      "name": "09 - Pesajes septiembre 25.xlsx",
+      "year": 2025,
+      "month": 9,
+      "yearMonth": "2025-09"
+    },
+    {
+      "rel": "2025/10 - Pesajes octubre 25.xlsx",
+      "name": "10 - Pesajes octubre 25.xlsx",
+      "year": 2025,
+      "month": 10,
+      "yearMonth": "2025-10"
+    },
+    {
+      "rel": "2025/11 - Pesajes noviembre 25.xlsx",
+      "name": "11 - Pesajes noviembre 25.xlsx",
+      "year": 2025,
+      "month": 11,
+      "yearMonth": "2025-11"
+    },
+    {
+      "rel": "2025/12 - Pesajes diciembre 25.xlsx",
+      "name": "12 - Pesajes diciembre 25.xlsx",
+      "year": 2025,
+      "month": 12,
+      "yearMonth": "2025-12"
+    },
+    {
+      "rel": "2026/01 - Pesajes enero 26.xlsx",
+      "name": "01 - Pesajes enero 26.xlsx",
+      "year": 2026,
+      "month": 1,
+      "yearMonth": "2026-01"
+    },
+    {
+      "rel": "2026/02 - Pesajes febrero 26.xlsx",
+      "name": "02 - Pesajes febrero 26.xlsx",
+      "year": 2026,
+      "month": 2,
+      "yearMonth": "2026-02"
+    },
+    {
+      "rel": "2026/03 - Pesajes marzo 26.xlsx",
+      "name": "03 - Pesajes marzo 26.xlsx",
+      "year": 2026,
+      "month": 3,
+      "yearMonth": "2026-03"
+    },
+    {
+      "rel": "2026/04 - Pesajes abril 26.xlsx",
+      "name": "04 - Pesajes abril 26.xlsx",
+      "year": 2026,
+      "month": 4,
+      "yearMonth": "2026-04"
+    }
+  ]
+}

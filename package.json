@@ -7,7 +7,9 @@
     "dev": "node server.js",
     "preparar": "node scripts/preparar_todo.js",
     "preparar-residuos": "python preparar_datos.py",
-    "procesar-camaras": "node procesar_camaras.js"
+    "manifest:pesajes": "node scripts/generar_excels_manifest.cjs",
+    "procesar-camaras": "node procesar_camaras.js",
+    "preparar-turismo": "node procesar_turismo.js"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",

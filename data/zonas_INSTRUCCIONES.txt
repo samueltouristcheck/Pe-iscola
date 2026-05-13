@@ -1,0 +1,21 @@
+Mapa "Kg por zonas" del dashboard
+================================
+
+Opción A — Excel «Areas Zona.xlsx»
+-----------------------------------
+1. Coloca el archivo en la RAÍZ del proyecto (junto a package.json).
+   Hoja «AREA», columnas: Area | Longitud | Latitud (polígono por zona, un vértice por fila).
+2. Ejecuta una de estas:
+     node scripts/areas_zona_a_geojson.js
+     npm run preparar
+     python preparar_datos.py   (convierte el Excel al inicio si Node está en PATH)
+3. Se crea data/zonas_peniscola.geojson. Recarga el dashboard.
+
+Opción B — GeoJSON
+------------------
+En data/: zonas_peniscola.geojson, zonificacion_peniscola.geojson o
+«Zonificación Peñíscola (1).geojson». O PENISCOLA_GEOJSON_ZONAS=ruta\archivo.geojson
+
+Polygon o MultiPolygon. Propiedades: name, nombre, zona, label, etc.
+
+Sin archivo: el mapa usa solo centroides aproximados.

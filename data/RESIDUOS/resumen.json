@@ -2,371 +2,1111 @@
 "pesajes": [
 {
 "fecha": "2005-10",
-"kg": 740.0
+"kg": 740.0,
+"tipos": {
+"VOL": 740.0
+}
 },
 {
 "fecha": "2018-04",
-"kg": 877050.0
+"kg": 877050.0,
+"tipos": {
+"RSU": 719990.0,
+"VOL": 70580.0,
+"LIMP.PLAY": 54360.0,
+"PODA": 14620.0,
+"SEL.PAP": 10680.0,
+"SEL.ENV": 5280.0,
+"HOTEL": 1540.0
+}
 },
 {
 "fecha": "2018-06",
-"kg": 1125840.0
+"kg": 1125840.0,
+"tipos": {
+"RSU": 1032780.0,
+"PODA": 43100.0,
+"VOL": 26360.0,
+"SEL.PAP": 14320.0,
+"SEL.ENV": 9280.0
+}
 },
 {
 "fecha": "2018-07",
-"kg": 1718360.0
+"kg": 1718360.0,
+"tipos": {
+"RSU": 1638700.0,
+"PODA": 24340.0,
+"SEL.ENV": 19880.0,
+"SEL.PAP": 18420.0,
+"VOL": 10280.0,
+"SEL.PAP HOTEL": 6740.0
+}
 },
 {
 "fecha": "2018-08",
-"kg": 2019560.0
+"kg": 2019560.0,
+"tipos": {
+"RSU": 1901180.0,
+"PODA": 42260.0,
+"SEL.PAP": 28120.0,
+"VOL": 25400.0,
+"SEL.ENV": 22600.0
+}
 },
 {
 "fecha": "2018-09",
-"kg": 1224400.0
+"kg": 1224400.0,
+"tipos": {
+"RSU": 1182420.0,
+"SEL.PAP": 18840.0,
+"VOL": 12800.0,
+"SEL.ENV": 10340.0
+}
 },
 {
 "fecha": "2018-11",
-"kg": 620260.0
+"kg": 620260.0,
+"tipos": {
+"RSU": 462420.0,
+"PODA": 121060.0,
+"VOL": 24560.0,
+"SEL.PAP": 7480.0,
+"SEL.ENV": 4740.0
+}
 },
 {
 "fecha": "2018-12",
-"kg": 438220.0
+"kg": 438220.0,
+"tipos": {
+"RSU": 418560.0,
+"VOL": 9440.0,
+"SEL.PAP": 6660.0,
+"SEL.ENV": 3160.0,
+"PODA": 400.0
+}
 },
 {
 "fecha": "2019-01",
-"kg": 474660.0
+"kg": 474660.0,
+"tipos": {
+"RSU": 384880.0,
+"VOL": 43980.0,
+"PODA": 33120.0,
+"SEL.PAP": 7700.0,
+"SEL.ENV": 4980.0
+}
 },
 {
 "fecha": "2019-02",
-"kg": 529980.0
+"kg": 529980.0,
+"tipos": {
+"RSU": 416160.0,
+"VOL": 54640.0,
+"PODA": 40420.0,
+"Orgánica": 8600.0,
+"SEL.PAP": 6260.0,
+"SEL.ENV": 3900.0
+}
 },
 {
 "fecha": "2019-03",
-"kg": 679160.0
+"kg": 679160.0,
+"tipos": {
+"RSU": 579360.0,
+"VOL": 63620.0,
+"PODA": 21580.0,
+"SEL.PAP": 9260.0,
+"SEL.ENV": 5340.0
+}
 },
 {
 "fecha": "2019-04",
-"kg": 844340.0
+"kg": 844340.0,
+"tipos": {
+"RSU": 781760.0,
+"Limpieza playas": 23760.0,
+"SEL.PAP": 12860.0,
+"VOL": 12700.0,
+"SEL.ENV": 8580.0,
+"PODA": 4680.0
+}
 },
 {
 "fecha": "2019-05",
-"kg": 798108.0
+"kg": 798108.0,
+"tipos": {
+"RSU": 759120.0,
+"VOL": 17940.0,
+"SEL.PAP": 9380.0,
+"SEL.ENV": 6788.0,
+"PODA": 4880.0
+}
 },
 {
 "fecha": "2019-06",
-"kg": 1134860.0
+"kg": 1134860.0,
+"tipos": {
+"RSU": 1072640.0,
+"SEL.PAP": 19560.0,
+"VOL": 17900.0,
+"SEL.ENV": 10840.0,
+"LIMP.PLAYAS": 9960.0,
+"PODA": 3960.0
+}
 },
 {
 "fecha": "2019-07",
-"kg": 1705130.0
+"kg": 1705130.0,
+"tipos": {
+"RSU": 1636520.0,
+"SEL.PAP": 26880.0,
+"SEL.ENV": 21640.0,
+"VOL": 15410.0,
+"PODA": 2400.0,
+"ALGAS": 2280.0
+}
 },
 {
 "fecha": "2019-08",
-"kg": 2036780.0
+"kg": 2036780.0,
+"tipos": {
+"RSU": 1955180.0,
+"SEL.ENV": 30060.0,
+"SEL.PAP": 26980.0,
+"VOL": 13680.0,
+"LIMP.PLAYA": 10280.0,
+"PODA": 600.0
+}
 },
 {
 "fecha": "2019-09",
-"kg": 1243960.0
+"kg": 1243960.0,
+"tipos": {
+"RSU": 1149100.0,
+"LIMP.PLAYA": 42320.0,
+"VOL": 22480.0,
+"SEL.PAP": 16060.0,
+"SEL.ENV": 13340.0,
+"PODA": 660.0
+}
 },
 {
 "fecha": "2019-10",
-"kg": 762820.0
+"kg": 762820.0,
+"tipos": {
+"RSU": 706460.0,
+"VOL": 30520.0,
+"SEL.PAP": 13420.0,
+"SEL.ENV": 7100.0,
+"PODA": 5320.0
+}
 },
 {
 "fecha": "2019-11",
-"kg": 504620.0
+"kg": 504620.0,
+"tipos": {
+"RSU": 442500.0,
+"PODA": 29080.0,
+"VOL": 19080.0,
+"SEL.PAP": 7860.0,
+"SEL.ENV": 6100.0
+}
 },
 {
 "fecha": "2019-12",
-"kg": 466880.0
+"kg": 466880.0,
+"tipos": {
+"RSU": 405980.0,
+"VOL": 21500.0,
+"PODA": 17660.0,
+"LIMP.PLAYA": 9680.0,
+"SEL.PAP": 7620.0,
+"SEL.ENV": 4440.0
+}
 },
 {
 "fecha": "2020-01",
-"kg": 453620.0
+"kg": 453620.0,
+"tipos": {
+"RSU": 403140.0,
+"PODA": 20520.0,
+"VOL": 15400.0,
+"SEL.PAP": 7580.0,
+"SEL.ENV": 4540.0,
+"SEL. ENV": 2440.0
+}
 },
 {
 "fecha": "2020-02",
-"kg": 520600.0
+"kg": 520600.0,
+"tipos": {
+"RSU": 462560.0,
+"PODA": 19140.0,
+"VOL": 17460.0,
+"LIMP.PLAYA": 8880.0,
+"SEL.PAP": 7860.0,
+"SEL.ENV": 4700.0
+}
 },
 {
 "fecha": "2020-03",
-"kg": 525360.0
+"kg": 525360.0,
+"tipos": {
+"RSU": 459960.0,
+"VOL": 35280.0,
+"PODA": 16520.0,
+"SEL. PAP": 8680.0,
+"SEL. ENV": 4920.0
+}
 },
 {
 "fecha": "2020-04",
-"kg": 531220.0
+"kg": 531220.0,
+"tipos": {
+"RSU": 338120.0,
+"LIMP.PLAYA": 155020.0,
+"PODA": 10580.0,
+"SEL.PAP": 10280.0,
+"VOL": 10260.0,
+"SEL.ENV": 6960.0
+}
 },
 {
 "fecha": "2020-05",
-"kg": 620100.0
+"kg": 620100.0,
+"tipos": {
+"RSU": 410340.0,
+"LIMP.PLAYA": 167020.0,
+"VOL": 27660.0,
+"SEL.PAP": 6540.0,
+"SEL.ENV": 4960.0,
+"PODA": 3580.0
+}
 },
 {
 "fecha": "2020-06",
-"kg": 752960.0
+"kg": 752960.0,
+"tipos": {
+"RSU": 538420.0,
+"LIMP.PLAYA": 154980.0,
+"VOL": 36240.0,
+"SEL.PAP": 10140.0,
+"SEL.ENV": 6980.0,
+"PODA": 6200.0
+}
 },
 {
 "fecha": "2020-07",
-"kg": 1337920.0
+"kg": 1337920.0,
+"tipos": {
+"RSU": 1127000.0,
+"LIMP. PLAYA": 114060.0,
+"VOL": 48960.0,
+"SEL.PAP": 22680.0,
+"SEL.ENV": 21100.0,
+"PODA": 4120.0
+}
 },
 {
 "fecha": "2020-08",
-"kg": 1537860.0
+"kg": 1537860.0,
+"tipos": {
+"RSU": 1374060.0,
+"LIMP.PLAYA": 72180.0,
+"VOL": 37200.0,
+"SEL.ENV": 27340.0,
+"SEL.PAP": 22900.0,
+"PODA": 4180.0
+}
 },
 {
 "fecha": "2020-09",
-"kg": 946240.0
+"kg": 946240.0,
+"tipos": {
+"RSU": 840900.0,
+"LIMP.PLAYA": 50880.0,
+"VOL": 25980.0,
+"SEL.PAP": 15620.0,
+"SEL.ENV": 11340.0,
+"PODA": 1520.0
+}
 },
 {
 "fecha": "2020-10",
-"kg": 695700.0
+"kg": 695700.0,
+"tipos": {
+"RSU": 515260.0,
+"LIMP.PLAYA": 133060.0,
+"VOL": 27540.0,
+"SEL.PAP": 7620.0,
+"SEL.ENV": 6860.0,
+"PODA": 5360.0
+}
 },
 {
 "fecha": "2020-11",
-"kg": 504043.0
+"kg": 504043.0,
+"tipos": {
+"RSU": 350620.0,
+"LIMP.PLAYA": 66960.0,
+"PODA": 37880.0,
+"VOL": 35823.0,
+"SEL.ENV": 8200.0,
+"SEL.PAP": 4560.0
+}
 },
 {
 "fecha": "2020-12",
-"kg": 460360.0
+"kg": 460360.0,
+"tipos": {
+"RSU": 338240.0,
+"LIMP.PLAYA": 65180.0,
+"VOL": 25800.0,
+"PODA": 19100.0,
+"SEL.PAP": 7080.0,
+"SEL.ENV": 4960.0
+}
 },
 {
 "fecha": "2021-01",
-"kg": 441820.0
+"kg": 441820.0,
+"tipos": {
+"RSU": 303340.0,
+"LIMP.PLAYA": 103940.0,
+"PODA": 16180.0,
+"VOL": 9080.0,
+"SEL.PAP": 5000.0,
+"SEL.ENV": 4280.0
+}
 },
 {
 "fecha": "2021-02",
-"kg": 423620.0
+"kg": 423620.0,
+"tipos": {
+"RSU": 293880.0,
+"LIMP.PLAYA": 72720.0,
+"PODA": 26160.0,
+"VOL": 22140.0,
+"SEL.PAP": 4520.0,
+"SEL.ENV": 4200.0
+}
 },
 {
 "fecha": "2021-03",
-"kg": 509820.0
+"kg": 509820.0,
+"tipos": {
+"RSU": 368720.0,
+"LIMP. PLAYA": 76440.0,
+"VOL": 31640.0,
+"PODA": 19960.0,
+"SEL.PAP": 7420.0,
+"SEL.ENV": 5640.0
+}
 },
 {
 "fecha": "2021-04",
-"kg": 589980.0
+"kg": 589980.0,
+"tipos": {
+"RSU": 386400.0,
+"BARREDURÍA": 132640.0,
+"LIMP. PLAY": 32580.0,
+"VOL": 24700.0,
+"SEL.PAP": 5940.0,
+"SEL.ENV": 5660.0,
+"PODA": 2060.0
+}
 },
 {
 "fecha": "2021-05",
-"kg": 715400.0
+"kg": 715400.0,
+"tipos": {
+"RSU": 569120.0,
+"BARREDURIA": 106860.0,
+"VOL": 21140.0,
+"SEL.PAP": 8960.0,
+"SEL. ENVASES": 6880.0,
+"PODA": 1720.0,
+"RAEES": 720.0
+}
 },
 {
 "fecha": "2021-06",
-"kg": 1102900.0
+"kg": 1102900.0,
+"tipos": {
+"RSU": 975620.0,
+"BARREDURIA": 61780.0,
+"VOL": 29980.0,
+"SEL.PAP": 18960.0,
+"SEL.ENV": 13220.0,
+"PODA": 3340.0
+}
 },
 {
 "fecha": "2021-07",
-"kg": 1661750.0
+"kg": 1661750.0,
+"tipos": {
+"RSU": 1499310.0,
+"LIMP.PLAYA": 78060.0,
+"VOL": 34560.0,
+"SEL.PAP": 27220.0,
+"SEL.ENV": 21580.0,
+"PODA": 1020.0
+}
 },
 {
 "fecha": "2021-08",
-"kg": 1967500.0
+"kg": 1967500.0,
+"tipos": {
+"RSU": 1815340.0,
+"BARREDURÍA": 74520.0,
+"SEL.ENV": 27760.0,
+"SEL.PAP": 27140.0,
+"VOL": 20720.0,
+"PODA": 2020.0
+}
 },
 {
 "fecha": "2021-09",
-"kg": 1186060.0
+"kg": 1186060.0,
+"tipos": {
+"RSU": 1062980.0,
+"BARREDURÍA": 68920.0,
+"VOL": 19020.0,
+"SEL.ENV": 16360.0,
+"SEL.PAP": 16320.0,
+"PODA": 2460.0
+}
 },
 {
 "fecha": "2021-10",
-"kg": 794700.0
+"kg": 794700.0,
+"tipos": {
+"RSU": 702840.0,
+"BARREDURÍA": 47900.0,
+"VOL": 18740.0,
+"SEL.PAP": 11300.0,
+"SEL.ENV": 9060.0,
+"PODA": 4860.0
+}
 },
 {
 "fecha": "2021-11",
-"kg": 483220.0
+"kg": 483220.0,
+"tipos": {
+"RSU": 424060.0,
+"BARREDURÍA": 20100.0,
+"VOL": 18340.0,
+"SEL.PAP": 7720.0,
+"PODA": 6660.0,
+"SEL.ENV": 6340.0
+}
 },
 {
 "fecha": "2021-12",
-"kg": 511440.0
+"kg": 511440.0,
+"tipos": {
+"RSU": 437060.0,
+"LIMP.PLAYA": 24320.0,
+"VOL": 18160.0,
+"PODA": 16270.0,
+"SEL.PAP": 9710.0,
+"SEL.ENV": 5920.0
+}
 },
 {
 "fecha": "2022-01",
-"kg": 500340.0
+"kg": 500340.0,
+"tipos": {
+"RSU": 424480.0,
+"VOL": 25300.0,
+"PODA": 20700.0,
+"BARREDURIA": 17320.0,
+"SEL.PAP": 6480.0,
+"SEL.ENV": 6060.0
+}
 },
 {
 "fecha": "2022-02",
-"kg": 481800.0
+"kg": 481800.0,
+"tipos": {
+"RSU": 420920.0,
+"VOL": 27600.0,
+"PODA": 17800.0,
+"SEL.PAP": 8840.0,
+"SEL.ENV": 6640.0
+}
 },
 {
 "fecha": "2022-03",
-"kg": 621120.0
+"kg": 621120.0,
+"tipos": {
+"RSU": 526380.0,
+"BARREDURIA": 46940.0,
+"VOL": 22760.0,
+"SEL.PAP": 12140.0,
+"PODA": 8000.0,
+"SEL.ENV": 4900.0
+}
 },
 {
 "fecha": "2022-04",
-"kg": 873480.0
+"kg": 873480.0,
+"tipos": {
+"RSU": 821140.0,
+"VOL": 25600.0,
+"SEL.PAP": 13300.0,
+"PODA": 6940.0,
+"SEL.ENV": 6500.0
+}
 },
 {
 "fecha": "2022-05",
-"kg": 858840.0
+"kg": 858840.0,
+"tipos": {
+"RSU": 803080.0,
+"VOL": 23840.0,
+"SEL.PAP": 12500.0,
+"PODA": 12040.0,
+"SEL.ENV": 7380.0
+}
 },
 {
 "fecha": "2022-06",
-"kg": 1118280.0
+"kg": 1118280.0,
+"tipos": {
+"RSU": 1051800.0,
+"VOL": 33680.0,
+"SEL.PAP": 18240.0,
+"SEL.ENV": 9120.0,
+"PODA": 3920.0,
+"SEl.ENV": 1520.0
+}
 },
 {
 "fecha": "2022-07",
-"kg": 1687560.0
+"kg": 1687560.0,
+"tipos": {
+"RSU": 1522640.0,
+"BARREDURIA": 85480.0,
+"SEL.PAP": 27860.0,
+"VOL": 27000.0,
+"SEL.ENV": 19780.0,
+"PODA": 4800.0
+}
 },
 {
 "fecha": "2022-08",
-"kg": 2047800.0
+"kg": 2047800.0,
+"tipos": {
+"RSU": 1769360.0,
+"BARREDURIA": 203340.0,
+"SEL.ENV": 27660.0,
+"VOL": 23840.0,
+"SEL.PAP": 23600.0
+}
 },
 {
 "fecha": "2022-09",
-"kg": 1186460.0
+"kg": 1186460.0,
+"tipos": {
+"RSU": 1067620.0,
+"BARREDURIA": 58080.0,
+"VOL": 25960.0,
+"SEL.PAP": 17380.0,
+"SEL.ENV": 13860.0,
+"PODA": 3560.0
+}
 },
 {
 "fecha": "2022-10",
-"kg": 749560.0
+"kg": 749560.0,
+"tipos": {
+"RSU": 679680.0,
+"PODA": 25240.0,
+"VOL": 23880.0,
+"SEL.PAP": 12320.0,
+"SEL.ENV": 8440.0
+}
 },
 {
 "fecha": "2022-11",
-"kg": 552100.0
+"kg": 552100.0,
+"tipos": {
+"RSU": 499340.0,
+"PODA": 18240.0,
+"VOL": 16880.0,
+"SEL.PAP": 11520.0,
+"SEL.ENV": 6120.0
+}
 },
 {
 "fecha": "2022-12",
-"kg": 482380.0
+"kg": 482380.0,
+"tipos": {
+"RSU": 430020.0,
+"VOL": 23040.0,
+"SEL.PAP": 11160.0,
+"PODA": 7660.0,
+"BARREDURÍA": 5400.0,
+"SEL.ENV": 5100.0
+}
 },
 {
 "fecha": "2023-01",
-"kg": 428440.0
+"kg": 428440.0,
+"tipos": {
+"RSU": 393060.0,
+"VOL": 13980.0,
+"SEL.PAP": 8460.0,
+"PODA": 7360.0,
+"SEL.ENV": 5580.0
+}
 },
 {
 "fecha": "2023-02",
-"kg": 450860.0
+"kg": 450860.0,
+"tipos": {
+"RSU": 406980.0,
+"VOL": 20340.0,
+"SEL.PAP": 9160.0,
+"PODA": 7940.0,
+"SEL.ENV": 6440.0
+}
 },
 {
 "fecha": "2023-03",
-"kg": 636200.0
+"kg": 636200.0,
+"tipos": {
+"RSU": 576640.0,
+"VOL": 27700.0,
+"PODA": 13180.0,
+"SEL.PAP": 13020.0,
+"SEL.ENV": 5660.0
+}
 },
 {
 "fecha": "2023-05",
-"kg": 847240.0
+"kg": 847240.0,
+"tipos": {
+"RSU": 774400.0,
+"VOL": 32280.0,
+"SEL.PAP": 17300.0,
+"PODA": 12680.0,
+"SEL.ENV": 10580.0
+}
 },
 {
 "fecha": "2023-06",
-"kg": 1096900.0
+"kg": 1096900.0,
+"tipos": {
+"RSU": 984600.0,
+"BARREDURIA": 56880.0,
+"VOL": 20060.0,
+"SEL.PAP": 19580.0,
+"SEL.ENV": 12960.0,
+"PODA": 2820.0
+}
 },
 {
 "fecha": "2023-07",
-"kg": 1683200.0
+"kg": 1683200.0,
+"tipos": {
+"RSU": 1483520.0,
+"BARREDURIA": 119960.0,
+"VOL": 30540.0,
+"SEL.ENV": 25320.0,
+"SEL.PAP": 21000.0,
+"PODA": 2860.0
+}
 },
 {
 "fecha": "2023-08",
-"kg": 2042280.0
+"kg": 2042280.0,
+"tipos": {
+"RSU": 1733520.0,
+"BARREDURIA": 233340.0,
+"SEL.ENV": 28740.0,
+"VOL": 23980.0,
+"SEL.PAP": 18960.0,
+"PODA": 3740.0
+}
 },
 {
 "fecha": "2023-09",
-"kg": 1168450.0
+"kg": 1168450.0,
+"tipos": {
+"RSU": 1078440.0,
+"BARREDURIA": 36720.0,
+"VOL": 21460.0,
+"SEL.ENV": 17830.0,
+"SEL.PAP": 11860.0,
+"PODA": 2140.0
+}
 },
 {
 "fecha": "2023-10",
-"kg": 794360.0
+"kg": 794360.0,
+"tipos": {
+"RSU": 742960.0,
+"VOL": 25160.0,
+"SEL.PAP": 13640.0,
+"SEL.ENV": 10960.0,
+"PODA": 1640.0
+}
 },
 {
 "fecha": "2023-11",
-"kg": 523960.0
+"kg": 523960.0,
+"tipos": {
+"RSU": 447100.0,
+"PODA": 34660.0,
+"VOL": 27020.0,
+"SEL.PAP": 8720.0,
+"SEL.ENV": 6460.0
+}
 },
 {
 "fecha": "2023-12",
-"kg": 474780.0
+"kg": 474780.0,
+"tipos": {
+"RSU": 440640.0,
+"VOL": 16740.0,
+"SEL.PAP": 7520.0,
+"SEL.ENV": 7240.0,
+"PODA": 2640.0
+}
 },
 {
 "fecha": "2024-01",
-"kg": 448460.0
+"kg": 448460.0,
+"tipos": {
+"RSU": 400660.0,
+"VOL": 20200.0,
+"SEL.PAP": 10300.0,
+"PODA": 8980.0,
+"SEL.ENV": 8320.0
+}
 },
 {
 "fecha": "2024-02",
-"kg": 485780.0
+"kg": 485780.0,
+"tipos": {
+"RSU": 429640.0,
+"VOL": 27760.0,
+"PODA": 11700.0,
+"SEL.ENV": 10180.0,
+"SEL.PAP": 6500.0
+}
 },
 {
 "fecha": "2024-03",
-"kg": 603720.0
+"kg": 603720.0,
+"tipos": {
+"RSU": 542740.0,
+"VOL": 21220.0,
+"SEL.PAP": 12780.0,
+"BARREDURÍA": 11160.0,
+"PODA": 8700.0,
+"SEL.ENV": 7120.0
+}
 },
 {
 "fecha": "2024-04",
-"kg": 776750.0
+"kg": 776750.0,
+"tipos": {
+"RSU": 705040.0,
+"VOL": 30390.0,
+"PODA": 21620.0,
+"SEL.PAP": 12360.0,
+"SEL.ENV": 7340.0
+}
 },
 {
 "fecha": "2024-05",
-"kg": 891800.0
+"kg": 891800.0,
+"tipos": {
+"RSU": 803640.0,
+"BARREDURIA": 28400.0,
+"VOL": 21960.0,
+"SEL.PAP": 18340.0,
+"PODA": 10020.0,
+"SEL.ENV": 9440.0
+}
 },
 {
 "fecha": "2024-06",
-"kg": 1086780.0
+"kg": 1086780.0,
+"tipos": {
+"RSU": 1029080.0,
+"VOL": 27560.0,
+"SEL.PAP": 18320.0,
+"SEL.ENV": 9200.0,
+"PODA": 2620.0
+}
 },
 {
 "fecha": "2024-07",
-"kg": 1094840.0
+"kg": 1094840.0,
+"tipos": {
+"RSU": 954900.0,
+"BARREDURÍA": 71140.0,
+"VOL": 30100.0,
+"SEL.PAP": 19880.0,
+"SEL.ENV": 17520.0,
+"PODA": 1300.0
+}
 },
 {
 "fecha": "2024-08",
-"kg": 2045870.0
+"kg": 2045870.0,
+"tipos": {
+"RSU": 1748260.0,
+"BARREDURÍA": 217180.0,
+"SEL.PAP": 30750.0,
+"SEL.ENV": 25700.0,
+"VOL": 22500.0,
+"PODA": 1480.0
+}
 },
 {
 "fecha": "2024-09",
-"kg": 1175518.0
+"kg": 1175518.0,
+"tipos": {
+"RSU": 1110458.0,
+"VOL": 33240.0,
+"SEL.ENV": 17680.0,
+"SEL.PAP": 12740.0,
+"PODA": 1400.0
+}
 },
 {
 "fecha": "2024-10",
-"kg": 795160.0
+"kg": 795160.0,
+"tipos": {
+"RSU": 736180.0,
+"VOL": 27680.0,
+"SEL.PAP": 15200.0,
+"SEL.ENV": 10080.0,
+"PODA": 6020.0
+}
 },
 {
 "fecha": "2024-11",
-"kg": 577180.0
+"kg": 577180.0,
+"tipos": {
+"RSU": 506500.0,
+"BARREDURÍA": 28660.0,
+"VOL": 16060.0,
+"SEL.PAP": 9960.0,
+"SEL.ENV": 8460.0,
+"PODA": 7540.0
+}
 },
 {
 "fecha": "2024-12",
-"kg": 546500.0
+"kg": 546500.0,
+"tipos": {
+"RSU": 463200.0,
+"BARREDURÍA": 30280.0,
+"VOL": 21160.0,
+"SEL.PAP": 12960.0,
+"PODA": 11300.0,
+"SEL.ENV": 7600.0
+}
 },
 {
 "fecha": "2025-01",
-"kg": 471240.0
+"kg": 471240.0,
+"tipos": {
+"RSU": 429020.0,
+"VOL": 20700.0,
+"PODA": 7380.0,
+"SEL.ENV": 7300.0,
+"SEL.PAP": 6840.0
+}
 },
 {
 "fecha": "2025-02",
-"kg": 454620.0
+"kg": 454620.0,
+"tipos": {
+"RSU": 414200.0,
+"VOL": 18420.0,
+"SEL.PAP": 8960.0,
+"PODA": 6600.0,
+"SEL.ENV": 6440.0
+}
 },
 {
 "fecha": "2025-03",
-"kg": 474900.0
+"kg": 474900.0,
+"tipos": {
+"RSU": 318500.0,
+"BARREDURIA": 73160.0,
+"ORGÁNICA": 32440.0,
+"VOL": 17940.0,
+"SEL.PAP": 13320.0,
+"PODA": 10640.0,
+"SEL.ENV": 8900.0
+}
 },
 {
 "fecha": "2025-04",
-"kg": 911840.0
+"kg": 911840.0,
+"tipos": {
+"RSU": 729780.0,
+"ORGÁNICA": 102840.0,
+"VOL": 29700.0,
+"SEL.PAP": 24020.0,
+"SEL.ENV": 14180.0,
+"PODA": 11320.0
+}
 },
 {
 "fecha": "2025-05",
-"kg": 878700.0
+"kg": 878700.0,
+"tipos": {
+"RSU": 680520.0,
+"ORGÁNICA": 122100.0,
+"SEL.PAP": 23000.0,
+"VOL": 22140.0,
+"SEL.ENV": 20760.0,
+"PODA": 10180.0
+}
 },
 {
 "fecha": "2025-06",
-"kg": 1147060.0
+"kg": 1147060.0,
+"tipos": {
+"RSU": 901980.0,
+"ORGÁNICA": 165700.0,
+"SEL.PAP": 25120.0,
+"SEL.ENV": 23440.0,
+"VOL": 23360.0,
+"PODA": 7460.0
+}
 },
 {
 "fecha": "2025-07",
-"kg": 1685710.0
+"kg": 1685710.0,
+"tipos": {
+"RSU": 1303580.0,
+"ORGÁNICA": 198540.0,
+"BARREDURIA": 62180.0,
+"SEL.PAP": 48650.0,
+"SEL.ENV": 30820.0,
+"VOL": 25240.0,
+"PODA": 16700.0
+}
 },
 {
 "fecha": "2025-08",
-"kg": 2065090.0
+"kg": 2065090.0,
+"tipos": {
+"RSU": 1515200.0,
+"ORGÁNICA": 229280.0,
+"BARREDURÍA": 216420.0,
+"SEL.PAP": 40530.0,
+"SEL.ENV": 40120.0,
+"VOL": 22860.0,
+"PODA": 680.0
+}
 },
 {
 "fecha": "2025-09",
-"kg": 1174040.0
+"kg": 1174040.0,
+"tipos": {
+"RSU": 897140.0,
+"ORGÁNICA": 189020.0,
+"SEL.PAP": 36820.0,
+"SEL.ENV": 28600.0,
+"VOL": 19440.0,
+"PODA": 3020.0
+}
 },
 {
 "fecha": "2025-10",
-"kg": 821770.0
+"kg": 821770.0,
+"tipos": {
+"RSU": 614000.0,
+"ORGÁNICA": 123080.0,
+"VOL": 34440.0,
+"SEL.PAP": 26910.0,
+"SEL.ENV": 21900.0,
+"PODA": 1440.0
+}
 },
 {
 "fecha": "2025-11",
-"kg": 527400.0
+"kg": 527400.0,
+"tipos": {
+"RSU": 434980.0,
+"ORGÁNICA": 42740.0,
+"VOL": 19680.0,
+"SEL.PAP": 11880.0,
+"SEL.ENV": 10760.0,
+"PODA": 7360.0
+}
 },
 {
 "fecha": "2025-12",
-"kg": 536480.0
+"kg": 536480.0,
+"tipos": {
+"RSU": 444940.0,
+"ORGÁNICA": 36080.0,
+"VOL": 26880.0,
+"SEL.PAP": 13050.0,
+"SEL.ENV": 10870.0,
+"PODA": 4660.0
+}
 },
 {
 "fecha": "2026-01",
-"kg": 468740.0
+"kg": 468740.0,
+"tipos": {
+"RSU": 399280.0,
+"VOL": 23260.0,
+"ORGÁNICA": 22120.0,
+"SEL.ENV": 11460.0,
+"SEL.PAP": 8260.0,
+"PODA": 4360.0
+}
+},
+{
+"fecha": "2026-02",
+"kg": 497090.0,
+"tipos": {
+"RSU": 410880.0,
+"ORGÁNICA": 31140.0,
+"VOL": 26020.0,
+"SEL.ENV": 10470.0,
+"SEL.PAP": 10100.0,
+"PODA": 8480.0
+}
+},
+{
+"fecha": "2026-03",
+"kg": 766920.0,
+"tipos": {
+"RSU": 555640.0,
+"Orgánica": 88240.0,
+"PODA": 46340.0,
+"VOL": 38780.0,
+"SEL.PAP": 21060.0,
+"SEL.ENV": 16860.0
+}
+},
+{
+"fecha": "2026-04",
+"kg": 876760.0,
+"tipos": {
+"RSU": 686240.0,
+"ORGÁNICA": 118320.0,
+"VOL": 22600.0,
+"SEL.PAP": 21560.0,
+"SEL.ENV": 17800.0,
+"PODA": 10240.0
+}
 }
 ],
 "camion": [
@@ -375,21 +1115,16 @@
 "kg": 256892.0,
 "salidas": 7274,
 "zonas": {
-"Llandells - Estacion": 67270.0,
-"Urbanizaciones": 49265.0,
-"Carretera Estación": 45935.0,
+"Llandells - Estación": 79935.0,
+"Urbanizaciones": 50685.0,
+"Carretera Estación": 49390.0,
 "Zona Norte - Peñísmar": 23495.0,
 "Zona Sur": 16620.0,
-"Zona Norte 1": 14960.0,
-"Centro Suburbano": 11400.0,
-"Carretera CV 141": 4275.0,
-"SUBURBANO": 3050.0,
-"LLANDELLS": 1845.0,
+"Centro Suburbano": 11675.0,
+"Zona Norte Interior": 11210.0,
+"Casco Antiguo": 4383.0,
 "FUERA TERMINO": 1584.0,
-"URMI": 1345.0,
-"Casco Antiguo": 178.0,
-"Zona Norte 2": 85.0,
-"ATALAYAS": 50.0
+"Zona Norte 1": 710.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 245197.0,
@@ -417,21 +1152,16 @@
 "kg": 301121.0,
 "salidas": 7971,
 "zonas": {
-"Llandells - Estacion": 61909.0,
-"Urbanizaciones": 42690.0,
-"Carretera Estación": 41918.0,
+"Llandells - Estación": 81934.0,
+"Carretera Estación": 44873.0,
+"Urbanizaciones": 44045.0,
 "Zona Norte - Peñísmar": 30435.0,
-"Zona Norte 2": 25290.0,
-"Zona Norte 1": 21935.0,
-"Centro Suburbano": 21099.0,
+"Zona Norte 1": 25730.0,
+"Centro Suburbano": 23019.0,
 "Zona Sur": 16485.0,
-"Carretera CV 141": 9030.0,
+"Zona Norte Interior": 16195.0,
 "FUERA TERMINO": 7607.0,
-"LLANDELLS": 2420.0,
-"SUBURBANO": 2205.0,
-"URMI": 1180.0,
-"Casco Antiguo": 648.0,
-"ATALAYAS": 15.0
+"Casco Antiguo": 1943.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 280621.0,
@@ -467,21 +1197,17 @@
 "kg": 327382.0,
 "salidas": 10372,
 "zonas": {
-"Zona Norte 2": 50170.0,
-"Llandells - Estacion": 46810.0,
-"Carretera Estación": 42810.0,
-"Zona Norte 1": 41055.0,
-"Urbanizaciones": 34195.0,
-"Centro Suburbano": 32700.0,
+"Llandells - Estación": 83854.0,
+"Zona Norte 1": 50335.0,
+"Carretera Estación": 45320.0,
+"Urbanizaciones": 35440.0,
+"Centro Suburbano": 34290.0,
 "Zona Norte - Peñísmar": 31120.0,
+"Zona Norte Interior": 14785.0,
 "Zona Sur": 11680.0,
 "FUERA TERMINO": 9297.0,
-"Carretera CV 141": 9005.0,
-"SUBURBANO": 1910.0,
-"Casco Antiguo": 1821.0,
-"LLANDELLS": 1484.0,
-"URMI": 965.0,
-"ATALAYAS": 10.0
+"Casco Antiguo": 2451.0,
+"LLANDELLS": 50.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 310497.0,
@@ -518,21 +1244,16 @@
 "kg": 540831.0,
 "salidas": 10992,
 "zonas": {
-"Llandells - Estacion": 88225.0,
+"Llandells - Estación": 140230.0,
 "Zona Norte - Peñísmar": 73370.0,
-"Urbanizaciones": 65620.0,
-"Carretera Estación": 60578.0,
-"Zona Norte 1": 57285.0,
-"Centro Suburbano": 39890.0,
-"Zona Norte 2": 28860.0,
-"Zona Sur": 27850.0,
-"Carretera CV 141": 8610.0,
+"Urbanizaciones": 67885.0,
+"Carretera Estación": 65093.0,
+"Centro Suburbano": 41455.0,
+"Zona Norte 1": 29495.0,
+"Zona Sur": 28057.0,
+"Zona Norte Interior": 18735.0,
 "FUERA TERMINO": 7099.0,
-"SUBURBANO": 3500.0,
-"LLANDELLS": 3265.0,
-"URMI": 2210.0,
-"Casco Antiguo": 1487.0,
-"ATALAYAS": 55.0
+"Casco Antiguo": 3792.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 531676.0,
@@ -572,20 +1293,16 @@
 "kg": 607641.0,
 "salidas": 12311,
 "zonas": {
-"Zona Norte 1": 101624.0,
-"Llandells - Estacion": 85000.0,
-"Zona Norte 2": 74420.0,
-"Urbanizaciones": 69325.0,
+"Llandells - Estación": 164120.0,
+"Urbanizaciones": 75855.0,
+"Zona Norte 1": 74760.0,
+"Carretera Estación": 72285.0,
 "Zona Norte - Peñísmar": 68405.0,
-"Carretera Estación": 68395.0,
-"Centro Suburbano": 58845.0,
+"Centro Suburbano": 59990.0,
 "Zona Sur": 23605.0,
-"Carretera CV 141": 10970.0,
-"FUERA TERMINO": 7626.0,
-"URMI": 6210.0,
-"Casco Antiguo": 5936.0,
-"SUBURBANO": 2945.0,
-"LLANDELLS": 2300.0
+"Zona Norte Interior": 21535.0,
+"Casco Antiguo": 8236.0,
+"FUERA TERMINO": 7626.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 571351.0,
@@ -625,21 +1342,17 @@
 "kg": 736295.0,
 "salidas": 14429,
 "zonas": {
-"Zona Norte 1": 148555.0,
+"Llandells - Estación": 207205.0,
 "Zona Norte - Peñísmar": 106875.0,
-"Zona Norte 2": 96370.0,
-"Urbanizaciones": 82365.0,
-"Llandells - Estacion": 74515.0,
-"Centro Suburbano": 72521.0,
-"Carretera Estación": 63777.0,
+"Zona Norte 1": 96580.0,
+"Urbanizaciones": 87190.0,
+"Centro Suburbano": 73327.0,
+"Carretera Estación": 67532.0,
+"Zona Norte Interior": 26070.0,
 "Zona Sur": 24035.0,
-"Carretera CV 141": 13740.0,
+"Casco Antiguo": 10065.0,
 "FUERA TERMINO": 8711.0,
-"Casco Antiguo": 8168.0,
-"LLANDELLS": 5005.0,
-"URMI": 4750.0,
-"SUBURBANO": 1490.0,
-"ATALAYAS": 25.0
+"LLANDELLS": 165.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 667975.0,
@@ -679,21 +1392,16 @@
 "kg": 1131025.0,
 "salidas": 19145,
 "zonas": {
-"Zona Norte 1": 211480.0,
+"Llandells - Estación": 321875.0,
 "Zona Norte - Peñísmar": 199475.0,
-"Llandells - Estacion": 134560.0,
-"Zona Norte 2": 131975.0,
-"Centro Suburbano": 124787.0,
-"Urbanizaciones": 111080.0,
-"Carretera Estación": 78545.0,
+"Zona Norte 1": 132550.0,
+"Centro Suburbano": 127107.0,
+"Urbanizaciones": 117400.0,
+"Carretera Estación": 83585.0,
 "Zona Sur": 52565.0,
-"Carretera CV 141": 15790.0,
-"Casco Antiguo": 11308.0,
-"LLANDELLS": 7935.0,
-"SUBURBANO": 6395.0,
-"URMI": 5755.0,
-"FUERA TERMINO": 485.0,
-"ATALAYAS": 30.0
+"Zona Norte Interior": 32920.0,
+"Casco Antiguo": 16393.0,
+"FUERA TERMINO": 485.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1035150.0,
@@ -733,21 +1441,16 @@
 "kg": 1282531.0,
 "salidas": 20271,
 "zonas": {
-"Zona Norte 1": 255695.0,
+"Llandells - Estación": 364620.0,
 "Zona Norte - Peñísmar": 225050.0,
-"Zona Norte 2": 160040.0,
-"Llandells - Estacion": 144685.0,
-"Centro Suburbano": 144530.0,
-"Urbanizaciones": 119945.0,
-"Carretera Estación": 81585.0,
+"Zona Norte 1": 161140.0,
+"Centro Suburbano": 147655.0,
+"Urbanizaciones": 128805.0,
+"Carretera Estación": 85895.0,
 "Zona Sur": 62510.0,
-"Carretera CV 141": 15660.0,
-"Casco Antiguo": 14451.0,
-"SUBURBANO": 9760.0,
-"URMI": 8800.0,
-"LLANDELLS": 7345.0,
-"FUERA TERMINO": 465.0,
-"ATALAYAS": 60.0
+"Zona Norte Interior": 34400.0,
+"Casco Antiguo": 22211.0,
+"FUERA TERMINO": 465.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1185136.0,
@@ -787,21 +1490,16 @@
 "kg": 698913.0,
 "salidas": 15718,
 "zonas": {
-"Zona Norte 1": 156920.0,
-"Zona Norte 2": 109075.0,
-"Centro Suburbano": 87595.0,
+"Llandells - Estación": 205955.0,
+"Zona Norte 1": 109470.0,
+"Centro Suburbano": 88480.0,
 "Zona Norte - Peñísmar": 82640.0,
-"Llandells - Estacion": 75975.0,
-"Urbanizaciones": 66415.0,
-"Carretera Estación": 45130.0,
+"Urbanizaciones": 74755.0,
+"Carretera Estación": 47105.0,
 "Zona Sur": 22150.0,
-"Carretera CV 141": 10800.0,
-"Casco Antiguo": 8843.0,
-"URMI": 8275.0,
-"LLANDELLS": 3610.0,
-"SUBURBANO": 3595.0,
-"FUERA TERMINO": 3555.0,
-"ATALAYAS": 65.0
+"Zona Norte Interior": 17990.0,
+"Casco Antiguo": 12288.0,
+"FUERA TERMINO": 3555.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 640718.0,
@@ -841,20 +1539,16 @@
 "kg": 242295.0,
 "salidas": 7435,
 "zonas": {
-"Zona Norte 2": 47925.0,
-"Zona Norte 1": 40305.0,
-"Carretera Estación": 29005.0,
-"Urbanizaciones": 25040.0,
-"Centro Suburbano": 23855.0,
-"Llandells - Estacion": 23410.0,
+"Llandells - Estación": 53315.0,
+"Zona Norte 1": 48015.0,
+"Carretera Estación": 30230.0,
+"Urbanizaciones": 27245.0,
+"Centro Suburbano": 24690.0,
 "Zona Norte - Peñísmar": 17385.0,
+"Zona Norte Interior": 11665.0,
 "Zona Sur": 7650.0,
 "FUERA TERMINO": 6870.0,
-"Carretera CV 141": 5930.0,
-"URMI": 2205.0,
-"Casco Antiguo": 1745.0,
-"LLANDELLS": 1310.0,
-"SUBURBANO": 1125.0
+"Casco Antiguo": 2155.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 221780.0,
@@ -892,20 +1586,17 @@
 "kg": 1978608.0,
 "salidas": 9059,
 "zonas": {
-"Llandells - Estacion": 448901.0,
-"Urbanizaciones": 325800.0,
-"Carretera Estación": 295957.0,
+"Llandells - Estación": 622527.0,
+"Urbanizaciones": 341775.0,
+"Carretera Estación": 316517.0,
 "Zona Norte - Peñísmar": 245945.0,
-"Zona Norte 1": 193571.0,
 "Zona Sur": 154870.0,
-"Centro Suburbano": 71545.0,
-"Carretera CV 141": 41192.0,
-"Zona Norte 2": 37518.0,
-"SUBURBANO": 19250.0,
-"URMI": 15975.0,
-"LLANDELLS": 11455.0,
+"Zona Norte Interior": 102832.0,
+"Centro Suburbano": 78730.0,
+"Zona Norte 1": 39168.0,
+"Casco Antiguo": 18599.0,
 "FUERA TERMINO": 8905.0,
-"Casco Antiguo": 2279.0
+"LLANDELLS": 320.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1800008.0,
@@ -944,21 +1635,16 @@
 "kg": 1005135.0,
 "salidas": 10420,
 "zonas": {
-"Llandells - Estacion": 206865.0,
-"Urbanizaciones": 166805.0,
-"Carretera Estación": 129622.0,
+"Llandells - Estación": 281830.0,
+"Urbanizaciones": 173010.0,
+"Carretera Estación": 136522.0,
 "Zona Norte - Peñísmar": 125940.0,
-"Zona Norte 1": 84940.0,
+"Centro Suburbano": 57880.0,
 "Zona Sur": 53695.0,
-"Centro Suburbano": 52845.0,
-"Zona Norte 2": 35275.0,
-"Carretera CV 141": 17165.0,
+"Zona Norte 1": 35570.0,
+"Zona Norte Interior": 35235.0,
 "FUERA TERMINO": 9830.0,
-"SUBURBANO": 7995.0,
-"LLANDELLS": 7175.0,
-"URMI": 6205.0,
-"Casco Antiguo": 963.0,
-"ATALAYAS": 0.0
+"Casco Antiguo": 6613.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 919265.0,
@@ -997,21 +1683,17 @@
 "kg": 880506.0,
 "salidas": 8817,
 "zonas": {
-"Llandells - Estacion": 193570.0,
-"Urbanizaciones": 161215.0,
-"Carretera Estación": 136660.0,
+"Llandells - Estación": 248600.0,
+"Urbanizaciones": 166460.0,
+"Carretera Estación": 145165.0,
 "Zona Norte - Peñísmar": 78205.0,
 "Zona Sur": 70195.0,
-"Zona Norte 1": 63240.0,
-"Centro Suburbano": 56640.0,
-"Carretera CV 141": 22315.0,
-"Zona Norte 2": 21150.0,
-"SUBURBANO": 10140.0,
+"Centro Suburbano": 59430.0,
+"Zona Norte Interior": 48405.0,
+"Zona Norte 1": 22070.0,
+"Casco Antiguo": 12236.0,
 "FUERA TERMINO": 9425.0,
-"URMI": 5225.0,
-"LLANDELLS": 4515.0,
-"Casco Antiguo": 421.0,
-"ATALAYAS": 0.0
+"LLANDELLS": 40.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 779341.0,
@@ -1046,21 +1728,17 @@
 "kg": 409701.0,
 "salidas": 9066,
 "zonas": {
-"Llandells - Estacion": 66300.0,
-"Urbanizaciones": 60770.0,
-"Carretera Estación": 56080.0,
-"Zona Norte 1": 51770.0,
-"Zona Norte - Peñísmar": 51155.0,
-"Zona Norte 2": 43805.0,
-"Centro Suburbano": 27465.0,
-"Carretera CV 141": 10900.0,
+"Llandells - Estación": 112765.0,
+"Urbanizaciones": 64225.0,
+"Carretera Estación": 59460.0,
+"Zona Norte - Peñísmar": 51175.0,
+"Zona Norte 1": 44205.0,
+"Centro Suburbano": 29450.0,
+"Zona Norte Interior": 17320.0,
 "Zona Sur": 10335.0,
 "FUERA TERMINO": 8250.0,
-"URMI": 3435.0,
-"SUBURBANO": 3115.0,
-"LLANDELLS": 2585.0,
-"Casco Antiguo": 321.0,
-"ATALAYAS": 20.0
+"Casco Antiguo": 3316.0,
+"LLANDELLS": 150.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 378751.0,
@@ -1099,20 +1777,16 @@
 "kg": 306990.0,
 "salidas": 10102,
 "zonas": {
-"Zona Norte 2": 55695.0,
-"Zona Norte 1": 46400.0,
+"Llandells - Estación": 78220.0,
+"Zona Norte 1": 56040.0,
 "Zona Norte - Peñísmar": 38515.0,
-"Carretera Estación": 36955.0,
-"Llandells - Estacion": 34210.0,
-"Centro Suburbano": 27485.0,
-"Urbanizaciones": 26205.0,
-"Carretera CV 141": 8820.0,
+"Carretera Estación": 38210.0,
+"Urbanizaciones": 28735.0,
+"Centro Suburbano": 27580.0,
+"Zona Norte Interior": 15245.0,
 "FUERA TERMINO": 7745.0,
 "Zona Sur": 7080.0,
-"Casco Antiguo": 2880.0,
-"URMI": 2530.0,
-"LLANDELLS": 1475.0,
-"SUBURBANO": 945.0
+"Casco Antiguo": 4185.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 282712.0,
@@ -1151,20 +1825,16 @@
 "kg": 382737.0,
 "salidas": 11137,
 "zonas": {
-"Zona Norte 2": 84065.0,
-"Zona Norte 1": 82090.0,
-"Centro Suburbano": 45080.0,
+"Llandells - Estación": 95360.0,
+"Zona Norte 1": 84275.0,
+"Centro Suburbano": 45780.0,
+"Urbanizaciones": 39165.0,
 "Zona Norte - Peñísmar": 35215.0,
-"Urbanizaciones": 34815.0,
-"Llandells - Estacion": 33460.0,
-"Carretera Estación": 25375.0,
-"Zona Sur": 8250.0,
-"Carretera CV 141": 6873.0,
-"Casco Antiguo": 6860.0,
-"FUERA TERMINO": 5020.0,
-"URMI": 4350.0,
-"LLANDELLS": 1550.0,
-"SUBURBANO": 1015.0
+"Carretera Estación": 26255.0,
+"Zona Norte Interior": 11603.0,
+"Casco Antiguo": 8860.0,
+"Zona Sur": 8509.0,
+"FUERA TERMINO": 5020.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 365560.0,
@@ -1203,19 +1873,15 @@
 "kg": 790610.0,
 "salidas": 24559,
 "zonas": {
-"Zona Norte 1": 179825.0,
-"Zona Norte 2": 157700.0,
+"Llandells - Estación": 220755.0,
+"Zona Norte 1": 158140.0,
 "Zona Norte - Peñísmar": 82320.0,
-"Llandells - Estacion": 78630.0,
-"Centro Suburbano": 75375.0,
-"Urbanizaciones": 66110.0,
-"Carretera Estación": 63490.0,
+"Urbanizaciones": 77930.0,
+"Centro Suburbano": 76215.0,
+"Carretera Estación": 66180.0,
+"Zona Norte Interior": 27970.0,
 "Zona Sur": 18510.0,
-"Casco Antiguo": 12600.0,
-"URMI": 11820.0,
-"Carretera CV 141": 11450.0,
-"LLANDELLS": 3290.0,
-"SUBURBANO": 2690.0,
+"Casco Antiguo": 16030.0,
 "FUERA TERMINO": 670.0
 },
 "tipos": {
@@ -1256,21 +1922,16 @@
 "kg": 400062.0,
 "salidas": 9578,
 "zonas": {
-"Zona Norte 1": 105855.0,
-"Zona Norte 2": 105825.0,
-"Centro Suburbano": 51590.0,
+"Zona Norte 1": 106175.0,
+"Llandells - Estación": 103630.0,
+"Centro Suburbano": 52155.0,
 "Zona Norte - Peñísmar": 36495.0,
-"Urbanizaciones": 27240.0,
-"Carretera Estación": 23485.0,
-"Llandells - Estacion": 15710.0,
-"Casco Antiguo": 9522.0,
-"Carretera CV 141": 4885.0,
-"URMI": 3165.0,
+"Urbanizaciones": 30405.0,
+"Carretera Estación": 24100.0,
+"Casco Antiguo": 10682.0,
+"Zona Norte Interior": 9180.0,
 "Zona Sur": 2155.0,
-"FUERA TERMINO": 1745.0,
-"LLANDELLS": 1620.0,
-"SUBURBANO": 415.0,
-"ATALAYAS": 0.0
+"FUERA TERMINO": 1745.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 381473.0,
@@ -1309,21 +1970,17 @@
 "kg": 756277.0,
 "salidas": 19074,
 "zonas": {
-"Zona Norte 1": 172300.0,
-"Zona Norte 2": 151065.0,
-"Llandells - Estacion": 108690.0,
-"Centro Suburbano": 93110.0,
-"Urbanizaciones": 74645.0,
+"Llandells - Estación": 256135.0,
+"Zona Norte 1": 151295.0,
+"Centro Suburbano": 97240.0,
+"Urbanizaciones": 78060.0,
 "Zona Norte - Peñísmar": 60315.0,
-"Carretera Estación": 37691.0,
-"Casco Antiguo": 11991.0,
-"SUBURBANO": 9525.0,
-"Carretera CV 141": 7710.0,
-"LLANDELLS": 7145.0,
-"URMI": 3415.0,
+"Carretera Estación": 37981.0,
+"Casco Antiguo": 19861.0,
+"Zona Norte Interior": 13490.0,
 "Zona Sur": 3225.0,
 "FUERA TERMINO": 1125.0,
-"ATALAYAS": 0.0
+"LLANDELLS": 0.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 736439.0,
@@ -1363,20 +2020,16 @@
 "kg": 1026781.0,
 "salidas": 20263,
 "zonas": {
-"Zona Norte 1": 213655.0,
-"Zona Norte 2": 161890.0,
-"Llandells - Estacion": 145150.0,
-"Centro Suburbano": 129830.0,
+"Llandells - Estación": 328910.0,
+"Zona Norte 1": 162780.0,
+"Centro Suburbano": 133310.0,
 "Zona Norte - Peñísmar": 107645.0,
-"Urbanizaciones": 95150.0,
-"Carretera Estación": 62780.0,
+"Urbanizaciones": 104665.0,
+"Carretera Estación": 66245.0,
 "Zona Sur": 35555.0,
-"Casco Antiguo": 14823.0,
-"Carretera CV 141": 11775.0,
-"SUBURBANO": 11343.0,
-"URMI": 9490.0,
-"LLANDELLS": 4450.0,
-"ATALAYAS": 25.0
+"Casco Antiguo": 25411.0,
+"Zona Norte Interior": 20415.0,
+"LLANDELLS": 105.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1000317.0,
@@ -1416,21 +2069,16 @@
 "kg": 720959.0,
 "salidas": 17127,
 "zonas": {
-"Zona Norte 1": 158210.0,
-"Zona Norte 2": 119340.0,
-"Llandells - Estacion": 93960.0,
-"Centro Suburbano": 88915.0,
-"Urbanizaciones": 83465.0,
+"Llandells - Estación": 223945.0,
+"Zona Norte 1": 119710.0,
+"Centro Suburbano": 91225.0,
+"Urbanizaciones": 87165.0,
 "Zona Norte - Peñísmar": 62090.0,
-"Carretera Estación": 48045.0,
+"Carretera Estación": 50735.0,
+"Zona Norte Interior": 17965.0,
 "Zona Sur": 17515.0,
-"Carretera CV 141": 11405.0,
-"Casco Antiguo": 7469.0,
-"SUBURBANO": 4770.0,
-"URMI": 3635.0,
-"LLANDELLS": 3400.0,
-"FUERA TERMINO": 905.0,
-"ATALAYAS": 0.0
+"Casco Antiguo": 12694.0,
+"FUERA TERMINO": 905.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 699002.0,
@@ -1471,21 +2119,16 @@
 "kg": 519905.0,
 "salidas": 11919,
 "zonas": {
-"Zona Norte 1": 95620.0,
-"Zona Norte 2": 81040.0,
-"Llandells - Estacion": 66920.0,
-"Centro Suburbano": 54540.0,
-"Carretera Estación": 54302.0,
-"Urbanizaciones": 54005.0,
+"Llandells - Estación": 142515.0,
+"Zona Norte 1": 81120.0,
+"Urbanizaciones": 58255.0,
+"Carretera Estación": 57152.0,
+"Centro Suburbano": 55955.0,
 "Zona Norte - Peñísmar": 43485.0,
+"Zona Norte Interior": 21040.0,
 "Zona Sur": 17580.0,
-"Carretera CV 141": 11750.0,
-"Casco Antiguo": 4793.0,
-"URMI": 4220.0,
-"FUERA TERMINO": 3945.0,
-"SUBURBANO": 3050.0,
-"LLANDELLS": 2475.0,
-"ATALAYAS": 30.0
+"Casco Antiguo": 7748.0,
+"FUERA TERMINO": 3945.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 498122.0,
@@ -1525,20 +2168,16 @@
 "kg": 245765.0,
 "salidas": 9244,
 "zonas": {
-"Llandells - Estacion": 37916.0,
-"Urbanizaciones": 37505.0,
-"Carretera Estación": 33125.0,
-"Zona Norte 2": 32770.0,
-"Zona Norte 1": 25795.0,
-"Centro Suburbano": 25687.0,
+"Llandells - Estación": 61721.0,
+"Urbanizaciones": 38165.0,
+"Carretera Estación": 34270.0,
+"Zona Norte 1": 32815.0,
+"Centro Suburbano": 26977.0,
+"Zona Norte Interior": 13195.0,
 "Zona Norte - Peñísmar": 12235.0,
-"Carretera CV 141": 8555.0,
 "Zona Sur": 8240.0,
 "FUERA TERMINO": 8185.0,
-"SUBURBANO": 3140.0,
-"LLANDELLS": 2175.0,
-"Casco Antiguo": 2072.0,
-"URMI": 660.0
+"Casco Antiguo": 4727.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 237784.0,
@@ -1574,21 +2213,16 @@
 "kg": 527555.0,
 "salidas": 9558,
 "zonas": {
-"Llandells - Estacion": 99805.0,
-"Carretera Estación": 82680.0,
-"Urbanizaciones": 66665.0,
-"Zona Norte 1": 57025.0,
+"Llandells - Estación": 153285.0,
+"Carretera Estación": 85780.0,
+"Urbanizaciones": 69195.0,
 "Zona Norte - Peñísmar": 53885.0,
-"Centro Suburbano": 42435.0,
-"Zona Norte 2": 35230.0,
-"Zona Sur": 22650.0,
-"Carretera CV 141": 15400.0,
+"Centro Suburbano": 46935.0,
+"Zona Norte 1": 35705.0,
+"Zona Norte Interior": 28610.0,
+"Zona Sur": 22965.0,
 "FUERA TERMINO": 10125.0,
-"LLANDELLS": 5105.0,
-"SUBURBANO": 4355.0,
-"URMI": 2530.0,
-"Casco Antiguo": 2220.0,
-"ATALAYAS": 0.0
+"Casco Antiguo": 5340.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 502897.0,
@@ -1624,20 +2258,16 @@
 "kg": 529028.0,
 "salidas": 12103,
 "zonas": {
-"Llandells - Estacion": 108735.0,
-"Carretera Estación": 78080.0,
-"Urbanizaciones": 67700.0,
-"Zona Norte 1": 47980.0,
+"Llandells - Estación": 151045.0,
+"Carretera Estación": 82175.0,
+"Urbanizaciones": 70305.0,
 "Zona Norte - Peñísmar": 44050.0,
-"Centro Suburbano": 36015.0,
+"Centro Suburbano": 38015.0,
 "Zona Sur": 28245.0,
-"Zona Norte 2": 18965.0,
-"Carretera CV 141": 12280.0,
+"Zona Norte Interior": 24955.0,
+"Zona Norte 1": 19540.0,
 "FUERA TERMINO": 9935.0,
-"Llandells": 3190.0,
-"SUBURBANO": 2785.0,
-"URMI": 2605.0,
-"Casco Antiguo": 443.0
+"Casco Antiguo": 2433.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 495412.0,
@@ -1675,20 +2305,17 @@
 "kg": 1075255.0,
 "salidas": 12851,
 "zonas": {
-"Llandells - Estacion": 205160.0,
-"Urbanizaciones": 135680.0,
-"Carretera Estación": 132209.0,
+"Llandells - Estación": 299835.0,
+"Carretera Estación": 139144.0,
+"Urbanizaciones": 139140.0,
 "Zona Norte - Peñísmar": 117290.0,
-"Zona Norte 1": 106480.0,
 "Zona Sur": 57315.0,
-"Centro Suburbano": 48325.0,
-"Carretera CV 141": 24260.0,
-"Zona Norte 2": 13825.0,
-"SUBURBANO": 8600.0,
+"Zona Norte Interior": 55155.0,
+"Centro Suburbano": 53450.0,
+"Zona Norte 1": 15085.0,
 "FUERA TERMINO": 8455.0,
-"Llandells": 4260.0,
-"URMI": 3460.0,
-"Casco Antiguo": 291.0
+"Casco Antiguo": 4656.0,
+"Llandells": 30.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1020920.0,
@@ -1726,20 +2353,17 @@
 "kg": 977653.0,
 "salidas": 14462,
 "zonas": {
-"Llandells - Estacion": 174105.0,
-"Urbanizaciones": 140215.0,
-"Zona Norte 1": 131950.0,
+"Llandells - Estación": 291115.0,
+"Urbanizaciones": 145790.0,
 "Zona Norte - Peñísmar": 114775.0,
-"Carretera Estación": 106405.0,
-"Zona Norte 2": 69320.0,
-"Centro Suburbano": 65005.0,
+"Carretera Estación": 113130.0,
+"Zona Norte 1": 70715.0,
+"Centro Suburbano": 70260.0,
 "Zona Sur": 51840.0,
-"Carretera CV 141": 16435.0,
-"SUBURBANO": 6415.0,
+"Zona Norte Interior": 32235.0,
+"Casco Antiguo": 7123.0,
 "FUERA TERMINO": 6090.0,
-"URMI": 5450.0,
-"Llandells": 4335.0,
-"Casco Antiguo": 3373.0
+"Llandells": 50.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 959958.0,
@@ -1779,20 +2403,16 @@
 "kg": 1160911.0,
 "salidas": 12570,
 "zonas": {
-"Llandells - Estacion": 223655.0,
-"Urbanizaciones": 178200.0,
-"Zona Norte 1": 162490.0,
+"Llandells - Estación": 359665.0,
+"Urbanizaciones": 185190.0,
 "Zona Norte - Peñísmar": 155515.0,
-"Carretera Estación": 131680.0,
-"Zona Sur": 73120.0,
-"Zona Norte 2": 66120.0,
-"Centro Suburbano": 64500.0,
-"Carretera CV 141": 18030.0,
-"SUBURBANO": 7730.0,
-"URMI": 6990.0,
-"FUERA TERMINO": 6580.0,
-"Llandells": 5735.0,
-"Casco Antiguo": 4120.0
+"Carretera Estación": 139580.0,
+"Zona Sur": 73451.0,
+"Centro Suburbano": 69660.0,
+"Zona Norte 1": 67565.0,
+"Zona Norte Interior": 45575.0,
+"Casco Antiguo": 8440.0,
+"FUERA TERMINO": 6580.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1142361.0,
@@ -1832,20 +2452,16 @@
 "kg": 1106171.0,
 "salidas": 12540,
 "zonas": {
-"Llandells - Estacion": 196940.0,
-"Zona Norte 1": 184675.0,
-"Urbanizaciones": 160600.0,
+"Llandells - Estación": 352065.0,
+"Urbanizaciones": 172815.0,
 "Zona Norte - Peñísmar": 139260.0,
-"Carretera Estación": 132165.0,
-"Zona Norte 2": 77130.0,
-"Centro Suburbano": 62165.0,
+"Carretera Estación": 138360.0,
+"Zona Norte 1": 78280.0,
+"Centro Suburbano": 70490.0,
+"Zona Norte Interior": 47970.0,
 "Zona Sur": 45940.0,
-"Carretera CV 141": 19645.0,
-"URMI": 12210.0,
-"SUBURBANO": 11195.0,
-"Casco Antiguo": 5806.0,
-"FUERA TERMINO": 5225.0,
-"Llandells": 3350.0
+"Casco Antiguo": 10536.0,
+"FUERA TERMINO": 5225.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1099966.0,
@@ -1885,21 +2501,16 @@
 "kg": 971223.0,
 "salidas": 13602,
 "zonas": {
-"Llandells - Estacion": 174785.0,
-"Zona Norte 1": 159430.0,
-"Urbanizaciones": 139570.0,
-"Carretera Estación": 106105.0,
-"Zona Norte 2": 98680.0,
+"Llandells - Estación": 307915.0,
+"Urbanizaciones": 146695.0,
+"Carretera Estación": 110085.0,
+"Zona Norte 1": 99505.0,
 "Zona Norte - Peñísmar": 98240.0,
-"Centro Suburbano": 69680.0,
+"Centro Suburbano": 74205.0,
 "Zona Sur": 54610.0,
-"Carretera CV 141": 12155.0,
-"URMI": 7115.0,
-"Casco Antiguo": 6953.0,
-"SUBURBANO": 6265.0,
-"Llandells": 6160.0,
-"FUERA TERMINO": 920.0,
-"ATALAYAS": 10.0
+"Zona Norte Interior": 32795.0,
+"Casco Antiguo": 10348.0,
+"FUERA TERMINO": 920.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 957918.0,
@@ -1939,19 +2550,15 @@
 "kg": 1593306.0,
 "salidas": 19005,
 "zonas": {
-"Zona Norte 1": 281575.0,
+"Llandells - Estación": 503870.0,
 "Zona Norte - Peñísmar": 266890.0,
-"Llandells - Estacion": 242550.0,
-"Urbanizaciones": 233835.0,
-"Zona Norte 2": 143155.0,
-"Centro Suburbano": 119865.0,
-"Carretera Estación": 109805.0,
+"Urbanizaciones": 239440.0,
+"Zona Norte 1": 144955.0,
+"Centro Suburbano": 126885.0,
+"Carretera Estación": 114795.0,
 "Zona Sur": 99410.0,
-"Carretera CV 141": 15375.0,
-"Llandells": 11025.0,
-"Casco Antiguo": 9141.0,
-"SUBURBANO": 6970.0,
-"URMI": 5605.0,
+"Zona Norte Interior": 39285.0,
+"Casco Antiguo": 11236.0,
 "FUERA TERMINO": 845.0
 },
 "tipos": {
@@ -1992,19 +2599,15 @@
 "kg": 835780.0,
 "salidas": 14265,
 "zonas": {
-"Zona Norte 1": 159963.0,
-"Zona Norte 2": 132035.0,
+"Llandells - Estación": 222587.0,
+"Zona Norte 1": 132265.0,
 "Zona Norte - Peñísmar": 111995.0,
-"Urbanizaciones": 98610.0,
-"Centro Suburbano": 97030.0,
-"Llandells - Estacion": 84775.0,
-"Carretera Estación": 52959.0,
+"Urbanizaciones": 103945.0,
+"Centro Suburbano": 101935.0,
+"Carretera Estación": 56504.0,
 "Zona Sur": 43335.0,
-"Carretera CV 141": 9590.0,
-"Casco Antiguo": 9263.0,
-"URMI": 5335.0,
-"Llandells": 4840.0,
-"SUBURBANO": 2765.0
+"Zona Norte Interior": 21470.0,
+"Casco Antiguo": 12213.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 821860.0,
@@ -2042,21 +2645,16 @@
 "kg": 487764.0,
 "salidas": 8462,
 "zonas": {
-"Zona Norte 1": 113600.0,
+"Llandells - Estación": 122520.0,
 "Zona Norte - Peñísmar": 98380.0,
-"Zona Norte 2": 67460.0,
-"Centro Suburbano": 39429.0,
-"Carretera Estación": 37297.0,
-"Urbanizaciones": 28435.0,
+"Zona Norte 1": 68325.0,
+"Carretera Estación": 40122.0,
+"Centro Suburbano": 39993.0,
+"Urbanizaciones": 32930.0,
+"Zona Norte Interior": 29885.0,
 "Zona Sur": 25300.0,
-"Llandells - Estacion": 24720.0,
-"Carretera CV 141": 12625.0,
-"URMI": 4465.0,
-"Casco Antiguo": 3987.0,
-"LLANDELLS": 1165.0,
-"SUBURBANO": 500.0,
-"FUERA TERMINO": 427.0,
-"ATALAYAS": 5.0
+"Casco Antiguo": 5437.0,
+"FUERA TERMINO": 427.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 482364.0,
@@ -2094,20 +2692,17 @@
 "kg": 489676.0,
 "salidas": 6109,
 "zonas": {
-"Llandells - Estacion": 94190.0,
-"Zona Norte 1": 80700.0,
-"Urbanizaciones": 72885.0,
+"Llandells - Estación": 164015.0,
+"Urbanizaciones": 76330.0,
 "Zona Norte - Peñísmar": 63102.0,
-"Carretera Estación": 47838.0,
-"Zona Norte 2": 37155.0,
+"Carretera Estación": 49828.0,
+"Zona Norte 1": 37520.0,
 "Zona Sur": 35520.0,
-"Centro Suburbano": 28155.0,
-"Carretera CV 141": 6200.0,
-"SUBURBANO": 3090.0,
-"LLANDELLS": 3050.0,
-"URMI": 2230.0,
-"Casco Antiguo": 1876.0,
-"FUERA TERMINO": 700.0
+"Centro Suburbano": 30305.0,
+"Zona Norte Interior": 13005.0,
+"Casco Antiguo": 3606.0,
+"FUERA TERMINO": 700.0,
+"HOTEL PAPA LUNA": 410.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 485176.0,
@@ -2152,19 +2747,15 @@
 "kg": 185367.0,
 "salidas": 5517,
 "zonas": {
-"Llandells - Estacion": 19175.0,
-"Carretera Estación": 12792.0,
+"Llandells - Estación": 27270.0,
+"Carretera Estación": 13687.0,
 "Zona Norte - Peñísmar": 8190.0,
-"Zona Norte 1": 8090.0,
 "Zona Sur": 4120.0,
-"Urbanizaciones": 3842.0,
-"Carretera CV 141": 1005.0,
-"Centro Suburbano": 585.0,
-"Casco Antiguo": 420.0,
-"URMI": 125.0,
-"Zona Norte 2": 38.0,
-"SUBURBANO": 25.0,
-"LLANDELLS": 15.0
+"Urbanizaciones": 3977.0,
+"Zona Norte Interior": 1770.0,
+"Zona Norte 1": 1108.0,
+"Centro Suburbano": 595.0,
+"Casco Antiguo": 435.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 184632.0,
@@ -2185,19 +2776,15 @@
 "kg": 88008.0,
 "salidas": 5569,
 "zonas": {
-"Llandells - Estacion": 15875.0,
+"Llandells - Estación": 24070.0,
+"Carretera Estación": 13089.0,
 "Zona Norte - Peñísmar": 11490.0,
-"Carretera Estación": 10899.0,
-"Urbanizaciones": 8730.0,
-"Zona Norte 1": 8425.0,
+"Urbanizaciones": 8840.0,
 "Zona Sur": 5565.0,
-"Centro Suburbano": 2100.0,
-"Carretera CV 141": 770.0,
-"Casco Antiguo": 469.0,
-"SUBURBANO": 440.0,
-"LLANDELLS": 330.0,
-"Zona Norte 2": 110.0,
-"URMI": 0.0
+"Centro Suburbano": 2320.0,
+"Zona Norte Interior": 2125.0,
+"Casco Antiguo": 799.0,
+"Zona Norte 1": 110.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 71613.0,
@@ -2222,7 +2809,7 @@
 "Casco Antiguo": 187.0,
 "Carretera Estación": 80.0,
 "Centro Suburbano": 46.0,
-"Llandells - Estacion": 16.0
+"Llandells - Estación": 16.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 4399.0
@@ -2236,21 +2823,16 @@
 "kg": 284423.0,
 "salidas": 6419,
 "zonas": {
-"Carretera Estación": 73080.0,
-"Llandells - Estacion": 67190.0,
-"Urbanizaciones": 66460.0,
+"Carretera Estación": 76385.0,
+"Urbanizaciones": 74100.0,
+"Llandells - Estación": 69180.0,
 "Zona Norte - Peñísmar": 15595.0,
+"Zona Norte Interior": 14975.0,
 "Zona Sur": 10890.0,
-"Zona Norte 1": 10740.0,
-"Centro Suburbano": 5970.0,
-"SUBURBANO": 5025.0,
-"URMI": 3785.0,
-"Carretera CV 141": 3320.0,
-"LLANDELLS": 830.0,
-"Zona Norte 2": 815.0,
-"Casco Antiguo": 543.0,
-"FUERA TERMINO": 385.0,
-"ATALAYAS": 0.0
+"Centro Suburbano": 7915.0,
+"Casco Antiguo": 3733.0,
+"Zona Norte 1": 925.0,
+"FUERA TERMINO": 385.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 266803.0,
@@ -2288,21 +2870,17 @@
 "kg": 296215.0,
 "salidas": 9332,
 "zonas": {
-"Llandells - Estacion": 50696.0,
+"Llandells - Estación": 88228.0,
 "Zona Norte - Peñísmar": 44874.0,
-"Zona Norte 1": 41647.0,
-"Centro Suburbano": 37655.0,
-"Carretera Estación": 34685.0,
-"Zona Norte 2": 25609.0,
-"Urbanizaciones": 24085.0,
-"Carretera CV 141": 8053.0,
+"Centro Suburbano": 39460.0,
+"Carretera Estación": 36770.0,
+"Zona Norte 1": 25754.0,
+"Urbanizaciones": 24600.0,
+"Zona Norte Interior": 16298.0,
 "Zona Sur": 7970.0,
-"SUBURBANO": 2115.0,
+"Casco Antiguo": 1736.0,
 "FUERA TERMINO": 1330.0,
-"LLANDELLS": 1180.0,
-"Casco Antiguo": 849.0,
-"URMI": 60.0,
-"ATALAYAS": 0.0
+"HOTEL PAPA LUNA": 75.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 247784.0,
@@ -2350,19 +2928,16 @@
 "kg": 431556.0,
 "salidas": 9391,
 "zonas": {
-"Llandells - Estacion": 74257.0,
-"Zona Norte 1": 70500.0,
+"Llandells - Estación": 135624.0,
 "Zona Norte - Peñísmar": 60760.0,
-"Urbanizaciones": 50272.0,
-"Carretera Estación": 48154.0,
-"Centro Suburbano": 37275.0,
-"Zona Norte 2": 35261.0,
-"Zona Sur": 19555.0,
-"Carretera CV 141": 9020.0,
-"SUBURBANO": 3895.0,
-"LLANDELLS": 2355.0,
-"Casco Antiguo": 1054.0,
-"URMI": 640.0,
+"Urbanizaciones": 53137.0,
+"Carretera Estación": 50259.0,
+"Centro Suburbano": 41175.0,
+"Zona Norte 1": 35626.0,
+"Zona Sur": 19838.0,
+"Zona Norte Interior": 14840.0,
+"Casco Antiguo": 2709.0,
+"HOTEL PAPA LUNA": 1896.0,
 "FUERA TERMINO": 470.0
 },
 "tipos": {
@@ -2415,21 +2990,17 @@
 "kg": 564022.0,
 "salidas": 10305,
 "zonas": {
-"Zona Norte 1": 108348.0,
-"Llandells - Estacion": 85168.0,
+"Llandells - Estación": 174445.0,
+"Urbanizaciones": 72479.0,
 "Zona Norte - Peñísmar": 69287.0,
-"Urbanizaciones": 68124.0,
-"Zona Norte 2": 59362.0,
-"Centro Suburbano": 53315.0,
-"Carretera Estación": 48881.0,
+"Zona Norte 1": 59737.0,
+"Centro Suburbano": 57685.0,
+"Carretera Estación": 51516.0,
+"Zona Norte Interior": 24432.0,
 "Zona Sur": 19750.0,
-"Carretera CV 141": 10082.0,
-"LLANDELLS": 4375.0,
-"SUBURBANO": 3980.0,
-"FUERA TERMINO": 3040.0,
-"Casco Antiguo": 2635.0,
-"URMI": 340.0,
-"ATALAYAS": 15.0
+"HOTEL PAPA LUNA": 4776.0,
+"Casco Antiguo": 4365.0,
+"FUERA TERMINO": 3040.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 436305.0,
@@ -2483,21 +3054,17 @@
 "kg": 939345.0,
 "salidas": 12915,
 "zonas": {
-"Zona Norte 1": 185745.0,
-"Llandells - Estacion": 148570.0,
-"Zona Norte - Peñísmar": 126535.0,
-"Urbanizaciones": 107925.0,
-"Centro Suburbano": 106985.0,
-"Zona Norte 2": 93200.0,
-"Carretera Estación": 62320.0,
+"Llandells - Estación": 309725.0,
+"Zona Norte - Peñísmar": 127175.0,
+"Centro Suburbano": 114600.0,
+"Urbanizaciones": 114455.0,
+"Zona Norte 1": 94750.0,
+"Carretera Estación": 65835.0,
+"Zona Norte Interior": 31210.0,
 "Zona Sur": 27705.0,
-"Carretera CV 141": 12810.0,
+"Casco Antiguo": 8978.0,
 "FUERA TERMINO": 7720.0,
-"SUBURBANO": 6675.0,
-"Casco Antiguo": 6453.0,
-"LLANDELLS": 5525.0,
-"URMI": 390.0,
-"ATALAYAS": 390.0
+"HOTEL PAPA LUNA": 7170.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 740595.0,
@@ -2549,21 +3116,17 @@
 "kg": 1024640.0,
 "salidas": 17196,
 "zonas": {
-"Zona Norte 1": 186740.0,
+"Llandells - Estación": 286205.0,
 "Zona Norte - Peñísmar": 150995.0,
-"Centro Suburbano": 123655.0,
-"Llandells - Estacion": 122475.0,
-"Urbanizaciones": 119805.0,
-"Zona Norte 2": 117050.0,
-"Carretera Estación": 73925.0,
+"Centro Suburbano": 127915.0,
+"Urbanizaciones": 126845.0,
+"Zona Norte 1": 118240.0,
+"Carretera Estación": 78365.0,
 "Zona Sur": 49440.0,
-"Carretera CV 141": 12450.0,
+"Zona Norte Interior": 31005.0,
 "FUERA TERMINO": 10873.0,
-"Casco Antiguo": 7572.0,
-"LLANDELLS": 5040.0,
-"SUBURBANO": 4675.0,
-"URMI": 1000.0,
-"ATALAYAS": 0.0
+"Casco Antiguo": 10002.0,
+"HOTEL PAPA LUNA": 8495.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 767110.0,
@@ -2615,21 +3178,17 @@
 "kg": 1207957.0,
 "salidas": 17857,
 "zonas": {
-"Zona Norte 1": 204150.0,
+"Llandells - Estación": 294005.0,
 "Zona Norte - Peñísmar": 177390.0,
-"Zona Norte 2": 142946.0,
-"Centro Suburbano": 135895.0,
-"Carretera Estación": 125665.0,
-"Llandells - Estacion": 117490.0,
-"Urbanizaciones": 114480.0,
+"Zona Norte 1": 143766.0,
+"Centro Suburbano": 139760.0,
+"Carretera Estación": 130705.0,
+"Urbanizaciones": 118855.0,
 "Zona Sur": 80075.0,
-"Carretera CV 141": 26270.0,
-"Casco Antiguo": 9954.0,
-"LLANDELLS": 6950.0,
-"FUERA TERMINO": 6322.0,
-"SUBURBANO": 3535.0,
-"URMI": 440.0,
-"ATALAYAS": 10.0
+"Zona Norte Interior": 64245.0,
+"Casco Antiguo": 12899.0,
+"HOTEL PAPA LUNA": 9550.0,
+"FUERA TERMINO": 6322.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 864682.0,
@@ -2683,20 +3242,17 @@
 "kg": 1530364.0,
 "salidas": 14070,
 "zonas": {
+"Llandells - Estación": 454075.0,
 "Zona Norte - Peñísmar": 332466.0,
-"Zona Norte 1": 302910.0,
-"Llandells - Estacion": 176791.0,
-"Carretera Estación": 149347.0,
-"Urbanizaciones": 149317.0,
+"Carretera Estación": 160507.0,
+"Urbanizaciones": 159844.0,
 "Zona Sur": 124995.0,
-"Zona Norte 2": 94081.0,
-"Centro Suburbano": 57333.0,
-"Carretera CV 141": 33190.0,
-"LLANDELLS": 8420.0,
-"SUBURBANO": 7490.0,
-"FUERA TERMINO": 4725.0,
-"URMI": 1335.0,
-"Casco Antiguo": 989.0
+"Zona Norte 1": 97921.0,
+"Zona Norte Interior": 87080.0,
+"Centro Suburbano": 64088.0,
+"HOTEL PAPA LUNA": 9897.0,
+"Casco Antiguo": 6031.0,
+"FUERA TERMINO": 4725.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1218968.0,
@@ -2750,21 +3306,17 @@
 "kg": 686508.0,
 "salidas": 8747,
 "zonas": {
-"Llandells - Estacion": 135505.0,
-"Zona Norte 1": 105873.0,
-"Urbanizaciones": 86876.0,
+"Llandells - Estación": 224990.0,
+"Urbanizaciones": 92150.0,
+"Carretera Estación": 87775.0,
 "Zona Norte - Peñísmar": 82548.0,
-"Carretera Estación": 81905.0,
-"Zona Norte 2": 65542.0,
+"Zona Norte 1": 66527.0,
+"Centro Suburbano": 35985.0,
 "Zona Sur": 33615.0,
-"Centro Suburbano": 31650.0,
-"Carretera CV 141": 12753.0,
-"SUBURBANO": 5735.0,
-"LLANDELLS": 4900.0,
-"FUERA TERMINO": 1995.0,
-"Casco Antiguo": 375.0,
-"ATALAYAS": 360.0,
-"URMI": 20.0
+"Zona Norte Interior": 30793.0,
+"HOTEL PAPA LUNA": 7368.0,
+"Casco Antiguo": 3527.0,
+"FUERA TERMINO": 1995.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 533530.0,
@@ -2818,21 +3370,16 @@
 "kg": 1118729.0,
 "salidas": 7687,
 "zonas": {
-"Llandells - Estacion": 281434.0,
-"Carretera Estación": 155478.0,
+"Llandells - Estación": 389819.0,
+"Carretera Estación": 167268.0,
 "Zona Norte - Peñísmar": 149695.0,
-"Urbanizaciones": 122450.0,
-"Zona Norte 1": 118815.0,
+"Urbanizaciones": 128475.0,
 "Zona Sur": 77155.0,
-"Centro Suburbano": 51910.0,
-"Zona Norte 2": 33500.0,
-"Carretera CV 141": 25233.0,
-"SUBURBANO": 15600.0,
-"LLANDELLS": 7810.0,
-"URMI": 2100.0,
-"FUERA TERMINO": 700.0,
-"Casco Antiguo": 579.0,
-"ATALAYAS": 465.0
+"Zona Norte Interior": 67038.0,
+"Centro Suburbano": 63165.0,
+"Zona Norte 1": 35330.0,
+"Casco Antiguo": 6749.0,
+"FUERA TERMINO": 700.0
 },
 "tipos": {
 "Mezcla de residuos municipales": 1076406.0,
@@ -2882,19 +3429,16 @@
 "kg": 244749.0,
 "salidas": 3430,
 "zonas": {
-"Zona Norte 2": 25124.0,
+"Llandells - Estación": 26272.0,
+"Zona Norte 1": 25124.0,
 "Urbanizaciones": 21740.0,
-"Zona Norte 1": 18740.0,
-"Centro Suburbano": 13395.0,
-"Carretera Estación": 11662.0,
+"Centro Suburbano": 13455.0,
+"Carretera Estación": 11857.0,
 "FUERA TERMINO": 7795.0,
-"Llandells - Estacion": 7447.0,
-"Carretera CV 141": 6232.0,
+"Zona Norte Interior": 6937.0,
 "Zona Norte - Peñísmar": 2385.0,
 "Zona Sur": 1385.0,
-"Casco Antiguo": 759.0,
-"LLANDELLS": 495.0,
-"SUBURBANO": 125.0
+"Casco Antiguo": 1174.0
 },
 "tipos": {
 "Envases mezclados": 114040.0,
@@ -2934,16 +3478,14 @@
 "kg": 88187.0,
 "salidas": 1883,
 "zonas": {
+"Llandells - Estación": 19994.0,
 "Urbanizaciones": 18165.0,
-"Zona Norte 1": 15289.0,
-"Centro Suburbano": 12860.0,
+"Centro Suburbano": 12992.0,
 "Carretera Estación": 11594.0,
-"Zona Norte 2": 11520.0,
-"Carretera CV 141": 7732.0,
-"Llandells - Estacion": 4850.0,
+"Zona Norte 1": 11520.0,
+"Zona Norte Interior": 8247.0,
 "FUERA TERMINO": 2840.0,
-"LLANDELLS": 535.0,
-"Casco Antiguo": 394.0,
+"Casco Antiguo": 904.0,
 "Zona Norte - Peñísmar": 25.0,
 "PLANTA DE CERVERA": 0.0
 },
@@ -2983,17 +3525,205 @@
 },
 {
 "fecha": "2026-02",
-"kg": 705.0,
-"salidas": 12,
+"kg": 118643.0,
+"salidas": 2291,
 "zonas": {
-"Carretera Estación": 590.0,
-"Urbanizaciones": 115.0
+"Llandells - Estación": 30429.0,
+"Urbanizaciones": 22490.0,
+"Centro Suburbano": 18860.0,
+"Zona Norte - Peñísmar": 13947.0,
+"Carretera Estación": 11304.0,
+"Zona Norte 1": 10635.0,
+"Zona Norte Interior": 8009.0,
+"FUERA TERMINO": 1705.0,
+"Casco Antiguo": 557.0,
+"LLANDELLS": 70.0
 },
 "tipos": {
-"Mezcla de residuos municipales": 685.0,
-"Orgánica": 20.0
+"Mezcla de residuos municipales": 80541.0,
+"Orgánica": 31362.0,
+"Papel": 4265.0,
+"Envases mezclados": 2475.0
 },
-"hoteles": {}
+"hoteles": {
+"Camping Edén": 5268.0,
+"Hotel Acuazul": 4445.0,
+"CAMPING EDÉN": 4079.0,
+"Hotel Casablanca": 3205.0,
+"Camping Vizmar": 3048.0,
+"Hotel Acualandia": 2984.0,
+"Camping La Volta": 2909.0,
+"Hotel Acuasol": 2505.0,
+"Camping Ferrer": 2159.0,
+"Hotel Prado": 2031.0,
+"CAMPING EL CID": 1673.0,
+"Hotel Don Carlos": 1519.0,
+"HOTEL ACUALANDIA": 1310.0,
+"Gran Hotel Peñíscola": 1185.0,
+"HOTEL CASABLANCA": 930.0,
+"Hotel Peñíscola Suites": 897.0,
+"CAMPING LOS PINOS": 644.0,
+"Aparthotel Jardines del Plaza": 495.0,
+"CAMPING VIZMAR": 390.0,
+"HOTEL ACUAZUL": 370.0,
+"Hotel Felipe II": 355.0,
+"Hotel Palace": 310.0,
+"HOTEL HOSTERÍA DEL MAR": 275.0,
+"Hotel Los Delfines": 220.0,
+"camping peñiscola": 200.0,
+"Hotel Jaime I": 125.0,
+"Hotel Peñíscola Plaza Suites": 120.0,
+"Hotel Puerto Mar": 65.0,
+"camping la volta": 45.0,
+"CAMPING LA VOLTA": 30.0,
+"HOTEL PRADO": 8.0
+}
+},
+{
+"fecha": "2026-03",
+"kg": 217447.0,
+"salidas": 3966,
+"zonas": {
+"Llandells - Estación": 51943.0,
+"Zona Norte 1": 49431.0,
+"Urbanizaciones": 37195.0,
+"Centro Suburbano": 24633.0,
+"Zona Norte - Peñísmar": 23842.0,
+"Carretera Estación": 16041.0,
+"Zona Norte Interior": 6640.0,
+"Zona Sur": 2275.0,
+"Casco Antiguo": 1519.0,
+"FUERA TERMINO": 1288.0,
+"HOTEL PAPA LUNA": 945.0
+},
+"tipos": {
+"Mezcla de residuos municipales": 134071.0,
+"Orgánica": 71796.0,
+"Papel": 6450.0,
+"Envases mezclados": 5130.0
+},
+"hoteles": {
+"Gran Hotel Peñíscola": 19278.0,
+"Hotel Peñíscola Suites": 14227.0,
+"Hotel Acuazul": 7348.0,
+"Camping Edén": 6108.0,
+"Hotel Acualandia": 4620.0,
+"Hotel Casablanca": 4528.0,
+"Hotel Palace": 4455.0,
+"CAMPING EDÉN": 4112.0,
+"Hotel Acuasol": 4039.0,
+"Hotel Don Carlos": 3305.0,
+"HOTEL ACUALANDIA": 3267.0,
+"Hotel Prado": 2449.0,
+"HOTEL PEÑISCOLA PLAZA SUITES": 2445.0,
+"HOTEL CASABLANCA": 2200.0,
+"Camping Vizmar": 2048.0,
+"Hotel Papa Luna": 1990.0,
+"Camping Ferrer": 1922.0,
+"Camping La Volta": 1752.0,
+"Hotel Felipe II": 1665.0,
+"CAMPING EL CID": 1290.0,
+"Hotel Agora": 985.0,
+"Aparthotel Jardines del Plaza": 841.0,
+"HOTEL ACUAZUL": 735.0,
+"HOTEL PRADO": 591.0,
+"CAMPING LOS PINOS": 490.0,
+"Hotel Peñíscola Plaza Suites": 400.0,
+"Hotel Jaime I": 380.0,
+"HOTEL HOSTERÍA DEL MAR": 320.0,
+"Hotel Los Delfines": 315.0,
+"HOTEL PAPA LUNA": 285.0,
+"Hotel Puerto Mar": 180.0,
+"CAMPING VIZMAR": 135.0,
+"camping peñiscola": 130.0,
+"Hotel Bodegón 2000": 95.0,
+"Hotel Hey": 75.0,
+"camping la volta": 60.0,
+"CAMPING LA VOLTA": 45.0,
+"Hotel María Cristina": 10.0
+}
+},
+{
+"fecha": "2026-04",
+"kg": 1041691.0,
+"salidas": 12036,
+"zonas": {
+"Llandells - Estación": 352495.0,
+"Zona Norte - Peñísmar": 195375.0,
+"Carretera Estación": 128065.0,
+"Centro Suburbano": 85350.0,
+"Urbanizaciones": 72545.0,
+"Zona Norte 1": 59645.0,
+"Zona Sur": 57753.0,
+"Zona Norte Interior": 45885.0,
+"Casco Antiguo": 11747.0,
+"HOTEL PAPA LUNA": 5490.0,
+"FUERA TERMINO": 3391.0
+},
+"tipos": {
+"Mezcla de residuos municipales": 938626.0,
+"Orgánica": 91230.0,
+"Papel": 6955.0,
+"Envases mezclados": 4880.0
+},
+"hoteles": {
+"Gran Hotel Peñíscola": 20135.0,
+"Hotel Peñíscola Suites": 16910.0,
+"Hotel Papa Luna": 13350.0,
+"Hotel Palace": 6380.0,
+"Hotel Acuazul": 6225.0,
+"Hotel Acualandia": 5945.0,
+"Hotel Prado": 5725.0,
+"Camping Edén": 5590.0,
+"Camping Ferrer": 4645.0,
+"Hotel Casablanca": 4595.0,
+"Hotel Agora": 4300.0,
+"Hotel Don Carlos": 4265.0,
+"Hotel Acuasol": 4165.0,
+"Hotel Bodegón 2000": 3850.0,
+"CAMPING EDÉN": 3770.0,
+"Hotel Felipe II": 2735.0,
+"HOTEL CASABLANCA": 2680.0,
+"CAMPING EL CID": 2560.0,
+"HOTEL ACUALANDIA": 1860.0,
+"HOTEL PAPA LUNA": 1650.0,
+"HOTEL PEÑISCOLA PLAZA SUITES": 1515.0,
+"Camping La Volta": 1435.0,
+"Aparthotel Jardines del Plaza": 1435.0,
+"Camping Vizmar": 1295.0,
+"HOTEL PRADO": 1025.0,
+"Hotel Hey": 930.0,
+"Hotel Jaime I": 760.0,
+"HOTEL HOSTERÍA DEL MAR": 615.0,
+"CAMPING VIZMAR": 565.0,
+"Hotel Puerto Mar": 460.0,
+"CAMPING LOS PINOS": 445.0,
+"Hotel Peñíscola Plaza Suites": 355.0,
+"Hotel Los Delfines": 355.0,
+"CAMPING LA VOLTA": 350.0,
+"HOTEL ACUAZUL": 260.0,
+"HOTEL ÁGORA": 170.0,
+"Hotel María Cristina": 85.0,
+"camping peñiscola": 75.0,
+"camping la volta": 40.0
+}
+},
+{
+"fecha": "2026-05",
+"kg": 2230.0,
+"salidas": 122,
+"zonas": {
+"Urbanizaciones": 2105.0,
+"Llandells - Estación": 125.0,
+"Zona Norte - Peñísmar": 0.0,
+"Centro Suburbano": 0.0
+},
+"tipos": {
+"Mezcla de residuos municipales": 2230.0
+},
+"hoteles": {
+"Hotel Felipe II": 0.0
+}
 }
 ]
 }

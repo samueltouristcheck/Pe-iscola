@@ -9,7 +9,7 @@ Ejecutar: python preparar_datos.py
 """
 
 import json
-import random
+import os
 import re
 import shutil
 from datetime import datetime
@@ -43,8 +43,49 @@ PESAJES_ROOT = RESIDUOS / "pesajes"
 CAMION = RESIDUOS / "camion"
 # Única fuente JSON del camión
 JSON_CAMION = RESIDUOS / "camion" / "JSON"
-GEOJSON_ZONAS = DATA / "Zonificación Peñíscola (1).geojson"
-GEOJSON_ALT = Path(r"C:\Users\touri\Desktop\Peñiscola Residuos\VCS\Zonificación Peñíscola (1).geojson")
+
+
+def resolver_geojson_zonas_fuente():
+    """
+    Busca el GeoJSON de zonificación en data/ (o PENISCOLA_GEOJSON_ZONAS).
+    El dashboard lee siempre data/zonas_peniscola.geojson; copiar_geojson_zonas_mapa() lo genera.
+    """
+    candidatos = (
+        DATA / "zonas_peniscola.geojson",
+        DATA / "zonificacion_peniscola.geojson",
+        DATA / "Zonificación Peñíscola (1).geojson",
+    )
+    for p in candidatos:
+        if p.exists():
+            return p
+    env = (os.environ.get("PENISCOLA_GEOJSON_ZONAS") or "").strip()
+    if env:
+        ep = Path(env)
+        if ep.exists():
+            return ep
+    return None
+
+
+def _iter_anillos_exteriores(geom: dict):
+    """Un anillo exterior por polígono (Polygon o MultiPolygon)."""
+    t = (geom or {}).get("type")
+    coords = (geom or {}).get("coordinates") or []
+    if t == "Polygon" and coords:
+        yield coords[0]
+    elif t == "MultiPolygon":
+        for poly in coords:
+            if poly and len(poly) > 0:
+                yield poly[0]
+
+
+def _nombre_desde_properties(props: dict) -> str:
+    if not props:
+        return "Sin nombre"
+    for key in ("name", "Name", "nombre", "Nombre", "zona", "ZONA", "label", "title"):
+        v = props.get(key)
+        if v is not None and str(v).strip():
+            return str(v).strip()
+    return "Sin nombre"
 
 
 def _point_in_polygon(lon: float, lat: float, ring: list) -> bool:
@@ -63,7 +104,7 @@ def _point_in_polygon(lon: float, lat: float, ring: list) -> bool:
 
 def cargar_polygonos_zonas() -> list:
     """Carga polígonos del GeoJSON. Retorna [(ring, name), ...]"""
-    path = GEOJSON_ZONAS if GEOJSON_ZONAS.exists() else GEOJSON_ALT
+    path = resolver_geojson_zonas_fuente()
     if not path or not path.exists():
         return []
     try:
@@ -73,15 +114,11 @@ def cargar_polygonos_zonas() -> list:
         return []
     polygons = []
     for feat in data.get("features", []):
-        geom = feat.get("geometry", {})
-        if geom.get("type") != "Polygon":
-            continue
-        coords = geom.get("coordinates", [])
-        if not coords:
-            continue
-        ring = coords[0]
-        name = feat.get("properties", {}).get("name", "Sin nombre")
-        polygons.append((ring, name))
+        geom = feat.get("geometry") or {}
+        name = _nombre_desde_properties(feat.get("properties") or {})
+        for ring in _iter_anillos_exteriores(geom):
+            if ring and len(ring) >= 3:
+                polygons.append((ring, name))
     return polygons
 
 
@@ -93,9 +130,11 @@ def asignar_zona(lon: float, lat: float, polygons: list) -> str:
     return ""
 
 
-def normalizar_fecha_pesajes(row):
-    """Convierte Fecha de pesajes a YYYY-MM."""
-    f = row.get("Fecha")
+def normalizar_fecha_pesajes(row, fecha_col=None):
+    """Convierte la celda de fecha a YYYY-MM. fecha_col = nombre real de columna en el Excel."""
+    if not fecha_col:
+        return None
+    f = row.get(fecha_col)
     if pd.isna(f):
         return None
     if hasattr(f, "strftime"):
@@ -106,9 +145,32 @@ def normalizar_fecha_pesajes(row):
         except ValueError:
             return None
         return out
-    s = str(f)
+    if isinstance(f, (int, float)) and not isinstance(f, bool):
+        try:
+            ts = pd.to_datetime(f, unit="d", origin="1899-12-30", errors="coerce")
+            if pd.isna(ts):
+                ts = pd.to_datetime(f, errors="coerce")
+            if pd.isna(ts):
+                return None
+            out = ts.strftime("%Y-%m")
+            if int(out[:4]) > datetime.now().year:
+                return None
+            return out
+        except (ValueError, TypeError, OSError):
+            pass
+    s = str(f).strip()
     m = re.search(r"(\d{4})[-/](\d{1,2})", s)
     if not m:
+        m2 = re.search(r"(\d{1,2})[-/](\d{1,2})[-/](\d{4})", s)
+        if m2:
+            y = int(m2.group(3))
+            mo = int(m2.group(2))
+            d = int(m2.group(1))
+            if d > 12:
+                mo, d = d, mo
+            if y > datetime.now().year:
+                return None
+            return f"{y}-{mo:02d}"
         return None
     y = int(m.group(1))
     if y > datetime.now().year:
@@ -116,26 +178,177 @@ def normalizar_fecha_pesajes(row):
     return f"{m.group(1)}-{int(m.group(2)):02d}"
 
 
+MESES_ES = (
+    "",
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+)
+DIAS_ES = (
+    "lunes",
+    "martes",
+    "miércoles",
+    "jueves",
+    "viernes",
+    "sábado",
+    "domingo",
+)
+
+
+def _col_por_clave(cols_lower, candidatos):
+    for cand in candidatos:
+        k = cand.lower().strip()
+        if k in cols_lower:
+            return cols_lower[k]
+    return None
+
+
+def _celda_a_timestamp(val):
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return None
+    if isinstance(val, (int, float)) and not isinstance(val, bool):
+        ts = pd.to_datetime(val, unit="d", origin="1899-12-30", errors="coerce")
+        if pd.isna(ts):
+            ts = pd.to_datetime(val, errors="coerce")
+        if pd.isna(ts):
+            return None
+        return ts
+    ts = pd.to_datetime(val, errors="coerce")
+    if pd.isna(ts):
+        return None
+    return ts
+
+
+def _hora_desde_celda(val) -> str:
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return ""
+    ts = pd.to_datetime(val, errors="coerce")
+    if not pd.isna(ts):
+        try:
+            if ts.hour or ts.minute or ts.second:
+                return ts.strftime("%H:%M:%S")
+        except (ValueError, OSError):
+            pass
+    if hasattr(val, "total_seconds"):
+        try:
+            sec = int(val.total_seconds()) % 86400
+            h, r = divmod(sec, 3600)
+            m, s = divmod(r, 60)
+            return f"{h:02d}:{m:02d}:{s:02d}"
+        except (TypeError, ValueError):
+            pass
+    if hasattr(val, "hour"):
+        try:
+            return f"{int(val.hour):02d}:{int(val.minute):02d}:{int(val.second):02d}"
+        except (TypeError, ValueError):
+            pass
+    s = str(val).strip()
+    if re.match(r"^\d{1,2}:\d{2}(:\d{2})?$", s):
+        return s if len(s.split(":")) == 3 else s + ":00"
+    return ""
+
+
+def _fecha_larga_es(ts) -> str:
+    if ts is None:
+        return ""
+    try:
+        wd = DIAS_ES[int(ts.weekday())]
+        return f"{wd}, {int(ts.day)} de {MESES_ES[int(ts.month)]} de {int(ts.year)}"
+    except (ValueError, TypeError, IndexError):
+        return ""
+
+
+def _float_celda(val, default=None):
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return default
+    try:
+        return float(val)
+    except (TypeError, ValueError):
+        return default
+
+
+def _ticket_celda(val):
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return None
+    try:
+        f = float(val)
+        if f == int(f):
+            return int(f)
+        return f
+    except (TypeError, ValueError):
+        s = str(val).strip()
+        return s if s else None
+
+
 def convertir_pesajes_excel(excel_path: Path) -> list:
-    """Convierte Excel de pesajes a registros normalizados."""
+    """Convierte Excel de pesajes a registros (columnas tipo Power BI / TO-Pesajes_Excel_Unificados)."""
     try:
         df = pd.read_excel(excel_path, sheet_name=0)
     except Exception as e:
         print(f"  Error leyendo {excel_path.name}: {e}")
         return []
 
-    # Columnas pesajes vertedero: Fecha, Carga, Residuo, Población
     cols_lower = {str(c).lower().strip(): c for c in df.columns}
-    fecha_col = next((cols_lower[k] for k in ["fecha", "date"] if k in cols_lower), None)
-    carga_col = next((cols_lower[k] for k in ["carga", "peso neto"] if k in cols_lower), None)
-    if not carga_col:
-        carga_col = next((cols_lower[k] for k in ["peso total", "peso"] if k in cols_lower), None)
-    residuo_col = next((cols_lower[k] for k in ["residuo", "garbage", "tipo"] if k in cols_lower), None)
-    poblacion_col = next((cols_lower[k] for k in ["población", "poblacion", "area", "zona"] if k in cols_lower), None)
+
+    fecha_col = _col_por_clave(
+        cols_lower,
+        (
+            "fecha",
+            "date",
+            "fecha registro",
+            "fecha/hora",
+            "fecha hora",
+            "day",
+            "fecha / hora",
+        ),
+    )
+    hora_col = _col_por_clave(
+        cols_lower,
+        ("fecha / hora", "fecha/hora", "hora", "hora entrada", "hora salida"),
+    )
+    # Si la única columna temporal es mixta, no usar también una segunda columna duplicada
+    if hora_col == fecha_col:
+        hora_col = None
+
+    carga_col = _col_por_clave(cols_lower, ("carga", "peso neto", "neto", "peso_neto"))
+
+    peso_total_col = _col_por_clave(cols_lower, ("peso total", "peso_total", "bruto", "peso bruto"))
+    tara_col = _col_por_clave(cols_lower, ("tara", "tare"))
+
+    residuo_col = _col_por_clave(cols_lower, ("residuo", "garbage", "tipo", "tipo residuo"))
+    poblacion_col = _col_por_clave(
+        cols_lower,
+        ("población", "poblacion", "area", "zona", "origen", "municipio"),
+    )
+
+    anio_col = _col_por_clave(cols_lower, ("año", "ano", "year", "anyo"))
+    mes_num_col = _col_por_clave(cols_lower, ("mes_num", "mes num", "número mes", "mes_n", "n_mes"))
+    mes_txt_col = _col_por_clave(cols_lower, ("mes nombre", "nombre mes", "mes_txt"))
+    if not mes_txt_col and "mes" in cols_lower:
+        mc = cols_lower["mes"]
+        if mc != mes_num_col:
+            mes_txt_col = mc
+
+    ticket_col = _col_por_clave(
+        cols_lower, ("ticket", "nº ticket", "nº", "id ticket", "num ticket", "num. ticket")
+    )
+    matricula_col = _col_por_clave(cols_lower, ("matrícula", "matricula", "matricula vehiculo", "vehículo"))
 
     if not fecha_col:
         fecha_col = df.columns[0] if len(df.columns) > 0 else None
-    if not carga_col:
+
+    if carga_col is None and peso_total_col and tara_col:
+        carga_col = "__carga_calc__"
+    elif carga_col is None:
         for c in df.columns:
             if "carga" in str(c).lower():
                 carga_col = c
@@ -148,22 +361,126 @@ def convertir_pesajes_excel(excel_path: Path) -> list:
 
     records = []
     for _, row in df.iterrows():
-        carga = row.get(carga_col)
-        if pd.isna(carga) or (isinstance(carga, (int, float)) and carga <= 0):
-            continue
-        try:
-            carga = float(carga)
-        except (TypeError, ValueError):
+        if carga_col == "__carga_calc__":
+            pt = _float_celda(row.get(peso_total_col))
+            ta = _float_celda(row.get(tara_col))
+            if pt is None or ta is None:
+                continue
+            carga = pt - ta
+        else:
+            carga = _float_celda(row.get(carga_col))
+        if carga is None or carga <= 0:
             continue
 
-        fecha = normalizar_fecha_pesajes(row) if fecha_col else None
-        records.append({
-            "fecha": fecha or "Sin fecha",
-            "fuente": "pesajes",
-            "zona": str(row.get(poblacion_col, "")).strip() if poblacion_col else "",
-            "tipo": str(row.get(residuo_col, "")).strip() if residuo_col else "RSU",
-            "kg": round(carga, 2),
-        })
+        ts = _celda_a_timestamp(row.get(fecha_col)) if fecha_col else None
+        hora_extra = _hora_desde_celda(row.get(hora_col)) if hora_col else ""
+        if ts is not None and hora_col:
+            hv = row.get(hora_col)
+            if not pd.isna(hv) and hora_extra:
+                tpart = pd.to_datetime(hv, errors="coerce")
+                if not pd.isna(tpart):
+                    try:
+                        ts = ts.replace(
+                            hour=int(tpart.hour),
+                            minute=int(tpart.minute),
+                            second=int(tpart.second),
+                        )
+                    except (ValueError, TypeError):
+                        pass
+
+        periodo = normalizar_fecha_pesajes(row, fecha_col) if fecha_col else None
+        if ts is not None and not periodo:
+            try:
+                periodo = ts.strftime("%Y-%m")
+            except (ValueError, OSError):
+                periodo = None
+
+        anio = None
+        if anio_col:
+            anio = _float_celda(row.get(anio_col))
+            if anio is not None:
+                anio = int(anio)
+        if anio is None and ts is not None:
+            anio = int(ts.year)
+
+        mes_num = None
+        if mes_num_col:
+            mes_num = _float_celda(row.get(mes_num_col))
+            if mes_num is not None:
+                mes_num = int(mes_num)
+        if mes_num is None and ts is not None:
+            mes_num = int(ts.month)
+
+        mes_display = ""
+        if mes_txt_col:
+            raw_m = row.get(mes_txt_col)
+            if not pd.isna(raw_m) and str(raw_m).strip():
+                sm = str(raw_m).strip()
+                if sm.isdigit():
+                    try:
+                        mi = int(sm)
+                        if 1 <= mi <= 12:
+                            mes_display = MESES_ES[mi].title()
+                    except ValueError:
+                        mes_display = sm.title()
+                else:
+                    mes_display = sm.title()
+        if not mes_display and ts is not None:
+            mes_display = MESES_ES[int(ts.month)].title()
+
+        fecha_larga = _fecha_larga_es(ts) if ts is not None else ""
+        if not fecha_larga and periodo and len(str(periodo)) >= 7 and str(periodo) != "Sin fecha":
+            try:
+                y = int(str(periodo)[:4])
+                m = int(str(periodo)[5:7])
+                ts0 = datetime(y, m, 1)
+                fecha_larga = _fecha_larga_es(pd.Timestamp(ts0))
+            except (ValueError, TypeError, IndexError):
+                pass
+        hora_out = ""
+        if ts is not None:
+            try:
+                if ts.hour or ts.minute or ts.second:
+                    hora_out = ts.strftime("%H:%M:%S")
+            except (ValueError, OSError):
+                pass
+        if not hora_out and hora_extra:
+            hora_out = hora_extra
+
+        pt_val = _float_celda(row.get(peso_total_col)) if peso_total_col else None
+        ta_val = _float_celda(row.get(tara_col)) if tara_col else None
+
+        poblacion = str(row.get(poblacion_col, "")).strip() if poblacion_col else ""
+        residuo = str(row.get(residuo_col, "")).strip() if residuo_col else "RSU"
+
+        try:
+            rel = str(excel_path.relative_to(PESAJES_ROOT))
+        except ValueError:
+            rel = excel_path.name
+
+        records.append(
+            {
+                "Año": anio,
+                "Mes_num": mes_num,
+                "Mes": mes_display,
+                "Archivo": excel_path.name,
+                "Fecha": fecha_larga,
+                "Fecha / hora": hora_out,
+                "Ticket": _ticket_celda(row.get(ticket_col)) if ticket_col else None,
+                "Matrícula": str(row.get(matricula_col, "")).strip() if matricula_col else "",
+                "Peso total": round(pt_val, 2) if pt_val is not None else None,
+                "Tara": round(ta_val, 2) if ta_val is not None else None,
+                "Carga": round(carga, 2),
+                "Población": poblacion,
+                "Residuo": residuo or "RSU",
+                "fecha": periodo or "Sin fecha",
+                "fuente": "pesajes",
+                "ruta_fuente": rel.replace("\\", "/"),
+                "zona": poblacion,
+                "tipo": residuo or "RSU",
+                "kg": round(carga, 2),
+            }
+        )
     return records
 
 
@@ -216,16 +533,124 @@ def convertir_json_camion(item: dict, polygons: list = None) -> dict:
     except (TypeError, ValueError):
         lat_v = lng_v = None
 
+    resource = str(item.get("Resource", "") or "").strip()
+    matricula = str(item.get("ResourceRegistration", "") or "").strip()
+    if not matricula and resource:
+        m = re.search(r"-(\d+[A-Z0-9]+)(?:\s|$)", resource)
+        if m:
+            matricula = m.group(1)
+        elif not matricula:
+            matricula = resource
+    garbage = str(item.get("Garbage", "") or "Mezcla de residuos municipales").strip()
+    container_type = str(item.get("ContainerType", "") or "").strip()
+
     return {
         "fecha": fecha,
         "fuente": "camion",
         "zona": zona,
-        "tipo": str(item.get("Garbage", "") or "Mezcla de residuos municipales").strip(),
+        "tipo": garbage,
+        "garbage": garbage,
         "kg": round(peso, 2),
+        "weight": round(peso, 2),
+        "matricula": matricula,
+        "containerType": container_type,
         "establecimiento": establecimiento,
         "lat": lat_v,
         "lng": lng_v,
     }
+
+
+MESES_PESAJES_NOMBRE = {
+    "enero": 1,
+    "febrero": 2,
+    "marzo": 3,
+    "abril": 4,
+    "mayo": 5,
+    "junio": 6,
+    "julio": 7,
+    "agosto": 8,
+    "septiembre": 9,
+    "octubre": 10,
+    "noviembre": 11,
+    "diciembre": 12,
+}
+
+
+def infer_pesajes_excel_meta(rel_posix, base_name):
+    """Misma heurística que server.js para año/mes desde ruta y nombre de archivo."""
+    year = None
+    month = None
+    rel_norm = str(rel_posix).replace("\\", "/")
+    for seg in rel_norm.split("/"):
+        if re.fullmatch(r"\d{4}", seg):
+            y = int(seg)
+            if 1990 <= y <= 2100:
+                year = y
+    stem = re.sub(r"\.(xlsx|xls)$", "", base_name, flags=re.I)
+    low = stem.lower()
+    for nom, num in MESES_PESAJES_NOMBRE.items():
+        if nom in low:
+            month = num
+            break
+    m_lead = re.match(r"^(\d{1,2})\s*-\s*", stem)
+    if m_lead:
+        mm = int(m_lead.group(1))
+        if 1 <= mm <= 12:
+            month = mm
+    m4 = re.search(r"\b(20\d{2}|19\d{2})\b", stem)
+    if m4:
+        year = int(m4.group(1))
+    else:
+        m2 = re.search(r"(\d{2})(?:\s*\([^)]*\))?\s*$", stem)
+        if m2:
+            n = int(m2.group(1))
+            year = 2000 + n if n <= 30 else 1900 + n
+    year_month = None
+    if year is not None and month is not None:
+        year_month = f"{year}-{month:02d}"
+    return {"year": year, "month": month, "yearMonth": year_month}
+
+
+def generar_excels_manifest_pesajes():
+    """
+    Lista .xlsx/.xls bajo pesajes/ para el dashboard sin depender de la API Node.
+    Escribe data/RESIDUOS/pesajes/excels_manifest.json
+    """
+    PESAJES_ROOT.mkdir(parents=True, exist_ok=True)
+    found = []
+    for pattern in ("*.xlsx", "*.xls"):
+        for f in sorted(PESAJES_ROOT.rglob(pattern)):
+            if not f.is_file():
+                continue
+            if f.name.startswith("~$"):
+                continue
+            if f.name.lower() == "todos.json":
+                continue
+            try:
+                rel = str(f.relative_to(PESAJES_ROOT)).replace("\\", "/")
+            except ValueError:
+                rel = f.name
+            meta = infer_pesajes_excel_meta(rel, f.name)
+            found.append(
+                {
+                    "rel": rel,
+                    "name": f.name,
+                    "year": meta["year"],
+                    "month": meta["month"],
+                    "yearMonth": meta["yearMonth"],
+                }
+            )
+
+    def sort_key(item):
+        ym = item.get("yearMonth") or ""
+        return (ym, item.get("rel") or "")
+
+    found.sort(key=sort_key)
+    out = PESAJES_ROOT / "excels_manifest.json"
+    with open(out, "w", encoding="utf-8") as fp:
+        json.dump({"files": found}, fp, ensure_ascii=False, indent=2)
+    print(f"Pesajes: manifest Excels ({len(found)}) -> {out.relative_to(BASE)}")
+    return len(found)
 
 
 def procesar_pesajes():
@@ -244,6 +669,8 @@ def procesar_pesajes():
                 continue
             if f.name.startswith("~$"):  # Excel temporal bloqueado
                 continue
+            if f.name.lower() == "todos.json":
+                continue
             try:
                 recs = convertir_pesajes_excel(f)
                 if recs:
@@ -251,11 +678,18 @@ def procesar_pesajes():
             except Exception as e:
                 print(f"  Error {f.relative_to(PESAJES_ROOT)}: {e}")
 
+    out_file = out / "todos.json"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(out_file, "w", encoding="utf-8") as fp:
+        json.dump(todo, fp, ensure_ascii=False, indent=2)
     if todo:
-        (out / "todos.json").parent.mkdir(parents=True, exist_ok=True)
-        with open(out / "todos.json", "w", encoding="utf-8") as fp:
-            json.dump(todo, fp, ensure_ascii=False, indent=2)
-        print(f"Pesajes: {len(todo)} registros -> data/RESIDUOS/pesajes/todos.json")
+        print(f"Pesajes: {len(todo)} registros -> {out_file.relative_to(BASE)}")
+    else:
+        print(
+            f"Pesajes: 0 registros (escrito {out_file.relative_to(BASE)} vacío). "
+            f"Añade .xlsx/.xls bajo {PESAJES_ROOT.relative_to(BASE)} (subcarpetas permitidas)."
+        )
+    generar_excels_manifest_pesajes()
     return len(todo)
 
 
@@ -321,8 +755,9 @@ def procesar_camion():
 
     def procesar_items(data, year_str=None):
         for item in data:
-            if not isinstance(item, dict) or item.get("Weight") is None:
+            if not isinstance(item, dict):
                 continue
+            # Incluir también filas sin Weight en API (Power BI sí las cuenta); peso 0 en convertir.
             todo.append(convertir_json_camion(item, polygons))
             if item_con_coordenadas(item):
                 mapa.append(item_a_mapa(item, polygons))
@@ -370,39 +805,17 @@ def procesar_camion():
     if mapa:
         with open(out / "mapa.json", "w", encoding="utf-8") as fp:
             json.dump(mapa, fp, ensure_ascii=False, indent=0)
-        print(f"Mapa: {len(mapa)} puntos con coordenadas -> data/RESIDUOS/camion/mapa.json")
-        # Muestra ligera para el navegador: proporcional por mes (YYYY-MM) para que al filtrar un mes no queden casi vacíos
-        max_ui = 400000
-        muestra_ui = muestra_mapa_proporcional_por_mes(mapa, max_ui)
+        print(f"Mapa: {len(mapa)} contenedores con coordenadas -> data/RESIDUOS/camion/mapa.json")
         with open(out / "mapa_sample.json", "w", encoding="utf-8") as fp:
-            json.dump(muestra_ui, fp, ensure_ascii=False, indent=0)
-        print(f"Mapa UI: {len(muestra_ui)} puntos -> data/RESIDUOS/camion/mapa_sample.json (máx. {max_ui}, por mes)")
+            json.dump(mapa, fp, ensure_ascii=False, indent=0)
+        print(f"Mapa UI: {len(mapa)} contenedores (copia completa, como mapa.json) -> mapa_sample.json")
+        if len(mapa) < 20000:
+            print(
+                "  Aviso: pocos puntos GPS en mapa respecto a lo habitual en Power BI. "
+                "Coloca los JSON completos del camión en data/RESIDUOS/camion/JSON/ "
+                "(p. ej. Residus_YYYY.json) y vuelve a ejecutar este script para regenerar mapa.json."
+            )
     return len(todo)
-
-
-def muestra_mapa_proporcional_por_mes(mapa: list, max_ui: int) -> list:
-    """Reduce puntos conservando proporción por mes para que el filtro del dashboard muestre volumen real por periodo."""
-    if not mapa or max_ui <= 0:
-        return []
-    if len(mapa) <= max_ui:
-        return list(mapa)
-    by_mes = {}
-    for p in mapa:
-        fe = (p.get("fecha") or "")[:7] if isinstance(p.get("fecha"), str) else ""
-        if len(fe) != 7:
-            fe = "?"
-        by_mes.setdefault(fe, []).append(p)
-    total = len(mapa)
-    out = []
-    for _mes, pts in sorted(by_mes.items()):
-        n_target = max(1, int(max_ui * len(pts) / total))
-        if len(pts) <= n_target:
-            out.extend(pts)
-        else:
-            out.extend(random.sample(pts, n_target))
-    if len(out) > max_ui:
-        out = random.sample(out, max_ui)
-    return out
 
 
 def reorganizar_carpetas():
@@ -431,14 +844,23 @@ def generar_resumen_residuos():
             print(f"  Error leyendo camión: {e}")
     if not pesajes and not camion:
         return
-    # Agregar por mes
+    # Agregar por mes (pesajes: total kg + desglose por tipo de residuo / Excel)
     resumen = {"pesajes": [], "camion": []}
     by_p = {}
+    by_p_tipos = {}
     for r in pesajes if isinstance(pesajes, list) else []:
         f = r.get("fecha") or ""
         if len(f) >= 7 and _anio_fecha_razonable(f):
-            by_p[f] = by_p.get(f, 0) + float(r.get("kg") or 0)
-    resumen["pesajes"] = [{"fecha": k, "kg": round(v, 2)} for k, v in sorted(by_p.items())]
+            w = float(r.get("kg") or 0)
+            by_p[f] = by_p.get(f, 0) + w
+            t = str(r.get("tipo") or "").strip() or "Sin clasificar"
+            if f not in by_p_tipos:
+                by_p_tipos[f] = {}
+            by_p_tipos[f][t] = by_p_tipos[f].get(t, 0) + w
+    resumen["pesajes"] = []
+    for k, v in sorted(by_p.items()):
+        tipos_p = dict(sorted(by_p_tipos.get(k, {}).items(), key=lambda x: -x[1]))
+        resumen["pesajes"].append({"fecha": k, "kg": round(v, 2), "tipos": tipos_p})
     by_c = {}
     for r in camion if isinstance(camion, list) else []:
         f = r.get("fecha") or ""
@@ -475,19 +897,54 @@ def generar_resumen_residuos():
 def copiar_geojson_zonas_mapa():
     """Copia la zonificación al repo como data/zonas_peniscola.geojson para el mapa por zonas."""
     dst = DATA / "zonas_peniscola.geojson"
-    src = GEOJSON_ZONAS if GEOJSON_ZONAS.exists() else GEOJSON_ALT
-    if not src.exists():
+    src = resolver_geojson_zonas_fuente()
+    if not src:
+        print(
+            "  GeoJSON de zonas: no encontrado. Coloca un .geojson en data/, o el Excel «Areas Zona.xlsx» "
+            "en la raíz del proyecto y ejecuta: node scripts/areas_zona_a_geojson.js"
+        )
         return
     try:
+        if src.resolve() == dst.resolve():
+            print(f"GeoJSON zonas: {dst} (ya es la ruta del mapa web)")
+            return
         shutil.copy2(src, dst)
         print(f"GeoJSON zonas -> {dst} (mapa por polígonos)")
     except OSError as e:
         print(f"  No se pudo copiar GeoJSON zonas: {e}")
 
 
+def generar_geojson_desde_areas_zona_xlsx():
+    """ Si existe Areas Zona.xlsx, genera data/zonas_peniscola.geojson (requiere Node + xlsx). """
+    js = BASE / "scripts" / "areas_zona_a_geojson.js"
+    xlsx = BASE / "Areas Zona.xlsx"
+    if not xlsx.exists() or not js.exists():
+        return
+    import subprocess
+
+    try:
+        r = subprocess.run(
+            ["node", str(js)],
+            cwd=str(BASE),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        if r.stdout:
+            print(r.stdout.rstrip())
+        if r.returncode != 0 and r.stderr:
+            print(r.stderr.rstrip())
+    except FileNotFoundError:
+        print("  areas_zona_a_geojson: no se encontró «node»; instala Node.js o ejecuta el .js a mano.")
+    except Exception as e:
+        print(f"  areas_zona_a_geojson: {e}")
+
+
 def main():
     print("Preparando datos Peñíscola Residuos...")
     DATA.mkdir(exist_ok=True)
+    generar_geojson_desde_areas_zona_xlsx()
     n_pesajes = procesar_pesajes()
     n_camion = procesar_camion()
     generar_resumen_residuos()

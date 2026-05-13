@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peñíscola Dashboard</title>
+  <link rel="stylesheet" href="css/globals.css">
   <link rel="stylesheet" href="css/dashboard.css">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -16,11 +16,8 @@
 <body>
   <div class="app">
     <aside class="sidebar">
-      <button type="button" class="mode-toggle" id="mode-toggle" aria-label="Cambiar módulo" tabindex="0" onclick="if(window.toggleDashboardMode)window.toggleDashboardMode();return false;">Ir a Residuos</button>
       <div class="logo">
-        <span class="logo-icon">📊</span>
-        <h1>Peñíscola</h1>
-        <span class="subtitle">Dashboard</span>
+        <img src="assets/logo-ajuntament.png" alt="Peñíscola" class="logo-img" decoding="async">
       </div>
       <nav class="nav" id="nav-camaras">
         <a href="#" class="nav-item active" data-section="camaras-entradas"><span class="nav-icon">📊</span><span>Entradas/Salidas</span></a>
@@ -33,11 +30,26 @@
         <a href="#" class="nav-item active" data-section="kpis"><span class="nav-icon">📊</span><span>KPIs</span></a>
         <a href="#" class="nav-item" data-section="reciclaje"><span class="nav-icon">♻️</span><span>Reciclaje</span></a>
         <a href="#" class="nav-item" data-section="hoteles"><span class="nav-icon">🏨</span><span>Hoteles</span></a>
-        <a href="#" class="nav-item" data-section="mapa"><span class="nav-icon">🗺️</span><span>Mapa</span></a>
+        <a href="#" class="nav-item" data-section="mapa"><span class="nav-icon">🗺️</span><span>Mapa contenedores</span></a>
         <a href="#" class="nav-item" data-section="zonas"><span class="nav-icon">📍</span><span>Por zonas</span></a>
+        <a href="#" class="nav-item" data-section="comparacion-tipos"><span class="nav-icon">📈</span><span>Comparación tipos</span></a>
         <a href="#" class="nav-item" data-section="tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
       </nav>
+      <nav class="nav" id="nav-turismo" style="display:none">
+        <a href="#" class="nav-item active" data-section="turismo-resumen"><span class="nav-icon">✨</span><span>Resumen</span></a>
+        <a href="#" class="nav-item" data-section="turismo-movilidad"><span class="nav-icon">🌍</span><span>Movilidad</span></a>
+        <a href="#" class="nav-item" data-section="turismo-hoteles"><span class="nav-icon">🏨</span><span>Hoteles</span></a>
+        <a href="#" class="nav-item" data-section="turismo-apartamentos"><span class="nav-icon">🏢</span><span>Apartamentos</span></a>
+        <a href="#" class="nav-item" data-section="turismo-campings"><span class="nav-icon">⛺</span><span>Campings</span></a>
+        <a href="#" class="nav-item" data-section="turismo-comparativa"><span class="nav-icon">📈</span><span>Comparativa</span></a>
+        <a href="#" class="nav-item" data-section="turismo-tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
+      </nav>
       <div class="sidebar-footer" id="sidebar-footer">Cámaras de tráfico</div>
+      <div class="mode-switcher" id="mode-switcher">
+        <button type="button" class="mode-btn mode-btn-camaras" id="mode-to-camaras" data-target="camaras" style="display:none">📷 Ir a Cámaras</button>
+        <button type="button" class="mode-btn mode-btn-residuos" id="mode-to-residuos" data-target="residuos">♻️ Ir a Residuos</button>
+        <button type="button" class="mode-btn mode-btn-turismo" id="mode-to-turismo" data-target="turismo">✨ Ir a Turismo</button>
+      </div>
     </aside>
     <main class="main">
       <header class="header" id="header-camaras">
@@ -50,6 +62,13 @@
         <h2>Residuos - KPIs</h2>
         <div class="header-actions">
           <button type="button" class="reload-btn" id="residuos-reload">Recargar</button>
+        </div>
+      </header>
+      <header class="header header-turismo" id="header-turismo" style="display:none">
+        <h2>Turismo - Resumen</h2>
+        <div class="header-actions">
+          <span class="turismo-fuente">Fuente: INE</span>
+          <button type="button" class="reload-btn turismo-reload-btn" id="turismo-refresh">Actualizar INE</button>
         </div>
       </header>
 
@@ -214,22 +233,22 @@
               <span class="kpi-compare" id="kpi-compare-camion">—</span>
             </div>
             <div class="kpi-card-compare" id="kpi-card-salidas">
-              <span class="kpi-label">SALIDAS DEL CAMIÓN</span>
+              <span class="kpi-label">CONTENEDORES</span>
               <span class="kpi-periodo" id="kpi-periodo-salidas">—</span>
               <span class="kpi-value" id="kpi-value-salidas">—</span>
               <span class="kpi-compare" id="kpi-compare-salidas">—</span>
             </div>
           </div>
           <div class="charts-grid">
-            <div class="chart-card"><h3>Kg por zonas</h3><div class="chart-container"><canvas id="chart-zonas"></canvas></div></div>
-            <div class="chart-card"><h3>Tipos de basura</h3><div class="chart-container"><canvas id="chart-tipos"></canvas></div></div>
+            <div class="chart-card chart-card--donut"><h3>Kg por zonas</h3><div class="chart-container chart-container--donut"><canvas id="chart-zonas"></canvas></div></div>
+            <div class="chart-card chart-card--donut"><h3>Tipos de basura</h3><div class="chart-container chart-container--donut"><canvas id="chart-tipos"></canvas></div></div>
             <div class="chart-card full-width"><h3>Hoteles y campings (kg/mes)</h3><div class="chart-container"><canvas id="chart-hoteles"></canvas></div></div>
           </div>
         </section>
         <section id="section-reciclaje" class="section">
           <div class="residuos-section-card">
             <h3 class="section-title">Tipos de residuos (reciclaje)</h3>
-            <div class="chart-container residuos-tab-chart"><canvas id="chart-residuos-tipos-tab"></canvas></div>
+            <div class="chart-container residuos-tab-chart residuos-tab-chart--donut"><canvas id="chart-residuos-tipos-tab"></canvas></div>
             <div id="tabla-reciclaje-container"></div>
           </div>
         </section>
@@ -241,31 +260,464 @@
           </div>
         </section>
         <section id="section-mapa" class="section section-mapa-solo">
-          <div id="mapa-residuos" class="mapa-residuos mapa-residuos-full"></div>
+          <div class="mapa-residuos-toolbar">
+            <div class="mapa-residuos-filters" id="mapa-residuos-filters">
+              <label for="mapa-filter-matricula">Matrícula</label>
+              <select id="mapa-filter-matricula" class="fuente-select mapa-filter-select" aria-label="Filtrar por matrícula">
+                <option value="">Todas</option>
+              </select>
+              <label for="mapa-filter-garbage">Basura</label>
+              <select id="mapa-filter-garbage" class="fuente-select mapa-filter-select" aria-label="Filtrar por tipo de basura">
+                <option value="">Todas</option>
+              </select>
+              <label for="mapa-filter-container">Contenedor</label>
+              <select id="mapa-filter-container" class="fuente-select mapa-filter-select" aria-label="Filtrar por tipo de contenedor">
+                <option value="">Todas</option>
+              </select>
+            </div>
+          </div>
+          <div class="mapa-residuos-layout">
+            <div class="mapa-residuos-map-wrap">
+              <div id="mapa-residuos" class="mapa-residuos mapa-residuos-full"></div>
+            </div>
+            <aside class="mapa-residuos-side" aria-label="Indicadores y leyenda del mapa">
+              <div class="mapa-powerbi-kpi">
+                <span class="mapa-powerbi-kpi-label">Matrícula del camión</span>
+                <span class="mapa-powerbi-kpi-value" id="mapa-kpi-matricula">—</span>
+              </div>
+              <div class="mapa-powerbi-kpi">
+                <span class="mapa-powerbi-kpi-label">Número de contenedores</span>
+                <span class="mapa-powerbi-kpi-value" id="mapa-kpi-contenedores">—</span>
+              </div>
+              <div class="mapa-powerbi-kpi">
+                <span class="mapa-powerbi-kpi-label">Peso promedio por contenedor</span>
+                <span class="mapa-powerbi-kpi-value" id="mapa-kpi-peso-promedio">—</span>
+              </div>
+              <div id="mapa-residuos-legend" class="mapa-residuos-legend" hidden></div>
+            </aside>
+          </div>
         </section>
         <section id="section-zonas" class="section">
-          <div class="residuos-section-card">
+          <div class="residuos-section-card residuos-zonas-dashboard">
             <h3 class="section-title">Kg por zonas</h3>
-            <div class="chart-container residuos-tab-chart"><canvas id="chart-residuos-zonas-tab"></canvas></div>
-            <div id="mapa-zonas-residuos" class="mapa-residuos mapa-zonas-embed"></div>
+            <div class="zonas-dash-toolbar">
+              <div class="zonas-dash-filter">
+                <label for="zonas-slicer-zona">Zona</label>
+                <select id="zonas-slicer-zona" class="fuente-select zonas-dash-select" aria-label="Filtrar por zona"></select>
+              </div>
+              <div class="zonas-dash-kpi" aria-live="polite">
+                <span class="zonas-dash-kpi-label">Kg en la selección</span>
+                <span class="zonas-dash-kpi-value" id="zonas-kpi-kg">—</span>
+              </div>
+            </div>
+            <div class="zonas-dash-split">
+              <div class="zonas-dash-map-wrap">
+                <div id="mapa-zonas-residuos" class="mapa-residuos mapa-zonas-embed zonas-dash-map"></div>
+              </div>
+              <div class="zonas-dash-chart-wrap">
+                <div class="chart-container residuos-tab-chart residuos-tab-chart--donut zonas-dash-donut"><canvas id="chart-residuos-zonas-tab"></canvas></div>
+              </div>
+            </div>
             <div id="tabla-zonas-container"></div>
+          </div>
+        </section>
+        <section id="section-comparacion-tipos" class="section">
+          <div class="residuos-section-card">
+            <h3 class="section-title">Comparación por tipo de residuo</h3>
+            <p class="residuos-tablas-hint comparacion-tipos-lead">Tipos según recogida camión (resumen / JSON). El año es el de la barra superior.</p>
+            <div class="comparacion-grid">
+              <div class="comparacion-card">
+                <h3 id="comparacion-titulo-detalle">Kg por tipo y mes</h3>
+                <div class="comparacion-table-wrapper" id="comparacion-tabla-mes-tipo"></div>
+              </div>
+              <div class="comparacion-card">
+                <h3 id="comparacion-titulo-stack">Total por mes y tipo</h3>
+                <div class="comparacion-chart-wrap"><canvas id="chart-comparacion-tipos-stack"></canvas></div>
+              </div>
+              <div class="comparacion-card">
+                <h3 id="comparacion-titulo-yoy">Totales anuales</h3>
+                <div class="comparacion-table-wrapper" id="comparacion-tabla-yoy"></div>
+              </div>
+              <div class="comparacion-card">
+                <h3>Distribución % entre años (por tipo)</h3>
+                <div class="comparacion-chart-wrap"><canvas id="chart-comparacion-tipos-pct"></canvas></div>
+              </div>
+            </div>
           </div>
         </section>
         <section id="section-tablas" class="section">
           <div class="residuos-section-card">
-            <h3 class="section-title">Tablas de datos</h3>
-            <p class="residuos-tablas-hint">Mismos datos que arriba; revisa año y mes en los filtros.</p>
-            <h4 class="residuos-tabla-subtitle">Zonas</h4>
-            <div id="tabla-completa-zonas"></div>
-            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Tipos de residuos</h4>
-            <div id="tabla-completa-tipos"></div>
-            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Hoteles y campings</h4>
-            <div id="tabla-completa-hoteles"></div>
+            <h3 class="section-title">Tablas</h3>
+            <div id="tablas-root" class="tablas-root"></div>
+          </div>
+        </section>
+      </div>
+
+      <div id="main-turismo" style="display:none">
+        <div class="turismo-hero">
+          <div class="turismo-hero-text">
+            <span class="turismo-hero-eyebrow">Peñíscola · datos oficiales</span>
+            <h3 class="turismo-hero-title" id="turismo-hero-title">Cargando datos del INE…</h3>
+            <p class="turismo-hero-sub" id="turismo-hero-sub">Series mensuales de hoteles, apartamentos, campings y movilidad turística.</p>
+          </div>
+          <div class="turismo-hero-meta">
+            <span class="turismo-hero-label">Último mes con datos</span>
+            <span class="turismo-hero-value" id="turismo-hero-mes">—</span>
+            <span class="turismo-hero-update" id="turismo-hero-update">Actualizado: —</span>
+          </div>
+        </div>
+
+        <div class="turismo-context-row" id="turismo-context-row">
+          <div class="turismo-context-card">
+            <span class="turismo-context-icon">👥</span>
+            <div>
+              <span class="turismo-context-label">Habitantes (Padrón)</span>
+              <span class="turismo-context-value" id="turismo-ctx-habitantes">—</span>
+              <span class="turismo-context-sub" id="turismo-ctx-habitantes-sub">—</span>
+            </div>
+          </div>
+          <div class="turismo-context-card">
+            <span class="turismo-context-icon">🌍</span>
+            <div>
+              <span class="turismo-context-label">Turistas extranjeros (mes)</span>
+              <span class="turismo-context-value" id="turismo-ctx-turistas">—</span>
+              <span class="turismo-context-sub" id="turismo-ctx-turistas-sub">Fuente: INE móvil</span>
+            </div>
+          </div>
+          <div class="turismo-context-card turismo-context-highlight">
+            <span class="turismo-context-icon">📊</span>
+            <div>
+              <span class="turismo-context-label">Presión turística</span>
+              <span class="turismo-context-value" id="turismo-ctx-presion">—</span>
+              <span class="turismo-context-sub">turistas extranjeros por 1.000 habitantes</span>
+            </div>
+          </div>
+          <div class="turismo-context-card">
+            <span class="turismo-context-icon">⛺</span>
+            <div>
+              <span class="turismo-context-label">Plazas en campings</span>
+              <span class="turismo-context-value" id="turismo-ctx-plazas">—</span>
+              <span class="turismo-context-sub" id="turismo-ctx-plazas-sub">— establecimientos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filters-bar turismo-filters-bar">
+          <label>Categoría</label>
+          <select id="turismo-categoria" class="fuente-select">
+            <option value="todos">Todas</option>
+            <option value="hoteles">Hoteles</option>
+            <option value="apartamentos">Apartamentos</option>
+            <option value="campings">Campings</option>
+          </select>
+          <label>Año</label>
+          <select id="turismo-year" class="fuente-select"></select>
+          <label>Mes</label>
+          <select id="turismo-mes" class="fuente-select">
+            <option value="">Todos los meses</option>
+            <option value="1">Enero</option>
+            <option value="2">Febrero</option>
+            <option value="3">Marzo</option>
+            <option value="4">Abril</option>
+            <option value="5">Mayo</option>
+            <option value="6">Junio</option>
+            <option value="7">Julio</option>
+            <option value="8">Agosto</option>
+            <option value="9">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
+          </select>
+          <label>Comparar con</label>
+          <select id="turismo-compare" class="fuente-select">
+            <option value="anyo_anterior">Año anterior</option>
+            <option value="mes_anterior">Mes anterior</option>
+          </select>
+        </div>
+
+        <section id="section-turismo-resumen" class="section active">
+          <div class="turismo-kpi-grid">
+            <div class="turismo-kpi-card turismo-kpi-hoteles">
+              <div class="turismo-kpi-head"><span class="turismo-kpi-icon">🏨</span><span class="turismo-kpi-title">Hoteles</span></div>
+              <div class="turismo-kpi-row">
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Viajeros (último mes)</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-hoteles-viajeros">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-hoteles-viajeros-sub">—</span>
+                </div>
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Pernoctaciones</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-hoteles-pern">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-hoteles-pern-sub">—</span>
+                </div>
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Estancia media</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-hoteles-estancia">—</span>
+                  <span class="turismo-kpi-sub">días</span>
+                </div>
+              </div>
+            </div>
+            <div class="turismo-kpi-card turismo-kpi-apartamentos">
+              <div class="turismo-kpi-head"><span class="turismo-kpi-icon">🏢</span><span class="turismo-kpi-title">Apartamentos</span></div>
+              <div class="turismo-kpi-row">
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Viajeros (último mes)</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-apart-viajeros">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-apart-viajeros-sub">—</span>
+                </div>
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Pernoctaciones</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-apart-pern">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-apart-pern-sub">—</span>
+                </div>
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Año actual</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-apart-anyo">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-apart-anyo-sub">vs año anterior: —</span>
+                </div>
+              </div>
+            </div>
+            <div class="turismo-kpi-card turismo-kpi-campings">
+              <div class="turismo-kpi-head"><span class="turismo-kpi-icon">⛺</span><span class="turismo-kpi-title">Campings</span></div>
+              <div class="turismo-kpi-row">
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Viajeros (último mes)</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-camp-viajeros">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-camp-viajeros-sub">—</span>
+                </div>
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Pernoctaciones</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-camp-pern">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-camp-pern-sub">—</span>
+                </div>
+                <div class="turismo-kpi-block">
+                  <span class="turismo-kpi-label">Año actual</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-camp-anyo">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-camp-anyo-sub">vs año anterior: —</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="turismo-charts-row">
+            <div class="turismo-chart-card">
+              <h4>Pernoctaciones totales por mes</h4>
+              <p class="turismo-chart-hint">Suma de hoteles + apartamentos + campings</p>
+              <div class="chart-container" style="height:320px"><canvas id="chart-turismo-resumen-mes"></canvas></div>
+            </div>
+            <div class="turismo-chart-card">
+              <h4>Reparto por tipo de alojamiento</h4>
+              <p class="turismo-chart-hint">Pernoctaciones en el último año disponible</p>
+              <div class="chart-container" style="height:320px"><canvas id="chart-turismo-resumen-tipo"></canvas></div>
+            </div>
+          </div>
+          <div class="turismo-charts-row">
+            <div class="turismo-chart-card">
+              <h4>Origen de los viajeros</h4>
+              <p class="turismo-chart-hint">Residentes en España vs extranjero (año actual)</p>
+              <div class="chart-container" style="height:320px"><canvas id="chart-turismo-origen"></canvas></div>
+            </div>
+            <div class="turismo-chart-card">
+              <h4>Estacionalidad</h4>
+              <p class="turismo-chart-hint">Pernoctaciones medias por mes (todos los años)</p>
+              <div class="chart-container" style="height:320px"><canvas id="chart-turismo-estacionalidad"></canvas></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-movilidad" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">🌍 Movilidad turística (turistas extranjeros)</h3>
+              <span class="turismo-section-tag">TMOV · INE experimental (datos móvil)</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Estimación del INE basada en datos agregados de operadoras móviles. Mide turistas extranjeros (SIMs no españolas) detectados en Peñíscola cada mes.</p>
+            <div class="turismo-mini-kpis" id="turismo-mini-movilidad"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Turistas extranjeros por mes</h4>
+                <p class="turismo-chart-hint">Total mensual (todos los países)</p>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-mov-mes"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Top 10 países de origen</h4>
+                <p class="turismo-chart-hint">Acumulado últimos 12 meses</p>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-mov-paises"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Reparto por continente</h4>
+                <p class="turismo-chart-hint">Últimos 12 meses</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-mov-continente"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Estacionalidad mensual</h4>
+                <p class="turismo-chart-hint">Media de turistas por mes del calendario</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-mov-estacionalidad"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>Comparativa anual</h4>
+                <p class="turismo-chart-hint">Una línea por año, eje X = mes</p>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-mov-anual"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-hoteles" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">🏨 Hoteles</h3>
+              <span class="turismo-section-tag">EOH · INE</span>
+            </div>
+            <div class="turismo-mini-kpis" id="turismo-mini-hoteles"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Viajeros y pernoctaciones por mes</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-hoteles-mes"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Origen residentes vs extranjero</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-hoteles-origen"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>Comparación anual de pernoctaciones</h4>
+                <p class="turismo-chart-hint">Una línea por año, eje X = mes</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-hoteles-anual"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-apartamentos" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">🏢 Apartamentos turísticos</h3>
+              <span class="turismo-section-tag">EOAP · INE</span>
+            </div>
+            <div class="turismo-mini-kpis" id="turismo-mini-apartamentos"></div>
+            <div id="turismo-apart-empty" class="turismo-empty" style="display:none">
+              <span class="turismo-empty-icon">🛈</span>
+              <div>
+                <strong>Sin datos publicados</strong>
+                <p>El INE no publica valores para apartamentos turísticos en Peñíscola, probablemente por secreto estadístico (pocos establecimientos). Si en el futuro se publican, aparecerán aquí automáticamente.</p>
+              </div>
+            </div>
+            <div class="turismo-charts-row" id="turismo-apart-charts">
+              <div class="turismo-chart-card">
+                <h4>Viajeros y pernoctaciones por mes</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-apart-mes"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Origen residentes vs extranjero</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-apart-origen"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-campings" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">⛺ Campings</h3>
+              <span class="turismo-section-tag">EOAC · INE</span>
+            </div>
+            <div class="turismo-mini-kpis" id="turismo-mini-campings"></div>
+
+            <h4 class="turismo-subheading">Demanda</h4>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Viajeros y pernoctaciones por mes</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-camp-mes"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Origen residentes vs extranjero</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-camp-origen"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>Comparación anual de pernoctaciones</h4>
+                <p class="turismo-chart-hint">Una línea por año, eje X = mes</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-camp-anual"></canvas></div>
+              </div>
+            </div>
+
+            <h4 class="turismo-subheading">Oferta y ocupación</h4>
+            <div class="turismo-oferta-grid" id="turismo-oferta-grid"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Grado de ocupación (%)</h4>
+                <p class="turismo-chart-hint">Diario vs fin de semana</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-camp-ocupacion"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Parcelas ocupadas vs disponibles</h4>
+                <p class="turismo-chart-hint">Por mes</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-camp-parcelas"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-comparativa" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">📈 Comparativa entre alojamientos</h3>
+              <span class="turismo-section-tag">Hoteles · Apartamentos · Campings</span>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>Viajeros por mes (los tres tipos)</h4>
+                <div class="chart-container" style="height:360px"><canvas id="chart-turismo-comp-viajeros"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>Pernoctaciones por mes (los tres tipos)</h4>
+                <div class="chart-container" style="height:360px"><canvas id="chart-turismo-comp-pern"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Reparto anual (pernoctaciones)</h4>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-comp-reparto"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Acumulado año en curso vs anterior</h4>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-comp-anio"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-tablas" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">📋 Tablas de datos INE</h3>
+              <span class="turismo-section-tag" id="turismo-tablas-tag">—</span>
+            </div>
+            <p class="residuos-tablas-hint">Series originales descargadas. Filtra arriba por categoría/año.</p>
+            <h4 class="residuos-tabla-subtitle">Hoteles</h4>
+            <div id="turismo-tabla-hoteles"></div>
+            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Apartamentos</h4>
+            <div id="turismo-tabla-apartamentos"></div>
+            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Campings</h4>
+            <div id="turismo-tabla-campings"></div>
           </div>
         </section>
       </div>
     </main>
   </div>
-  <script src="js/dashboard.js?v=20"></script>
+  <script>
+    /* Puerto de server.js (process.env.PORT o 7777). Si usas otro valor en .env, cámbialo aquí también. */
+    window.__DASHBOARD_API_PORT__ = 7777;
+  </script>
+  <script src="js/dashboard.js?v=62"></script>
 </body>
 </html>

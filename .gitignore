@@ -3,9 +3,23 @@ node_modules/
 __pycache__/
 *.pyc
 
-# GitHub límite 100 MB/archivo: crudos locales; el dashboard usa todos.json agregados
+# GitHub límite 100 MB/archivo: crudos locales y agregados pesados
 data/camaras/Trafico_camaras/CSV/
-data/RESIDUOS/camion/JSON/2022/
-data/RESIDUOS/camion/JSON/2023/
-data/RESIDUOS/camion/JSON/2024/
-data/RESIDUOS/camion/JSON/2025/
+data/RESIDUOS/camion/JSON/
+data/RESIDUOS/camion/todos.json
+data/RESIDUOS/camion/mapa.json
+data/RESIDUOS/camion/mapa_sample.json
+
+# Logs y artefactos locales
+server_log.txt
+server_err.txt
+informes_generados/
+
+# Claude Code (worktrees y temporales locales)
+.claude/worktrees/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak

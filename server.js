@@ -6,13 +6,95 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const XLSX = require('xlsx');
 
 const app = express();
 const EJEMPLOS_DIR = path.join(__dirname, 'informes_ejemplo');
+const PESAJES_ROOT = path.join(__dirname, 'data', 'RESIDUOS', 'pesajes');
 const PORT = process.env.PORT || 7777;
+
+const MESES_PESAJES_EXCEL = {
+    enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6,
+    julio: 7, agosto: 8, septiembre: 9, octubre: 10, noviembre: 11, diciembre: 12
+};
+
+function inferPesajesExcelMeta(relPosix, baseName) {
+    let year = null;
+    let month = null;
+    for (const seg of relPosix.split(/[/\\]/)) {
+        if (/^\d{4}$/.test(seg)) {
+            const y = parseInt(seg, 10);
+            if (y >= 1990 && y <= 2100) year = y;
+        }
+    }
+    const stem = baseName.replace(/\.(xlsx|xls)$/i, '');
+    const low = stem.toLowerCase();
+    for (const [nom, num] of Object.entries(MESES_PESAJES_EXCEL)) {
+        if (low.includes(nom)) {
+            month = num;
+            break;
+        }
+    }
+    const lead = stem.match(/^(\d{1,2})\s*-\s*/);
+    if (lead) {
+        const mm = parseInt(lead[1], 10);
+        if (mm >= 1 && mm <= 12) month = mm;
+    }
+    const y4 = stem.match(/\b(20\d{2}|19\d{2})\b/);
+    if (y4) year = parseInt(y4[1], 10);
+    if (!y4) {
+        const shortY = stem.match(/(\d{2})(?:\s*\([^)]*\))?\s*$/);
+        if (shortY) {
+            const n = parseInt(shortY[1], 10);
+            year = n <= 30 ? 2000 + n : 1900 + n;
+        }
+    }
+    let yearMonth = null;
+    if (year != null && month != null) {
+        yearMonth = `${year}-${String(month).padStart(2, '0')}`;
+    }
+    return { year, month, yearMonth };
+}
+
+function walkPesajesExcels(absDir, baseDir, out) {
+    if (!fs.existsSync(absDir)) return;
+    let names;
+    try {
+        names = fs.readdirSync(absDir);
+    } catch (e) {
+        return;
+    }
+    for (const name of names) {
+        if (name.startsWith('~$')) continue;
+        if (name === 'todos.json') continue;
+        const full = path.join(absDir, name);
+        let st;
+        try {
+            st = fs.statSync(full);
+        } catch (e) {
+            continue;
+        }
+        if (st.isDirectory()) {
+            walkPesajesExcels(full, baseDir, out);
+        } else if (/\.(xlsx|xls)$/i.test(name)) {
+            const rel = path.relative(baseDir, full).split(path.sep).join('/');
+            const meta = inferPesajesExcelMeta(rel, name);
+            out.push({
+                rel,
+                name,
+                year: meta.year,
+                month: meta.month,
+                yearMonth: meta.yearMonth
+            });
+        }
+    }
+}
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method === 'OPTIONS') return res.sendStatus(204);
     next();
 });
 app.use(express.json());
@@ -56,16 +138,406 @@ app.get('/data/RESIDUOS/resumen.json', (req, res) => {
     if (fs.existsSync(p)) res.sendFile(p);
     else res.status(404).json({ error: 'Archivo no encontrado' });
 });
+app.get('/data/TURISMO/todos.json', (req, res) => {
+    const p = path.join(__dirname, 'data', 'TURISMO', 'todos.json');
+    if (fs.existsSync(p)) res.sendFile(p);
+    else res.status(404).json({ error: 'Datos de turismo aún no descargados. Pulsa Actualizar INE.' });
+});
+app.get('/api/turismo/data', (req, res) => {
+    const p = path.join(__dirname, 'data', 'TURISMO', 'todos.json');
+    if (!fs.existsSync(p)) return res.status(404).json({ error: 'Sin datos descargados' });
+    try { res.json(JSON.parse(fs.readFileSync(p, 'utf8'))); } catch (e) { res.status(500).json({ error: e.message }); }
+});
+let turismoRefreshing = false;
+let ultimaActualizacionTurismo = null;
+function ejecutarDescargaTurismo() {
+    if (turismoRefreshing) return Promise.resolve({ ok: false, busy: true });
+    turismoRefreshing = true;
+    return new Promise((resolve) => {
+        const { spawn } = require('child_process');
+        const proc = spawn('node', ['procesar_turismo.js'], { cwd: __dirname });
+        let stdout = '';
+        let stderr = '';
+        proc.stdout.on('data', (d) => { stdout += d.toString(); });
+        proc.stderr.on('data', (d) => { stderr += d.toString(); });
+        proc.on('close', (code) => {
+            turismoRefreshing = false;
+            if (code === 0) {
+                ultimaActualizacionTurismo = new Date().toISOString();
+                console.log('[turismo] Datos INE actualizados.');
+                resolve({ ok: true, code, ultimaActualizacion: ultimaActualizacionTurismo });
+            } else {
+                console.warn('[turismo] Descarga fallida:', stderr.trim() || stdout.trim());
+                resolve({ ok: false, code, error: stderr.trim() || 'exit ' + code });
+            }
+        });
+        proc.on('error', (e) => { turismoRefreshing = false; resolve({ ok: false, error: e.message }); });
+    });
+}
+app.post('/api/turismo/refresh', async (req, res) => {
+    const result = await ejecutarDescargaTurismo();
+    if (result.ok) res.json(result);
+    else res.status(result.busy ? 429 : 500).json(result);
+});
+app.get('/api/turismo/status', (req, res) => {
+    const p = path.join(__dirname, 'data', 'TURISMO', 'todos.json');
+    const existe = fs.existsSync(p);
+    res.json({
+        existe,
+        refrescando: turismoRefreshing,
+        ultimaActualizacionMemoria: ultimaActualizacionTurismo,
+        mtime: existe ? fs.statSync(p).mtime : null
+    });
+});
 app.get('/data/RESIDUOS/pesajes/todos.json', (req, res) => {
     const p = path.join(__dirname, 'data', 'RESIDUOS', 'pesajes', 'todos.json');
     if (fs.existsSync(p)) res.sendFile(p);
     else res.status(404).json({ error: 'Archivo no encontrado' });
+});
+app.get('/data/RESIDUOS/pesajes/excels_manifest.json', (req, res) => {
+    const p = path.join(__dirname, 'data', 'RESIDUOS', 'pesajes', 'excels_manifest.json');
+    if (fs.existsSync(p)) {
+        res.type('application/json');
+        res.sendFile(p);
+    } else res.status(404).json({ error: 'Archivo no encontrado', files: [] });
+});
+
+/** Lista recursiva de Excels en data/RESIDUOS/pesajes (año/mes inferidos de ruta y nombre). */
+app.get('/api/residuos/pesajes/excels', (req, res) => {
+    try {
+        const files = [];
+        walkPesajesExcels(PESAJES_ROOT, PESAJES_ROOT, files);
+        files.sort((a, b) => {
+            if (a.yearMonth && b.yearMonth) {
+                const c = a.yearMonth.localeCompare(b.yearMonth);
+                if (c !== 0) return c;
+            } else if (a.yearMonth) return -1;
+            else if (b.yearMonth) return 1;
+            if (a.year != null && b.year != null && a.year !== b.year) return a.year - b.year;
+            return a.rel.localeCompare(b.rel, 'es');
+        });
+        res.json({ files });
+    } catch (e) {
+        res.status(500).json({ error: e.message, files: [] });
+    }
+});
+function resolvePesajesRel(rel) {
+    if (rel == null || typeof rel !== 'string' || !rel.trim()) return null;
+    const relNorm = rel.replace(/\\/g, '/').split('/').filter((p) => p && p !== '.' && p !== '..').join('/');
+    if (!relNorm || relNorm.includes('..')) return null;
+    const base = path.resolve(PESAJES_ROOT);
+    const abs = path.resolve(base, relNorm);
+    const baseLower = base.toLowerCase();
+    const absLower = abs.toLowerCase();
+    if (!absLower.startsWith(baseLower + path.sep) && absLower !== baseLower) return null;
+    if (!fs.existsSync(abs) || !fs.statSync(abs).isFile()) return null;
+    if (!/\.(xlsx|xls)$/i.test(abs)) return null;
+    return abs;
+}
+
+const PREVIEW_MAX_ROWS = 4001;
+const PREVIEW_MAX_COLS = 100;
+
+function sendPesajesExcelPreview(rel, res) {
+    try {
+        const abs = resolvePesajesRel(rel);
+        if (!abs) {
+            return res.status(400).json({
+                error: 'Ruta no válida o archivo no encontrado',
+                sheetName: null,
+                table: [],
+                rowCount: 0
+            });
+        }
+        const wb = XLSX.readFile(abs, { cellDates: true, dense: false });
+        const sheetName = wb.SheetNames[0] || 'Hoja1';
+        const sheet = wb.Sheets[sheetName];
+        if (!sheet) {
+            return res.json({ sheetName, table: [], rowCount: 0, truncated: false, truncatedCols: false });
+        }
+        const raw = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', blankrows: false, raw: false });
+        const fmtCell = (v) => {
+            if (v == null || v === '') return '';
+            if (typeof v === 'string') return v;
+            if (typeof v === 'number') return Number.isFinite(v) ? String(v) : '';
+            if (v instanceof Date) {
+                try {
+                    return v.toISOString().replace('T', ' ').slice(0, 19);
+                } catch (e) {
+                    return String(v);
+                }
+            }
+            return String(v);
+        };
+        const maxColWidth = raw.reduce((m, row) => Math.max(m, Array.isArray(row) ? row.length : 0), 0);
+        let colCap = Math.min(maxColWidth || 0, PREVIEW_MAX_COLS);
+        if (raw.length > 0 && colCap === 0) colCap = Math.min(PREVIEW_MAX_COLS, Math.max(1, Array.isArray(raw[0]) ? raw[0].length : 0));
+        const rowCap = Math.min(raw.length, PREVIEW_MAX_ROWS);
+        const table = [];
+        for (let i = 0; i < rowCap; i++) {
+            const row = Array.isArray(raw[i]) ? raw[i] : [];
+            const o = [];
+            for (let j = 0; j < colCap; j++) o.push(fmtCell(row[j]));
+            table.push(o);
+        }
+        res.json({
+            sheetName,
+            rel: path.relative(PESAJES_ROOT, abs).split(path.sep).join('/'),
+            table,
+            rowCount: raw.length,
+            truncated: raw.length > rowCap,
+            truncatedCols: (maxColWidth || 0) > PREVIEW_MAX_COLS
+        });
+    } catch (e) {
+        res.status(500).json({
+            error: e.message || 'Error leyendo Excel',
+            sheetName: null,
+            table: [],
+            rowCount: 0
+        });
+    }
+}
+
+/** Primera hoja del Excel como tabla (GET rel en query o POST JSON { rel }). */
+app.get('/api/residuos/pesajes/preview', (req, res) => {
+    sendPesajesExcelPreview(req.query.rel, res);
+});
+app.post('/api/residuos/pesajes/preview', (req, res) => {
+    const rel = req.body && req.body.rel;
+    sendPesajesExcelPreview(rel, res);
 });
 app.get('/data/RESIDUOS/camion/todos.json', (req, res) => {
     const p = path.join(__dirname, 'data', 'RESIDUOS', 'camion', 'todos.json');
     if (fs.existsSync(p)) res.sendFile(p);
     else res.status(404).json({ error: 'Archivo no encontrado' });
 });
+/** API paginada para todos los registros del camión (todos.json, 580k rows, 225MB).
+ *  GET /api/residuos/camion/registros?year=2022&mes=2022-01&zona=X&tipo=Y&containerType=Z&matricula=W&page=0&perPage=150
+ */
+let _camionTodosCache = null;
+function loadCamionCache() {
+    if (_camionTodosCache) return _camionTodosCache;
+    const p = path.join(__dirname, 'data', 'RESIDUOS', 'camion', 'todos.json');
+    if (!fs.existsSync(p)) return null;
+    _camionTodosCache = JSON.parse(fs.readFileSync(p, 'utf8'));
+    return _camionTodosCache;
+}
+function filterCamion(rows, q) {
+    let r = rows;
+    if (q.year)          r = r.filter((x) => x.fecha && String(x.fecha).startsWith(q.year));
+    if (q.mes)           r = r.filter((x) => x.fecha === q.mes);
+    if (q.zona)          r = r.filter((x) => x.zona          === q.zona);
+    if (q.tipo)          r = r.filter((x) => (x.tipo || x.garbage) === q.tipo);
+    if (q.containerType) r = r.filter((x) => x.containerType === q.containerType);
+    if (q.matricula)     r = r.filter((x) => x.matricula && x.matricula.toLowerCase().includes(q.matricula.toLowerCase()));
+    return r;
+}
+app.get('/api/residuos/camion/registros', (req, res) => {
+    try {
+        const data = loadCamionCache();
+        if (!data) return res.status(404).json({ error: 'todos.json no encontrado', total: 0, rows: [] });
+        const q = { year: req.query.year || '', mes: req.query.mes || '', zona: req.query.zona || '', tipo: req.query.tipo || '', containerType: req.query.containerType || '', matricula: req.query.matricula || '' };
+        const page    = Math.max(0, parseInt(req.query.page    || '0',  10));
+        const perPage = Math.min(500, Math.max(1, parseInt(req.query.perPage || '150', 10)));
+        const rows  = filterCamion(data, q);
+        const total = rows.length;
+        const slice = rows.slice(page * perPage, (page + 1) * perPage);
+        res.json({ total, page, perPage, totalPages: Math.max(1, Math.ceil(total / perPage)), rows: slice });
+    } catch (e) {
+        res.status(500).json({ error: e.message, total: 0, rows: [] });
+    }
+});
+
+/** Valores únicos para los filtros del camión (zona, tipo, containerType). */
+app.get('/api/residuos/camion/filtros', (req, res) => {
+    try {
+        const data = loadCamionCache();
+        if (!data) return res.status(404).json({ error: 'todos.json no encontrado' });
+        const zonas = new Set(), tipos = new Set(), containers = new Set();
+        data.forEach((r) => {
+            if (r.zona)          zonas.add(r.zona);
+            if (r.tipo || r.garbage) tipos.add(r.tipo || r.garbage);
+            if (r.containerType) containers.add(r.containerType);
+        });
+        res.json({
+            zonas:          [...zonas].sort(),
+            tipos:          [...tipos].sort(),
+            containerTypes: [...containers].sort()
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+/** Agrega todos los datos necesarios para generar el informe de un mes.
+ *  GET /api/residuos/informe-data?mes=2025-08
+ */
+app.get('/api/residuos/informe-data', (req, res) => {
+    try {
+        const mes = (req.query.mes || '').trim();
+        if (!mes || !/^\d{4}-\d{2}$/.test(mes)) return res.status(400).json({ error: 'Parámetro mes requerido (YYYY-MM)' });
+
+        const camion = loadCamionCache();
+        if (!camion) return res.status(404).json({ error: 'todos.json no encontrado' });
+
+        // Pesajes desde resumen.json
+        let pesajesData = [];
+        try {
+            const rp = path.join(__dirname, 'data', 'RESIDUOS', 'resumen.json');
+            if (fs.existsSync(rp)) pesajesData = JSON.parse(fs.readFileSync(rp, 'utf8')).pesajes || [];
+        } catch (_) {}
+
+        const [anio, mesNum] = mes.split('-').map(Number);
+        const mesPrev = mesNum === 1 ? `${anio - 1}-12` : `${anio}-${String(mesNum - 1).padStart(2, '0')}`;
+        const mesAnioAnterior = `${anio - 1}-${String(mesNum).padStart(2, '0')}`;
+
+        const MESES_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        const labelMes = (m) => { if (!m) return ''; const [a, mo] = m.split('-'); return `${MESES_ES[parseInt(mo)-1]} ${a}`; };
+
+        const agrupar = (rows, key, valKey) => {
+            const m = {};
+            rows.forEach((r) => { const k = r[key] || '—'; m[k] = (m[k] || 0) + (r[valKey] || 0); });
+            return Object.entries(m).sort((a, b) => b[1] - a[1]);
+        };
+
+        const rowsMes      = camion.filter((r) => r.fecha === mes);
+        const rowsPrev     = camion.filter((r) => r.fecha === mesPrev);
+        const rowsAnioAnt  = camion.filter((r) => r.fecha === mesAnioAnterior);
+
+        const kgCamion      = rowsMes.reduce((s, r) => s + (r.kg || 0), 0);
+        const salidasMes    = rowsMes.length;
+        const kgPrev        = rowsPrev.reduce((s, r) => s + (r.kg || 0), 0);
+        const salPrev       = rowsPrev.length;
+        const kgAnioAnt     = rowsAnioAnt.reduce((s, r) => s + (r.kg || 0), 0);
+        const salAnioAnt    = rowsAnioAnt.length;
+
+        const kgExcel = pesajesData.filter((r) => r.fecha === mes).reduce((s, r) => s + (r.kg || 0), 0);
+
+        const hoteles    = agrupar(rowsMes, 'establecimiento', 'kg');
+        const zonas      = agrupar(rowsMes, 'zona',            'kg');
+        const tipos      = agrupar(rowsMes, 'tipo',            'kg');
+        const contenedores = agrupar(rowsMes, 'containerType', 'kg');
+        const matriculas = agrupar(rowsMes, 'matricula',       'kg');
+
+        const pct = (a, b) => b > 0 ? ((a - b) / b * 100) : null;
+        const kgHoteles = hoteles.filter(([h]) => h && h !== '—' && h !== 'Peñiscola RSU').reduce((s, [, k]) => s + k, 0);
+        const pctHoteles = kgCamion > 0 ? (kgHoteles / kgCamion * 100).toFixed(1) : '0';
+
+        res.json({
+            periodo:      mes,
+            periodoLabel: labelMes(mes),
+            kgCamion, kgExcel,
+            salidas: salidasMes,
+            hoteles:     hoteles.slice(0, 15),
+            zonas:       zonas.slice(0, 12),
+            tipos:       tipos.slice(0, 10),
+            contenedores: contenedores.slice(0, 12),
+            matriculas:  matriculas.slice(0, 8),
+            pctResiduosHoteles: pctHoteles,
+            comparacionMesAnterior: {
+                periodo: labelMes(mesPrev), mes: mesPrev,
+                kgCamion: kgPrev, salidas: salPrev,
+                diffCamion: pct(kgCamion, kgPrev), diffSalidas: pct(salidasMes, salPrev)
+            },
+            comparacionAnioAnterior: {
+                periodo: labelMes(mesAnioAnterior), mes: mesAnioAnterior,
+                kgCamion: kgAnioAnt, salidas: salAnioAnt,
+                diffCamion: pct(kgCamion, kgAnioAnt), diffSalidas: pct(salidasMes, salAnioAnt)
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+/** Genera y descarga directamente el informe Word de un mes.
+ *  GET /api/residuos/descargar-informe?mes=2025-08
+ */
+app.get('/api/residuos/descargar-informe', async (req, res) => {
+    try {
+        const mes = (req.query.mes || '').trim();
+        if (!mes || !/^\d{4}-\d{2}$/.test(mes)) {
+            return res.status(400).json({ error: 'Parámetro mes requerido (YYYY-MM)' });
+        }
+
+        const camion = loadCamionCache();
+        if (!camion) return res.status(404).json({ error: 'todos.json no encontrado' });
+
+        // Pesajes desde resumen.json
+        let pesajesData = [];
+        try {
+            const rp = path.join(__dirname, 'data', 'RESIDUOS', 'resumen.json');
+            if (fs.existsSync(rp)) pesajesData = JSON.parse(fs.readFileSync(rp, 'utf8')).pesajes || [];
+        } catch (_) {}
+
+        const [anio, mesNum] = mes.split('-').map(Number);
+        const mesPrev         = mesNum === 1 ? `${anio - 1}-12` : `${anio}-${String(mesNum - 1).padStart(2, '0')}`;
+        const mesAnioAnterior = `${anio - 1}-${String(mesNum).padStart(2, '0')}`;
+        const MESES_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        const labelMes = (m) => { if (!m) return ''; const [a, mo] = m.split('-'); return `${MESES_ES[parseInt(mo)-1]} ${a}`; };
+
+        const agrupar = (rows, key, valKey) => {
+            const map = {};
+            rows.forEach((r) => { const k = r[key] || '—'; map[k] = (map[k] || 0) + (r[valKey] || 0); });
+            return Object.entries(map).sort((a, b) => b[1] - a[1]);
+        };
+
+        const rowsMes     = camion.filter((r) => r.fecha === mes);
+        const rowsPrev    = camion.filter((r) => r.fecha === mesPrev);
+        const rowsAnioAnt = camion.filter((r) => r.fecha === mesAnioAnterior);
+
+        const kgCamion   = rowsMes.reduce((s, r)  => s + (r.kg || 0), 0);
+        const salidasMes = rowsMes.length;
+        const kgPrev     = rowsPrev.reduce((s, r)  => s + (r.kg || 0), 0);
+        const salPrev    = rowsPrev.length;
+        const kgAnioAnt  = rowsAnioAnt.reduce((s, r) => s + (r.kg || 0), 0);
+        const salAnioAnt = rowsAnioAnt.length;
+        const kgExcel    = pesajesData.filter((r) => r.fecha === mes).reduce((s, r) => s + (r.kg || 0), 0);
+
+        const hoteles     = agrupar(rowsMes, 'establecimiento', 'kg');
+        const zonas       = agrupar(rowsMes, 'zona',            'kg');
+        const tipos       = agrupar(rowsMes, 'tipo',            'kg');
+        const contenedores = agrupar(rowsMes, 'containerType',  'kg');
+        const matriculas  = agrupar(rowsMes, 'matricula',       'kg');
+
+        const pct = (a, b) => b > 0 ? parseFloat(((a - b) / b * 100).toFixed(2)) : null;
+        const kgHoteles  = hoteles.filter(([h]) => h && h !== '—' && h !== 'Peñiscola RSU').reduce((s, [, k]) => s + k, 0);
+        const pctHoteles = kgCamion > 0 ? (kgHoteles / kgCamion * 100).toFixed(1) : '0';
+
+        const informeData = {
+            periodo:      mes,
+            periodoLabel: labelMes(mes),
+            kgCamion, kgExcel,
+            salidas:      salidasMes,
+            hoteles:      hoteles.slice(0, 15),
+            zonas:        zonas.slice(0, 12),
+            tipos:        tipos.slice(0, 10),
+            contenedores: contenedores.slice(0, 12),
+            matriculas:   matriculas.slice(0, 8),
+            pctResiduosHoteles: pctHoteles,
+            comparacionMesAnterior: {
+                periodo: labelMes(mesPrev), mes: mesPrev,
+                kgCamion: kgPrev, salidas: salPrev,
+                diffCamion: pct(kgCamion, kgPrev), diffSalidas: pct(salidasMes, salPrev)
+            },
+            comparacionAnioAnterior: {
+                periodo: labelMes(mesAnioAnterior), mes: mesAnioAnterior,
+                kgCamion: kgAnioAnt, salidas: salAnioAnt,
+                diffCamion: pct(kgCamion, kgAnioAnt), diffSalidas: pct(salidasMes, salAnioAnt)
+            }
+        };
+
+        const buf    = await generarDocx(informeData);
+        const nombre = `Informe_Residuos_${(informeData.periodoLabel || mes).replace(/\s+/g, '_')}.docx`;
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        res.setHeader('Content-Disposition', `attachment; filename="${nombre}"`);
+        res.send(Buffer.from(buf));
+    } catch (e) {
+        console.error('Error generando informe:', e);
+        res.status(500).json({ error: e.message || 'Error al generar el informe' });
+    }
+});
+
 app.get('/data/RESIDUOS/camion/mapa.json', (req, res) => {
     const p = path.join(__dirname, 'data', 'RESIDUOS', 'camion', 'mapa.json');
     if (fs.existsSync(p)) res.sendFile(p);
@@ -286,12 +758,12 @@ app.post('/api/process-camaras', (req, res) => {
 });
 
 app.post('/api/export-word', async (req, res) => {
-    const { data, reportTxt } = req.body || {};
-    if (!data || !reportTxt) {
-        return res.status(400).json({ error: 'Faltan datos o texto del informe' });
+    const { data } = req.body || {};
+    if (!data) {
+        return res.status(400).json({ error: 'Faltan datos del informe' });
     }
     try {
-        const buf = await generarDocx(data, reportTxt);
+        const buf = await generarDocx(data);
         const nombre = `Informe_Residuos_${(data.periodoLabel || 'informe').replace(/\s+/g, '_')}.docx`;
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         res.setHeader('Content-Disposition', `attachment; filename="${nombre}"`);
@@ -335,7 +807,24 @@ function asegurarDatosCamaras() {
     proc.on('error', (e) => console.warn('Cámaras:', e.message));
 }
 
+// Al arrancar: descarga inicial si no existe + revisión periódica cada N horas.
+const TURISMO_REFRESH_HORAS = parseFloat(process.env.TURISMO_REFRESH_HORAS || '24');
+function asegurarDatosTurismo() {
+    const p = path.join(__dirname, 'data', 'TURISMO', 'todos.json');
+    const existe = fs.existsSync(p);
+    const mtime = existe ? fs.statSync(p).mtime.getTime() : 0;
+    const horasDesde = (Date.now() - mtime) / 3600000;
+    if (!existe || horasDesde > TURISMO_REFRESH_HORAS) {
+        console.log(`[turismo] Comprobando datos INE (${existe ? `última actualización hace ${horasDesde.toFixed(1)}h` : 'sin descargar'})…`);
+        ejecutarDescargaTurismo().catch((e) => console.warn('[turismo] Descarga inicial:', e.message));
+    } else {
+        console.log(`[turismo] Datos INE recientes (hace ${horasDesde.toFixed(1)}h). No se redescarga.`);
+    }
+}
+
 app.listen(PORT, () => {
     console.log(`Dashboard: http://localhost:${PORT}`);
     asegurarDatosCamaras();
+    asegurarDatosTurismo();
+    setInterval(asegurarDatosTurismo, TURISMO_REFRESH_HORAS * 3600 * 1000);
 });

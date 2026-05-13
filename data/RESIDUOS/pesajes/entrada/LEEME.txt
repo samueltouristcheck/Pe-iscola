@@ -1,10 +1,19 @@
 PESAJES - Excels aquí
 =====================
 
-Suelta aquí tus archivos Excel (.xlsx, .xls) de pesajes.
+Suelta aquí tus archivos Excel (.xlsx, .xls) de pesajes del vertedero.
 
 Estructura opcional:
-- Por año: 2022/, 2023/, 2024/... con Excels dentro
-- O directamente en esta carpeta
+- Esta carpeta entrada/, o carpetas por año: 2022/, 2023/, 2024/... con Excels dentro
 
-Luego ejecuta: python preparar_datos.py
+Después (en la raíz del proyecto), al añadir o cambiar Excels:
+
+  npm run manifest:pesajes
+
+(actualiza solo excels_manifest.json para la pestaña Tablas)
+
+O, para también regenerar todos.json y resumen (requiere Python + pandas):
+
+  python preparar_datos.py
+
+Luego recarga la página (o el botón «Recargar» de Residuos).
