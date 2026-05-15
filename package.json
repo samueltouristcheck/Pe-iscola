@@ -9,7 +9,8 @@
     "preparar-residuos": "python preparar_datos.py",
     "manifest:pesajes": "node scripts/generar_excels_manifest.cjs",
     "procesar-camaras": "node procesar_camaras.js",
-    "preparar-turismo": "node procesar_turismo.js"
+    "preparar-turismo": "node procesar_turismo.js",
+    "preparar-viviendas": "node procesar_viviendas.js"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",

@@ -3800,6 +3800,105 @@
     }
   }
 
+  // ====== Viviendas turísticas (GVA) ======
+  let viviendasData = null;
+  function ensureViviendasLoaded() {
+    if (viviendasData) return Promise.resolve(viviendasData);
+    const url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/viviendas.json') : '/data/TURISMO/viviendas.json';
+    return fetch(url, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { viviendasData = d; return d; })
+      .catch(() => null);
+  }
+
+  function renderTurismoViviendas() {
+    if (!viviendasData) return;
+    const r = viviendasData.resumen || {};
+    const cont = document.getElementById('turismo-mini-viviendas');
+    if (cont) {
+      cont.innerHTML = [
+        { l: 'Viviendas registradas', v: tFmtNum(r.viviendas_totales) },
+        { l: 'Plazas totales', v: tFmtNum(r.plazas_totales) },
+        { l: 'Plazas / vivienda', v: tFmtDec(r.plazas_por_vivienda, 2) },
+        { l: 'Superficie media', v: tFmtNum(r.superficie_media_m2) + ' m²' },
+        { l: 'Dormitorios totales', v: tFmtNum(r.dormitorios_totales) },
+        { l: '% estudios', v: tFmtDec(r.pct_estudios, 1) + '%' }
+      ].map((it) => `<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">${it.l}</span><span class="turismo-mini-kpi-value">${it.v}</span></div>`).join('');
+    }
+
+    // Chart altas anuales (bar) + plazas acumuladas (line)
+    const altas = viviendasData.altasPorAnyo || {};
+    const acum = viviendasData.plazasAcum || {};
+    const anyos = Object.keys(altas).sort();
+    destroyTurismoChart('viviendas-altas');
+    const ctxA = document.getElementById('chart-viviendas-altas');
+    if (ctxA) {
+      const base = turismoChartDefaults();
+      turismoCharts['viviendas-altas'] = new Chart(ctxA, {
+        data: {
+          labels: anyos,
+          datasets: [
+            { type: 'bar', label: 'Nuevas altas', data: anyos.map((y) => altas[y] || 0), backgroundColor: TURISMO_COLORS.hoteles, borderRadius: 4, yAxisID: 'y' },
+            { type: 'line', label: 'Plazas acumuladas', data: anyos.map((y) => acum[y]?.plazas || 0), borderColor: '#e6157f', backgroundColor: 'rgba(230,21,127,0.15)', tension: 0.35, pointRadius: 3, fill: false, yAxisID: 'y1' }
+          ]
+        },
+        options: {
+          ...base,
+          scales: {
+            x: base.scales.x,
+            y: { ...base.scales.y, title: { display: true, text: 'Altas/año', color: '#64748b' } },
+            y1: { position: 'right', grid: { display: false }, ticks: { color: '#64748b', callback: (v) => tFmtNum(v) }, title: { display: true, text: 'Plazas acum.', color: '#64748b' } }
+          }
+        }
+      });
+    }
+
+    // Chart distribución por tamaño (donut)
+    const dist = viviendasData.distribucionTamano || {};
+    const labels = ['1-2 plazas', '3-4 plazas', '5-6 plazas', '7-8 plazas', '9+ plazas'];
+    const keys = ['1-2', '3-4', '5-6', '7-8', '9+'];
+    const colors = ['#0ea5e9', '#2563eb', '#059669', '#d97706', '#e6157f'];
+    destroyTurismoChart('viviendas-tamano');
+    const ctxT = document.getElementById('chart-viviendas-tamano');
+    if (ctxT) {
+      turismoCharts['viviendas-tamano'] = new Chart(ctxT, {
+        type: 'doughnut',
+        data: { labels, datasets: [{ data: keys.map((k) => dist[k] || 0), backgroundColor: colors, borderColor: '#ffffff', borderWidth: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f172a' } } } }
+      });
+    }
+
+    // Chart por código postal (barras horizontales)
+    const porCp = viviendasData.porCp || {};
+    const cps = Object.entries(porCp).filter(([cp]) => cp && cp !== 'sin CP').sort((a, b) => b[1].plazas - a[1].plazas).slice(0, 8);
+    destroyTurismoChart('viviendas-cp');
+    const ctxC = document.getElementById('chart-viviendas-cp');
+    if (ctxC) {
+      const base = turismoChartDefaults();
+      turismoCharts['viviendas-cp'] = new Chart(ctxC, {
+        type: 'bar',
+        data: { labels: cps.map(([cp]) => cp), datasets: [{ label: 'Plazas', data: cps.map(([, v]) => v.plazas), backgroundColor: TURISMO_COLORS.apartamentos, borderRadius: 4 }] },
+        options: {
+          ...base,
+          indexAxis: 'y',
+          plugins: { ...base.plugins, legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#64748b', callback: (v) => tFmtNum(v) }, grid: { color: 'rgba(226,232,240,0.7)' } },
+            y: { ticks: { color: '#0f172a', font: { size: 12, weight: '600' } }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // Tabla top 10
+    const top = viviendasData.top10 || [];
+    const tab = document.getElementById('tabla-viviendas-top');
+    if (tab) {
+      const rows = top.map((v) => `<tr><td>${v.signatura || '—'}</td><td>${v.nombre || '—'}</td><td>${v.direccion || '—'}</td><td>${tFmtNum(v.plazas)}</td><td>${tFmtNum(v.dormitorios)}</td><td>${tFmtNum(v.superficie_m2)} m²</td></tr>`).join('');
+      tab.innerHTML = `<table class="data-table"><thead><tr><th>Signatura</th><th>Nombre</th><th>Dirección</th><th>Plazas</th><th>Dormitorios</th><th>Superficie</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+  }
+
   function renderTurismoAll() {
     if (!turismoData) return;
     actualizarHeroTurismo();
@@ -3810,6 +3909,7 @@
     renderTurismoMiniKpis('apartamentos', 'turismo-mini-apartamentos');
     renderTurismoMiniKpis('campings', 'turismo-mini-campings');
     renderTurismoMovilidad();
+    ensureViviendasLoaded().then((d) => { if (d) renderTurismoViviendas(); });
     renderTurismoCategoriaMesChart('chart-turismo-hoteles-mes', 'hoteles');
     renderTurismoCategoriaOrigenChart('chart-turismo-hoteles-origen', 'hoteles');
     renderTurismoCategoriaAnualChart('chart-turismo-hoteles-anual', 'hoteles');
@@ -3845,8 +3945,10 @@
             'turismo-hoteles': 'Turismo - Hoteles',
             'turismo-apartamentos': 'Turismo - Apartamentos',
             'turismo-campings': 'Turismo - Campings',
+            'turismo-viviendas': 'Turismo - Viviendas turísticas (GVA)',
             'turismo-comparativa': 'Turismo - Comparativa',
-            'turismo-tablas': 'Turismo - Tablas INE'
+            'turismo-tablas': 'Turismo - Tablas INE',
+            'turismo-fuentes': 'Turismo - Fuentes de datos'
           };
           const h2 = header.querySelector('h2');
           if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];

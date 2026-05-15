@@ -41,8 +41,10 @@
         <a href="#" class="nav-item" data-section="turismo-hoteles"><span class="nav-icon">🏨</span><span>Hoteles</span></a>
         <a href="#" class="nav-item" data-section="turismo-apartamentos"><span class="nav-icon">🏢</span><span>Apartamentos</span></a>
         <a href="#" class="nav-item" data-section="turismo-campings"><span class="nav-icon">⛺</span><span>Campings</span></a>
+        <a href="#" class="nav-item" data-section="turismo-viviendas"><span class="nav-icon">🏡</span><span>Viviendas turísticas</span></a>
         <a href="#" class="nav-item" data-section="turismo-comparativa"><span class="nav-icon">📈</span><span>Comparativa</span></a>
         <a href="#" class="nav-item" data-section="turismo-tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
+        <a href="#" class="nav-item" data-section="turismo-fuentes"><span class="nav-icon">📚</span><span>Fuentes</span></a>
       </nav>
       <div class="sidebar-footer" id="sidebar-footer">Cámaras de tráfico</div>
       <div class="mode-switcher" id="mode-switcher">
@@ -696,6 +698,46 @@
           </div>
         </section>
 
+        <section id="section-turismo-viviendas" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">🏡 Viviendas turísticas (oferta privada)</h3>
+              <span class="turismo-section-tag">Generalitat Valenciana · Datos abiertos</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">
+              Registro oficial de viviendas de uso turístico (VUT) inscritas en la Generalitat Valenciana, con licencia y referencia catastral. Es la oferta legal de tipo apartamento privado / Airbnb regulado en Peñíscola.
+            </p>
+            <div class="turismo-mini-kpis" id="turismo-mini-viviendas"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>Evolución de la oferta — altas anuales</h4>
+                <p class="turismo-chart-hint">Nuevas viviendas registradas cada año + plazas acumuladas</p>
+                <div class="chart-container" style="height:340px"><canvas id="chart-viviendas-altas"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Distribución por tamaño</h4>
+                <p class="turismo-chart-hint">Plazas por vivienda</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-viviendas-tamano"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Plazas por código postal</h4>
+                <p class="turismo-chart-hint">Distribución geográfica de las plazas registradas</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-viviendas-cp"></canvas></div>
+              </div>
+            </div>
+            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Top 10 viviendas por capacidad</h4>
+            <div id="tabla-viviendas-top"></div>
+            <p class="turismo-source-note">
+              Fuente: <strong>Generalitat Valenciana</strong> — Conselleria d'Innovació, Indústria, Comerç i Turisme.
+              Conjunto "Viviendas de uso turístico en la Comunitat Valenciana", actualizado a diario.
+              <a href="https://dadesobertes.gva.es/dataset/758f8f8e-c5af-4622-b268-a6c591710a51" target="_blank" rel="noopener noreferrer">Ver dataset original ↗</a>
+              · Licencia CC BY 4.0.
+            </p>
+          </div>
+        </section>
+
         <section id="section-turismo-comparativa" class="section">
           <div class="turismo-section-card">
             <div class="turismo-section-head">
@@ -727,6 +769,78 @@
           </div>
         </section>
 
+        <section id="section-turismo-fuentes" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">📚 Fuentes de datos</h3>
+              <span class="turismo-section-tag">Transparencia y atribución</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1.25rem">
+              Todos los datos de este módulo provienen de fuentes oficiales abiertas. Cada bloque del dashboard cita su origen; aquí está el detalle completo y los enlaces directos.
+            </p>
+
+            <div class="turismo-fuentes-list">
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge">INE · EOH</span>
+                  <h4>Encuesta de Ocupación Hotelera</h4>
+                </div>
+                <p>Mensual. Viajeros, pernoctaciones y estancia media en hoteles de Peñíscola, desglosado por residentes en España y en el extranjero. Series 2078 y 2077.</p>
+                <p class="turismo-fuente-meta">Instituto Nacional de Estadística · <a href="https://www.ine.es/dyngs/INEbase/operacion.htm?c=Estadistica_C&cid=1254736177015" target="_blank" rel="noopener noreferrer">Página oficial ↗</a></p>
+              </div>
+
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge">INE · EOAP</span>
+                  <h4>Encuesta de Ocupación en Apartamentos Turísticos</h4>
+                </div>
+                <p>Mensual. Mismo set para apartamentos turísticos. En Peñíscola los datos están protegidos por secreto estadístico (pocos establecimientos), por eso aparece sin valores.</p>
+                <p class="turismo-fuente-meta">Instituto Nacional de Estadística · <a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176962" target="_blank" rel="noopener noreferrer">Página oficial ↗</a></p>
+              </div>
+
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge">INE · EOAC</span>
+                  <h4>Encuesta de Ocupación en Acampamentos turísticos (campings)</h4>
+                </div>
+                <p>Mensual. Viajeros, pernoctaciones, establecimientos, plazas, parcelas, grado de ocupación y personal empleado. Tablas 2084 y 2085.</p>
+                <p class="turismo-fuente-meta">Instituto Nacional de Estadística · <a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176961" target="_blank" rel="noopener noreferrer">Página oficial ↗</a></p>
+              </div>
+
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge">INE · TMOV</span>
+                  <h4>Medición del turismo a partir de la posición de los teléfonos móviles</h4>
+                </div>
+                <p>Operación experimental del INE. Estima cuántos turistas extranjeros (SIMs no españolas) están cada mes en Peñíscola, desglosado por país de residencia. Tabla 52048.</p>
+                <p class="turismo-fuente-meta">Instituto Nacional de Estadística — Estadística experimental · <a href="https://www.ine.es/experimental/turismo_moviles/experimental_turismo_moviles.htm" target="_blank" rel="noopener noreferrer">Documentación ↗</a></p>
+              </div>
+
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge">INE · Padrón</span>
+                  <h4>Cifras oficiales de población — Padrón municipal</h4>
+                </div>
+                <p>Anual. Población residente en Peñíscola por sexo. Se usa para calcular el ratio "presión turística por 1 000 habitantes". Tabla 2865.</p>
+                <p class="turismo-fuente-meta">Instituto Nacional de Estadística · <a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177011" target="_blank" rel="noopener noreferrer">Página oficial ↗</a></p>
+              </div>
+
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge turismo-fuente-badge-gva">GVA · VUT</span>
+                  <h4>Registro de viviendas de uso turístico en la Comunitat Valenciana</h4>
+                </div>
+                <p>Listado oficial actualizado a diario de las 2 976 viviendas turísticas registradas con licencia en Peñíscola. Incluye dirección, plazas, dormitorios, referencia catastral y fecha de alta.</p>
+                <p class="turismo-fuente-meta">Generalitat Valenciana — Conselleria d'Innovació, Indústria, Comerç i Turisme · <a href="https://dadesobertes.gva.es/dataset/758f8f8e-c5af-4622-b268-a6c591710a51" target="_blank" rel="noopener noreferrer">Dataset CSV ↗</a> · Licencia CC BY 4.0</p>
+              </div>
+            </div>
+
+            <p class="turismo-source-note" style="margin-top:1.5rem">
+              Las API y CSVs de estas fuentes son <strong>gratuitas y públicas</strong>. El servidor del dashboard descarga y cachea los datos automáticamente; los puedes refrescar manualmente con el botón "Actualizar INE" del header.
+            </p>
+          </div>
+        </section>
+
         <section id="section-turismo-tablas" class="section">
           <div class="turismo-section-card">
             <div class="turismo-section-head">
@@ -749,6 +863,6 @@
     /* Puerto de server.js (process.env.PORT o 7777). Si usas otro valor en .env, cámbialo aquí también. */
     window.__DASHBOARD_API_PORT__ = 7777;
   </script>
-  <script src="js/dashboard.js?v=64"></script>
+  <script src="js/dashboard.js?v=65"></script>
 </body>
 </html>

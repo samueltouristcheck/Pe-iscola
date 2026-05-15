@@ -177,6 +177,11 @@ app.get('/data/TURISMO/todos.json', (req, res) => {
     if (fs.existsSync(p)) res.sendFile(p);
     else res.status(404).json({ error: 'Datos de turismo aún no descargados. Pulsa Actualizar INE.' });
 });
+app.get('/data/TURISMO/viviendas.json', (req, res) => {
+    const p = path.join(__dirname, 'data', 'TURISMO', 'viviendas.json');
+    if (fs.existsSync(p)) res.sendFile(p);
+    else res.status(404).json({ error: 'Datos de viviendas turísticas no descargados todavía.' });
+});
 app.get('/api/turismo/data', (req, res) => {
     const p = path.join(__dirname, 'data', 'TURISMO', 'todos.json');
     if (!fs.existsSync(p)) return res.status(404).json({ error: 'Sin datos descargados' });

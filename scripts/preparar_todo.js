@@ -48,4 +48,13 @@ try {
   console.warn('   ⚠ Error en turismo (¿sin conexión a INE?):', e.message);
 }
 
+// 4. Viviendas turísticas (Node) — descarga registro GVA
+console.log('4. Viviendas turísticas (procesar_viviendas.js)...');
+try {
+  execSync('node procesar_viviendas.js', { cwd: root, stdio: 'inherit' });
+  console.log('   ✓ Viviendas listo\n');
+} catch (e) {
+  console.warn('   ⚠ Error en viviendas (¿sin conexión a GVA?):', e.message);
+}
+
 console.log('=== Listo. Recarga la web (http://localhost:7777) para ver los datos nuevos ===');
