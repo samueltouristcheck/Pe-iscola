@@ -761,7 +761,14 @@
 .landing-wrapper {
     max-width: 1100px;
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
     text-align: center;
+}
+.landing-grid {
+    margin-left: auto;
+    margin-right: auto;
 }
 .landing-header {
     display: flex;
