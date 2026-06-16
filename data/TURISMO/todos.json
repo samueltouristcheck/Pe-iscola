@@ -1,10 +1,10 @@
 {
-  "generadoEn": "2026-06-16T08:26:13.614Z",
+  "generadoEn": "2026-06-16T08:29:36.983Z",
   "fuente": "INE - Instituto Nacional de Estadística (https://www.ine.es)",
   "municipio": "Peñíscola",
   "codigoMunicipio": "12089",
-  "seriesTotales": 60,
-  "seriesOk": 60,
+  "seriesTotales": 62,
+  "seriesOk": 62,
   "errores": [],
   "resumen": {
     "hoteles": {
@@ -15,12 +15,14 @@
       "totalPernoctacionesAnyo": 290990,
       "totalViajerosAnyoAnterior": 393629,
       "totalPernoctacionesAnyoAnterior": 1486363,
+      "ultimoGradoOcupacion": 47.82,
       "ultimasPlazas": 9815,
       "ultimosEstablecimientos": 55,
       "ultimoAdr": 65.48,
       "ultimoAdrMes": "2026-04",
       "ultimoRevpar": 35.08,
-      "ultimoRevparMes": "2026-04"
+      "ultimoRevparMes": "2026-04",
+      "ultimoPersonal": 976
     },
     "apartamentos": {
       "ultimoMes": null,
@@ -10544,6 +10546,2997 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 55,
+            "secreto": false
+          }
+        ]
+      },
+      {
+        "cod": "EOT11877",
+        "metrica": "grado_ocupacion",
+        "residencia": "total",
+        "unidad": "porcentaje",
+        "data": [
+          {
+            "fecha": "2005-03",
+            "anyo": 2005,
+            "mes": 3,
+            "valor": 52.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-04",
+            "anyo": 2005,
+            "mes": 4,
+            "valor": 50.03,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-05",
+            "anyo": 2005,
+            "mes": 5,
+            "valor": 64.7,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-06",
+            "anyo": 2005,
+            "mes": 6,
+            "valor": 71.43,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-07",
+            "anyo": 2005,
+            "mes": 7,
+            "valor": 83.43,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-08",
+            "anyo": 2005,
+            "mes": 8,
+            "valor": 89.07,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-09",
+            "anyo": 2005,
+            "mes": 9,
+            "valor": 79.57,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-10",
+            "anyo": 2005,
+            "mes": 10,
+            "valor": 63.63,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-11",
+            "anyo": 2005,
+            "mes": 11,
+            "valor": 43.34,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-04",
+            "anyo": 2006,
+            "mes": 4,
+            "valor": 64.5,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-05",
+            "anyo": 2006,
+            "mes": 5,
+            "valor": 63.98,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-06",
+            "anyo": 2006,
+            "mes": 6,
+            "valor": 66.94,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-07",
+            "anyo": 2006,
+            "mes": 7,
+            "valor": 87.62,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-08",
+            "anyo": 2006,
+            "mes": 8,
+            "valor": 89.89,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-09",
+            "anyo": 2006,
+            "mes": 9,
+            "valor": 79.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-10",
+            "anyo": 2006,
+            "mes": 10,
+            "valor": 64.2,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-11",
+            "anyo": 2006,
+            "mes": 11,
+            "valor": 43.38,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-04",
+            "anyo": 2007,
+            "mes": 4,
+            "valor": 53.76,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-05",
+            "anyo": 2007,
+            "mes": 5,
+            "valor": 56.51,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-06",
+            "anyo": 2007,
+            "mes": 6,
+            "valor": 70.6,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-07",
+            "anyo": 2007,
+            "mes": 7,
+            "valor": 84.83,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-08",
+            "anyo": 2007,
+            "mes": 8,
+            "valor": 90.51,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-09",
+            "anyo": 2007,
+            "mes": 9,
+            "valor": 67.66,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-10",
+            "anyo": 2007,
+            "mes": 10,
+            "valor": 59.09,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-11",
+            "anyo": 2007,
+            "mes": 11,
+            "valor": 50.64,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-02",
+            "anyo": 2008,
+            "mes": 2,
+            "valor": 50.43,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-03",
+            "anyo": 2008,
+            "mes": 3,
+            "valor": 47.71,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-04",
+            "anyo": 2008,
+            "mes": 4,
+            "valor": 44.44,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-05",
+            "anyo": 2008,
+            "mes": 5,
+            "valor": 55.32,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-06",
+            "anyo": 2008,
+            "mes": 6,
+            "valor": 59.25,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-07",
+            "anyo": 2008,
+            "mes": 7,
+            "valor": 79.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-08",
+            "anyo": 2008,
+            "mes": 8,
+            "valor": 84.41,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-09",
+            "anyo": 2008,
+            "mes": 9,
+            "valor": 68.17,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-10",
+            "anyo": 2008,
+            "mes": 10,
+            "valor": 48.45,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-11",
+            "anyo": 2008,
+            "mes": 11,
+            "valor": 41.64,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-12",
+            "anyo": 2008,
+            "mes": 12,
+            "valor": 33.89,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-01",
+            "anyo": 2009,
+            "mes": 1,
+            "valor": 30.53,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-02",
+            "anyo": 2009,
+            "mes": 2,
+            "valor": 48.23,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-03",
+            "anyo": 2009,
+            "mes": 3,
+            "valor": 51.1,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-04",
+            "anyo": 2009,
+            "mes": 4,
+            "valor": 53.04,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-05",
+            "anyo": 2009,
+            "mes": 5,
+            "valor": 55.72,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-06",
+            "anyo": 2009,
+            "mes": 6,
+            "valor": 70.23,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-07",
+            "anyo": 2009,
+            "mes": 7,
+            "valor": 85.04,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-08",
+            "anyo": 2009,
+            "mes": 8,
+            "valor": 86.6,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-09",
+            "anyo": 2009,
+            "mes": 9,
+            "valor": 71.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-10",
+            "anyo": 2009,
+            "mes": 10,
+            "valor": 54.46,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-11",
+            "anyo": 2009,
+            "mes": 11,
+            "valor": 49.8,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-12",
+            "anyo": 2009,
+            "mes": 12,
+            "valor": 42.57,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-01",
+            "anyo": 2010,
+            "mes": 1,
+            "valor": 37.89,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-02",
+            "anyo": 2010,
+            "mes": 2,
+            "valor": 44.4,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-03",
+            "anyo": 2010,
+            "mes": 3,
+            "valor": 42.72,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-04",
+            "anyo": 2010,
+            "mes": 4,
+            "valor": 45.62,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-05",
+            "anyo": 2010,
+            "mes": 5,
+            "valor": 48.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-06",
+            "anyo": 2010,
+            "mes": 6,
+            "valor": 61.47,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-07",
+            "anyo": 2010,
+            "mes": 7,
+            "valor": 80.41,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-08",
+            "anyo": 2010,
+            "mes": 8,
+            "valor": 83.68,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-09",
+            "anyo": 2010,
+            "mes": 9,
+            "valor": 66.47,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-10",
+            "anyo": 2010,
+            "mes": 10,
+            "valor": 47.87,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-11",
+            "anyo": 2010,
+            "mes": 11,
+            "valor": 42.36,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-12",
+            "anyo": 2010,
+            "mes": 12,
+            "valor": 34.03,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-01",
+            "anyo": 2011,
+            "mes": 1,
+            "valor": 28.44,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-02",
+            "anyo": 2011,
+            "mes": 2,
+            "valor": 41.13,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-03",
+            "anyo": 2011,
+            "mes": 3,
+            "valor": 45.08,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-04",
+            "anyo": 2011,
+            "mes": 4,
+            "valor": 49.89,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-05",
+            "anyo": 2011,
+            "mes": 5,
+            "valor": 46.07,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-06",
+            "anyo": 2011,
+            "mes": 6,
+            "valor": 65.08,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-07",
+            "anyo": 2011,
+            "mes": 7,
+            "valor": 85.13,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-08",
+            "anyo": 2011,
+            "mes": 8,
+            "valor": 86.98,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-09",
+            "anyo": 2011,
+            "mes": 9,
+            "valor": 74.29,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-10",
+            "anyo": 2011,
+            "mes": 10,
+            "valor": 47.01,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-11",
+            "anyo": 2011,
+            "mes": 11,
+            "valor": 43.78,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-12",
+            "anyo": 2011,
+            "mes": 12,
+            "valor": 38.06,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-02",
+            "anyo": 2012,
+            "mes": 2,
+            "valor": 43.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-03",
+            "anyo": 2012,
+            "mes": 3,
+            "valor": 44.51,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-04",
+            "anyo": 2012,
+            "mes": 4,
+            "valor": 51.86,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-05",
+            "anyo": 2012,
+            "mes": 5,
+            "valor": 47.53,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-06",
+            "anyo": 2012,
+            "mes": 6,
+            "valor": 62.74,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-07",
+            "anyo": 2012,
+            "mes": 7,
+            "valor": 84.39,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-08",
+            "anyo": 2012,
+            "mes": 8,
+            "valor": 86.04,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-09",
+            "anyo": 2012,
+            "mes": 9,
+            "valor": 75.62,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-10",
+            "anyo": 2012,
+            "mes": 10,
+            "valor": 40.57,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-02",
+            "anyo": 2013,
+            "mes": 2,
+            "valor": 37.04,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-03",
+            "anyo": 2013,
+            "mes": 3,
+            "valor": 43.96,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-04",
+            "anyo": 2013,
+            "mes": 4,
+            "valor": 39.16,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-05",
+            "anyo": 2013,
+            "mes": 5,
+            "valor": 50.98,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-06",
+            "anyo": 2013,
+            "mes": 6,
+            "valor": 66.86,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-07",
+            "anyo": 2013,
+            "mes": 7,
+            "valor": 83.53,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-08",
+            "anyo": 2013,
+            "mes": 8,
+            "valor": 90.09,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-09",
+            "anyo": 2013,
+            "mes": 9,
+            "valor": 74.88,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-10",
+            "anyo": 2013,
+            "mes": 10,
+            "valor": 45.48,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-11",
+            "anyo": 2013,
+            "mes": 11,
+            "valor": 35.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-03",
+            "anyo": 2014,
+            "mes": 3,
+            "valor": 44.31,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-04",
+            "anyo": 2014,
+            "mes": 4,
+            "valor": 53.39,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-05",
+            "anyo": 2014,
+            "mes": 5,
+            "valor": 49.22,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-06",
+            "anyo": 2014,
+            "mes": 6,
+            "valor": 70.03,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-07",
+            "anyo": 2014,
+            "mes": 7,
+            "valor": 85.8,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-08",
+            "anyo": 2014,
+            "mes": 8,
+            "valor": 91.03,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-09",
+            "anyo": 2014,
+            "mes": 9,
+            "valor": 82.43,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-10",
+            "anyo": 2014,
+            "mes": 10,
+            "valor": 52.66,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-03",
+            "anyo": 2015,
+            "mes": 3,
+            "valor": 48.68,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-04",
+            "anyo": 2015,
+            "mes": 4,
+            "valor": 52.24,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-05",
+            "anyo": 2015,
+            "mes": 5,
+            "valor": 50.46,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-06",
+            "anyo": 2015,
+            "mes": 6,
+            "valor": 68.17,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-07",
+            "anyo": 2015,
+            "mes": 7,
+            "valor": 84.9,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-08",
+            "anyo": 2015,
+            "mes": 8,
+            "valor": 91.81,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-09",
+            "anyo": 2015,
+            "mes": 9,
+            "valor": 80.85,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-10",
+            "anyo": 2015,
+            "mes": 10,
+            "valor": 50.06,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-03",
+            "anyo": 2016,
+            "mes": 3,
+            "valor": 44.92,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-04",
+            "anyo": 2016,
+            "mes": 4,
+            "valor": 43.35,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-05",
+            "anyo": 2016,
+            "mes": 5,
+            "valor": 52.97,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-06",
+            "anyo": 2016,
+            "mes": 6,
+            "valor": 65.88,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-07",
+            "anyo": 2016,
+            "mes": 7,
+            "valor": 88.17,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-08",
+            "anyo": 2016,
+            "mes": 8,
+            "valor": 88.38,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-09",
+            "anyo": 2016,
+            "mes": 9,
+            "valor": 81.25,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-10",
+            "anyo": 2016,
+            "mes": 10,
+            "valor": 55.42,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-03",
+            "anyo": 2017,
+            "mes": 3,
+            "valor": 42.08,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-04",
+            "anyo": 2017,
+            "mes": 4,
+            "valor": 56.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-05",
+            "anyo": 2017,
+            "mes": 5,
+            "valor": 54.19,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-06",
+            "anyo": 2017,
+            "mes": 6,
+            "valor": 68.87,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-07",
+            "anyo": 2017,
+            "mes": 7,
+            "valor": 81.85,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-08",
+            "anyo": 2017,
+            "mes": 8,
+            "valor": 86.39,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-09",
+            "anyo": 2017,
+            "mes": 9,
+            "valor": 81.16,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-10",
+            "anyo": 2017,
+            "mes": 10,
+            "valor": 55.1,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-11",
+            "anyo": 2017,
+            "mes": 11,
+            "valor": 25.34,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-03",
+            "anyo": 2018,
+            "mes": 3,
+            "valor": 42.78,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-04",
+            "anyo": 2018,
+            "mes": 4,
+            "valor": 51.68,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-05",
+            "anyo": 2018,
+            "mes": 5,
+            "valor": 50.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-06",
+            "anyo": 2018,
+            "mes": 6,
+            "valor": 65.32,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-07",
+            "anyo": 2018,
+            "mes": 7,
+            "valor": 81.35,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-08",
+            "anyo": 2018,
+            "mes": 8,
+            "valor": 85.97,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-09",
+            "anyo": 2018,
+            "mes": 9,
+            "valor": 79.24,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-10",
+            "anyo": 2018,
+            "mes": 10,
+            "valor": 53.71,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-11",
+            "anyo": 2018,
+            "mes": 11,
+            "valor": 33.58,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-12",
+            "anyo": 2018,
+            "mes": 12,
+            "valor": 22.27,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-01",
+            "anyo": 2019,
+            "mes": 1,
+            "valor": 15.83,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-02",
+            "anyo": 2019,
+            "mes": 2,
+            "valor": 28.37,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-03",
+            "anyo": 2019,
+            "mes": 3,
+            "valor": 46.24,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-04",
+            "anyo": 2019,
+            "mes": 4,
+            "valor": 48.65,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-05",
+            "anyo": 2019,
+            "mes": 5,
+            "valor": 49.75,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-06",
+            "anyo": 2019,
+            "mes": 6,
+            "valor": 67.52,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-07",
+            "anyo": 2019,
+            "mes": 7,
+            "valor": 81.33,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-08",
+            "anyo": 2019,
+            "mes": 8,
+            "valor": 84.59,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-09",
+            "anyo": 2019,
+            "mes": 9,
+            "valor": 76.8,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-10",
+            "anyo": 2019,
+            "mes": 10,
+            "valor": 51.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-11",
+            "anyo": 2019,
+            "mes": 11,
+            "valor": 37.41,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-12",
+            "anyo": 2019,
+            "mes": 12,
+            "valor": 25.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-02",
+            "anyo": 2020,
+            "mes": 2,
+            "valor": 30.97,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-03",
+            "anyo": 2020,
+            "mes": 3,
+            "valor": 20.94,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-04",
+            "anyo": 2020,
+            "mes": 4,
+            "valor": 0,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-07",
+            "anyo": 2020,
+            "mes": 7,
+            "valor": 35.8,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-08",
+            "anyo": 2020,
+            "mes": 8,
+            "valor": 52.45,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-09",
+            "anyo": 2020,
+            "mes": 9,
+            "valor": 47.69,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-10",
+            "anyo": 2020,
+            "mes": 10,
+            "valor": 25.73,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-11",
+            "anyo": 2020,
+            "mes": 11,
+            "valor": 6.67,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-12",
+            "anyo": 2020,
+            "mes": 12,
+            "valor": 8.52,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-01",
+            "anyo": 2021,
+            "mes": 1,
+            "valor": 1.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-03",
+            "anyo": 2021,
+            "mes": 3,
+            "valor": 11.89,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-04",
+            "anyo": 2021,
+            "mes": 4,
+            "valor": 15.53,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-05",
+            "anyo": 2021,
+            "mes": 5,
+            "valor": 17.14,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-06",
+            "anyo": 2021,
+            "mes": 6,
+            "valor": 47.01,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-07",
+            "anyo": 2021,
+            "mes": 7,
+            "valor": 65.64,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-08",
+            "anyo": 2021,
+            "mes": 8,
+            "valor": 77.76,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-09",
+            "anyo": 2021,
+            "mes": 9,
+            "valor": 58.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-10",
+            "anyo": 2021,
+            "mes": 10,
+            "valor": 45.08,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-11",
+            "anyo": 2021,
+            "mes": 11,
+            "valor": 22.04,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-12",
+            "anyo": 2021,
+            "mes": 12,
+            "valor": 20.66,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-02",
+            "anyo": 2022,
+            "mes": 2,
+            "valor": 17.72,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-03",
+            "anyo": 2022,
+            "mes": 3,
+            "valor": 37.11,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-04",
+            "anyo": 2022,
+            "mes": 4,
+            "valor": 48.45,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-05",
+            "anyo": 2022,
+            "mes": 5,
+            "valor": 45.25,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-06",
+            "anyo": 2022,
+            "mes": 6,
+            "valor": 57.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-07",
+            "anyo": 2022,
+            "mes": 7,
+            "valor": 71.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-08",
+            "anyo": 2022,
+            "mes": 8,
+            "valor": 79.28,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-09",
+            "anyo": 2022,
+            "mes": 9,
+            "valor": 66.13,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-10",
+            "anyo": 2022,
+            "mes": 10,
+            "valor": 48.48,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-11",
+            "anyo": 2022,
+            "mes": 11,
+            "valor": 35.92,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-02",
+            "anyo": 2023,
+            "mes": 2,
+            "valor": 26.38,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-03",
+            "anyo": 2023,
+            "mes": 3,
+            "valor": 35.98,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-04",
+            "anyo": 2023,
+            "mes": 4,
+            "valor": 50.71,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-05",
+            "anyo": 2023,
+            "mes": 5,
+            "valor": 44.21,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-06",
+            "anyo": 2023,
+            "mes": 6,
+            "valor": 54.32,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-07",
+            "anyo": 2023,
+            "mes": 7,
+            "valor": 68.8,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-08",
+            "anyo": 2023,
+            "mes": 8,
+            "valor": 77.21,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-09",
+            "anyo": 2023,
+            "mes": 9,
+            "valor": 67.03,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-10",
+            "anyo": 2023,
+            "mes": 10,
+            "valor": 48.54,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-11",
+            "anyo": 2023,
+            "mes": 11,
+            "valor": 27.29,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-12",
+            "anyo": 2023,
+            "mes": 12,
+            "valor": 27.6,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-02",
+            "anyo": 2024,
+            "mes": 2,
+            "valor": 38.19,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-03",
+            "anyo": 2024,
+            "mes": 3,
+            "valor": 43.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-04",
+            "anyo": 2024,
+            "mes": 4,
+            "valor": 42.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-05",
+            "anyo": 2024,
+            "mes": 5,
+            "valor": 53.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-06",
+            "anyo": 2024,
+            "mes": 6,
+            "valor": 57.27,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-07",
+            "anyo": 2024,
+            "mes": 7,
+            "valor": 68.15,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-08",
+            "anyo": 2024,
+            "mes": 8,
+            "valor": 76.95,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-09",
+            "anyo": 2024,
+            "mes": 9,
+            "valor": 68.55,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-10",
+            "anyo": 2024,
+            "mes": 10,
+            "valor": 47.33,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-11",
+            "anyo": 2024,
+            "mes": 11,
+            "valor": 26.31,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-12",
+            "anyo": 2024,
+            "mes": 12,
+            "valor": 27.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-02",
+            "anyo": 2025,
+            "mes": 2,
+            "valor": 32.2,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-03",
+            "anyo": 2025,
+            "mes": 3,
+            "valor": 43.88,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-04",
+            "anyo": 2025,
+            "mes": 4,
+            "valor": 46.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-05",
+            "anyo": 2025,
+            "mes": 5,
+            "valor": 49.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-06",
+            "anyo": 2025,
+            "mes": 6,
+            "valor": 63.45,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-07",
+            "anyo": 2025,
+            "mes": 7,
+            "valor": 64.82,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-08",
+            "anyo": 2025,
+            "mes": 8,
+            "valor": 74.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-09",
+            "anyo": 2025,
+            "mes": 9,
+            "valor": 69.01,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-10",
+            "anyo": 2025,
+            "mes": 10,
+            "valor": 49.37,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-11",
+            "anyo": 2025,
+            "mes": 11,
+            "valor": 25.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-12",
+            "anyo": 2025,
+            "mes": 12,
+            "valor": 31.65,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-01",
+            "anyo": 2026,
+            "mes": 1,
+            "valor": 22.83,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-02",
+            "anyo": 2026,
+            "mes": 2,
+            "valor": 28.32,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-03",
+            "anyo": 2026,
+            "mes": 3,
+            "valor": 49.22,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-04",
+            "anyo": 2026,
+            "mes": 4,
+            "valor": 47.82,
+            "secreto": false
+          }
+        ]
+      },
+      {
+        "cod": "EOT11880",
+        "metrica": "personal_empleado",
+        "residencia": "total",
+        "unidad": "personas",
+        "data": [
+          {
+            "fecha": "2005-03",
+            "anyo": 2005,
+            "mes": 3,
+            "valor": 570,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-04",
+            "anyo": 2005,
+            "mes": 4,
+            "valor": 695,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-05",
+            "anyo": 2005,
+            "mes": 5,
+            "valor": 754,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-06",
+            "anyo": 2005,
+            "mes": 6,
+            "valor": 1000,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-07",
+            "anyo": 2005,
+            "mes": 7,
+            "valor": 1179,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-08",
+            "anyo": 2005,
+            "mes": 8,
+            "valor": 1306,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-09",
+            "anyo": 2005,
+            "mes": 9,
+            "valor": 1097,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-10",
+            "anyo": 2005,
+            "mes": 10,
+            "valor": 773,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-11",
+            "anyo": 2005,
+            "mes": 11,
+            "valor": 385,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-04",
+            "anyo": 2006,
+            "mes": 4,
+            "valor": 742,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-05",
+            "anyo": 2006,
+            "mes": 5,
+            "valor": 858,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-06",
+            "anyo": 2006,
+            "mes": 6,
+            "valor": 1105,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-07",
+            "anyo": 2006,
+            "mes": 7,
+            "valor": 1309,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-08",
+            "anyo": 2006,
+            "mes": 8,
+            "valor": 1338,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-09",
+            "anyo": 2006,
+            "mes": 9,
+            "valor": 1163,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-10",
+            "anyo": 2006,
+            "mes": 10,
+            "valor": 737,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-11",
+            "anyo": 2006,
+            "mes": 11,
+            "valor": 321,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-04",
+            "anyo": 2007,
+            "mes": 4,
+            "valor": 945,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-05",
+            "anyo": 2007,
+            "mes": 5,
+            "valor": 924,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-06",
+            "anyo": 2007,
+            "mes": 6,
+            "valor": 1102,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-07",
+            "anyo": 2007,
+            "mes": 7,
+            "valor": 1243,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-08",
+            "anyo": 2007,
+            "mes": 8,
+            "valor": 1273,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-09",
+            "anyo": 2007,
+            "mes": 9,
+            "valor": 1099,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-10",
+            "anyo": 2007,
+            "mes": 10,
+            "valor": 695,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-11",
+            "anyo": 2007,
+            "mes": 11,
+            "valor": 344,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-02",
+            "anyo": 2008,
+            "mes": 2,
+            "valor": 316,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-03",
+            "anyo": 2008,
+            "mes": 3,
+            "valor": 683,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-04",
+            "anyo": 2008,
+            "mes": 4,
+            "valor": 665,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-05",
+            "anyo": 2008,
+            "mes": 5,
+            "valor": 805,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-06",
+            "anyo": 2008,
+            "mes": 6,
+            "valor": 941,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-07",
+            "anyo": 2008,
+            "mes": 7,
+            "valor": 1184,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-08",
+            "anyo": 2008,
+            "mes": 8,
+            "valor": 1270,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-09",
+            "anyo": 2008,
+            "mes": 9,
+            "valor": 1070,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-10",
+            "anyo": 2008,
+            "mes": 10,
+            "valor": 643,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-11",
+            "anyo": 2008,
+            "mes": 11,
+            "valor": 295,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-12",
+            "anyo": 2008,
+            "mes": 12,
+            "valor": 325,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-01",
+            "anyo": 2009,
+            "mes": 1,
+            "valor": 260,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-02",
+            "anyo": 2009,
+            "mes": 2,
+            "valor": 376,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-03",
+            "anyo": 2009,
+            "mes": 3,
+            "valor": 478,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-04",
+            "anyo": 2009,
+            "mes": 4,
+            "valor": 724,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-05",
+            "anyo": 2009,
+            "mes": 5,
+            "valor": 856,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-06",
+            "anyo": 2009,
+            "mes": 6,
+            "valor": 1052,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-07",
+            "anyo": 2009,
+            "mes": 7,
+            "valor": 1307,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-08",
+            "anyo": 2009,
+            "mes": 8,
+            "valor": 1398,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-09",
+            "anyo": 2009,
+            "mes": 9,
+            "valor": 1159,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-10",
+            "anyo": 2009,
+            "mes": 10,
+            "valor": 724,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-11",
+            "anyo": 2009,
+            "mes": 11,
+            "valor": 355,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-12",
+            "anyo": 2009,
+            "mes": 12,
+            "valor": 298,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-01",
+            "anyo": 2010,
+            "mes": 1,
+            "valor": 194,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-02",
+            "anyo": 2010,
+            "mes": 2,
+            "valor": 402,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-03",
+            "anyo": 2010,
+            "mes": 3,
+            "valor": 585,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-04",
+            "anyo": 2010,
+            "mes": 4,
+            "valor": 743,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-05",
+            "anyo": 2010,
+            "mes": 5,
+            "valor": 815,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-06",
+            "anyo": 2010,
+            "mes": 6,
+            "valor": 1087,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-07",
+            "anyo": 2010,
+            "mes": 7,
+            "valor": 1354,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-08",
+            "anyo": 2010,
+            "mes": 8,
+            "valor": 1407,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-09",
+            "anyo": 2010,
+            "mes": 9,
+            "valor": 1193,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-10",
+            "anyo": 2010,
+            "mes": 10,
+            "valor": 611,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-11",
+            "anyo": 2010,
+            "mes": 11,
+            "valor": 300,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-12",
+            "anyo": 2010,
+            "mes": 12,
+            "valor": 327,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-01",
+            "anyo": 2011,
+            "mes": 1,
+            "valor": 155,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-02",
+            "anyo": 2011,
+            "mes": 2,
+            "valor": 365,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-03",
+            "anyo": 2011,
+            "mes": 3,
+            "valor": 542,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-04",
+            "anyo": 2011,
+            "mes": 4,
+            "valor": 780,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-05",
+            "anyo": 2011,
+            "mes": 5,
+            "valor": 801,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-06",
+            "anyo": 2011,
+            "mes": 6,
+            "valor": 1072,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-07",
+            "anyo": 2011,
+            "mes": 7,
+            "valor": 1388,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-08",
+            "anyo": 2011,
+            "mes": 8,
+            "valor": 1454,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-09",
+            "anyo": 2011,
+            "mes": 9,
+            "valor": 1321,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-10",
+            "anyo": 2011,
+            "mes": 10,
+            "valor": 637,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-11",
+            "anyo": 2011,
+            "mes": 11,
+            "valor": 258,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-12",
+            "anyo": 2011,
+            "mes": 12,
+            "valor": 234,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-02",
+            "anyo": 2012,
+            "mes": 2,
+            "valor": 369,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-03",
+            "anyo": 2012,
+            "mes": 3,
+            "valor": 554,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-04",
+            "anyo": 2012,
+            "mes": 4,
+            "valor": 845,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-05",
+            "anyo": 2012,
+            "mes": 5,
+            "valor": 839,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-06",
+            "anyo": 2012,
+            "mes": 6,
+            "valor": 1141,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-07",
+            "anyo": 2012,
+            "mes": 7,
+            "valor": 1434,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-08",
+            "anyo": 2012,
+            "mes": 8,
+            "valor": 1507,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-09",
+            "anyo": 2012,
+            "mes": 9,
+            "valor": 1146,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-10",
+            "anyo": 2012,
+            "mes": 10,
+            "valor": 624,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-02",
+            "anyo": 2013,
+            "mes": 2,
+            "valor": 243,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-03",
+            "anyo": 2013,
+            "mes": 3,
+            "valor": 582,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-04",
+            "anyo": 2013,
+            "mes": 4,
+            "valor": 665,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-05",
+            "anyo": 2013,
+            "mes": 5,
+            "valor": 801,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-06",
+            "anyo": 2013,
+            "mes": 6,
+            "valor": 1104,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-07",
+            "anyo": 2013,
+            "mes": 7,
+            "valor": 1420,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-08",
+            "anyo": 2013,
+            "mes": 8,
+            "valor": 1486,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-09",
+            "anyo": 2013,
+            "mes": 9,
+            "valor": 1178,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-10",
+            "anyo": 2013,
+            "mes": 10,
+            "valor": 540,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-11",
+            "anyo": 2013,
+            "mes": 11,
+            "valor": 170,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-03",
+            "anyo": 2014,
+            "mes": 3,
+            "valor": 473,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-04",
+            "anyo": 2014,
+            "mes": 4,
+            "valor": 794,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-05",
+            "anyo": 2014,
+            "mes": 5,
+            "valor": 825,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-06",
+            "anyo": 2014,
+            "mes": 6,
+            "valor": 1137,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-07",
+            "anyo": 2014,
+            "mes": 7,
+            "valor": 1449,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-08",
+            "anyo": 2014,
+            "mes": 8,
+            "valor": 1486,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-09",
+            "anyo": 2014,
+            "mes": 9,
+            "valor": 1253,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-10",
+            "anyo": 2014,
+            "mes": 10,
+            "valor": 621,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-03",
+            "anyo": 2015,
+            "mes": 3,
+            "valor": 619,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-04",
+            "anyo": 2015,
+            "mes": 4,
+            "valor": 852,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-05",
+            "anyo": 2015,
+            "mes": 5,
+            "valor": 757,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-06",
+            "anyo": 2015,
+            "mes": 6,
+            "valor": 1175,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-07",
+            "anyo": 2015,
+            "mes": 7,
+            "valor": 1452,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-08",
+            "anyo": 2015,
+            "mes": 8,
+            "valor": 1568,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-09",
+            "anyo": 2015,
+            "mes": 9,
+            "valor": 1329,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-10",
+            "anyo": 2015,
+            "mes": 10,
+            "valor": 751,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-03",
+            "anyo": 2016,
+            "mes": 3,
+            "valor": 704,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-04",
+            "anyo": 2016,
+            "mes": 4,
+            "valor": 789,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-05",
+            "anyo": 2016,
+            "mes": 5,
+            "valor": 984,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-06",
+            "anyo": 2016,
+            "mes": 6,
+            "valor": 1243,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-07",
+            "anyo": 2016,
+            "mes": 7,
+            "valor": 1570,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-08",
+            "anyo": 2016,
+            "mes": 8,
+            "valor": 1569,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-09",
+            "anyo": 2016,
+            "mes": 9,
+            "valor": 1353,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-10",
+            "anyo": 2016,
+            "mes": 10,
+            "valor": 847,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-03",
+            "anyo": 2017,
+            "mes": 3,
+            "valor": 579,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-04",
+            "anyo": 2017,
+            "mes": 4,
+            "valor": 928,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-05",
+            "anyo": 2017,
+            "mes": 5,
+            "valor": 958,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-06",
+            "anyo": 2017,
+            "mes": 6,
+            "valor": 1258,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-07",
+            "anyo": 2017,
+            "mes": 7,
+            "valor": 1532,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-08",
+            "anyo": 2017,
+            "mes": 8,
+            "valor": 1566,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-09",
+            "anyo": 2017,
+            "mes": 9,
+            "valor": 1402,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-10",
+            "anyo": 2017,
+            "mes": 10,
+            "valor": 834,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-11",
+            "anyo": 2017,
+            "mes": 11,
+            "valor": 199,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-03",
+            "anyo": 2018,
+            "mes": 3,
+            "valor": 640,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-04",
+            "anyo": 2018,
+            "mes": 4,
+            "valor": 821,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-05",
+            "anyo": 2018,
+            "mes": 5,
+            "valor": 931,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-06",
+            "anyo": 2018,
+            "mes": 6,
+            "valor": 1177,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-07",
+            "anyo": 2018,
+            "mes": 7,
+            "valor": 1443,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-08",
+            "anyo": 2018,
+            "mes": 8,
+            "valor": 1464,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-09",
+            "anyo": 2018,
+            "mes": 9,
+            "valor": 1305,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-10",
+            "anyo": 2018,
+            "mes": 10,
+            "valor": 768,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-11",
+            "anyo": 2018,
+            "mes": 11,
+            "valor": 244,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-12",
+            "anyo": 2018,
+            "mes": 12,
+            "valor": 145,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-01",
+            "anyo": 2019,
+            "mes": 1,
+            "valor": 123,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-02",
+            "anyo": 2019,
+            "mes": 2,
+            "valor": 319,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-03",
+            "anyo": 2019,
+            "mes": 3,
+            "valor": 595,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-04",
+            "anyo": 2019,
+            "mes": 4,
+            "valor": 988,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-05",
+            "anyo": 2019,
+            "mes": 5,
+            "valor": 1056,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-06",
+            "anyo": 2019,
+            "mes": 6,
+            "valor": 1351,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-07",
+            "anyo": 2019,
+            "mes": 7,
+            "valor": 1564,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-08",
+            "anyo": 2019,
+            "mes": 8,
+            "valor": 1625,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-09",
+            "anyo": 2019,
+            "mes": 9,
+            "valor": 1407,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-10",
+            "anyo": 2019,
+            "mes": 10,
+            "valor": 811,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-11",
+            "anyo": 2019,
+            "mes": 11,
+            "valor": 152,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-12",
+            "anyo": 2019,
+            "mes": 12,
+            "valor": 128,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-02",
+            "anyo": 2020,
+            "mes": 2,
+            "valor": 268,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-03",
+            "anyo": 2020,
+            "mes": 3,
+            "valor": 401,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-04",
+            "anyo": 2020,
+            "mes": 4,
+            "valor": 0,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-07",
+            "anyo": 2020,
+            "mes": 7,
+            "valor": 1049,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-08",
+            "anyo": 2020,
+            "mes": 8,
+            "valor": 1077,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-09",
+            "anyo": 2020,
+            "mes": 9,
+            "valor": 992,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-10",
+            "anyo": 2020,
+            "mes": 10,
+            "valor": 360,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-11",
+            "anyo": 2020,
+            "mes": 11,
+            "valor": 121,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-12",
+            "anyo": 2020,
+            "mes": 12,
+            "valor": 117,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-01",
+            "anyo": 2021,
+            "mes": 1,
+            "valor": 28,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-03",
+            "anyo": 2021,
+            "mes": 3,
+            "valor": 82,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-04",
+            "anyo": 2021,
+            "mes": 4,
+            "valor": 173,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-05",
+            "anyo": 2021,
+            "mes": 5,
+            "valor": 396,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-06",
+            "anyo": 2021,
+            "mes": 6,
+            "valor": 884,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-07",
+            "anyo": 2021,
+            "mes": 7,
+            "valor": 1224,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-08",
+            "anyo": 2021,
+            "mes": 8,
+            "valor": 1264,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-09",
+            "anyo": 2021,
+            "mes": 9,
+            "valor": 1128,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-10",
+            "anyo": 2021,
+            "mes": 10,
+            "valor": 689,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-11",
+            "anyo": 2021,
+            "mes": 11,
+            "valor": 120,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-12",
+            "anyo": 2021,
+            "mes": 12,
+            "valor": 127,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-02",
+            "anyo": 2022,
+            "mes": 2,
+            "valor": 315,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-03",
+            "anyo": 2022,
+            "mes": 3,
+            "valor": 547,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-04",
+            "anyo": 2022,
+            "mes": 4,
+            "valor": 821,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-05",
+            "anyo": 2022,
+            "mes": 5,
+            "valor": 911,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-06",
+            "anyo": 2022,
+            "mes": 6,
+            "valor": 1150,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-07",
+            "anyo": 2022,
+            "mes": 7,
+            "valor": 1325,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-08",
+            "anyo": 2022,
+            "mes": 8,
+            "valor": 1326,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-09",
+            "anyo": 2022,
+            "mes": 9,
+            "valor": 1205,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-10",
+            "anyo": 2022,
+            "mes": 10,
+            "valor": 899,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-11",
+            "anyo": 2022,
+            "mes": 11,
+            "valor": 239,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-02",
+            "anyo": 2023,
+            "mes": 2,
+            "valor": 371,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-03",
+            "anyo": 2023,
+            "mes": 3,
+            "valor": 729,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-04",
+            "anyo": 2023,
+            "mes": 4,
+            "valor": 1069,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-05",
+            "anyo": 2023,
+            "mes": 5,
+            "valor": 1037,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-06",
+            "anyo": 2023,
+            "mes": 6,
+            "valor": 1282,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-07",
+            "anyo": 2023,
+            "mes": 7,
+            "valor": 1354,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-08",
+            "anyo": 2023,
+            "mes": 8,
+            "valor": 1331,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-09",
+            "anyo": 2023,
+            "mes": 9,
+            "valor": 1188,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-10",
+            "anyo": 2023,
+            "mes": 10,
+            "valor": 923,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-11",
+            "anyo": 2023,
+            "mes": 11,
+            "valor": 195,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-12",
+            "anyo": 2023,
+            "mes": 12,
+            "valor": 228,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-02",
+            "anyo": 2024,
+            "mes": 2,
+            "valor": 271,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-03",
+            "anyo": 2024,
+            "mes": 3,
+            "valor": 730,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-04",
+            "anyo": 2024,
+            "mes": 4,
+            "valor": 908,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-05",
+            "anyo": 2024,
+            "mes": 5,
+            "valor": 942,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-06",
+            "anyo": 2024,
+            "mes": 6,
+            "valor": 1197,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-07",
+            "anyo": 2024,
+            "mes": 7,
+            "valor": 1279,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-08",
+            "anyo": 2024,
+            "mes": 8,
+            "valor": 1288,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-09",
+            "anyo": 2024,
+            "mes": 9,
+            "valor": 1129,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-10",
+            "anyo": 2024,
+            "mes": 10,
+            "valor": 879,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-11",
+            "anyo": 2024,
+            "mes": 11,
+            "valor": 227,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-02",
+            "anyo": 2025,
+            "mes": 2,
+            "valor": 279,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-03",
+            "anyo": 2025,
+            "mes": 3,
+            "valor": 556,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-04",
+            "anyo": 2025,
+            "mes": 4,
+            "valor": 911,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-05",
+            "anyo": 2025,
+            "mes": 5,
+            "valor": 937,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-06",
+            "anyo": 2025,
+            "mes": 6,
+            "valor": 1155,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-07",
+            "anyo": 2025,
+            "mes": 7,
+            "valor": 1197,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-08",
+            "anyo": 2025,
+            "mes": 8,
+            "valor": 1238,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-09",
+            "anyo": 2025,
+            "mes": 9,
+            "valor": 1169,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-10",
+            "anyo": 2025,
+            "mes": 10,
+            "valor": 822,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-11",
+            "anyo": 2025,
+            "mes": 11,
+            "valor": 335,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-12",
+            "anyo": 2025,
+            "mes": 12,
+            "valor": 126,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-01",
+            "anyo": 2026,
+            "mes": 1,
+            "valor": 33,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-02",
+            "anyo": 2026,
+            "mes": 2,
+            "valor": 368,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-03",
+            "anyo": 2026,
+            "mes": 3,
+            "valor": 693,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-04",
+            "anyo": 2026,
+            "mes": 4,
+            "valor": 976,
             "secreto": false
           }
         ]

@@ -3565,11 +3565,14 @@
     const revpar = series.find((s) => s.metrica === 'revpar');
     const r = (turismoData.resumen && turismoData.resumen.hoteles) || {};
     const eur = (v) => (v == null ? '—' : Number(v).toFixed(2).replace('.', ',') + ' €');
+    const pct = (v) => (v == null ? '—' : Number(v).toFixed(1).replace('.', ',') + ' %');
     const cont = document.getElementById('turismo-mini-rentabilidad');
     if (cont) {
       cont.innerHTML = [
         { l: 'ADR (último mes)', v: eur(r.ultimoAdr), sub: r.ultimoAdrMes ? fechaLabelTurismo(r.ultimoAdrMes) : '' },
-        { l: 'RevPAR (último mes)', v: eur(r.ultimoRevpar), sub: r.ultimoRevparMes ? fechaLabelTurismo(r.ultimoRevparMes) : '' }
+        { l: 'RevPAR (último mes)', v: eur(r.ultimoRevpar), sub: r.ultimoRevparMes ? fechaLabelTurismo(r.ultimoRevparMes) : '' },
+        { l: 'Grado de ocupación', v: pct(r.ultimoGradoOcupacion), sub: 'por plazas' },
+        { l: 'Personal empleado', v: (r.ultimoPersonal != null ? tFmtNum(r.ultimoPersonal) : '—'), sub: 'en hoteles' }
       ].map((it) => `<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">${it.l}</span><span class="turismo-mini-kpi-value">${it.v}</span>${it.sub ? `<span class="turismo-mini-kpi-sub">${it.sub}</span>` : ''}</div>`).join('');
     }
     destroyTurismoChart('hoteles-rentab');

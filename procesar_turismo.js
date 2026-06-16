@@ -32,6 +32,8 @@ const SERIES = {
   EOT12317: { categoria: 'hoteles', metrica: 'estancia_media',  residencia: 'total',      unidad: 'dias'     },
   EOT11876: { categoria: 'hoteles', metrica: 'plazas',          residencia: 'total',      unidad: 'plazas'   },
   EOT11875: { categoria: 'hoteles', metrica: 'establecimientos', residencia: 'total',     unidad: 'unidades' },
+  EOT11877: { categoria: 'hoteles', metrica: 'grado_ocupacion', residencia: 'total',     unidad: 'porcentaje' },
+  EOT11880: { categoria: 'hoteles', metrica: 'personal_empleado', residencia: 'total',   unidad: 'personas' },
   // Indicadores de rentabilidad hotelera (operación IRSH) — punto turístico Peñíscola
   EOT43571: { categoria: 'hoteles', metrica: 'adr',            residencia: 'total',      unidad: 'euros'    },
   EOT43975: { categoria: 'hoteles', metrica: 'revpar',         residencia: 'total',      unidad: 'euros'    },
@@ -195,8 +197,10 @@ function calcularResumenCategoria(series, cat) {
   if (cat === 'hoteles') {
     const adr = series.find((s) => s.metrica === 'adr');
     const revpar = series.find((s) => s.metrica === 'revpar');
+    const personal = series.find((s) => s.metrica === 'personal_empleado');
     if (adr?.data.length) { out.ultimoAdr = adr.data[adr.data.length - 1].valor; out.ultimoAdrMes = adr.data[adr.data.length - 1].fecha; }
     if (revpar?.data.length) { out.ultimoRevpar = revpar.data[revpar.data.length - 1].valor; out.ultimoRevparMes = revpar.data[revpar.data.length - 1].fecha; }
+    if (personal?.data.length) out.ultimoPersonal = personal.data[personal.data.length - 1].valor;
   }
   return out;
 }
