@@ -3,6 +3,10 @@ node_modules/
 __pycache__/
 *.pyc
 
+# Credenciales / claves (cuentas de servicio Google, etc.) — NUNCA subir
+credenciales/
+service-account*.json
+
 # GitHub límite 100 MB/archivo: crudos locales y agregados pesados
 data/camaras/Trafico_camaras/CSV/
 data/RESIDUOS/camion/JSON/

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peñíscola Dashboard</title>
   <link rel="stylesheet" href="css/globals.css">
-  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/dashboard.css?v=2">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -46,11 +46,19 @@
         <a href="#" class="nav-item" data-section="turismo-tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
         <a href="#" class="nav-item" data-section="turismo-fuentes"><span class="nav-icon">📚</span><span>Fuentes</span></a>
       </nav>
+      <nav class="nav" id="nav-redes" style="display:none">
+        <a href="#" class="nav-item active" data-section="redes-resumen"><span class="nav-icon">📊</span><span>Resumen</span></a>
+        <a href="#" class="nav-item" data-section="redes-facebook"><span class="nav-icon">👍</span><span>Facebook</span></a>
+        <a href="#" class="nav-item" data-section="redes-instagram"><span class="nav-icon">📸</span><span>Instagram</span></a>
+        <a href="#" class="nav-item" data-section="redes-web"><span class="nav-icon">🌐</span><span>Web (Analytics)</span></a>
+        <a href="#" class="nav-item" data-section="redes-fuentes"><span class="nav-icon">🔌</span><span>Conexiones</span></a>
+      </nav>
       <div class="sidebar-footer" id="sidebar-footer">Cámaras de tráfico</div>
       <div class="mode-switcher" id="mode-switcher">
         <button type="button" class="mode-btn mode-btn-camaras" id="mode-to-camaras" data-target="camaras" style="display:none">📷 Ir a Cámaras</button>
         <button type="button" class="mode-btn mode-btn-residuos" id="mode-to-residuos" data-target="residuos">♻️ Ir a Residuos</button>
         <button type="button" class="mode-btn mode-btn-turismo" id="mode-to-turismo" data-target="turismo">✨ Ir a Turismo</button>
+        <button type="button" class="mode-btn mode-btn-redes" id="mode-to-redes" data-target="redes">🌐 Ir a Redes / Web</button>
       </div>
     </aside>
     <main class="main">
@@ -81,6 +89,12 @@
               <p class="landing-card-desc">Hoteles, apartamentos, campings y movilidad turística según el INE.</p>
               <span class="landing-card-cta">Entrar <span aria-hidden="true">→</span></span>
             </button>
+            <button type="button" class="landing-card landing-card-redes" data-target="redes">
+              <span class="landing-card-icon" aria-hidden="true">🌐</span>
+              <h2 class="landing-card-title">Redes / Web</h2>
+              <p class="landing-card-desc">Rendimiento en Facebook e Instagram (Meta) y tráfico de la web según Google Analytics.</p>
+              <span class="landing-card-cta">Entrar <span aria-hidden="true">→</span></span>
+            </button>
           </div>
           <p class="landing-foot">Datos públicos del INE, sensores municipales y registros de gestión.</p>
         </div>
@@ -102,6 +116,13 @@
         <div class="header-actions">
           <span class="turismo-fuente">Fuente: INE</span>
           <button type="button" class="reload-btn turismo-reload-btn" id="turismo-refresh">Actualizar INE</button>
+        </div>
+      </header>
+      <header class="header header-turismo" id="header-redes" style="display:none">
+        <h2>Redes / Web - Resumen</h2>
+        <div class="header-actions">
+          <span class="turismo-fuente" id="redes-fuente">Meta · Google Analytics</span>
+          <button type="button" class="reload-btn turismo-reload-btn" id="redes-refresh">Actualizar</button>
         </div>
       </header>
 
@@ -857,12 +878,172 @@
           </div>
         </section>
       </div>
+
+      <div id="main-redes" style="display:none">
+        <div class="turismo-hero">
+          <div class="turismo-hero-text">
+            <span class="turismo-hero-eyebrow">Peñíscola · presencia digital</span>
+            <h3 class="turismo-hero-title" id="redes-hero-title">Redes sociales y web</h3>
+            <p class="turismo-hero-sub" id="redes-hero-sub">Rendimiento en Facebook e Instagram (Meta) y tráfico de la web según Google Analytics. Últimos 30 días.</p>
+          </div>
+          <div class="turismo-hero-meta">
+            <span class="turismo-hero-label">Última actualización</span>
+            <span class="turismo-hero-value" id="redes-hero-update">—</span>
+            <span class="turismo-hero-update" id="redes-hero-range">Periodo: últimos 30 días</span>
+          </div>
+        </div>
+
+        <div id="redes-status" class="redes-status" style="display:none"></div>
+
+        <section id="section-redes-resumen" class="section active">
+          <div class="turismo-kpi-grid">
+            <div class="turismo-context-card">
+              <span class="turismo-context-icon">👍</span>
+              <div>
+                <span class="turismo-context-label">Seguidores Facebook</span>
+                <span class="turismo-context-value" id="redes-kpi-fb-followers">—</span>
+                <span class="turismo-context-sub" id="redes-kpi-fb-name">—</span>
+              </div>
+            </div>
+            <div class="turismo-context-card">
+              <span class="turismo-context-icon">📸</span>
+              <div>
+                <span class="turismo-context-label">Seguidores Instagram</span>
+                <span class="turismo-context-value" id="redes-kpi-ig-followers">—</span>
+                <span class="turismo-context-sub" id="redes-kpi-ig-name">—</span>
+              </div>
+            </div>
+            <div class="turismo-context-card turismo-context-highlight">
+              <span class="turismo-context-icon">📈</span>
+              <div>
+                <span class="turismo-context-label">Sesiones web (30 d)</span>
+                <span class="turismo-context-value" id="redes-kpi-ga-sessions">—</span>
+                <span class="turismo-context-sub" id="redes-kpi-ga-users">—</span>
+              </div>
+            </div>
+            <div class="turismo-context-card">
+              <span class="turismo-context-icon">🚀</span>
+              <div>
+                <span class="turismo-context-label">Alcance redes (30 d)</span>
+                <span class="turismo-context-value" id="redes-kpi-reach">—</span>
+                <span class="turismo-context-sub">Facebook + Instagram</span>
+              </div>
+            </div>
+          </div>
+          <div class="turismo-charts-row">
+            <div class="turismo-chart-card">
+              <h4>Sesiones web por día</h4>
+              <p class="turismo-chart-hint">Google Analytics · últimos 30 días</p>
+              <div class="chart-container" style="height:320px"><canvas id="chart-redes-ga-dia"></canvas></div>
+            </div>
+            <div class="turismo-chart-card">
+              <h4>Alcance en redes por día</h4>
+              <p class="turismo-chart-hint">Facebook + Instagram</p>
+              <div class="chart-container" style="height:320px"><canvas id="chart-redes-reach-dia"></canvas></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-redes-facebook" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">👍 Facebook</h3>
+              <span class="turismo-section-tag">Meta Graph API · Página</span>
+            </div>
+            <div class="turismo-mini-kpis" id="redes-mini-facebook"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Alcance por día</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-redes-fb-reach"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Interacciones por día</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-redes-fb-eng"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-redes-instagram" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">📸 Instagram</h3>
+              <span class="turismo-section-tag">Meta Graph API · Business</span>
+            </div>
+            <div class="turismo-mini-kpis" id="redes-mini-instagram"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>Alcance por día</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-redes-ig-reach"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-redes-web" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">🌐 Web</h3>
+              <span class="turismo-section-tag">Google Analytics 4</span>
+            </div>
+            <div class="turismo-mini-kpis" id="redes-mini-web"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Sesiones y usuarios por día</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-redes-ga-trend"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Fuentes de tráfico</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-redes-ga-sources"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Páginas más vistas</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-redes-ga-pages"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Países</h4>
+                <div class="chart-container" style="height:340px"><canvas id="chart-redes-ga-countries"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-redes-fuentes" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">🔌 Conexiones</h3>
+              <span class="turismo-section-tag">Estado de las integraciones</span>
+            </div>
+            <div id="redes-conexiones"></div>
+            <div class="turismo-fuentes-list" style="margin-top:1.25rem">
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge">Meta</span>
+                  <h4>Facebook + Instagram (Graph API)</h4>
+                </div>
+                <p>Requiere en el archivo <code>.env</code>: <code>META_ACCESS_TOKEN</code> (token de Página de larga duración), <code>META_PAGE_ID</code> y <code>META_IG_USER_ID</code> (cuenta de Instagram Business vinculada). Permisos: <em>pages_read_engagement, read_insights, instagram_basic, instagram_manage_insights</em>.</p>
+                <p class="turismo-fuente-meta">Origen: <a href="https://developers.facebook.com/" target="_blank" rel="noopener noreferrer">Meta for Developers ↗</a></p>
+              </div>
+              <div class="turismo-fuente-card">
+                <div class="turismo-fuente-head">
+                  <span class="turismo-fuente-badge turismo-fuente-badge-gva">Google</span>
+                  <h4>Google Analytics 4 (Data API)</h4>
+                </div>
+                <p>Requiere en <code>.env</code>: <code>GA4_PROPERTY_ID</code> y una cuenta de servicio de Google Cloud (<code>GOOGLE_APPLICATION_CREDENTIALS</code> con la ruta al JSON, o <code>GA_CLIENT_EMAIL</code> + <code>GA_PRIVATE_KEY</code>). El email de la cuenta de servicio debe añadirse como <em>Lector</em> en la propiedad GA4.</p>
+                <p class="turismo-fuente-meta">Origen: <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">Google Analytics ↗</a></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   </div>
   <script>
     /* Puerto de server.js (process.env.PORT o 7777). Si usas otro valor en .env, cámbialo aquí también. */
     window.__DASHBOARD_API_PORT__ = 7777;
   </script>
-  <script src="js/dashboard.js?v=66"></script>
+  <script src="js/dashboard.js?v=67"></script>
 </body>
 </html>

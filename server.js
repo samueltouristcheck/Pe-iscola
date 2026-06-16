@@ -9,6 +9,8 @@ const fs = require('fs');
 const XLSX = require('xlsx');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const redes = require('./redes');
+const { getRedesOverview, metaConfigured, gaConfigured } = redes;
 
 const app = express();
 const EJEMPLOS_DIR = path.join(__dirname, 'informes_ejemplo');
@@ -228,6 +230,55 @@ app.get('/api/turismo/status', (req, res) => {
         mtime: existe ? fs.statSync(p).mtime : null
     });
 });
+/* ---------------------------- Redes / Web ---------------------------- */
+// Estado de configuración (sin exponer secretos): qué integraciones están listas.
+app.get('/api/redes/config', (req, res) => {
+    res.json({ meta: metaConfigured(), ga: gaConfigured() });
+});
+// --- OAuth de Google Analytics con TU cuenta (en vez del robot) ---
+function oauthRedirectUri(req) {
+    return `${req.protocol}://${req.get('host')}/api/redes/oauth/callback`;
+}
+// Paso 1: redirige a Google para que autorices con tu cuenta.
+app.get('/api/redes/oauth/start', (req, res) => {
+    try {
+        res.redirect(redes.gaOAuthAuthUrl(oauthRedirectUri(req)));
+    } catch (e) {
+        res.status(400).send('Error iniciando OAuth: ' + (e.message || e));
+    }
+});
+// Paso 2: Google vuelve aquí con el "code"; lo canjeamos y guardamos el token.
+app.get('/api/redes/oauth/callback', async (req, res) => {
+    if (req.query.error) return res.status(400).send('Autorización cancelada: ' + req.query.error);
+    if (!req.query.code) return res.status(400).send('Falta el parámetro "code".');
+    try {
+        await redes.gaOAuthExchange(req.query.code, oauthRedirectUri(req));
+        _redesCache = { at: 0, data: null };
+        res.send('<html><head><meta charset="utf-8"></head><body style="font-family:sans-serif;padding:40px;text-align:center">'
+            + '<h2>✅ Conectado a Google Analytics</h2>'
+            + '<p>Ya puedes cerrar esta pestaña y volver al panel. En "Redes / Web" pulsa <b>Actualizar</b>.</p>'
+            + '</body></html>');
+    } catch (e) {
+        res.status(500).send('Error completando OAuth: ' + (e.message || e));
+    }
+});
+
+// Datos combinados de Meta (Facebook + Instagram) y Google Analytics.
+let _redesCache = { at: 0, data: null };
+app.get('/api/redes/overview', async (req, res) => {
+    try {
+        const force = req.query.refresh === '1';
+        if (!force && _redesCache.data && (Date.now() - _redesCache.at) < 5 * 60 * 1000) {
+            return res.json(_redesCache.data);
+        }
+        const data = await getRedesOverview();
+        _redesCache = { at: Date.now(), data };
+        res.json(data);
+    } catch (e) {
+        res.status(500).json({ error: e.message || 'Error obteniendo datos de redes/web' });
+    }
+});
+
 app.get('/data/RESIDUOS/pesajes/todos.json', (req, res) => {
     const p = path.join(__dirname, 'data', 'RESIDUOS', 'pesajes', 'todos.json');
     if (fs.existsSync(p)) res.sendFile(p);

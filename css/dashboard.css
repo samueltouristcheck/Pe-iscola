@@ -87,6 +87,39 @@
 .mode-btn-camaras:hover  { border-color: #3b82f6; color: #3b82f6; }
 .mode-btn-residuos:hover { border-color: #00a88a; color: #00a88a; }
 .mode-btn-turismo:hover  { border-color: #f97316; color: #f97316; }
+.mode-btn-redes:hover    { border-color: #8b5cf6; color: #8b5cf6; }
+
+/* Redes / Web — estado de configuración y conexiones */
+.redes-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    border: 1px solid #fcd34d;
+    background: #fffbeb;
+    color: #78350f;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.redes-status.redes-status-ok { border-color: #6ee7b7; background: #ecfdf5; color: #065f46; }
+.redes-status-icon { font-size: 22px; line-height: 1; }
+.redes-status strong { display: block; margin-bottom: 2px; }
+.redes-conexiones { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.redes-conn-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+}
+.redes-conn-dot { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; background: #cbd5e1; }
+.redes-conn-dot.on { background: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,0.15); }
+.redes-conn-dot.off { background: #f59e0b; box-shadow: 0 0 0 4px rgba(245,158,11,0.15); }
+.redes-conn-card .redes-conn-state { font-size: 12px; color: var(--text-secondary); }
 
 /* Bloque del logo (Peñíscola) — arriba del todo */
 .logo {
@@ -759,7 +792,7 @@
       var(--bg-app);
 }
 .landing-wrapper {
-    max-width: 1100px;
+    max-width: 1320px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -809,9 +842,15 @@
 }
 .landing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 24px;
     margin-bottom: 32px;
+}
+@media (max-width: 1100px) {
+    .landing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+    .landing-grid { grid-template-columns: 1fr; }
 }
 .landing-card {
     appearance: none;
@@ -840,6 +879,7 @@
 .landing-card-camaras::before  { background: linear-gradient(90deg, #2563eb, #0891b2); }
 .landing-card-residuos::before { background: linear-gradient(90deg, #00a88a, #2563eb); }
 .landing-card-turismo::before  { background: linear-gradient(90deg, #f97316, #e6157f); }
+.landing-card-redes::before    { background: linear-gradient(90deg, #8b5cf6, #2563eb); }
 .landing-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 14px 30px -14px rgba(15, 23, 42, 0.25);
@@ -847,6 +887,7 @@
 .landing-card-camaras:hover  { border-color: #2563eb; }
 .landing-card-residuos:hover { border-color: #00a88a; }
 .landing-card-turismo:hover  { border-color: #f97316; }
+.landing-card-redes:hover    { border-color: #8b5cf6; }
 .landing-card-icon {
     font-size: 44px;
     line-height: 1;
@@ -876,6 +917,7 @@
 .landing-card-camaras .landing-card-cta  { color: #2563eb; }
 .landing-card-residuos .landing-card-cta { color: #00a88a; }
 .landing-card-turismo .landing-card-cta  { color: #f97316; }
+.landing-card-redes .landing-card-cta    { color: #8b5cf6; }
 .landing-card:hover .landing-card-cta { gap: 10px; }
 .landing-foot {
     font-size: 12px;

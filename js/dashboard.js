@@ -713,12 +713,15 @@
     const mainResiduos = document.getElementById('main-residuos');
     const mainCamaras = document.getElementById('main-camaras');
     const mainTurismo = document.getElementById('main-turismo');
+    const mainRedes = document.getElementById('main-redes');
     const headerResiduos = document.getElementById('header-residuos');
     const headerCamaras = document.getElementById('header-camaras');
     const headerTurismo = document.getElementById('header-turismo');
+    const headerRedes = document.getElementById('header-redes');
     const navResiduos = document.getElementById('nav-residuos');
     const navCamaras = document.getElementById('nav-camaras');
     const navTurismo = document.getElementById('nav-turismo');
+    const navRedes = document.getElementById('nav-redes');
     const footer = document.getElementById('sidebar-footer');
     const sidebar = document.querySelector('.sidebar');
     // Ocultar todo
@@ -726,19 +729,24 @@
     if (mainResiduos) mainResiduos.style.display = 'none';
     if (mainCamaras) mainCamaras.style.display = 'none';
     if (mainTurismo) mainTurismo.style.display = 'none';
+    if (mainRedes) mainRedes.style.display = 'none';
     if (headerResiduos) headerResiduos.style.display = 'none';
     if (headerCamaras) headerCamaras.style.display = 'none';
     if (headerTurismo) headerTurismo.style.display = 'none';
+    if (headerRedes) headerRedes.style.display = 'none';
     if (navResiduos) navResiduos.style.display = 'none';
     if (navCamaras) navCamaras.style.display = 'none';
     if (navTurismo) navTurismo.style.display = 'none';
+    if (navRedes) navRedes.style.display = 'none';
     // Mostrar/ocultar los botones de cambio según el modo activo (el del modo actual se oculta)
     const btnCamaras = document.getElementById('mode-to-camaras');
     const btnResiduos = document.getElementById('mode-to-residuos');
     const btnTurismo = document.getElementById('mode-to-turismo');
+    const btnRedes = document.getElementById('mode-to-redes');
     if (btnCamaras) btnCamaras.style.display = mode === 'camaras' ? 'none' : 'block';
     if (btnResiduos) btnResiduos.style.display = mode === 'residuos' ? 'none' : 'block';
     if (btnTurismo) btnTurismo.style.display = mode === 'turismo' ? 'none' : 'block';
+    if (btnRedes) btnRedes.style.display = mode === 'redes' ? 'none' : 'block';
     // Modo landing: ocultar sidebar y mostrar solo la pantalla de selección
     if (mode === 'landing') {
       if (sidebar) sidebar.style.display = 'none';
@@ -758,6 +766,12 @@
       if (navTurismo) navTurismo.style.display = 'block';
       if (footer) footer.textContent = 'Turismo · datos INE';
       setTimeout(function () { if (typeof ensureTurismoLoaded === 'function') ensureTurismoLoaded().then(() => renderTurismoAll()).catch(() => {}); }, 50);
+    } else if (mode === 'redes') {
+      if (mainRedes) mainRedes.style.display = 'block';
+      if (headerRedes) headerRedes.style.display = 'flex';
+      if (navRedes) navRedes.style.display = 'block';
+      if (footer) footer.textContent = 'Redes y web';
+      setTimeout(function () { if (typeof ensureRedesLoaded === 'function') ensureRedesLoaded().then(() => renderRedesAll()).catch(() => {}); }, 50);
     } else {
       if (mainCamaras) mainCamaras.style.display = 'block';
       if (headerCamaras) headerCamaras.style.display = 'flex';
@@ -2974,8 +2988,8 @@
   }
 
   window.toggleDashboardMode = function (target) {
-    if (target && ['camaras', 'residuos', 'turismo'].indexOf(target) >= 0) { setMode(target); return; }
-    const next = mode === 'camaras' ? 'residuos' : mode === 'residuos' ? 'turismo' : 'camaras';
+    if (target && ['camaras', 'residuos', 'turismo', 'redes'].indexOf(target) >= 0) { setMode(target); return; }
+    const next = mode === 'camaras' ? 'residuos' : mode === 'residuos' ? 'turismo' : mode === 'turismo' ? 'redes' : 'camaras';
     setMode(next);
   };
   function wireModeButtons() {
@@ -3992,11 +4006,277 @@
     setMode('landing');
   }
 
+  /* ============================ REDES / WEB ============================ */
+  var redesData = null;
+  var redesLoadPromise = null;
+  var redesCharts = {};
+
+  function redesFmt(n) {
+    if (n == null || isNaN(n)) return '—';
+    return Math.round(n).toLocaleString('es-ES');
+  }
+
+  function redesPalette() {
+    return (typeof CHART_PALETTE !== 'undefined' && CHART_PALETTE) ||
+      ['#8b5cf6', '#2563eb', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#ec4899', '#6366f1'];
+  }
+
+  function ensureRedesLoaded(force) {
+    if (redesData && !force) return Promise.resolve(redesData);
+    if (redesLoadPromise && !force) return redesLoadPromise;
+    var url = dataUrl('/api/redes/overview') + (force ? '?refresh=1' : '');
+    redesLoadPromise = fetch(url, { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { redesData = d; return d; })
+      .catch(function (e) { redesData = { error: e.message || String(e), config: { meta: false, ga: false } }; return redesData; })
+      .finally(function () { redesLoadPromise = null; });
+    return redesLoadPromise;
+  }
+
+  function redesChart(id, config) {
+    var c = document.getElementById(id);
+    if (!c || typeof Chart === 'undefined') return;
+    if (redesCharts[id]) { redesCharts[id].destroy(); redesCharts[id] = null; }
+    redesCharts[id] = new Chart(c, config);
+  }
+
+  function redesLineOpts() {
+    return { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true } }, scales: { y: { beginAtZero: true } } };
+  }
+
+  function renderRedesStatus(d) {
+    var box = document.getElementById('redes-status');
+    if (!box) return;
+    var cfg = (d && d.config) || { meta: false, ga: false };
+    var problems = [];
+    if (!cfg.meta) problems.push('Meta (Facebook/Instagram)');
+    if (!cfg.ga) problems.push('Google Analytics');
+    // Errores devueltos por el backend aun estando configurado
+    var errs = [];
+    if (d && d.meta && d.meta.error) errs.push('Meta: ' + d.meta.error);
+    if (d && d.meta && d.meta.facebook && d.meta.facebook.insightsError) errs.push('Facebook insights: ' + d.meta.facebook.insightsError);
+    if (d && d.meta && d.meta.instagram && d.meta.instagram.insightsError) errs.push('Instagram insights: ' + d.meta.instagram.insightsError);
+    if (d && d.ga && d.ga.error) errs.push('Google Analytics: ' + d.ga.error);
+
+    if (!problems.length && !errs.length) {
+      box.className = 'redes-status redes-status-ok';
+      box.style.display = 'flex';
+      box.innerHTML = '<span class="redes-status-icon">✅</span><div><strong>Conexiones activas</strong>Mostrando datos reales de Meta y Google Analytics (últimos 30 días).</div>';
+      return;
+    }
+    box.className = 'redes-status';
+    box.style.display = 'flex';
+    var html = '<span class="redes-status-icon">🔌</span><div>';
+    if (problems.length) {
+      html += '<strong>Falta configurar: ' + problems.join(' y ') + '</strong>';
+      html += 'Añade las credenciales en el archivo <code>.env</code> y pulsa “Actualizar”. Ve a la pestaña <em>Conexiones</em> para ver qué necesita cada integración.';
+    }
+    if (errs.length) {
+      html += (problems.length ? '<br>' : '<strong>Aviso de las APIs</strong>') + errs.map(function (e) { return '<div>· ' + e + '</div>'; }).join('');
+    }
+    html += '</div>';
+    box.innerHTML = html;
+  }
+
+  function renderRedesResumen(d) {
+    var meta = (d && d.meta) || {};
+    var fb = meta.facebook || {};
+    var ig = meta.instagram || {};
+    var ga = (d && d.ga) || {};
+    var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+    set('redes-kpi-fb-followers', redesFmt(fb.followers != null ? fb.followers : fb.fanCount));
+    set('redes-kpi-fb-name', fb.name || (d && d.config && d.config.meta ? 'Facebook' : 'No conectado'));
+    set('redes-kpi-ig-followers', redesFmt(ig.followers));
+    set('redes-kpi-ig-name', ig.username ? '@' + ig.username : (d && d.config && d.config.meta ? 'Instagram' : 'No conectado'));
+    set('redes-kpi-ga-sessions', redesFmt(ga.sessions));
+    set('redes-kpi-ga-users', ga.users != null ? redesFmt(ga.users) + ' usuarios' : (d && d.config && d.config.ga ? '—' : 'No conectado'));
+    var reach = (fb.reach || 0) + (ig.reach || 0);
+    set('redes-kpi-reach', reach ? redesFmt(reach) : '—');
+
+    // Sesiones web por día
+    var byDay = ga.byDay || [];
+    redesChart('chart-redes-ga-dia', {
+      type: 'line',
+      data: { labels: byDay.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Sesiones', data: byDay.map(function (x) { return x.sessions; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', fill: true, tension: 0.3 }] },
+      options: redesLineOpts()
+    });
+    // Alcance redes por día (FB + IG combinados por fecha)
+    var map = {};
+    (fb.daily || []).forEach(function (x) { if (x.date) map[x.date] = (map[x.date] || 0) + (x.reach || 0); });
+    (ig.daily || []).forEach(function (x) { if (x.date) map[x.date] = (map[x.date] || 0) + (x.reach || 0); });
+    var dates = Object.keys(map).sort();
+    redesChart('chart-redes-reach-dia', {
+      type: 'line',
+      data: { labels: dates.map(function (x) { return x.slice(5); }), datasets: [{ label: 'Alcance', data: dates.map(function (x) { return map[x]; }), borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.12)', fill: true, tension: 0.3 }] },
+      options: redesLineOpts()
+    });
+  }
+
+  function miniKpi(label, value) {
+    return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + label + '</span><span class="turismo-mini-kpi-value">' + value + '</span></div>';
+  }
+
+  function renderRedesFacebook(d) {
+    var fb = (d && d.meta && d.meta.facebook) || {};
+    var cont = document.getElementById('redes-mini-facebook');
+    if (cont) {
+      if (!(d && d.config && d.config.meta)) {
+        cont.innerHTML = miniKpi('Estado', 'No conectado');
+      } else {
+        cont.innerHTML = miniKpi('Seguidores', redesFmt(fb.followers != null ? fb.followers : fb.fanCount)) +
+          miniKpi('Alcance (30 d)', redesFmt(fb.reach)) +
+          miniKpi('Impresiones (30 d)', redesFmt(fb.impressions)) +
+          miniKpi('Interacciones (30 d)', redesFmt(fb.engagement));
+      }
+    }
+    var daily = fb.daily || [];
+    redesChart('chart-redes-fb-reach', {
+      type: 'line',
+      data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Alcance', data: daily.map(function (x) { return x.reach; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', fill: true, tension: 0.3 }] },
+      options: redesLineOpts()
+    });
+    redesChart('chart-redes-fb-eng', {
+      type: 'bar',
+      data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Interacciones', data: daily.map(function (x) { return x.engagement; }), backgroundColor: '#8b5cf6', borderRadius: 4 }] },
+      options: redesLineOpts()
+    });
+  }
+
+  function renderRedesInstagram(d) {
+    var ig = (d && d.meta && d.meta.instagram) || {};
+    var cont = document.getElementById('redes-mini-instagram');
+    if (cont) {
+      if (!(d && d.config && d.config.meta)) {
+        cont.innerHTML = miniKpi('Estado', 'No conectado');
+      } else {
+        cont.innerHTML = miniKpi('Seguidores', redesFmt(ig.followers)) +
+          miniKpi('Publicaciones', redesFmt(ig.mediaCount)) +
+          miniKpi('Alcance (30 d)', redesFmt(ig.reach));
+      }
+    }
+    var daily = ig.daily || [];
+    redesChart('chart-redes-ig-reach', {
+      type: 'line',
+      data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Alcance', data: daily.map(function (x) { return x.reach; }), borderColor: '#ec4899', backgroundColor: 'rgba(236,72,153,0.12)', fill: true, tension: 0.3 }] },
+      options: redesLineOpts()
+    });
+  }
+
+  function renderRedesWeb(d) {
+    var ga = (d && d.ga) || {};
+    var cont = document.getElementById('redes-mini-web');
+    if (cont) {
+      if (!(d && d.config && d.config.ga)) {
+        cont.innerHTML = miniKpi('Estado', 'No conectado');
+      } else {
+        var dur = ga.avgDuration ? Math.round(ga.avgDuration) + ' s' : '—';
+        var bounce = ga.bounceRate != null ? (ga.bounceRate * 100).toFixed(1) + ' %' : '—';
+        cont.innerHTML = miniKpi('Sesiones', redesFmt(ga.sessions)) +
+          miniKpi('Usuarios', redesFmt(ga.users)) +
+          miniKpi('Páginas vistas', redesFmt(ga.pageviews)) +
+          miniKpi('Duración media', dur) +
+          miniKpi('% rebote', bounce);
+      }
+    }
+    var byDay = ga.byDay || [];
+    redesChart('chart-redes-ga-trend', {
+      type: 'line',
+      data: { labels: byDay.map(function (x) { return x.date.slice(5); }), datasets: [
+        { label: 'Sesiones', data: byDay.map(function (x) { return x.sessions; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.10)', fill: true, tension: 0.3 },
+        { label: 'Usuarios', data: byDay.map(function (x) { return x.users; }), borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.10)', fill: true, tension: 0.3 }
+      ] },
+      options: redesLineOpts()
+    });
+    var sources = ga.sources || [];
+    redesChart('chart-redes-ga-sources', {
+      type: 'doughnut',
+      data: { labels: sources.map(function (x) { return x.source; }), datasets: [{ data: sources.map(function (x) { return x.sessions; }), backgroundColor: redesPalette() }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+    });
+    var pages = ga.topPages || [];
+    redesChart('chart-redes-ga-pages', {
+      type: 'bar',
+      data: { labels: pages.map(function (x) { return x.path.length > 28 ? x.path.slice(0, 25) + '…' : x.path; }), datasets: [{ label: 'Páginas vistas', data: pages.map(function (x) { return x.views; }), backgroundColor: '#8b5cf6', borderRadius: 4 }] },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } }
+    });
+    var countries = ga.countries || [];
+    redesChart('chart-redes-ga-countries', {
+      type: 'bar',
+      data: { labels: countries.map(function (x) { return x.country; }), datasets: [{ label: 'Sesiones', data: countries.map(function (x) { return x.sessions; }), backgroundColor: '#06b6d4', borderRadius: 4 }] },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } }
+    });
+  }
+
+  function renderRedesConexiones(d) {
+    var cont = document.getElementById('redes-conexiones');
+    if (!cont) return;
+    var cfg = (d && d.config) || { meta: false, ga: false };
+    var card = function (name, on, detail) {
+      return '<div class="redes-conn-card"><span class="redes-conn-dot ' + (on ? 'on' : 'off') + '"></span>' +
+        '<div><strong>' + name + '</strong><div class="redes-conn-state">' + (on ? 'Conectado · ' + detail : 'Sin configurar') + '</div></div></div>';
+    };
+    var meta = (d && d.meta) || {};
+    var ga = (d && d.ga) || {};
+    var fbName = (meta.facebook && meta.facebook.name) || '';
+    var igName = (meta.instagram && meta.instagram.username) ? '@' + meta.instagram.username : '';
+    var metaDetail = [fbName, igName].filter(Boolean).join(' · ') || 'sin nombre';
+    cont.innerHTML = card('Meta (Facebook + Instagram)', cfg.meta && !meta.error, metaDetail) +
+      card('Google Analytics 4', cfg.ga && !ga.error, ga.propertyId ? 'propiedad ' + ga.propertyId : '');
+  }
+
+  function renderRedesAll() {
+    var d = redesData || { config: { meta: false, ga: false } };
+    var upd = document.getElementById('redes-hero-update');
+    if (upd) upd.textContent = d.generatedAt ? new Date(d.generatedAt).toLocaleString('es-ES') : '—';
+    renderRedesStatus(d);
+    renderRedesResumen(d);
+    renderRedesFacebook(d);
+    renderRedesInstagram(d);
+    renderRedesWeb(d);
+    renderRedesConexiones(d);
+  }
+
+  function initRedes() {
+    wireModeButtons();
+    document.querySelectorAll('#nav-redes .nav-item').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelectorAll('#nav-redes .nav-item').forEach(function (n) { n.classList.remove('active'); });
+        el.classList.add('active');
+        document.querySelectorAll('#main-redes .section').forEach(function (s) { s.classList.remove('active'); });
+        var sec = document.getElementById('section-' + el.dataset.section);
+        if (sec) sec.classList.add('active');
+        var header = document.getElementById('header-redes');
+        if (header) {
+          var titles = {
+            'redes-resumen': 'Redes / Web - Resumen',
+            'redes-facebook': 'Redes / Web - Facebook',
+            'redes-instagram': 'Redes / Web - Instagram',
+            'redes-web': 'Redes / Web - Web (Google Analytics)',
+            'redes-fuentes': 'Redes / Web - Conexiones'
+          };
+          var h2 = header.querySelector('h2');
+          if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];
+        }
+        setTimeout(function () { renderRedesAll(); }, 60);
+      });
+    });
+    var btn = document.getElementById('redes-refresh');
+    if (btn) btn.addEventListener('click', function () {
+      btn.disabled = true;
+      var orig = btn.textContent;
+      btn.textContent = 'Actualizando…';
+      ensureRedesLoaded(true).then(function () { renderRedesAll(); })
+        .finally(function () { btn.disabled = false; btn.textContent = orig; });
+    });
+  }
+
   function init() {
     initLanding();
     initCamaras();
     initResiduos();
     initTurismo();
+    initRedes();
     loadCamarasData();
     document.querySelectorAll('#nav-camaras .nav-item').forEach((el) => {
       el.addEventListener('click', (e) => {
