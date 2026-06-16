@@ -95,8 +95,13 @@ function parseArgs() {
   return { nult: nult > 0 ? nult : 0 };
 }
 
+// "Histórico completo": el INE dejó de aceptar nult=0 (devuelve 404), así que
+// para traer toda la serie pedimos un número alto de periodos.
+const HIST_NULT = 1000;
+
 async function fetchSerie(cod, nult) {
-  const url = `${BASE_API}/DATOS_SERIE/${cod}?nult=${nult}`;
+  const periodos = nult > 0 ? nult : HIST_NULT;
+  const url = `${BASE_API}/DATOS_SERIE/${cod}?nult=${periodos}`;
   const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
   if (!r.ok) throw new Error(`INE ${cod}: HTTP ${r.status}`);
   return r.json();
