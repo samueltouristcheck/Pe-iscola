@@ -3558,6 +3558,40 @@
     });
   }
 
+  function renderTurismoRentabilidad() {
+    if (!turismoData) return;
+    const series = turismoData.series.hoteles || [];
+    const adr = series.find((s) => s.metrica === 'adr');
+    const revpar = series.find((s) => s.metrica === 'revpar');
+    const r = (turismoData.resumen && turismoData.resumen.hoteles) || {};
+    const eur = (v) => (v == null ? '—' : Number(v).toFixed(2).replace('.', ',') + ' €');
+    const cont = document.getElementById('turismo-mini-rentabilidad');
+    if (cont) {
+      cont.innerHTML = [
+        { l: 'ADR (último mes)', v: eur(r.ultimoAdr), sub: r.ultimoAdrMes ? fechaLabelTurismo(r.ultimoAdrMes) : '' },
+        { l: 'RevPAR (último mes)', v: eur(r.ultimoRevpar), sub: r.ultimoRevparMes ? fechaLabelTurismo(r.ultimoRevparMes) : '' }
+      ].map((it) => `<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">${it.l}</span><span class="turismo-mini-kpi-value">${it.v}</span>${it.sub ? `<span class="turismo-mini-kpi-sub">${it.sub}</span>` : ''}</div>`).join('');
+    }
+    destroyTurismoChart('hoteles-rentab');
+    const ctx = document.getElementById('chart-turismo-hoteles-rentab');
+    if (!ctx) return;
+    if (!adr && !revpar) { ctx.parentElement.innerHTML = '<p style="padding:1rem;color:var(--text-muted)">Sin datos publicados.</p>'; return; }
+    const mapADR = {}; (adr && adr.data || []).forEach((d) => { mapADR[d.fecha] = d.valor; });
+    const mapRev = {}; (revpar && revpar.data || []).forEach((d) => { mapRev[d.fecha] = d.valor; });
+    const fechas = Array.from(new Set(Object.keys(mapADR).concat(Object.keys(mapRev)))).sort().slice(-36);
+    turismoCharts['hoteles-rentab'] = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: fechas.map(fechaLabelTurismo),
+        datasets: [
+          { label: 'ADR (€)', data: fechas.map((f) => (mapADR[f] != null ? mapADR[f] : null)), borderColor: '#7c3aed', backgroundColor: '#7c3aed22', tension: 0.3, fill: false, pointRadius: 2, spanGaps: true },
+          { label: 'RevPAR (€)', data: fechas.map((f) => (mapRev[f] != null ? mapRev[f] : null)), borderColor: '#0ea5e9', backgroundColor: '#0ea5e922', tension: 0.3, fill: false, pointRadius: 2, spanGaps: true }
+        ]
+      },
+      options: turismoChartDefaults()
+    });
+  }
+
   function renderTurismoApartamentos() {
     const empty = document.getElementById('turismo-apart-empty');
     const charts = document.getElementById('turismo-apart-charts');
@@ -3988,6 +4022,7 @@
     ensureViviendasLoaded().then((d) => { if (d) renderTurismoViviendas(); });
     renderTurismoCategoriaMesChart('chart-turismo-hoteles-mes', 'hoteles');
     renderTurismoCategoriaOrigenChart('chart-turismo-hoteles-origen', 'hoteles');
+    renderTurismoRentabilidad();
     renderTurismoCategoriaAnualChart('chart-turismo-hoteles-anual', 'hoteles');
     renderTurismoApartamentos();
     renderTurismoCategoriaMesChart('chart-turismo-camp-mes', 'campings');

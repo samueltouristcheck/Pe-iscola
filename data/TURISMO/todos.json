@@ -1,10 +1,10 @@
 {
-  "generadoEn": "2026-06-16T08:17:39.131Z",
+  "generadoEn": "2026-06-16T08:26:13.614Z",
   "fuente": "INE - Instituto Nacional de Estadística (https://www.ine.es)",
   "municipio": "Peñíscola",
   "codigoMunicipio": "12089",
-  "seriesTotales": 58,
-  "seriesOk": 58,
+  "seriesTotales": 60,
+  "seriesOk": 60,
   "errores": [],
   "resumen": {
     "hoteles": {
@@ -16,7 +16,11 @@
       "totalViajerosAnyoAnterior": 393629,
       "totalPernoctacionesAnyoAnterior": 1486363,
       "ultimasPlazas": 9815,
-      "ultimosEstablecimientos": 55
+      "ultimosEstablecimientos": 55,
+      "ultimoAdr": 65.48,
+      "ultimoAdrMes": "2026-04",
+      "ultimoRevpar": 35.08,
+      "ultimoRevparMes": "2026-04"
     },
     "apartamentos": {
       "ultimoMes": null,
@@ -10540,6 +10544,904 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 55,
+            "secreto": false
+          }
+        ]
+      },
+      {
+        "cod": "EOT43571",
+        "metrica": "adr",
+        "residencia": "total",
+        "unidad": "euros",
+        "data": [
+          {
+            "fecha": "2021-01",
+            "anyo": 2021,
+            "mes": 1,
+            "valor": 46.15,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-03",
+            "anyo": 2021,
+            "mes": 3,
+            "valor": 56.38,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-04",
+            "anyo": 2021,
+            "mes": 4,
+            "valor": 63.5,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-05",
+            "anyo": 2021,
+            "mes": 5,
+            "valor": 60.83,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-06",
+            "anyo": 2021,
+            "mes": 6,
+            "valor": 80.78,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-07",
+            "anyo": 2021,
+            "mes": 7,
+            "valor": 114.06,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-08",
+            "anyo": 2021,
+            "mes": 8,
+            "valor": 125.67,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-09",
+            "anyo": 2021,
+            "mes": 9,
+            "valor": 73.38,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-10",
+            "anyo": 2021,
+            "mes": 10,
+            "valor": 48.27,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-11",
+            "anyo": 2021,
+            "mes": 11,
+            "valor": 42.62,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-12",
+            "anyo": 2021,
+            "mes": 12,
+            "valor": 47.5,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-01",
+            "anyo": 2022,
+            "mes": 1,
+            "valor": 55.99,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-02",
+            "anyo": 2022,
+            "mes": 2,
+            "valor": 46.04,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-03",
+            "anyo": 2022,
+            "mes": 3,
+            "valor": 35.75,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-04",
+            "anyo": 2022,
+            "mes": 4,
+            "valor": 48.56,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-05",
+            "anyo": 2022,
+            "mes": 5,
+            "valor": 49.98,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-06",
+            "anyo": 2022,
+            "mes": 6,
+            "valor": 88.8,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-07",
+            "anyo": 2022,
+            "mes": 7,
+            "valor": 116.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-08",
+            "anyo": 2022,
+            "mes": 8,
+            "valor": 125.88,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-09",
+            "anyo": 2022,
+            "mes": 9,
+            "valor": 71.85,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-10",
+            "anyo": 2022,
+            "mes": 10,
+            "valor": 50.2,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-11",
+            "anyo": 2022,
+            "mes": 11,
+            "valor": 42.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-12",
+            "anyo": 2022,
+            "mes": 12,
+            "valor": 45.06,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-01",
+            "anyo": 2023,
+            "mes": 1,
+            "valor": 62.99,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-02",
+            "anyo": 2023,
+            "mes": 2,
+            "valor": 40.33,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-03",
+            "anyo": 2023,
+            "mes": 3,
+            "valor": 37.26,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-04",
+            "anyo": 2023,
+            "mes": 4,
+            "valor": 53.54,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-05",
+            "anyo": 2023,
+            "mes": 5,
+            "valor": 52.53,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-06",
+            "anyo": 2023,
+            "mes": 6,
+            "valor": 94.4,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-07",
+            "anyo": 2023,
+            "mes": 7,
+            "valor": 125.66,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-08",
+            "anyo": 2023,
+            "mes": 8,
+            "valor": 140.17,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-09",
+            "anyo": 2023,
+            "mes": 9,
+            "valor": 76.12,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-10",
+            "anyo": 2023,
+            "mes": 10,
+            "valor": 55.86,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-11",
+            "anyo": 2023,
+            "mes": 11,
+            "valor": 50.63,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-12",
+            "anyo": 2023,
+            "mes": 12,
+            "valor": 49.48,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-01",
+            "anyo": 2024,
+            "mes": 1,
+            "valor": 61.55,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-02",
+            "anyo": 2024,
+            "mes": 2,
+            "valor": 39.86,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-03",
+            "anyo": 2024,
+            "mes": 3,
+            "valor": 44.93,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-04",
+            "anyo": 2024,
+            "mes": 4,
+            "valor": 48.92,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-05",
+            "anyo": 2024,
+            "mes": 5,
+            "valor": 58.15,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-06",
+            "anyo": 2024,
+            "mes": 6,
+            "valor": 100.4,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-07",
+            "anyo": 2024,
+            "mes": 7,
+            "valor": 128.25,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-08",
+            "anyo": 2024,
+            "mes": 8,
+            "valor": 144.29,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-09",
+            "anyo": 2024,
+            "mes": 9,
+            "valor": 80.45,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-10",
+            "anyo": 2024,
+            "mes": 10,
+            "valor": 53.98,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-11",
+            "anyo": 2024,
+            "mes": 11,
+            "valor": 39.09,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-12",
+            "anyo": 2024,
+            "mes": 12,
+            "valor": 52.4,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-01",
+            "anyo": 2025,
+            "mes": 1,
+            "valor": 65.53,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-02",
+            "anyo": 2025,
+            "mes": 2,
+            "valor": 41.57,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-03",
+            "anyo": 2025,
+            "mes": 3,
+            "valor": 35.53,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-04",
+            "anyo": 2025,
+            "mes": 4,
+            "valor": 58.11,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-05",
+            "anyo": 2025,
+            "mes": 5,
+            "valor": 55.34,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-06",
+            "anyo": 2025,
+            "mes": 6,
+            "valor": 92.34,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-07",
+            "anyo": 2025,
+            "mes": 7,
+            "valor": 140.51,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-08",
+            "anyo": 2025,
+            "mes": 8,
+            "valor": 152.61,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-09",
+            "anyo": 2025,
+            "mes": 9,
+            "valor": 96.85,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-10",
+            "anyo": 2025,
+            "mes": 10,
+            "valor": 67.65,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-11",
+            "anyo": 2025,
+            "mes": 11,
+            "valor": 49.89,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-12",
+            "anyo": 2025,
+            "mes": 12,
+            "valor": 59.24,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-01",
+            "anyo": 2026,
+            "mes": 1,
+            "valor": 61.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-02",
+            "anyo": 2026,
+            "mes": 2,
+            "valor": 59.59,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-03",
+            "anyo": 2026,
+            "mes": 3,
+            "valor": 47.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-04",
+            "anyo": 2026,
+            "mes": 4,
+            "valor": 65.48,
+            "secreto": false
+          }
+        ]
+      },
+      {
+        "cod": "EOT43975",
+        "metrica": "revpar",
+        "residencia": "total",
+        "unidad": "euros",
+        "data": [
+          {
+            "fecha": "2021-01",
+            "anyo": 2021,
+            "mes": 1,
+            "valor": 0.6,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-03",
+            "anyo": 2021,
+            "mes": 3,
+            "valor": 4,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-04",
+            "anyo": 2021,
+            "mes": 4,
+            "valor": 7.96,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-05",
+            "anyo": 2021,
+            "mes": 5,
+            "valor": 9.83,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-06",
+            "anyo": 2021,
+            "mes": 6,
+            "valor": 36.54,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-07",
+            "anyo": 2021,
+            "mes": 7,
+            "valor": 76.75,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-08",
+            "anyo": 2021,
+            "mes": 8,
+            "valor": 99.63,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-09",
+            "anyo": 2021,
+            "mes": 9,
+            "valor": 47.8,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-10",
+            "anyo": 2021,
+            "mes": 10,
+            "valor": 22.94,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-11",
+            "anyo": 2021,
+            "mes": 11,
+            "valor": 9.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-12",
+            "anyo": 2021,
+            "mes": 12,
+            "valor": 10.38,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-01",
+            "anyo": 2022,
+            "mes": 1,
+            "valor": 3.34,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-02",
+            "anyo": 2022,
+            "mes": 2,
+            "valor": 9.79,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-03",
+            "anyo": 2022,
+            "mes": 3,
+            "valor": 15.85,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-04",
+            "anyo": 2022,
+            "mes": 4,
+            "valor": 23.81,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-05",
+            "anyo": 2022,
+            "mes": 5,
+            "valor": 24.57,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-06",
+            "anyo": 2022,
+            "mes": 6,
+            "valor": 57.22,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-07",
+            "anyo": 2022,
+            "mes": 7,
+            "valor": 83.37,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-08",
+            "anyo": 2022,
+            "mes": 8,
+            "valor": 106.77,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-09",
+            "anyo": 2022,
+            "mes": 9,
+            "valor": 52.4,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-10",
+            "anyo": 2022,
+            "mes": 10,
+            "valor": 28.02,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-11",
+            "anyo": 2022,
+            "mes": 11,
+            "valor": 16.64,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-12",
+            "anyo": 2022,
+            "mes": 12,
+            "valor": 12.62,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-01",
+            "anyo": 2023,
+            "mes": 1,
+            "valor": 13.59,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-02",
+            "anyo": 2023,
+            "mes": 2,
+            "valor": 14.67,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-03",
+            "anyo": 2023,
+            "mes": 3,
+            "valor": 15.1,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-04",
+            "anyo": 2023,
+            "mes": 4,
+            "valor": 29.81,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-05",
+            "anyo": 2023,
+            "mes": 5,
+            "valor": 27.32,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-06",
+            "anyo": 2023,
+            "mes": 6,
+            "valor": 59.75,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-07",
+            "anyo": 2023,
+            "mes": 7,
+            "valor": 89.91,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-08",
+            "anyo": 2023,
+            "mes": 8,
+            "valor": 114.63,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-09",
+            "anyo": 2023,
+            "mes": 9,
+            "valor": 55.92,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-10",
+            "anyo": 2023,
+            "mes": 10,
+            "valor": 29.08,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-11",
+            "anyo": 2023,
+            "mes": 11,
+            "valor": 14.95,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-12",
+            "anyo": 2023,
+            "mes": 12,
+            "valor": 14.1,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-01",
+            "anyo": 2024,
+            "mes": 1,
+            "valor": 11.95,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-02",
+            "anyo": 2024,
+            "mes": 2,
+            "valor": 23.97,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-03",
+            "anyo": 2024,
+            "mes": 3,
+            "valor": 21.08,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-04",
+            "anyo": 2024,
+            "mes": 4,
+            "valor": 23.18,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-05",
+            "anyo": 2024,
+            "mes": 5,
+            "valor": 35.14,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-06",
+            "anyo": 2024,
+            "mes": 6,
+            "valor": 64.9,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-07",
+            "anyo": 2024,
+            "mes": 7,
+            "valor": 95.1,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-08",
+            "anyo": 2024,
+            "mes": 8,
+            "valor": 116.09,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-09",
+            "anyo": 2024,
+            "mes": 9,
+            "valor": 60.9,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-10",
+            "anyo": 2024,
+            "mes": 10,
+            "valor": 30.12,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-11",
+            "anyo": 2024,
+            "mes": 11,
+            "valor": 11.29,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-12",
+            "anyo": 2024,
+            "mes": 12,
+            "valor": 15.22,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-01",
+            "anyo": 2025,
+            "mes": 1,
+            "valor": 12.45,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-02",
+            "anyo": 2025,
+            "mes": 2,
+            "valor": 20.36,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-03",
+            "anyo": 2025,
+            "mes": 3,
+            "valor": 19,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-04",
+            "anyo": 2025,
+            "mes": 4,
+            "valor": 30.78,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-05",
+            "anyo": 2025,
+            "mes": 5,
+            "valor": 31.63,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-06",
+            "anyo": 2025,
+            "mes": 6,
+            "valor": 64.77,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-07",
+            "anyo": 2025,
+            "mes": 7,
+            "valor": 106.09,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-08",
+            "anyo": 2025,
+            "mes": 8,
+            "valor": 124.72,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-09",
+            "anyo": 2025,
+            "mes": 9,
+            "valor": 76.4,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-10",
+            "anyo": 2025,
+            "mes": 10,
+            "valor": 33.34,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-11",
+            "anyo": 2025,
+            "mes": 11,
+            "valor": 14.94,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-12",
+            "anyo": 2025,
+            "mes": 12,
+            "valor": 19.5,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-01",
+            "anyo": 2026,
+            "mes": 1,
+            "valor": 16.83,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-02",
+            "anyo": 2026,
+            "mes": 2,
+            "valor": 28.26,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-03",
+            "anyo": 2026,
+            "mes": 3,
+            "valor": 31.65,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-04",
+            "anyo": 2026,
+            "mes": 4,
+            "valor": 35.08,
             "secreto": false
           }
         ]

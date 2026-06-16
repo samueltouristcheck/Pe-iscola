@@ -32,6 +32,9 @@ const SERIES = {
   EOT12317: { categoria: 'hoteles', metrica: 'estancia_media',  residencia: 'total',      unidad: 'dias'     },
   EOT11876: { categoria: 'hoteles', metrica: 'plazas',          residencia: 'total',      unidad: 'plazas'   },
   EOT11875: { categoria: 'hoteles', metrica: 'establecimientos', residencia: 'total',     unidad: 'unidades' },
+  // Indicadores de rentabilidad hotelera (operación IRSH) — punto turístico Peñíscola
+  EOT43571: { categoria: 'hoteles', metrica: 'adr',            residencia: 'total',      unidad: 'euros'    },
+  EOT43975: { categoria: 'hoteles', metrica: 'revpar',         residencia: 'total',      unidad: 'euros'    },
   // ====== APARTAMENTOS (EOAP) — series existen pero el INE no publica valores ======
   EOT44530: { categoria: 'apartamentos', metrica: 'viajeros',       residencia: 'espana',     unidad: 'personas' },
   EOT44529: { categoria: 'apartamentos', metrica: 'viajeros',       residencia: 'extranjero', unidad: 'personas' },
@@ -188,6 +191,12 @@ function calcularResumenCategoria(series, cat) {
     if (grado?.data.length) out.ultimoGradoOcupacion = grado.data[grado.data.length - 1].valor;
     if (plazas?.data.length) out.ultimasPlazas = plazas.data[plazas.data.length - 1].valor;
     if (est?.data.length) out.ultimosEstablecimientos = est.data[est.data.length - 1].valor;
+  }
+  if (cat === 'hoteles') {
+    const adr = series.find((s) => s.metrica === 'adr');
+    const revpar = series.find((s) => s.metrica === 'revpar');
+    if (adr?.data.length) { out.ultimoAdr = adr.data[adr.data.length - 1].valor; out.ultimoAdrMes = adr.data[adr.data.length - 1].fecha; }
+    if (revpar?.data.length) { out.ultimoRevpar = revpar.data[revpar.data.length - 1].valor; out.ultimoRevparMes = revpar.data[revpar.data.length - 1].fecha; }
   }
   return out;
 }
