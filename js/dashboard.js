@@ -4275,6 +4275,14 @@
         if (fb.impressions != null) c += miniKpi('Visualizaciones (30 d)', redesFmt(fb.impressions));
         if (fb.engagement != null) c += miniKpi('Interacciones (30 d)', redesFmt(fb.engagement));
         if (fb.visitas != null) c += miniKpi('Visitas (30 d)', redesFmt(fb.visitas));
+        var aud = meta.audiencia;
+        if (aud) {
+          if (aud.mujeres != null) c += miniKpi('Mujeres', String(aud.mujeres).replace('.', ',') + ' %');
+          if (aud.hombres != null) c += miniKpi('Hombres', String(aud.hombres).replace('.', ',') + ' %');
+          if (aud.edadPrincipal) c += miniKpi('Edad principal', aud.edadPrincipal);
+          if (aud.topCiudad) c += miniKpi('Top ciudad', aud.topCiudad);
+          if (aud.topPais) c += miniKpi('Top país', aud.topPais);
+        }
         cont.innerHTML = c;
       }
     }
@@ -4309,6 +4317,7 @@
         var c = miniKpi('Seguidores', redesFmt(ig.followers));
         if (ig.mediaCount != null) c += miniKpi('Publicaciones', redesFmt(ig.mediaCount));
         if (ig.reach != null) c += miniKpi('Alcance (30 d)', redesFmt(ig.reach));
+        if (ig.impressions != null) c += miniKpi('Visualizaciones (30 d)', redesFmt(ig.impressions));
         if (ig.engagement != null) c += miniKpi('Interacciones (30 d)', redesFmt(ig.engagement));
         if (ig.meGustaMedio != null) c += miniKpi('Me gusta (medio/post)', redesFmt(ig.meGustaMedio));
         cont.innerHTML = c;

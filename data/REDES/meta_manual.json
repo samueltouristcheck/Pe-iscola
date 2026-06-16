@@ -1,12 +1,12 @@
 {
-  "_info": "Datos de Meta (Facebook + Instagram) introducidos a mano. El acceso por API esta bloqueado por el permiso del portfolio empresarial. Actualiza 'facebook', 'instagram' y anade una entrada nueva a 'historico' cada mes (formato mes: AAAA-MM).",
+  "_info": "Datos de Meta (Facebook + Instagram) introducidos a mano. El acceso por API esta bloqueado por el permiso del portfolio empresarial. Actualiza 'facebook', 'instagram', 'audiencia' y anade una entrada nueva a 'historico' cada mes (formato mes: AAAA-MM). Los valores de alcance/visualizaciones/interacciones son de los ultimos 28 dias.",
   "actualizado": "2026-06-16",
   "facebook": {
     "name": "Peñíscola",
     "followers": 60300,
-    "reach": 282700,
-    "engagement": 4927,
+    "reach": 114729,
     "impressions": 282700,
+    "engagement": 4927,
     "visitas": 3521
   },
   "instagram": {
@@ -14,16 +14,26 @@
     "name": "Peñíscola",
     "followers": 40700,
     "mediaCount": null,
-    "reach": null
+    "reach": 85600,
+    "impressions": 692500,
+    "engagement": 17900
+  },
+  "audiencia": {
+    "mujeres": 64.9,
+    "hombres": 35.1,
+    "edadPrincipal": "45-54",
+    "topCiudad": "Zaragoza",
+    "topPais": "España"
   },
   "historico": [
     {
       "mes": "2026-06",
       "fbSeguidores": 60300,
       "igSeguidores": 40700,
-      "fbAlcance": 282700,
+      "fbAlcance": 114729,
       "fbInteracciones": 4927,
-      "fbVisitas": 3521
+      "igAlcance": 85600,
+      "igInteracciones": 17900
     }
   ]
 }
