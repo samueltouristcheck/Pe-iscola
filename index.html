@@ -39,6 +39,7 @@
         <a href="#" class="nav-item active" data-section="turismo-resumen"><span class="nav-icon">✨</span><span>Resumen</span></a>
         <a href="#" class="nav-item" data-section="turismo-movilidad"><span class="nav-icon">🌍</span><span>Movilidad</span></a>
         <a href="#" class="nav-item" data-section="turismo-hoteles"><span class="nav-icon">🏨</span><span>Hoteles</span></a>
+        <a href="#" class="nav-item" data-section="turismo-rentabilidad"><span class="nav-icon">💶</span><span>Rentabilidad (ADR/RevPAR)</span></a>
         <a href="#" class="nav-item" data-section="turismo-campings"><span class="nav-icon">⛺</span><span>Campings</span></a>
         <a href="#" class="nav-item" data-section="turismo-viviendas"><span class="nav-icon">🏡</span><span>Viviendas turísticas</span></a>
         <a href="#" class="nav-item" data-section="turismo-comparativa"><span class="nav-icon">📈</span><span>Comparativa</span></a>
@@ -639,10 +640,10 @@
             </div>
             <div class="turismo-charts-row">
               <div class="turismo-chart-card turismo-chart-wide">
-                <h4>Rentabilidad y ocupación hotelera</h4>
-                <p class="turismo-chart-hint">ADR = tarifa media diaria por habitación ocupada · RevPAR = ingreso por habitación disponible (€, mensual) · grado de ocupación por plazas · personal empleado. Fuente: INE. La gráfica muestra ADR y RevPAR.</p>
-                <div class="turismo-mini-kpis" id="turismo-mini-rentabilidad"></div>
-                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-hoteles-rentab"></canvas></div>
+                <h4>Ocupación y empleo</h4>
+                <p class="turismo-chart-hint">Grado de ocupación por plazas y personal empleado en hoteles (último mes). Fuente: INE. La gráfica compara la ocupación por años — elige los años a comparar.</p>
+                <div class="turismo-mini-kpis" id="turismo-mini-ocupacion"></div>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-hoteles-ocupacion"></canvas></div>
               </div>
             </div>
             <div class="turismo-charts-row">
@@ -650,6 +651,40 @@
                 <h4>Comparación anual de pernoctaciones</h4>
                 <p class="turismo-chart-hint">Una línea por año, eje X = mes</p>
                 <div class="chart-container" style="height:320px"><canvas id="chart-turismo-hoteles-anual"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-rentabilidad" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">💶 Rentabilidad hotelera (ADR y RevPAR)</h3>
+              <span class="turismo-section-tag">IRSH · INE</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">
+              <strong>ADR</strong> = tarifa media diaria por habitación ocupada. <strong>RevPAR</strong> = ingreso por habitación disponible (tiene en cuenta también las habitaciones vacías). Datos mensuales del INE para el punto turístico de Peñíscola (desde 2021).
+            </p>
+            <div class="turismo-mini-kpis" id="turismo-mini-rentabilidad"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>ADR y RevPAR — evolución mensual</h4>
+                <p class="turismo-chart-hint">Últimos 36 meses (€).</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-rentab-mensual"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>ADR — comparación anual</h4>
+                <p class="turismo-chart-hint">Una línea por año, eje X = mes. Elige los años a comparar.</p>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-adr-anual"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card turismo-chart-wide">
+                <h4>RevPAR — comparación anual</h4>
+                <p class="turismo-chart-hint">Una línea por año, eje X = mes. Elige los años a comparar.</p>
+                <div class="chart-container" style="height:340px"><canvas id="chart-turismo-revpar-anual"></canvas></div>
               </div>
             </div>
           </div>
@@ -1049,6 +1084,6 @@
     /* Puerto de server.js (process.env.PORT o 7777). Si usas otro valor en .env, cámbialo aquí también. */
     window.__DASHBOARD_API_PORT__ = 7777;
   </script>
-  <script src="js/dashboard.js?v=71"></script>
+  <script src="js/dashboard.js?v=72"></script>
 </body>
 </html>

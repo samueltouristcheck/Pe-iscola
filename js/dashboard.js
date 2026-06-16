@@ -3474,7 +3474,7 @@
   const TURISMO_ANUAL_PALETTE = ['#f97316', '#ec4899', '#0ea5e9', '#facc15', '#14b8a6', '#7c3aed', '#22c55e', '#a855f7', '#06b6d4', '#ef4444', '#3b82f6', '#10b981'];
 
   // Inserta una sola vez el desplegable de años junto a la gráfica anual.
-  function ensureTurismoAnualDropdown(canvasId, cat, anyos) {
+  function ensureTurismoAnualDropdown(canvasId, cat, anyos, metrica) {
     const ddId = canvasId + '-yeardd';
     if (document.getElementById(ddId)) return;
     const ctx = document.getElementById(canvasId);
@@ -3500,7 +3500,7 @@
       const checked = Array.prototype.slice.call(dd.querySelectorAll('input[type=checkbox]:checked')).map((c) => c.value);
       turismoAnualSel[canvasId] = checked;
       setCount(checked.length);
-      renderTurismoCategoriaAnualChart(canvasId, cat);
+      renderTurismoCategoriaAnualChart(canvasId, cat, metrica);
     });
     dd.addEventListener('click', (e) => {
       const act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
@@ -3510,14 +3510,15 @@
       turismoAnualSel[canvasId] = next;
       dd.querySelectorAll('input[type=checkbox]').forEach((c) => { c.checked = next.indexOf(c.value) >= 0; });
       setCount(next.length);
-      renderTurismoCategoriaAnualChart(canvasId, cat);
+      renderTurismoCategoriaAnualChart(canvasId, cat, metrica);
     });
   }
 
-  function renderTurismoCategoriaAnualChart(canvasId, cat) {
+  function renderTurismoCategoriaAnualChart(canvasId, cat, metrica) {
+    metrica = metrica || 'pernoctaciones';
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
-    const series = (turismoData.series[cat] || []).filter((s) => s.metrica === 'pernoctaciones');
+    const series = (turismoData.series[cat] || []).filter((s) => s.metrica === metrica);
     if (!series.length || !series.some((s) => (s.data || []).length)) {
       destroyTurismoChart(canvasId);
       ctx.parentElement.innerHTML = '<p style="padding:1rem;color:var(--text-muted)">Sin datos publicados.</p>';
@@ -3534,7 +3535,7 @@
     let sel = (turismoAnualSel[canvasId] || anyos.slice(-5)).filter((y) => anyos.indexOf(y) >= 0);
     if (!sel.length && !turismoAnualSel[canvasId]) sel = anyos.slice(-5);
     turismoAnualSel[canvasId] = sel;
-    ensureTurismoAnualDropdown(canvasId, cat, anyos);
+    ensureTurismoAnualDropdown(canvasId, cat, anyos, metrica);
 
     destroyTurismoChart(canvasId);
     turismoCharts[canvasId] = new Chart(ctx, {
@@ -3558,6 +3559,22 @@
     });
   }
 
+  // Hoteles: ocupación y empleo (KPIs + comparación anual de ocupación, filtrable por años).
+  function renderTurismoOcupacionEmpleo() {
+    if (!turismoData) return;
+    const r = (turismoData.resumen && turismoData.resumen.hoteles) || {};
+    const pct = (v) => (v == null ? '—' : Number(v).toFixed(1).replace('.', ',') + ' %');
+    const cont = document.getElementById('turismo-mini-ocupacion');
+    if (cont) {
+      cont.innerHTML = [
+        { l: 'Grado de ocupación', v: pct(r.ultimoGradoOcupacion), sub: 'por plazas (último mes)' },
+        { l: 'Personal empleado', v: (r.ultimoPersonal != null ? tFmtNum(r.ultimoPersonal) : '—'), sub: 'en hoteles (último mes)' }
+      ].map((it) => `<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">${it.l}</span><span class="turismo-mini-kpi-value">${it.v}</span>${it.sub ? `<span class="turismo-mini-kpi-sub">${it.sub}</span>` : ''}</div>`).join('');
+    }
+    renderTurismoCategoriaAnualChart('chart-turismo-hoteles-ocupacion', 'hoteles', 'grado_ocupacion');
+  }
+
+  // Sección Rentabilidad: ADR y RevPAR — KPIs, evolución mensual y comparación anual filtrable.
   function renderTurismoRentabilidad() {
     if (!turismoData) return;
     const series = turismoData.series.hoteles || [];
@@ -3565,34 +3582,38 @@
     const revpar = series.find((s) => s.metrica === 'revpar');
     const r = (turismoData.resumen && turismoData.resumen.hoteles) || {};
     const eur = (v) => (v == null ? '—' : Number(v).toFixed(2).replace('.', ',') + ' €');
-    const pct = (v) => (v == null ? '—' : Number(v).toFixed(1).replace('.', ',') + ' %');
     const cont = document.getElementById('turismo-mini-rentabilidad');
     if (cont) {
       cont.innerHTML = [
         { l: 'ADR (último mes)', v: eur(r.ultimoAdr), sub: r.ultimoAdrMes ? fechaLabelTurismo(r.ultimoAdrMes) : '' },
-        { l: 'RevPAR (último mes)', v: eur(r.ultimoRevpar), sub: r.ultimoRevparMes ? fechaLabelTurismo(r.ultimoRevparMes) : '' },
-        { l: 'Grado de ocupación', v: pct(r.ultimoGradoOcupacion), sub: 'por plazas' },
-        { l: 'Personal empleado', v: (r.ultimoPersonal != null ? tFmtNum(r.ultimoPersonal) : '—'), sub: 'en hoteles' }
+        { l: 'RevPAR (último mes)', v: eur(r.ultimoRevpar), sub: r.ultimoRevparMes ? fechaLabelTurismo(r.ultimoRevparMes) : '' }
       ].map((it) => `<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">${it.l}</span><span class="turismo-mini-kpi-value">${it.v}</span>${it.sub ? `<span class="turismo-mini-kpi-sub">${it.sub}</span>` : ''}</div>`).join('');
     }
-    destroyTurismoChart('hoteles-rentab');
-    const ctx = document.getElementById('chart-turismo-hoteles-rentab');
-    if (!ctx) return;
-    if (!adr && !revpar) { ctx.parentElement.innerHTML = '<p style="padding:1rem;color:var(--text-muted)">Sin datos publicados.</p>'; return; }
-    const mapADR = {}; (adr && adr.data || []).forEach((d) => { mapADR[d.fecha] = d.valor; });
-    const mapRev = {}; (revpar && revpar.data || []).forEach((d) => { mapRev[d.fecha] = d.valor; });
-    const fechas = Array.from(new Set(Object.keys(mapADR).concat(Object.keys(mapRev)))).sort().slice(-36);
-    turismoCharts['hoteles-rentab'] = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: fechas.map(fechaLabelTurismo),
-        datasets: [
-          { label: 'ADR (€)', data: fechas.map((f) => (mapADR[f] != null ? mapADR[f] : null)), borderColor: '#7c3aed', backgroundColor: '#7c3aed22', tension: 0.3, fill: false, pointRadius: 2, spanGaps: true },
-          { label: 'RevPAR (€)', data: fechas.map((f) => (mapRev[f] != null ? mapRev[f] : null)), borderColor: '#0ea5e9', backgroundColor: '#0ea5e922', tension: 0.3, fill: false, pointRadius: 2, spanGaps: true }
-        ]
-      },
-      options: turismoChartDefaults()
-    });
+    // Evolución mensual ADR + RevPAR (últimos 36 meses)
+    destroyTurismoChart('rentab-mensual');
+    const ctx = document.getElementById('chart-turismo-rentab-mensual');
+    if (ctx) {
+      if (!adr && !revpar) { ctx.parentElement.innerHTML = '<p style="padding:1rem;color:var(--text-muted)">Sin datos publicados.</p>'; }
+      else {
+        const mapADR = {}; (adr && adr.data || []).forEach((d) => { mapADR[d.fecha] = d.valor; });
+        const mapRev = {}; (revpar && revpar.data || []).forEach((d) => { mapRev[d.fecha] = d.valor; });
+        const fechas = Array.from(new Set(Object.keys(mapADR).concat(Object.keys(mapRev)))).sort().slice(-36);
+        turismoCharts['rentab-mensual'] = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: fechas.map(fechaLabelTurismo),
+            datasets: [
+              { label: 'ADR (€)', data: fechas.map((f) => (mapADR[f] != null ? mapADR[f] : null)), borderColor: '#7c3aed', backgroundColor: '#7c3aed22', tension: 0.3, fill: false, pointRadius: 2, spanGaps: true },
+              { label: 'RevPAR (€)', data: fechas.map((f) => (mapRev[f] != null ? mapRev[f] : null)), borderColor: '#0ea5e9', backgroundColor: '#0ea5e922', tension: 0.3, fill: false, pointRadius: 2, spanGaps: true }
+            ]
+          },
+          options: turismoChartDefaults()
+        });
+      }
+    }
+    // Comparación anual filtrable (una línea por año) para ADR y RevPAR
+    renderTurismoCategoriaAnualChart('chart-turismo-adr-anual', 'hoteles', 'adr');
+    renderTurismoCategoriaAnualChart('chart-turismo-revpar-anual', 'hoteles', 'revpar');
   }
 
   function renderTurismoApartamentos() {
@@ -4025,8 +4046,9 @@
     ensureViviendasLoaded().then((d) => { if (d) renderTurismoViviendas(); });
     renderTurismoCategoriaMesChart('chart-turismo-hoteles-mes', 'hoteles');
     renderTurismoCategoriaOrigenChart('chart-turismo-hoteles-origen', 'hoteles');
-    renderTurismoRentabilidad();
+    renderTurismoOcupacionEmpleo();
     renderTurismoCategoriaAnualChart('chart-turismo-hoteles-anual', 'hoteles');
+    renderTurismoRentabilidad();
     renderTurismoApartamentos();
     renderTurismoCategoriaMesChart('chart-turismo-camp-mes', 'campings');
     renderTurismoCategoriaOrigenChart('chart-turismo-camp-origen', 'campings');
@@ -4057,6 +4079,7 @@
             'turismo-resumen': 'Turismo - Resumen',
             'turismo-movilidad': 'Turismo - Movilidad turística (INE móvil)',
             'turismo-hoteles': 'Turismo - Hoteles',
+            'turismo-rentabilidad': 'Turismo - Rentabilidad hotelera (ADR/RevPAR)',
             'turismo-apartamentos': 'Turismo - Apartamentos',
             'turismo-campings': 'Turismo - Campings',
             'turismo-viviendas': 'Turismo - Viviendas turísticas (GVA)',
