@@ -4184,7 +4184,10 @@
     if (!problems.length && !errs.length) {
       box.className = 'redes-status redes-status-ok';
       box.style.display = 'flex';
-      box.innerHTML = '<span class="redes-status-icon">✅</span><div><strong>Conexiones activas</strong>Mostrando datos reales de Meta y Google Analytics (últimos 30 días).</div>';
+      var metaTxt = cfg.metaManual
+        ? 'Google Analytics en directo · Meta (Facebook/Instagram) con datos manuales, actualización mensual.'
+        : 'Mostrando datos reales de Meta y Google Analytics (últimos 30 días).';
+      box.innerHTML = '<span class="redes-status-icon">✅</span><div><strong>Conexiones activas</strong>' + metaTxt + '</div>';
       return;
     }
     box.className = 'redes-status';
@@ -4347,12 +4350,36 @@
       card('Google Analytics 4', cfg.ga && !ga.error, ga.propertyId ? 'propiedad ' + ga.propertyId : '');
   }
 
+  function renderRedesHistorico(d) {
+    var hist = (d && d.meta && d.meta.historico) || [];
+    var hint = document.getElementById('redes-historico-hint');
+    if (hint) {
+      hint.textContent = (d && d.meta && d.meta.source === 'manual')
+        ? 'Histórico manual — se añade un punto cada mes (actualización el día 1).'
+        : 'Seguidores por mes.';
+    }
+    hist = hist.slice().sort(function (a, b) { return String(a.mes).localeCompare(String(b.mes)); });
+    var labels = hist.map(function (x) { return x.mes; });
+    redesChart('chart-redes-historico', {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: 'Facebook', data: hist.map(function (x) { return x.fbSeguidores != null ? x.fbSeguidores : null; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', fill: false, tension: 0.3, spanGaps: true },
+          { label: 'Instagram', data: hist.map(function (x) { return x.igSeguidores != null ? x.igSeguidores : null; }), borderColor: '#d6249f', backgroundColor: 'rgba(214,36,159,0.12)', fill: false, tension: 0.3, spanGaps: true }
+        ]
+      },
+      options: redesLineOpts()
+    });
+  }
+
   function renderRedesAll() {
     var d = redesData || { config: { meta: false, ga: false } };
     var upd = document.getElementById('redes-hero-update');
     if (upd) upd.textContent = d.generatedAt ? new Date(d.generatedAt).toLocaleString('es-ES') : '—';
     renderRedesStatus(d);
     renderRedesResumen(d);
+    renderRedesHistorico(d);
     renderRedesFacebook(d);
     renderRedesInstagram(d);
     renderRedesWeb(d);

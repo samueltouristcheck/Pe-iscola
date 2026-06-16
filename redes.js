@@ -57,6 +57,18 @@ function metaConfigured() {
     return Boolean(c.token && (c.pageId || c.igUserId));
 }
 
+// Datos de Meta introducidos a mano (cuando no hay acceso a la API por el portfolio).
+const META_MANUAL_FILE = path.join(__dirname, 'data', 'REDES', 'meta_manual.json');
+function metaManualData() {
+    try {
+        if (fs.existsSync(META_MANUAL_FILE)) {
+            const j = JSON.parse(fs.readFileSync(META_MANUAL_FILE, 'utf8'));
+            if (j && (j.facebook || j.instagram)) return j;
+        }
+    } catch (_) { /* archivo ausente o inválido */ }
+    return null;
+}
+
 /** Suma los valores de una serie de insights de Graph API (estructura values[].value). */
 function sumInsightValues(metricObj) {
     if (!metricObj || !Array.isArray(metricObj.values)) return 0;
@@ -131,7 +143,19 @@ async function getInstagram(token, igUserId) {
 }
 
 async function getMeta() {
-    if (!metaConfigured()) return { configured: false };
+    if (!metaConfigured()) {
+        const manual = metaManualData();
+        if (manual) {
+            return {
+                configured: true,
+                source: 'manual',
+                facebook: manual.facebook || null,
+                instagram: manual.instagram || null,
+                historico: manual.historico || []
+            };
+        }
+        return { configured: false };
+    }
     const { token, pageId, igUserId } = metaConfig();
     const result = { configured: true, apiVersion: META_API_VERSION };
     try {
@@ -383,7 +407,7 @@ async function getRedesOverview() {
     ]);
     return {
         generatedAt: new Date().toISOString(),
-        config: { meta: metaConfigured(), ga: gaConfigured() },
+        config: { meta: metaConfigured() || !!metaManualData(), metaManual: !metaConfigured() && !!metaManualData(), ga: gaConfigured() },
         meta,
         ga
     };

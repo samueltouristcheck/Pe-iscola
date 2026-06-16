@@ -1,0 +1,29 @@
+{
+  "_info": "Datos de Meta (Facebook + Instagram) introducidos a mano. El acceso por API esta bloqueado por el permiso del portfolio empresarial. Actualiza 'facebook', 'instagram' y anade una entrada nueva a 'historico' cada mes (formato mes: AAAA-MM).",
+  "actualizado": "2026-06-16",
+  "facebook": {
+    "name": "Peñíscola",
+    "followers": 60300,
+    "reach": 282700,
+    "engagement": 4927,
+    "impressions": 282700,
+    "visitas": 3521
+  },
+  "instagram": {
+    "username": "peniscola",
+    "name": "Peñíscola",
+    "followers": 40700,
+    "mediaCount": null,
+    "reach": null
+  },
+  "historico": [
+    {
+      "mes": "2026-06",
+      "fbSeguidores": 60300,
+      "igSeguidores": 40700,
+      "fbAlcance": 282700,
+      "fbInteracciones": 4927,
+      "fbVisitas": 3521
+    }
+  ]
+}
