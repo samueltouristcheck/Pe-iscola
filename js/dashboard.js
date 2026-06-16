@@ -4079,7 +4079,7 @@
             'turismo-resumen': 'Turismo - Resumen',
             'turismo-movilidad': 'Turismo - Movilidad turística (INE móvil)',
             'turismo-hoteles': 'Turismo - Hoteles',
-            'turismo-rentabilidad': 'Turismo - Rentabilidad hotelera (ADR/RevPAR)',
+            'turismo-rentabilidad': 'Turismo - Rentabilidad',
             'turismo-apartamentos': 'Turismo - Apartamentos',
             'turismo-campings': 'Turismo - Campings',
             'turismo-viviendas': 'Turismo - Viviendas turísticas (GVA)',
