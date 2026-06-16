@@ -267,6 +267,19 @@ async function main() {
     series: porCategoria,
   };
 
+  // Salvaguarda: una descarga fallida o incompleta NO debe machacar datos buenos.
+  let seriesOkPrevias = -1;
+  if (fs.existsSync(OUT_FILE)) {
+    try { seriesOkPrevias = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8')).seriesOk; } catch (_) { /* corrupto: permitimos reescribir */ }
+    if (typeof seriesOkPrevias !== 'number') seriesOkPrevias = -1;
+  }
+  if (resultados.length === 0) {
+    throw new Error(`0/${codigos.length} series descargadas (el INE no respondió). Se conservan los datos anteriores; no se sobrescribe ${path.basename(OUT_FILE)}.`);
+  }
+  if (seriesOkPrevias > resultados.length) {
+    throw new Error(`La descarga trae menos series (${resultados.length}) que las ya guardadas (${seriesOkPrevias}). Se conservan los datos anteriores; no se sobrescribe ${path.basename(OUT_FILE)}.`);
+  }
+
   fs.writeFileSync(OUT_FILE, JSON.stringify(out, null, 2), 'utf8');
   const dur = ((Date.now() - inicio) / 1000).toFixed(1);
   console.log(`[turismo] Escrito ${path.relative(__dirname, OUT_FILE)} (${resultados.length}/${codigos.length} OK) en ${dur}s`);
