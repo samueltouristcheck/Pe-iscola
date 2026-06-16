@@ -152,6 +152,7 @@ async function getMeta() {
                 facebook: manual.facebook || null,
                 instagram: manual.instagram || null,
                 audiencia: manual.audiencia || null,
+                audienciaInstagram: manual.audienciaInstagram || null,
                 historico: manual.historico || []
             };
         }

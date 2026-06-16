@@ -53,6 +53,41 @@
       { "nombre": "Italia", "pct": 0.9 }
     ]
   },
+  "audienciaInstagram": {
+    "mujeres": 67.8,
+    "hombres": 32.2,
+    "edadPrincipal": "35-44",
+    "topCiudad": "Zaragoza",
+    "topPais": "España",
+    "edadSexo": [
+      { "rango": "18-24", "mujeres": 1.8, "hombres": 1.3 },
+      { "rango": "25-34", "mujeres": 11.1, "hombres": 5.6 },
+      { "rango": "35-44", "mujeres": 21.7, "hombres": 9.6 },
+      { "rango": "45-54", "mujeres": 19.9, "hombres": 8.7 },
+      { "rango": "55-64", "mujeres": 9.4, "hombres": 4.7 },
+      { "rango": "65+", "mujeres": 3.9, "hombres": 2.3 }
+    ],
+    "ciudades": [
+      { "nombre": "Zaragoza", "pct": 5.2 },
+      { "nombre": "Peñíscola", "pct": 4 },
+      { "nombre": "Valencia", "pct": 3.4 },
+      { "nombre": "Benicarló", "pct": 3.1 },
+      { "nombre": "Madrid", "pct": 3 },
+      { "nombre": "Castellón de la Plana", "pct": 2.7 },
+      { "nombre": "Vinaroz", "pct": 2.1 },
+      { "nombre": "Barcelona", "pct": 1.9 }
+    ],
+    "paises": [
+      { "nombre": "España", "pct": 73.7 },
+      { "nombre": "Francia", "pct": 5.6 },
+      { "nombre": "Alemania", "pct": 2.1 },
+      { "nombre": "Argentina", "pct": 1.6 },
+      { "nombre": "Estados Unidos", "pct": 1.1 },
+      { "nombre": "Italia", "pct": 1 },
+      { "nombre": "Países Bajos", "pct": 0.9 },
+      { "nombre": "Reino Unido", "pct": 0.9 }
+    ]
+  },
   "historico": [
     {
       "mes": "2026-06",

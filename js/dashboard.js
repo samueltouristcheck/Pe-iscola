@@ -4398,12 +4398,14 @@
       card('Google Analytics 4', cfg.ga && !ga.error, ga.propertyId ? 'propiedad ' + ga.propertyId : '');
   }
 
-  function renderRedesAudiencia(d) {
-    var aud = (d && d.meta && d.meta.audiencia) || null;
-    // Edad y sexo (barras agrupadas)
+  // Dibuja las 4 gráficas de audiencia para una plataforma ('fb' o 'ig').
+  function drawAudienciaCharts(aud, p) {
+    var id = function (s) { return 'chart-redes-' + p + '-' + s; };
+    var hbarOpts = { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(226,232,240,0.7)' } }, y: { ticks: { color: '#0f172a' }, grid: { display: false } } } };
+    // Edad y sexo
     if (aud && aud.edadSexo && aud.edadSexo.length) {
-      toggleRedesChartCard('chart-redes-fb-edadsexo', true);
-      redesChart('chart-redes-fb-edadsexo', {
+      toggleRedesChartCard(id('edadsexo'), true);
+      redesChart(id('edadsexo'), {
         type: 'bar',
         data: { labels: aud.edadSexo.map(function (x) { return x.rango; }), datasets: [
           { label: 'Mujeres', data: aud.edadSexo.map(function (x) { return x.mujeres; }), backgroundColor: '#ec4899', borderRadius: 4 },
@@ -4411,34 +4413,40 @@
         ] },
         options: redesLineOpts()
       });
-    } else { toggleRedesChartCard('chart-redes-fb-edadsexo', false); }
-    // Reparto por sexo (doughnut)
+    } else { toggleRedesChartCard(id('edadsexo'), false); }
+    // Reparto por sexo
     if (aud && aud.mujeres != null) {
-      toggleRedesChartCard('chart-redes-fb-sexo', true);
-      redesChart('chart-redes-fb-sexo', {
+      toggleRedesChartCard(id('sexo'), true);
+      redesChart(id('sexo'), {
         type: 'doughnut',
         data: { labels: ['Mujeres', 'Hombres'], datasets: [{ data: [aud.mujeres, aud.hombres], backgroundColor: ['#ec4899', '#2563eb'], borderColor: '#ffffff', borderWidth: 2 }] },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f172a' } } } }
       });
-    } else { toggleRedesChartCard('chart-redes-fb-sexo', false); }
-    // Top países (barra horizontal)
+    } else { toggleRedesChartCard(id('sexo'), false); }
+    // Top países
     if (aud && aud.paises && aud.paises.length) {
-      toggleRedesChartCard('chart-redes-fb-paises', true);
-      redesChart('chart-redes-fb-paises', {
+      toggleRedesChartCard(id('paises'), true);
+      redesChart(id('paises'), {
         type: 'bar',
         data: { labels: aud.paises.map(function (x) { return x.nombre; }), datasets: [{ label: '% seguidores', data: aud.paises.map(function (x) { return x.pct; }), backgroundColor: '#14b8a6', borderRadius: 4 }] },
-        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(226,232,240,0.7)' } }, y: { ticks: { color: '#0f172a' }, grid: { display: false } } } }
+        options: hbarOpts
       });
-    } else { toggleRedesChartCard('chart-redes-fb-paises', false); }
-    // Top ciudades (barra horizontal)
+    } else { toggleRedesChartCard(id('paises'), false); }
+    // Top ciudades
     if (aud && aud.ciudades && aud.ciudades.length) {
-      toggleRedesChartCard('chart-redes-fb-ciudades', true);
-      redesChart('chart-redes-fb-ciudades', {
+      toggleRedesChartCard(id('ciudades'), true);
+      redesChart(id('ciudades'), {
         type: 'bar',
         data: { labels: aud.ciudades.map(function (x) { return x.nombre; }), datasets: [{ label: '% seguidores', data: aud.ciudades.map(function (x) { return x.pct; }), backgroundColor: '#f59e0b', borderRadius: 4 }] },
-        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(226,232,240,0.7)' } }, y: { ticks: { color: '#0f172a' }, grid: { display: false } } } }
+        options: hbarOpts
       });
-    } else { toggleRedesChartCard('chart-redes-fb-ciudades', false); }
+    } else { toggleRedesChartCard(id('ciudades'), false); }
+  }
+
+  function renderRedesAudiencia(d) {
+    var m = (d && d.meta) || {};
+    drawAudienciaCharts(m.audiencia || null, 'fb');
+    drawAudienciaCharts(m.audienciaInstagram || null, 'ig');
   }
 
   function renderRedesHistorico(d) {
