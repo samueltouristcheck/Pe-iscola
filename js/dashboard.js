@@ -4231,61 +4231,100 @@
     (fb.daily || []).forEach(function (x) { if (x.date) map[x.date] = (map[x.date] || 0) + (x.reach || 0); });
     (ig.daily || []).forEach(function (x) { if (x.date) map[x.date] = (map[x.date] || 0) + (x.reach || 0); });
     var dates = Object.keys(map).sort();
-    redesChart('chart-redes-reach-dia', {
-      type: 'line',
-      data: { labels: dates.map(function (x) { return x.slice(5); }), datasets: [{ label: 'Alcance', data: dates.map(function (x) { return map[x]; }), borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.12)', fill: true, tension: 0.3 }] },
-      options: redesLineOpts()
-    });
+    var showReachDia = (meta.source !== 'manual') && dates.length > 0;
+    toggleRedesChartCard('chart-redes-reach-dia', showReachDia);
+    if (showReachDia) {
+      redesChart('chart-redes-reach-dia', {
+        type: 'line',
+        data: { labels: dates.map(function (x) { return x.slice(5); }), datasets: [{ label: 'Alcance', data: dates.map(function (x) { return map[x]; }), borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.12)', fill: true, tension: 0.3 }] },
+        options: redesLineOpts()
+      });
+    }
   }
 
   function miniKpi(label, value) {
     return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + label + '</span><span class="turismo-mini-kpi-value">' + value + '</span></div>';
   }
 
+  // Muestra/oculta la tarjeta de gráfica que contiene un canvas (para ocultar las vacías en modo manual).
+  function toggleRedesChartCard(canvasId, show) {
+    var c = document.getElementById(canvasId);
+    var card = c && c.closest('.turismo-chart-card');
+    if (card) card.style.display = show ? '' : 'none';
+  }
+  // Cambia la etiqueta de la cabecera de una sección a "Datos manuales" cuando aplica.
+  function setRedesSectionTag(sectionId, manual) {
+    var sec = document.getElementById(sectionId);
+    var tag = sec && sec.querySelector('.turismo-section-tag');
+    if (tag && manual) tag.textContent = 'Datos manuales · mensual';
+  }
+
   function renderRedesFacebook(d) {
-    var fb = (d && d.meta && d.meta.facebook) || {};
+    var meta = (d && d.meta) || {};
+    var fb = meta.facebook || {};
+    var manual = meta.source === 'manual';
     var cont = document.getElementById('redes-mini-facebook');
     if (cont) {
       if (!(d && d.config && d.config.meta)) {
         cont.innerHTML = miniKpi('Estado', 'No conectado');
       } else {
-        cont.innerHTML = miniKpi('Seguidores', redesFmt(fb.followers != null ? fb.followers : fb.fanCount)) +
-          miniKpi('Alcance (30 d)', redesFmt(fb.reach)) +
-          miniKpi('Impresiones (30 d)', redesFmt(fb.impressions)) +
-          miniKpi('Interacciones (30 d)', redesFmt(fb.engagement));
+        var c = miniKpi('Seguidores', redesFmt(fb.followers != null ? fb.followers : fb.fanCount));
+        if (fb.publicaciones != null) c += miniKpi('Publicaciones', redesFmt(fb.publicaciones));
+        if (fb.meGusta != null) c += miniKpi('Me gusta', redesFmt(fb.meGusta));
+        if (fb.reach != null) c += miniKpi('Alcance (30 d)', redesFmt(fb.reach));
+        if (fb.impressions != null) c += miniKpi('Visualizaciones (30 d)', redesFmt(fb.impressions));
+        if (fb.engagement != null) c += miniKpi('Interacciones (30 d)', redesFmt(fb.engagement));
+        if (fb.visitas != null) c += miniKpi('Visitas (30 d)', redesFmt(fb.visitas));
+        cont.innerHTML = c;
       }
     }
+    setRedesSectionTag('section-redes-facebook', manual);
     var daily = fb.daily || [];
-    redesChart('chart-redes-fb-reach', {
-      type: 'line',
-      data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Alcance', data: daily.map(function (x) { return x.reach; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', fill: true, tension: 0.3 }] },
-      options: redesLineOpts()
-    });
-    redesChart('chart-redes-fb-eng', {
-      type: 'bar',
-      data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Interacciones', data: daily.map(function (x) { return x.engagement; }), backgroundColor: '#8b5cf6', borderRadius: 4 }] },
-      options: redesLineOpts()
-    });
+    var showCharts = !manual && daily.length > 0;
+    toggleRedesChartCard('chart-redes-fb-reach', showCharts);
+    toggleRedesChartCard('chart-redes-fb-eng', showCharts);
+    if (showCharts) {
+      redesChart('chart-redes-fb-reach', {
+        type: 'line',
+        data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Alcance', data: daily.map(function (x) { return x.reach; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', fill: true, tension: 0.3 }] },
+        options: redesLineOpts()
+      });
+      redesChart('chart-redes-fb-eng', {
+        type: 'bar',
+        data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Interacciones', data: daily.map(function (x) { return x.engagement; }), backgroundColor: '#8b5cf6', borderRadius: 4 }] },
+        options: redesLineOpts()
+      });
+    }
   }
 
   function renderRedesInstagram(d) {
-    var ig = (d && d.meta && d.meta.instagram) || {};
+    var meta = (d && d.meta) || {};
+    var ig = meta.instagram || {};
+    var manual = meta.source === 'manual';
     var cont = document.getElementById('redes-mini-instagram');
     if (cont) {
       if (!(d && d.config && d.config.meta)) {
         cont.innerHTML = miniKpi('Estado', 'No conectado');
       } else {
-        cont.innerHTML = miniKpi('Seguidores', redesFmt(ig.followers)) +
-          miniKpi('Publicaciones', redesFmt(ig.mediaCount)) +
-          miniKpi('Alcance (30 d)', redesFmt(ig.reach));
+        var c = miniKpi('Seguidores', redesFmt(ig.followers));
+        if (ig.mediaCount != null) c += miniKpi('Publicaciones', redesFmt(ig.mediaCount));
+        if (ig.reach != null) c += miniKpi('Alcance (30 d)', redesFmt(ig.reach));
+        if (ig.engagement != null) c += miniKpi('Interacciones (30 d)', redesFmt(ig.engagement));
+        if (ig.meGustaMedio != null) c += miniKpi('Me gusta (medio/post)', redesFmt(ig.meGustaMedio));
+        cont.innerHTML = c;
       }
     }
+    setRedesSectionTag('section-redes-instagram', manual);
     var daily = ig.daily || [];
-    redesChart('chart-redes-ig-reach', {
-      type: 'line',
-      data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Alcance', data: daily.map(function (x) { return x.reach; }), borderColor: '#ec4899', backgroundColor: 'rgba(236,72,153,0.12)', fill: true, tension: 0.3 }] },
-      options: redesLineOpts()
-    });
+    var showCharts = !manual && daily.length > 0;
+    toggleRedesChartCard('chart-redes-ig-reach', showCharts);
+    if (showCharts) {
+      redesChart('chart-redes-ig-reach', {
+        type: 'line',
+        data: { labels: daily.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Alcance', data: daily.map(function (x) { return x.reach; }), borderColor: '#ec4899', backgroundColor: 'rgba(236,72,153,0.12)', fill: true, tension: 0.3 }] },
+        options: redesLineOpts()
+      });
+    }
   }
 
   function renderRedesWeb(d) {
