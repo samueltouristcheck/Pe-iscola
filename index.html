@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peñíscola Dashboard</title>
   <link rel="stylesheet" href="css/globals.css">
-  <link rel="stylesheet" href="css/dashboard.css?v=2">
+  <link rel="stylesheet" href="css/dashboard.css?v=3">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -39,7 +39,6 @@
         <a href="#" class="nav-item active" data-section="turismo-resumen"><span class="nav-icon">✨</span><span>Resumen</span></a>
         <a href="#" class="nav-item" data-section="turismo-movilidad"><span class="nav-icon">🌍</span><span>Movilidad</span></a>
         <a href="#" class="nav-item" data-section="turismo-hoteles"><span class="nav-icon">🏨</span><span>Hoteles</span></a>
-        <a href="#" class="nav-item" data-section="turismo-apartamentos"><span class="nav-icon">🏢</span><span>Apartamentos</span></a>
         <a href="#" class="nav-item" data-section="turismo-campings"><span class="nav-icon">⛺</span><span>Campings</span></a>
         <a href="#" class="nav-item" data-section="turismo-viviendas"><span class="nav-icon">🏡</span><span>Viviendas turísticas</span></a>
         <a href="#" class="nav-item" data-section="turismo-comparativa"><span class="nav-icon">📈</span><span>Comparativa</span></a>
@@ -438,20 +437,20 @@
               <span class="turismo-context-sub" id="turismo-ctx-turistas-sub">Fuente: INE móvil</span>
             </div>
           </div>
-          <div class="turismo-context-card turismo-context-highlight">
+          <div class="turismo-context-card" title="Presión turística = turistas extranjeros estimados del último mes ÷ habitantes (Padrón) × 100. Indica qué porcentaje de la población residente representan los turistas extranjeros de ese mes.">
             <span class="turismo-context-icon">📊</span>
             <div>
               <span class="turismo-context-label">Presión turística</span>
               <span class="turismo-context-value" id="turismo-ctx-presion">—</span>
-              <span class="turismo-context-sub">turistas extranjeros por 1.000 habitantes</span>
+              <span class="turismo-context-sub">turistas extranjeros del mes ÷ habitantes × 100</span>
             </div>
           </div>
-          <div class="turismo-context-card">
-            <span class="turismo-context-icon">⛺</span>
+          <div class="turismo-context-card" title="Capacidad turística estimada = plazas hoteleras estimadas + plazas de camping (último mes publicado por el INE). Las plazas hoteleras varían por temporada (hoteles abiertos cada mes).">
+            <span class="turismo-context-icon">🛏️</span>
             <div>
-              <span class="turismo-context-label">Plazas en campings</span>
+              <span class="turismo-context-label">Plazas turísticas (hotel + camping)</span>
               <span class="turismo-context-value" id="turismo-ctx-plazas">—</span>
-              <span class="turismo-context-sub" id="turismo-ctx-plazas-sub">— establecimientos</span>
+              <span class="turismo-context-sub" id="turismo-ctx-plazas-sub">—</span>
             </div>
           </div>
         </div>
@@ -871,8 +870,6 @@
             <p class="residuos-tablas-hint">Series originales descargadas. Filtra arriba por categoría/año.</p>
             <h4 class="residuos-tabla-subtitle">Hoteles</h4>
             <div id="turismo-tabla-hoteles"></div>
-            <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Apartamentos</h4>
-            <div id="turismo-tabla-apartamentos"></div>
             <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Campings</h4>
             <div id="turismo-tabla-campings"></div>
           </div>
@@ -1044,6 +1041,6 @@
     /* Puerto de server.js (process.env.PORT o 7777). Si usas otro valor en .env, cámbialo aquí también. */
     window.__DASHBOARD_API_PORT__ = 7777;
   </script>
-  <script src="js/dashboard.js?v=67"></script>
+  <script src="js/dashboard.js?v=69"></script>
 </body>
 </html>

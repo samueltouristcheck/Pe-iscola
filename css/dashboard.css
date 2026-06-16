@@ -1,5 +1,27 @@
 /* Peñíscola Dashboard — layouts y componentes (design tokens: globals.css) */
 
+/* Desplegable de años para las gráficas de comparación anual */
+.turismo-year-dd { position: relative; display: inline-block; margin: 0 0 0.6rem; }
+.turismo-year-dd > summary {
+    list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.8rem; font-weight: 600; color: #334155;
+    background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.35rem 0.7rem; user-select: none;
+}
+.turismo-year-dd > summary::-webkit-details-marker { display: none; }
+.turismo-year-dd .ty-count { color: #2563eb; }
+.turismo-year-dd[open] > summary { background: #e2e8f0; }
+.turismo-year-dd-panel {
+    position: absolute; z-index: 40; top: 100%; left: 0; margin-top: 0.3rem; width: 260px; max-height: 300px; overflow: auto;
+    background: #fff; border: 1px solid #cbd5e1; border-radius: 10px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14); padding: 0.6rem;
+}
+.turismo-year-dd-acts { display: flex; gap: 0.35rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.turismo-year-dd-acts button {
+    font-size: 0.72rem; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; padding: 0.2rem 0.5rem; cursor: pointer; color: #334155;
+}
+.turismo-year-dd-acts button:hover { background: #eef2f7; }
+.turismo-year-dd-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.15rem 0.5rem; }
+.turismo-year-dd-list label { display: flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; color: #334155; cursor: pointer; }
+
 .app {
     display: flex;
     min-height: 100vh;

@@ -30,6 +30,8 @@ const SERIES = {
   EOT12500: { categoria: 'hoteles', metrica: 'pernoctaciones',  residencia: 'espana',     unidad: 'noches'   },
   EOT12501: { categoria: 'hoteles', metrica: 'pernoctaciones',  residencia: 'extranjero', unidad: 'noches'   },
   EOT12317: { categoria: 'hoteles', metrica: 'estancia_media',  residencia: 'total',      unidad: 'dias'     },
+  EOT11876: { categoria: 'hoteles', metrica: 'plazas',          residencia: 'total',      unidad: 'plazas'   },
+  EOT11875: { categoria: 'hoteles', metrica: 'establecimientos', residencia: 'total',     unidad: 'unidades' },
   // ====== APARTAMENTOS (EOAP) — series existen pero el INE no publica valores ======
   EOT44530: { categoria: 'apartamentos', metrica: 'viajeros',       residencia: 'espana',     unidad: 'personas' },
   EOT44529: { categoria: 'apartamentos', metrica: 'viajeros',       residencia: 'extranjero', unidad: 'personas' },
@@ -179,7 +181,7 @@ function calcularResumenCategoria(series, cat) {
       out.topPaises = top;
     }
   }
-  if (cat === 'campings') {
+  if (cat === 'campings' || cat === 'hoteles') {
     const grado = series.find((s) => s.metrica === 'grado_ocupacion');
     const plazas = series.find((s) => s.metrica === 'plazas');
     const est = series.find((s) => s.metrica === 'establecimientos');

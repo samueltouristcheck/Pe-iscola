@@ -3463,37 +3463,96 @@
     });
   }
 
+  // Etiqueta y filtro de categorías con datos (apartamentos en Peñíscola va vacío).
+  function turismoCatLabel(c) { return c[0].toUpperCase() + c.slice(1); }
+  function turismoCatsConDatos(cats) {
+    return cats.filter((c) => (turismoData.series[c] || []).some((s) => (s.data || []).length));
+  }
+
+  // Selección de años por gráfica anual (canvasId -> array de años string).
+  const turismoAnualSel = {};
+  const TURISMO_ANUAL_PALETTE = ['#f97316', '#ec4899', '#0ea5e9', '#facc15', '#14b8a6', '#7c3aed', '#22c55e', '#a855f7', '#06b6d4', '#ef4444', '#3b82f6', '#10b981'];
+
+  // Inserta una sola vez el desplegable de años junto a la gráfica anual.
+  function ensureTurismoAnualDropdown(canvasId, cat, anyos) {
+    const ddId = canvasId + '-yeardd';
+    if (document.getElementById(ddId)) return;
+    const ctx = document.getElementById(canvasId);
+    const card = ctx && ctx.closest('.turismo-chart-card');
+    const cont = ctx && ctx.closest('.chart-container');
+    if (!card || !cont) return;
+    const sel = turismoAnualSel[canvasId] || [];
+    const dd = document.createElement('details');
+    dd.className = 'turismo-year-dd';
+    dd.id = ddId;
+    dd.innerHTML =
+      '<summary><span class="ty-ico">📅</span> Años a comparar <span class="ty-count">(' + sel.length + ')</span></summary>' +
+      '<div class="turismo-year-dd-panel">' +
+        '<div class="turismo-year-dd-acts"><button type="button" data-act="all">Todos</button><button type="button" data-act="last5">Últimos 5</button><button type="button" data-act="none">Ninguno</button></div>' +
+        '<div class="turismo-year-dd-list">' +
+          anyos.slice().reverse().map((y) => '<label><input type="checkbox" value="' + y + '"' + (sel.indexOf(y) >= 0 ? ' checked' : '') + '> ' + y + '</label>').join('') +
+        '</div>' +
+      '</div>';
+    card.insertBefore(dd, cont);
+    const setCount = (n) => { const c = dd.querySelector('.ty-count'); if (c) c.textContent = '(' + n + ')'; };
+    dd.addEventListener('change', (e) => {
+      if (!(e.target && e.target.matches && e.target.matches('input[type=checkbox]'))) return;
+      const checked = Array.prototype.slice.call(dd.querySelectorAll('input[type=checkbox]:checked')).map((c) => c.value);
+      turismoAnualSel[canvasId] = checked;
+      setCount(checked.length);
+      renderTurismoCategoriaAnualChart(canvasId, cat);
+    });
+    dd.addEventListener('click', (e) => {
+      const act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
+      if (!act) return;
+      e.preventDefault();
+      let next = act === 'all' ? anyos.slice() : act === 'last5' ? anyos.slice(-5) : [];
+      turismoAnualSel[canvasId] = next;
+      dd.querySelectorAll('input[type=checkbox]').forEach((c) => { c.checked = next.indexOf(c.value) >= 0; });
+      setCount(next.length);
+      renderTurismoCategoriaAnualChart(canvasId, cat);
+    });
+  }
+
   function renderTurismoCategoriaAnualChart(canvasId, cat) {
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
-    destroyTurismoChart(canvasId);
-    const series = turismoData.series[cat] || [];
-    const pern = series.filter((s) => s.metrica === 'pernoctaciones');
-    if (!pern.length || !pern.some((s) => (s.data || []).length)) {
+    const series = (turismoData.series[cat] || []).filter((s) => s.metrica === 'pernoctaciones');
+    if (!series.length || !series.some((s) => (s.data || []).length)) {
+      destroyTurismoChart(canvasId);
       ctx.parentElement.innerHTML = '<p style="padding:1rem;color:var(--text-muted)">Sin datos publicados.</p>';
       return;
     }
     const porAnyo = {};
-    pern.forEach((s) => (s.data || []).forEach((d) => {
+    series.forEach((s) => (s.data || []).forEach((d) => {
       if (!d.mes) return;
       if (!porAnyo[d.anyo]) porAnyo[d.anyo] = Array(12).fill(0);
       porAnyo[d.anyo][d.mes - 1] += d.valor;
     }));
     const anyos = Object.keys(porAnyo).sort();
-    const palette = ['#f97316', '#ec4899', '#0ea5e9', '#facc15', '#14b8a6', '#7c3aed', '#22c55e', '#a855f7', '#06b6d4'];
+    // Por defecto: últimos 5 años (para no saturar). Luego respeta la selección del usuario.
+    let sel = (turismoAnualSel[canvasId] || anyos.slice(-5)).filter((y) => anyos.indexOf(y) >= 0);
+    if (!sel.length && !turismoAnualSel[canvasId]) sel = anyos.slice(-5);
+    turismoAnualSel[canvasId] = sel;
+    ensureTurismoAnualDropdown(canvasId, cat, anyos);
+
+    destroyTurismoChart(canvasId);
     turismoCharts[canvasId] = new Chart(ctx, {
       type: 'line',
       data: {
         labels: MESES_CORTOS,
-        datasets: anyos.map((y, i) => ({
-          label: String(y),
-          data: porAnyo[y],
-          borderColor: palette[i % palette.length],
-          backgroundColor: palette[i % palette.length] + '22',
-          tension: 0.3,
-          fill: false,
-          pointRadius: 3
-        }))
+        datasets: sel.map((y) => {
+          const color = TURISMO_ANUAL_PALETTE[anyos.indexOf(y) % TURISMO_ANUAL_PALETTE.length];
+          return {
+            label: String(y),
+            data: porAnyo[y],
+            borderColor: color,
+            backgroundColor: color + '22',
+            tension: 0.3,
+            fill: false,
+            pointRadius: 3
+          };
+        })
       },
       options: turismoChartDefaults()
     });
@@ -3515,43 +3574,46 @@
   }
 
   function renderTurismoComparativa() {
-    const cats = ['hoteles', 'apartamentos', 'campings'];
-    const year = getTurismoYear();
-    const mes = getTurismoMes();
-    const labelsSet = new Set();
-    const dataViaj = {};
-    const dataPern = {};
+    // Solo categorías con datos (en Peñíscola apartamentos va vacío → se omite).
+    const cats = turismoCatsConDatos(['hoteles', 'apartamentos', 'campings']);
+    const VENTANA_MESES = 24; // las gráficas "por mes" muestran los últimos 24 meses (serie temporal real).
+    const perCat = {};
     cats.forEach((cat) => {
-      dataViaj[cat] = turismoSeriesPorMes(turismoData.series[cat] || [], { metrica: 'viajeros', anyo: year, mes });
-      dataPern[cat] = turismoSeriesPorMes(turismoData.series[cat] || [], { metrica: 'pernoctaciones', anyo: year, mes });
-      Object.keys(dataViaj[cat]).forEach((k) => labelsSet.add(k));
-      Object.keys(dataPern[cat]).forEach((k) => labelsSet.add(k));
+      perCat[cat] = {
+        viajeros: turismoSeriesPorMes(turismoData.series[cat] || [], { metrica: 'viajeros' }),
+        pernoctaciones: turismoSeriesPorMes(turismoData.series[cat] || [], { metrica: 'pernoctaciones' })
+      };
     });
-    const labels = Array.from(labelsSet).sort();
-    const buildDatasets = (mapas) => cats.map((cat) => ({
-      label: cat[0].toUpperCase() + cat.slice(1),
-      data: labels.map((f) => mapas[cat][f] || 0),
+    const fechasSet = new Set();
+    cats.forEach((cat) => {
+      Object.keys(perCat[cat].viajeros).forEach((k) => fechasSet.add(k));
+      Object.keys(perCat[cat].pernoctaciones).forEach((k) => fechasSet.add(k));
+    });
+    const labels = Array.from(fechasSet).sort().slice(-VENTANA_MESES);
+    const buildDatasets = (metrica) => cats.map((cat) => ({
+      label: turismoCatLabel(cat),
+      data: labels.map((f) => perCat[cat][metrica][f] || 0),
       borderColor: TURISMO_COLORS[cat], backgroundColor: TURISMO_COLORS[cat] + '33',
-      fill: false, tension: 0.3, pointRadius: 3
+      fill: false, tension: 0.3, pointRadius: 2
     }));
     destroyTurismoChart('comp-viajeros');
     const ctxV = document.getElementById('chart-turismo-comp-viajeros');
-    if (ctxV) turismoCharts['comp-viajeros'] = new Chart(ctxV, { type: 'line', data: { labels: labels.map(fechaLabelTurismo), datasets: buildDatasets(dataViaj) }, options: turismoChartDefaults() });
+    if (ctxV) turismoCharts['comp-viajeros'] = new Chart(ctxV, { type: 'line', data: { labels: labels.map(fechaLabelTurismo), datasets: buildDatasets('viajeros') }, options: turismoChartDefaults() });
     destroyTurismoChart('comp-pern');
     const ctxP = document.getElementById('chart-turismo-comp-pern');
-    if (ctxP) turismoCharts['comp-pern'] = new Chart(ctxP, { type: 'line', data: { labels: labels.map(fechaLabelTurismo), datasets: buildDatasets(dataPern) }, options: turismoChartDefaults() });
-    const totals = cats.map((c) => Object.values(dataPern[c]).reduce((a, b) => a + b, 0));
+    if (ctxP) turismoCharts['comp-pern'] = new Chart(ctxP, { type: 'line', data: { labels: labels.map(fechaLabelTurismo), datasets: buildDatasets('pernoctaciones') }, options: turismoChartDefaults() });
+    // Reparto y comparación anual: totales del último año (del resumen del INE).
+    const r = turismoData.resumen || {};
+    const actuales = cats.map((c) => (r[c] && r[c].totalPernoctacionesAnyo) || 0);
+    const previos = cats.map((c) => (r[c] && r[c].totalPernoctacionesAnyoAnterior) || 0);
     destroyTurismoChart('comp-reparto');
     const ctxR = document.getElementById('chart-turismo-comp-reparto');
-    if (ctxR) turismoCharts['comp-reparto'] = new Chart(ctxR, { type: 'doughnut', data: { labels: ['Hoteles', 'Apartamentos', 'Campings'], datasets: [{ data: totals, backgroundColor: cats.map((c) => TURISMO_COLORS[c]), borderColor: '#ffffff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f172a' } } } } });
-    const r = turismoData.resumen || {};
-    const actuales = cats.map((c) => (r[c]?.totalPernoctacionesAnyo) || 0);
-    const previos = cats.map((c) => (r[c]?.totalPernoctacionesAnyoAnterior) || 0);
+    if (ctxR) turismoCharts['comp-reparto'] = new Chart(ctxR, { type: 'doughnut', data: { labels: cats.map(turismoCatLabel), datasets: [{ data: actuales, backgroundColor: cats.map((c) => TURISMO_COLORS[c]), borderColor: '#ffffff', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f172a' } } } } });
     destroyTurismoChart('comp-anio');
     const ctxA = document.getElementById('chart-turismo-comp-anio');
     if (ctxA) turismoCharts['comp-anio'] = new Chart(ctxA, {
       type: 'bar',
-      data: { labels: ['Hoteles', 'Apartamentos', 'Campings'], datasets: [
+      data: { labels: cats.map(turismoCatLabel), datasets: [
         { label: 'Año actual', data: actuales, backgroundColor: TURISMO_COLORS.hoteles, borderRadius: 4 },
         { label: 'Año anterior', data: previos, backgroundColor: '#8b949e', borderRadius: 4 }
       ] },
@@ -3560,13 +3622,12 @@
   }
 
   function renderTurismoTablas() {
-    const year = getTurismoYear();
-    const mes = getTurismoMes();
+    // Tablas con TODOS los años (sin filtrar por el selector de año/mes).
     const buildTable = (cat) => {
       const series = turismoData.series[cat] || [];
       if (!series.length || !series.some((s) => (s.data || []).length)) return '<p style="padding:0.5rem;color:var(--text-muted)">Sin datos publicados por el INE.</p>';
       const fechas = new Set();
-      series.forEach((s) => (s.data || []).forEach((d) => { if ((!year || String(d.anyo) === String(year)) && (!mes || d.mes === mes)) fechas.add(d.fecha); }));
+      series.forEach((s) => (s.data || []).forEach((d) => fechas.add(d.fecha)));
       const orderedFechas = Array.from(fechas).sort().reverse();
       const cols = series.map((s) => ({ s, key: `${s.metrica}-${s.residencia}` }));
       const head = '<tr><th>Mes</th>' + cols.map((c) => `<th>${c.s.metrica} (${c.s.residencia})</th>`).join('') + '</tr>';
@@ -3580,13 +3641,11 @@
       return `<table class="data-table"><thead>${head}</thead><tbody>${rows}</tbody></table>`;
     };
     const elH = document.getElementById('turismo-tabla-hoteles');
-    const elA = document.getElementById('turismo-tabla-apartamentos');
     const elC = document.getElementById('turismo-tabla-campings');
     if (elH) elH.innerHTML = buildTable('hoteles');
-    if (elA) elA.innerHTML = buildTable('apartamentos');
     if (elC) elC.innerHTML = buildTable('campings');
     const tag = document.getElementById('turismo-tablas-tag');
-    if (tag) tag.textContent = year ? `Año ${year}` : 'Todos los años';
+    if (tag) tag.textContent = 'Todos los años';
   }
 
   function renderTurismoContextRow() {
@@ -3603,14 +3662,17 @@
       setText('turismo-ctx-turistas', tFmtNum(r.movilidad.turistasUltimo));
       setText('turismo-ctx-turistas-sub', r.movilidad.ultimoMes ? fechaLabelTurismo(r.movilidad.ultimoMes) + ' · INE móvil' : 'INE móvil');
     }
-    // Presión turística
-    if (r.presionTuristica) {
-      setText('turismo-ctx-presion', tFmtNum(r.presionTuristica.ratio_por_1000_habitantes));
+    // Presión turística (en %): turistas extranjeros del mes ÷ habitantes × 100
+    if (r.presionTuristica && r.presionTuristica.habitantes) {
+      const pct = (r.presionTuristica.turistas / r.presionTuristica.habitantes) * 100;
+      setText('turismo-ctx-presion', pct.toFixed(1).replace('.', ',') + '%');
     }
-    // Campings: plazas + establecimientos
-    if (r.campings) {
-      if (r.campings.ultimasPlazas != null) setText('turismo-ctx-plazas', tFmtNum(r.campings.ultimasPlazas));
-      if (r.campings.ultimosEstablecimientos != null) setText('turismo-ctx-plazas-sub', r.campings.ultimosEstablecimientos + ' establecimientos · ' + (r.campings.ultimoGradoOcupacion != null ? r.campings.ultimoGradoOcupacion.toFixed(0).replace('.', ',') + '% ocup.' : '—'));
+    // Plazas turísticas: plazas hoteleras + plazas de camping (capacidad total estimada)
+    const plazasHotel = (r.hoteles && r.hoteles.ultimasPlazas) || 0;
+    const plazasCamp = (r.campings && r.campings.ultimasPlazas) || 0;
+    if (plazasHotel || plazasCamp) {
+      setText('turismo-ctx-plazas', tFmtNum(plazasHotel + plazasCamp));
+      setText('turismo-ctx-plazas-sub', tFmtNum(plazasHotel) + ' hotel · ' + tFmtNum(plazasCamp) + ' camping');
     }
   }
 

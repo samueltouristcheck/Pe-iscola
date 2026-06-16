@@ -1,10 +1,10 @@
 {
-  "generadoEn": "2026-06-16T07:55:06.176Z",
+  "generadoEn": "2026-06-16T08:17:39.131Z",
   "fuente": "INE - Instituto Nacional de Estadística (https://www.ine.es)",
   "municipio": "Peñíscola",
   "codigoMunicipio": "12089",
-  "seriesTotales": 56,
-  "seriesOk": 56,
+  "seriesTotales": 58,
+  "seriesOk": 58,
   "errores": [],
   "resumen": {
     "hoteles": {
@@ -14,7 +14,9 @@
       "totalViajerosAnyo": 87746,
       "totalPernoctacionesAnyo": 290990,
       "totalViajerosAnyoAnterior": 393629,
-      "totalPernoctacionesAnyoAnterior": 1486363
+      "totalPernoctacionesAnyoAnterior": 1486363,
+      "ultimasPlazas": 9815,
+      "ultimosEstablecimientos": 55
     },
     "apartamentos": {
       "ultimoMes": null,
@@ -7554,6 +7556,2990 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 3.13,
+            "secreto": false
+          }
+        ]
+      },
+      {
+        "cod": "EOT11876",
+        "metrica": "plazas",
+        "residencia": "total",
+        "unidad": "plazas",
+        "data": [
+          {
+            "fecha": "2005-03",
+            "anyo": 2005,
+            "mes": 3,
+            "valor": 5379,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-04",
+            "anyo": 2005,
+            "mes": 4,
+            "valor": 6994,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-05",
+            "anyo": 2005,
+            "mes": 5,
+            "valor": 7112,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-06",
+            "anyo": 2005,
+            "mes": 6,
+            "valor": 7982,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-07",
+            "anyo": 2005,
+            "mes": 7,
+            "valor": 8161,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-08",
+            "anyo": 2005,
+            "mes": 8,
+            "valor": 8251,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-09",
+            "anyo": 2005,
+            "mes": 9,
+            "valor": 7930,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-10",
+            "anyo": 2005,
+            "mes": 10,
+            "valor": 7241,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-11",
+            "anyo": 2005,
+            "mes": 11,
+            "valor": 4103,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-04",
+            "anyo": 2006,
+            "mes": 4,
+            "valor": 7363,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-05",
+            "anyo": 2006,
+            "mes": 5,
+            "valor": 7330,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-06",
+            "anyo": 2006,
+            "mes": 6,
+            "valor": 8295,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-07",
+            "anyo": 2006,
+            "mes": 7,
+            "valor": 8131,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-08",
+            "anyo": 2006,
+            "mes": 8,
+            "valor": 8104,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-09",
+            "anyo": 2006,
+            "mes": 9,
+            "valor": 7860,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-10",
+            "anyo": 2006,
+            "mes": 10,
+            "valor": 6544,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-11",
+            "anyo": 2006,
+            "mes": 11,
+            "valor": 3315,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-04",
+            "anyo": 2007,
+            "mes": 4,
+            "valor": 7907,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-05",
+            "anyo": 2007,
+            "mes": 5,
+            "valor": 7857,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-06",
+            "anyo": 2007,
+            "mes": 6,
+            "valor": 8218,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-07",
+            "anyo": 2007,
+            "mes": 7,
+            "valor": 8320,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-08",
+            "anyo": 2007,
+            "mes": 8,
+            "valor": 8320,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-09",
+            "anyo": 2007,
+            "mes": 9,
+            "valor": 8122,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-10",
+            "anyo": 2007,
+            "mes": 10,
+            "valor": 6931,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-11",
+            "anyo": 2007,
+            "mes": 11,
+            "valor": 3230,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-02",
+            "anyo": 2008,
+            "mes": 2,
+            "valor": 3581,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-03",
+            "anyo": 2008,
+            "mes": 3,
+            "valor": 6575,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-04",
+            "anyo": 2008,
+            "mes": 4,
+            "valor": 7227,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-05",
+            "anyo": 2008,
+            "mes": 5,
+            "valor": 7635,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-06",
+            "anyo": 2008,
+            "mes": 6,
+            "valor": 7980,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-07",
+            "anyo": 2008,
+            "mes": 7,
+            "valor": 8160,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-08",
+            "anyo": 2008,
+            "mes": 8,
+            "valor": 8276,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-09",
+            "anyo": 2008,
+            "mes": 9,
+            "valor": 8074,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-10",
+            "anyo": 2008,
+            "mes": 10,
+            "valor": 6102,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-11",
+            "anyo": 2008,
+            "mes": 11,
+            "valor": 2970,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-12",
+            "anyo": 2008,
+            "mes": 12,
+            "valor": 3421,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-01",
+            "anyo": 2009,
+            "mes": 1,
+            "valor": 2754,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-02",
+            "anyo": 2009,
+            "mes": 2,
+            "valor": 4359,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-03",
+            "anyo": 2009,
+            "mes": 3,
+            "valor": 5506,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-04",
+            "anyo": 2009,
+            "mes": 4,
+            "valor": 8504,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-05",
+            "anyo": 2009,
+            "mes": 5,
+            "valor": 8619,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-06",
+            "anyo": 2009,
+            "mes": 6,
+            "valor": 8851,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-07",
+            "anyo": 2009,
+            "mes": 7,
+            "valor": 9197,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-08",
+            "anyo": 2009,
+            "mes": 8,
+            "valor": 9197,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-09",
+            "anyo": 2009,
+            "mes": 9,
+            "valor": 9132,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-10",
+            "anyo": 2009,
+            "mes": 10,
+            "valor": 7153,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-11",
+            "anyo": 2009,
+            "mes": 11,
+            "valor": 3971,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-12",
+            "anyo": 2009,
+            "mes": 12,
+            "valor": 3410,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-01",
+            "anyo": 2010,
+            "mes": 1,
+            "valor": 2063,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-02",
+            "anyo": 2010,
+            "mes": 2,
+            "valor": 4373,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-03",
+            "anyo": 2010,
+            "mes": 3,
+            "valor": 6787,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-04",
+            "anyo": 2010,
+            "mes": 4,
+            "valor": 9020,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-05",
+            "anyo": 2010,
+            "mes": 5,
+            "valor": 9002,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-06",
+            "anyo": 2010,
+            "mes": 6,
+            "valor": 9287,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-07",
+            "anyo": 2010,
+            "mes": 7,
+            "valor": 9682,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-08",
+            "anyo": 2010,
+            "mes": 8,
+            "valor": 9682,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-09",
+            "anyo": 2010,
+            "mes": 9,
+            "valor": 9413,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-10",
+            "anyo": 2010,
+            "mes": 10,
+            "valor": 7075,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-11",
+            "anyo": 2010,
+            "mes": 11,
+            "valor": 3780,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-12",
+            "anyo": 2010,
+            "mes": 12,
+            "valor": 3311,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-01",
+            "anyo": 2011,
+            "mes": 1,
+            "valor": 2206,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-02",
+            "anyo": 2011,
+            "mes": 2,
+            "valor": 4684,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-03",
+            "anyo": 2011,
+            "mes": 3,
+            "valor": 6587,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-04",
+            "anyo": 2011,
+            "mes": 4,
+            "valor": 8602,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-05",
+            "anyo": 2011,
+            "mes": 5,
+            "valor": 7816,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-06",
+            "anyo": 2011,
+            "mes": 6,
+            "valor": 9502,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-07",
+            "anyo": 2011,
+            "mes": 7,
+            "valor": 9685,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-08",
+            "anyo": 2011,
+            "mes": 8,
+            "valor": 9697,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-09",
+            "anyo": 2011,
+            "mes": 9,
+            "valor": 9389,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-10",
+            "anyo": 2011,
+            "mes": 10,
+            "valor": 6997,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-11",
+            "anyo": 2011,
+            "mes": 11,
+            "valor": 3376,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-12",
+            "anyo": 2011,
+            "mes": 12,
+            "valor": 3029,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-02",
+            "anyo": 2012,
+            "mes": 2,
+            "valor": 4868,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-03",
+            "anyo": 2012,
+            "mes": 3,
+            "valor": 6628,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-04",
+            "anyo": 2012,
+            "mes": 4,
+            "valor": 9210,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-05",
+            "anyo": 2012,
+            "mes": 5,
+            "valor": 8224,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-06",
+            "anyo": 2012,
+            "mes": 6,
+            "valor": 9522,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-07",
+            "anyo": 2012,
+            "mes": 7,
+            "valor": 9711,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-08",
+            "anyo": 2012,
+            "mes": 8,
+            "valor": 9711,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-09",
+            "anyo": 2012,
+            "mes": 9,
+            "valor": 9432,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-10",
+            "anyo": 2012,
+            "mes": 10,
+            "valor": 6919,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-02",
+            "anyo": 2013,
+            "mes": 2,
+            "valor": 3382,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-03",
+            "anyo": 2013,
+            "mes": 3,
+            "valor": 7391,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-04",
+            "anyo": 2013,
+            "mes": 4,
+            "valor": 8986,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-05",
+            "anyo": 2013,
+            "mes": 5,
+            "valor": 9232,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-06",
+            "anyo": 2013,
+            "mes": 6,
+            "valor": 9291,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-07",
+            "anyo": 2013,
+            "mes": 7,
+            "valor": 9741,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-08",
+            "anyo": 2013,
+            "mes": 8,
+            "valor": 9721,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-09",
+            "anyo": 2013,
+            "mes": 9,
+            "valor": 9663,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-10",
+            "anyo": 2013,
+            "mes": 10,
+            "valor": 6591,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-11",
+            "anyo": 2013,
+            "mes": 11,
+            "valor": 2535,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-03",
+            "anyo": 2014,
+            "mes": 3,
+            "valor": 5738,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-04",
+            "anyo": 2014,
+            "mes": 4,
+            "valor": 8662,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-05",
+            "anyo": 2014,
+            "mes": 5,
+            "valor": 8306,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-06",
+            "anyo": 2014,
+            "mes": 6,
+            "valor": 9397,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-07",
+            "anyo": 2014,
+            "mes": 7,
+            "valor": 9756,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-08",
+            "anyo": 2014,
+            "mes": 8,
+            "valor": 9756,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-09",
+            "anyo": 2014,
+            "mes": 9,
+            "valor": 9640,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-10",
+            "anyo": 2014,
+            "mes": 10,
+            "valor": 6610,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-03",
+            "anyo": 2015,
+            "mes": 3,
+            "valor": 6279,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-04",
+            "anyo": 2015,
+            "mes": 4,
+            "valor": 9075,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-05",
+            "anyo": 2015,
+            "mes": 5,
+            "valor": 7745,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-06",
+            "anyo": 2015,
+            "mes": 6,
+            "valor": 9402,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-07",
+            "anyo": 2015,
+            "mes": 7,
+            "valor": 9684,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-08",
+            "anyo": 2015,
+            "mes": 8,
+            "valor": 9684,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-09",
+            "anyo": 2015,
+            "mes": 9,
+            "valor": 9649,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-10",
+            "anyo": 2015,
+            "mes": 10,
+            "valor": 6680,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-03",
+            "anyo": 2016,
+            "mes": 3,
+            "valor": 8111,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-04",
+            "anyo": 2016,
+            "mes": 4,
+            "valor": 8652,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-05",
+            "anyo": 2016,
+            "mes": 5,
+            "valor": 9070,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-06",
+            "anyo": 2016,
+            "mes": 6,
+            "valor": 9517,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-07",
+            "anyo": 2016,
+            "mes": 7,
+            "valor": 9683,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-08",
+            "anyo": 2016,
+            "mes": 8,
+            "valor": 9683,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-09",
+            "anyo": 2016,
+            "mes": 9,
+            "valor": 9659,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-10",
+            "anyo": 2016,
+            "mes": 10,
+            "valor": 6989,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-03",
+            "anyo": 2017,
+            "mes": 3,
+            "valor": 6159,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-04",
+            "anyo": 2017,
+            "mes": 4,
+            "valor": 9101,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-05",
+            "anyo": 2017,
+            "mes": 5,
+            "valor": 8936,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-06",
+            "anyo": 2017,
+            "mes": 6,
+            "valor": 9392,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-07",
+            "anyo": 2017,
+            "mes": 7,
+            "valor": 9634,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-08",
+            "anyo": 2017,
+            "mes": 8,
+            "valor": 9634,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-09",
+            "anyo": 2017,
+            "mes": 9,
+            "valor": 9613,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-10",
+            "anyo": 2017,
+            "mes": 10,
+            "valor": 7006,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-11",
+            "anyo": 2017,
+            "mes": 11,
+            "valor": 2967,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-03",
+            "anyo": 2018,
+            "mes": 3,
+            "valor": 6964,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-04",
+            "anyo": 2018,
+            "mes": 4,
+            "valor": 8252,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-05",
+            "anyo": 2018,
+            "mes": 5,
+            "valor": 8526,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-06",
+            "anyo": 2018,
+            "mes": 6,
+            "valor": 9435,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-07",
+            "anyo": 2018,
+            "mes": 7,
+            "valor": 9628,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-08",
+            "anyo": 2018,
+            "mes": 8,
+            "valor": 9668,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-09",
+            "anyo": 2018,
+            "mes": 9,
+            "valor": 9663,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-10",
+            "anyo": 2018,
+            "mes": 10,
+            "valor": 7342,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-11",
+            "anyo": 2018,
+            "mes": 11,
+            "valor": 3097,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-12",
+            "anyo": 2018,
+            "mes": 12,
+            "valor": 2536,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-01",
+            "anyo": 2019,
+            "mes": 1,
+            "valor": 2497,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-02",
+            "anyo": 2019,
+            "mes": 2,
+            "valor": 4306,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-03",
+            "anyo": 2019,
+            "mes": 3,
+            "valor": 6048,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-04",
+            "anyo": 2019,
+            "mes": 4,
+            "valor": 9165,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-05",
+            "anyo": 2019,
+            "mes": 5,
+            "valor": 9306,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-06",
+            "anyo": 2019,
+            "mes": 6,
+            "valor": 9667,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-07",
+            "anyo": 2019,
+            "mes": 7,
+            "valor": 10024,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-08",
+            "anyo": 2019,
+            "mes": 8,
+            "valor": 10024,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-09",
+            "anyo": 2019,
+            "mes": 9,
+            "valor": 9919,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-10",
+            "anyo": 2019,
+            "mes": 10,
+            "valor": 7206,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-11",
+            "anyo": 2019,
+            "mes": 11,
+            "valor": 2180,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-12",
+            "anyo": 2019,
+            "mes": 12,
+            "valor": 1809,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-02",
+            "anyo": 2020,
+            "mes": 2,
+            "valor": 3189,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-03",
+            "anyo": 2020,
+            "mes": 3,
+            "valor": 3637,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-04",
+            "anyo": 2020,
+            "mes": 4,
+            "valor": 0,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-07",
+            "anyo": 2020,
+            "mes": 7,
+            "valor": 8733,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-08",
+            "anyo": 2020,
+            "mes": 8,
+            "valor": 8733,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-09",
+            "anyo": 2020,
+            "mes": 9,
+            "valor": 7189,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-10",
+            "anyo": 2020,
+            "mes": 10,
+            "valor": 3962,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-11",
+            "anyo": 2020,
+            "mes": 11,
+            "valor": 2094,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-12",
+            "anyo": 2020,
+            "mes": 12,
+            "valor": 1942,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-01",
+            "anyo": 2021,
+            "mes": 1,
+            "valor": 586,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-03",
+            "anyo": 2021,
+            "mes": 3,
+            "valor": 1383,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-04",
+            "anyo": 2021,
+            "mes": 4,
+            "valor": 2451,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-05",
+            "anyo": 2021,
+            "mes": 5,
+            "valor": 4770,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-06",
+            "anyo": 2021,
+            "mes": 6,
+            "valor": 8191,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-07",
+            "anyo": 2021,
+            "mes": 7,
+            "valor": 9377,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-08",
+            "anyo": 2021,
+            "mes": 8,
+            "valor": 9377,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-09",
+            "anyo": 2021,
+            "mes": 9,
+            "valor": 9519,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-10",
+            "anyo": 2021,
+            "mes": 10,
+            "valor": 6142,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-11",
+            "anyo": 2021,
+            "mes": 11,
+            "valor": 1936,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-12",
+            "anyo": 2021,
+            "mes": 12,
+            "valor": 1915,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-02",
+            "anyo": 2022,
+            "mes": 2,
+            "valor": 3390,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-03",
+            "anyo": 2022,
+            "mes": 3,
+            "valor": 5204,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-04",
+            "anyo": 2022,
+            "mes": 4,
+            "valor": 8641,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-05",
+            "anyo": 2022,
+            "mes": 5,
+            "valor": 9106,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-06",
+            "anyo": 2022,
+            "mes": 6,
+            "valor": 9339,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-07",
+            "anyo": 2022,
+            "mes": 7,
+            "valor": 9620,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-08",
+            "anyo": 2022,
+            "mes": 8,
+            "valor": 9601,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-09",
+            "anyo": 2022,
+            "mes": 9,
+            "valor": 9708,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-10",
+            "anyo": 2022,
+            "mes": 10,
+            "valor": 7084,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-11",
+            "anyo": 2022,
+            "mes": 11,
+            "valor": 2412,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-02",
+            "anyo": 2023,
+            "mes": 2,
+            "valor": 4644,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-03",
+            "anyo": 2023,
+            "mes": 3,
+            "valor": 7608,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-04",
+            "anyo": 2023,
+            "mes": 4,
+            "valor": 9472,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-05",
+            "anyo": 2023,
+            "mes": 5,
+            "valor": 9482,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-06",
+            "anyo": 2023,
+            "mes": 6,
+            "valor": 9645,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-07",
+            "anyo": 2023,
+            "mes": 7,
+            "valor": 9701,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-08",
+            "anyo": 2023,
+            "mes": 8,
+            "valor": 9752,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-09",
+            "anyo": 2023,
+            "mes": 9,
+            "valor": 9729,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-10",
+            "anyo": 2023,
+            "mes": 10,
+            "valor": 8127,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-11",
+            "anyo": 2023,
+            "mes": 11,
+            "valor": 2135,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-12",
+            "anyo": 2023,
+            "mes": 12,
+            "valor": 1935,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-02",
+            "anyo": 2024,
+            "mes": 2,
+            "valor": 3409,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-03",
+            "anyo": 2024,
+            "mes": 3,
+            "valor": 8221,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-04",
+            "anyo": 2024,
+            "mes": 4,
+            "valor": 9398,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-05",
+            "anyo": 2024,
+            "mes": 5,
+            "valor": 9537,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-06",
+            "anyo": 2024,
+            "mes": 6,
+            "valor": 9709,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-07",
+            "anyo": 2024,
+            "mes": 7,
+            "valor": 9808,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-08",
+            "anyo": 2024,
+            "mes": 8,
+            "valor": 9823,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-09",
+            "anyo": 2024,
+            "mes": 9,
+            "valor": 9759,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-10",
+            "anyo": 2024,
+            "mes": 10,
+            "valor": 8166,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-11",
+            "anyo": 2024,
+            "mes": 11,
+            "valor": 2427,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-02",
+            "anyo": 2025,
+            "mes": 2,
+            "valor": 3473,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-03",
+            "anyo": 2025,
+            "mes": 3,
+            "valor": 6274,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-04",
+            "anyo": 2025,
+            "mes": 4,
+            "valor": 9437,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-05",
+            "anyo": 2025,
+            "mes": 5,
+            "valor": 9755,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-06",
+            "anyo": 2025,
+            "mes": 6,
+            "valor": 9785,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-07",
+            "anyo": 2025,
+            "mes": 7,
+            "valor": 9850,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-08",
+            "anyo": 2025,
+            "mes": 8,
+            "valor": 9992,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-09",
+            "anyo": 2025,
+            "mes": 9,
+            "valor": 9970,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-10",
+            "anyo": 2025,
+            "mes": 10,
+            "valor": 8344,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-11",
+            "anyo": 2025,
+            "mes": 11,
+            "valor": 2771,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-12",
+            "anyo": 2025,
+            "mes": 12,
+            "valor": 2121,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-01",
+            "anyo": 2026,
+            "mes": 1,
+            "valor": 458,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-02",
+            "anyo": 2026,
+            "mes": 2,
+            "valor": 5180,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-03",
+            "anyo": 2026,
+            "mes": 3,
+            "valor": 6679,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-04",
+            "anyo": 2026,
+            "mes": 4,
+            "valor": 9815,
+            "secreto": false
+          }
+        ]
+      },
+      {
+        "cod": "EOT11875",
+        "metrica": "establecimientos",
+        "residencia": "total",
+        "unidad": "unidades",
+        "data": [
+          {
+            "fecha": "2005-03",
+            "anyo": 2005,
+            "mes": 3,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-04",
+            "anyo": 2005,
+            "mes": 4,
+            "valor": 23,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-05",
+            "anyo": 2005,
+            "mes": 5,
+            "valor": 25,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-06",
+            "anyo": 2005,
+            "mes": 6,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-07",
+            "anyo": 2005,
+            "mes": 7,
+            "valor": 39,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-08",
+            "anyo": 2005,
+            "mes": 8,
+            "valor": 39,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-09",
+            "anyo": 2005,
+            "mes": 9,
+            "valor": 30,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-10",
+            "anyo": 2005,
+            "mes": 10,
+            "valor": 22,
+            "secreto": false
+          },
+          {
+            "fecha": "2005-11",
+            "anyo": 2005,
+            "mes": 11,
+            "valor": 16,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-04",
+            "anyo": 2006,
+            "mes": 4,
+            "valor": 25,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-05",
+            "anyo": 2006,
+            "mes": 5,
+            "valor": 25,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-06",
+            "anyo": 2006,
+            "mes": 6,
+            "valor": 29,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-07",
+            "anyo": 2006,
+            "mes": 7,
+            "valor": 35,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-08",
+            "anyo": 2006,
+            "mes": 8,
+            "valor": 35,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-09",
+            "anyo": 2006,
+            "mes": 9,
+            "valor": 30,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-10",
+            "anyo": 2006,
+            "mes": 10,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2006-11",
+            "anyo": 2006,
+            "mes": 11,
+            "valor": 12,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-04",
+            "anyo": 2007,
+            "mes": 4,
+            "valor": 31,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-05",
+            "anyo": 2007,
+            "mes": 5,
+            "valor": 30,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-06",
+            "anyo": 2007,
+            "mes": 6,
+            "valor": 33,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-07",
+            "anyo": 2007,
+            "mes": 7,
+            "valor": 36,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-08",
+            "anyo": 2007,
+            "mes": 8,
+            "valor": 36,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-09",
+            "anyo": 2007,
+            "mes": 9,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-10",
+            "anyo": 2007,
+            "mes": 10,
+            "valor": 22,
+            "secreto": false
+          },
+          {
+            "fecha": "2007-11",
+            "anyo": 2007,
+            "mes": 11,
+            "valor": 13,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-02",
+            "anyo": 2008,
+            "mes": 2,
+            "valor": 14,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-03",
+            "anyo": 2008,
+            "mes": 3,
+            "valor": 22,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-04",
+            "anyo": 2008,
+            "mes": 4,
+            "valor": 23,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-05",
+            "anyo": 2008,
+            "mes": 5,
+            "valor": 27,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-06",
+            "anyo": 2008,
+            "mes": 6,
+            "valor": 30,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-07",
+            "anyo": 2008,
+            "mes": 7,
+            "valor": 37,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-08",
+            "anyo": 2008,
+            "mes": 8,
+            "valor": 39,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-09",
+            "anyo": 2008,
+            "mes": 9,
+            "valor": 33,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-10",
+            "anyo": 2008,
+            "mes": 10,
+            "valor": 21,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-11",
+            "anyo": 2008,
+            "mes": 11,
+            "valor": 13,
+            "secreto": false
+          },
+          {
+            "fecha": "2008-12",
+            "anyo": 2008,
+            "mes": 12,
+            "valor": 14,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-01",
+            "anyo": 2009,
+            "mes": 1,
+            "valor": 13,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-02",
+            "anyo": 2009,
+            "mes": 2,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-03",
+            "anyo": 2009,
+            "mes": 3,
+            "valor": 16,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-04",
+            "anyo": 2009,
+            "mes": 4,
+            "valor": 30,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-05",
+            "anyo": 2009,
+            "mes": 5,
+            "valor": 29,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-06",
+            "anyo": 2009,
+            "mes": 6,
+            "valor": 33,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-07",
+            "anyo": 2009,
+            "mes": 7,
+            "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-08",
+            "anyo": 2009,
+            "mes": 8,
+            "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-09",
+            "anyo": 2009,
+            "mes": 9,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-10",
+            "anyo": 2009,
+            "mes": 10,
+            "valor": 24,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-11",
+            "anyo": 2009,
+            "mes": 11,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2009-12",
+            "anyo": 2009,
+            "mes": 12,
+            "valor": 15,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-01",
+            "anyo": 2010,
+            "mes": 1,
+            "valor": 11,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-02",
+            "anyo": 2010,
+            "mes": 2,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-03",
+            "anyo": 2010,
+            "mes": 3,
+            "valor": 25,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-04",
+            "anyo": 2010,
+            "mes": 4,
+            "valor": 35,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-05",
+            "anyo": 2010,
+            "mes": 5,
+            "valor": 33,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-06",
+            "anyo": 2010,
+            "mes": 6,
+            "valor": 38,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-07",
+            "anyo": 2010,
+            "mes": 7,
+            "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-08",
+            "anyo": 2010,
+            "mes": 8,
+            "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-09",
+            "anyo": 2010,
+            "mes": 9,
+            "valor": 37,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-10",
+            "anyo": 2010,
+            "mes": 10,
+            "valor": 25,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-11",
+            "anyo": 2010,
+            "mes": 11,
+            "valor": 14,
+            "secreto": false
+          },
+          {
+            "fecha": "2010-12",
+            "anyo": 2010,
+            "mes": 12,
+            "valor": 15,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-01",
+            "anyo": 2011,
+            "mes": 1,
+            "valor": 11,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-02",
+            "anyo": 2011,
+            "mes": 2,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-03",
+            "anyo": 2011,
+            "mes": 3,
+            "valor": 23,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-04",
+            "anyo": 2011,
+            "mes": 4,
+            "valor": 34,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-05",
+            "anyo": 2011,
+            "mes": 5,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-06",
+            "anyo": 2011,
+            "mes": 6,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-07",
+            "anyo": 2011,
+            "mes": 7,
+            "valor": 43,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-08",
+            "anyo": 2011,
+            "mes": 8,
+            "valor": 44,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-09",
+            "anyo": 2011,
+            "mes": 9,
+            "valor": 37,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-10",
+            "anyo": 2011,
+            "mes": 10,
+            "valor": 28,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-11",
+            "anyo": 2011,
+            "mes": 11,
+            "valor": 14,
+            "secreto": false
+          },
+          {
+            "fecha": "2011-12",
+            "anyo": 2011,
+            "mes": 12,
+            "valor": 13,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-02",
+            "anyo": 2012,
+            "mes": 2,
+            "valor": 14,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-03",
+            "anyo": 2012,
+            "mes": 3,
+            "valor": 22,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-04",
+            "anyo": 2012,
+            "mes": 4,
+            "valor": 38,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-05",
+            "anyo": 2012,
+            "mes": 5,
+            "valor": 35,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-06",
+            "anyo": 2012,
+            "mes": 6,
+            "valor": 44,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-07",
+            "anyo": 2012,
+            "mes": 7,
+            "valor": 45,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-08",
+            "anyo": 2012,
+            "mes": 8,
+            "valor": 45,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-09",
+            "anyo": 2012,
+            "mes": 9,
+            "valor": 42,
+            "secreto": false
+          },
+          {
+            "fecha": "2012-10",
+            "anyo": 2012,
+            "mes": 10,
+            "valor": 26,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-02",
+            "anyo": 2013,
+            "mes": 2,
+            "valor": 15,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-03",
+            "anyo": 2013,
+            "mes": 3,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-04",
+            "anyo": 2013,
+            "mes": 4,
+            "valor": 38,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-05",
+            "anyo": 2013,
+            "mes": 5,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-06",
+            "anyo": 2013,
+            "mes": 6,
+            "valor": 43,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-07",
+            "anyo": 2013,
+            "mes": 7,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-08",
+            "anyo": 2013,
+            "mes": 8,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-09",
+            "anyo": 2013,
+            "mes": 9,
+            "valor": 46,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-10",
+            "anyo": 2013,
+            "mes": 10,
+            "valor": 27,
+            "secreto": false
+          },
+          {
+            "fecha": "2013-11",
+            "anyo": 2013,
+            "mes": 11,
+            "valor": 13,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-03",
+            "anyo": 2014,
+            "mes": 3,
+            "valor": 18,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-04",
+            "anyo": 2014,
+            "mes": 4,
+            "valor": 34,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-05",
+            "anyo": 2014,
+            "mes": 5,
+            "valor": 37,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-06",
+            "anyo": 2014,
+            "mes": 6,
+            "valor": 42,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-07",
+            "anyo": 2014,
+            "mes": 7,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-08",
+            "anyo": 2014,
+            "mes": 8,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-09",
+            "anyo": 2014,
+            "mes": 9,
+            "valor": 46,
+            "secreto": false
+          },
+          {
+            "fecha": "2014-10",
+            "anyo": 2014,
+            "mes": 10,
+            "valor": 28,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-03",
+            "anyo": 2015,
+            "mes": 3,
+            "valor": 20,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-04",
+            "anyo": 2015,
+            "mes": 4,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-05",
+            "anyo": 2015,
+            "mes": 5,
+            "valor": 36,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-06",
+            "anyo": 2015,
+            "mes": 6,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-07",
+            "anyo": 2015,
+            "mes": 7,
+            "valor": 44,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-08",
+            "anyo": 2015,
+            "mes": 8,
+            "valor": 44,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-09",
+            "anyo": 2015,
+            "mes": 9,
+            "valor": 43,
+            "secreto": false
+          },
+          {
+            "fecha": "2015-10",
+            "anyo": 2015,
+            "mes": 10,
+            "valor": 22,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-03",
+            "anyo": 2016,
+            "mes": 3,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-04",
+            "anyo": 2016,
+            "mes": 4,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-05",
+            "anyo": 2016,
+            "mes": 5,
+            "valor": 35,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-06",
+            "anyo": 2016,
+            "mes": 6,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-07",
+            "anyo": 2016,
+            "mes": 7,
+            "valor": 42,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-08",
+            "anyo": 2016,
+            "mes": 8,
+            "valor": 42,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-09",
+            "anyo": 2016,
+            "mes": 9,
+            "valor": 42,
+            "secreto": false
+          },
+          {
+            "fecha": "2016-10",
+            "anyo": 2016,
+            "mes": 10,
+            "valor": 20,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-03",
+            "anyo": 2017,
+            "mes": 3,
+            "valor": 24,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-04",
+            "anyo": 2017,
+            "mes": 4,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-05",
+            "anyo": 2017,
+            "mes": 5,
+            "valor": 31,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-06",
+            "anyo": 2017,
+            "mes": 6,
+            "valor": 36,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-07",
+            "anyo": 2017,
+            "mes": 7,
+            "valor": 37,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-08",
+            "anyo": 2017,
+            "mes": 8,
+            "valor": 37,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-09",
+            "anyo": 2017,
+            "mes": 9,
+            "valor": 37,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-10",
+            "anyo": 2017,
+            "mes": 10,
+            "valor": 29,
+            "secreto": false
+          },
+          {
+            "fecha": "2017-11",
+            "anyo": 2017,
+            "mes": 11,
+            "valor": 18,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-03",
+            "anyo": 2018,
+            "mes": 3,
+            "valor": 20,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-04",
+            "anyo": 2018,
+            "mes": 4,
+            "valor": 34,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-05",
+            "anyo": 2018,
+            "mes": 5,
+            "valor": 35,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-06",
+            "anyo": 2018,
+            "mes": 6,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-07",
+            "anyo": 2018,
+            "mes": 7,
+            "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-08",
+            "anyo": 2018,
+            "mes": 8,
+            "valor": 42,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-09",
+            "anyo": 2018,
+            "mes": 9,
+            "valor": 42,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-10",
+            "anyo": 2018,
+            "mes": 10,
+            "valor": 31,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-11",
+            "anyo": 2018,
+            "mes": 11,
+            "valor": 19,
+            "secreto": false
+          },
+          {
+            "fecha": "2018-12",
+            "anyo": 2018,
+            "mes": 12,
+            "valor": 18,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-01",
+            "anyo": 2019,
+            "mes": 1,
+            "valor": 15,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-02",
+            "anyo": 2019,
+            "mes": 2,
+            "valor": 14,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-03",
+            "anyo": 2019,
+            "mes": 3,
+            "valor": 23,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-04",
+            "anyo": 2019,
+            "mes": 4,
+            "valor": 43,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-05",
+            "anyo": 2019,
+            "mes": 5,
+            "valor": 44,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-06",
+            "anyo": 2019,
+            "mes": 6,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-07",
+            "anyo": 2019,
+            "mes": 7,
+            "valor": 50,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-08",
+            "anyo": 2019,
+            "mes": 8,
+            "valor": 50,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-09",
+            "anyo": 2019,
+            "mes": 9,
+            "valor": 48,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-10",
+            "anyo": 2019,
+            "mes": 10,
+            "valor": 33,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-11",
+            "anyo": 2019,
+            "mes": 11,
+            "valor": 19,
+            "secreto": false
+          },
+          {
+            "fecha": "2019-12",
+            "anyo": 2019,
+            "mes": 12,
+            "valor": 16,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-02",
+            "anyo": 2020,
+            "mes": 2,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-03",
+            "anyo": 2020,
+            "mes": 3,
+            "valor": 24,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-04",
+            "anyo": 2020,
+            "mes": 4,
+            "valor": 0,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-07",
+            "anyo": 2020,
+            "mes": 7,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-08",
+            "anyo": 2020,
+            "mes": 8,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-09",
+            "anyo": 2020,
+            "mes": 9,
+            "valor": 43,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-10",
+            "anyo": 2020,
+            "mes": 10,
+            "valor": 26,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-11",
+            "anyo": 2020,
+            "mes": 11,
+            "valor": 21,
+            "secreto": false
+          },
+          {
+            "fecha": "2020-12",
+            "anyo": 2020,
+            "mes": 12,
+            "valor": 19,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-01",
+            "anyo": 2021,
+            "mes": 1,
+            "valor": 12,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-03",
+            "anyo": 2021,
+            "mes": 3,
+            "valor": 21,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-04",
+            "anyo": 2021,
+            "mes": 4,
+            "valor": 26,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-05",
+            "anyo": 2021,
+            "mes": 5,
+            "valor": 31,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-06",
+            "anyo": 2021,
+            "mes": 6,
+            "valor": 44,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-07",
+            "anyo": 2021,
+            "mes": 7,
+            "valor": 48,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-08",
+            "anyo": 2021,
+            "mes": 8,
+            "valor": 48,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-09",
+            "anyo": 2021,
+            "mes": 9,
+            "valor": 49,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-10",
+            "anyo": 2021,
+            "mes": 10,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-11",
+            "anyo": 2021,
+            "mes": 11,
+            "valor": 17,
+            "secreto": false
+          },
+          {
+            "fecha": "2021-12",
+            "anyo": 2021,
+            "mes": 12,
+            "valor": 19,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-02",
+            "anyo": 2022,
+            "mes": 2,
+            "valor": 20,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-03",
+            "anyo": 2022,
+            "mes": 3,
+            "valor": 31,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-04",
+            "anyo": 2022,
+            "mes": 4,
+            "valor": 43,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-05",
+            "anyo": 2022,
+            "mes": 5,
+            "valor": 46,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-06",
+            "anyo": 2022,
+            "mes": 6,
+            "valor": 47,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-07",
+            "anyo": 2022,
+            "mes": 7,
+            "valor": 53,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-08",
+            "anyo": 2022,
+            "mes": 8,
+            "valor": 52,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-09",
+            "anyo": 2022,
+            "mes": 9,
+            "valor": 53,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-10",
+            "anyo": 2022,
+            "mes": 10,
+            "valor": 36,
+            "secreto": false
+          },
+          {
+            "fecha": "2022-11",
+            "anyo": 2022,
+            "mes": 11,
+            "valor": 24,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-02",
+            "anyo": 2023,
+            "mes": 2,
+            "valor": 22,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-03",
+            "anyo": 2023,
+            "mes": 3,
+            "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-04",
+            "anyo": 2023,
+            "mes": 4,
+            "valor": 49,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-05",
+            "anyo": 2023,
+            "mes": 5,
+            "valor": 48,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-06",
+            "anyo": 2023,
+            "mes": 6,
+            "valor": 49,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-07",
+            "anyo": 2023,
+            "mes": 7,
+            "valor": 49,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-08",
+            "anyo": 2023,
+            "mes": 8,
+            "valor": 53,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-09",
+            "anyo": 2023,
+            "mes": 9,
+            "valor": 53,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-10",
+            "anyo": 2023,
+            "mes": 10,
+            "valor": 39,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-11",
+            "anyo": 2023,
+            "mes": 11,
+            "valor": 18,
+            "secreto": false
+          },
+          {
+            "fecha": "2023-12",
+            "anyo": 2023,
+            "mes": 12,
+            "valor": 13,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-02",
+            "anyo": 2024,
+            "mes": 2,
+            "valor": 21,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-03",
+            "anyo": 2024,
+            "mes": 3,
+            "valor": 38,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-04",
+            "anyo": 2024,
+            "mes": 4,
+            "valor": 46,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-05",
+            "anyo": 2024,
+            "mes": 5,
+            "valor": 50,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-06",
+            "anyo": 2024,
+            "mes": 6,
+            "valor": 52,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-07",
+            "anyo": 2024,
+            "mes": 7,
+            "valor": 55,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-08",
+            "anyo": 2024,
+            "mes": 8,
+            "valor": 56,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-09",
+            "anyo": 2024,
+            "mes": 9,
+            "valor": 52,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-10",
+            "anyo": 2024,
+            "mes": 10,
+            "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2024-11",
+            "anyo": 2024,
+            "mes": 11,
+            "valor": 16,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-02",
+            "anyo": 2025,
+            "mes": 2,
+            "valor": 28,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-03",
+            "anyo": 2025,
+            "mes": 3,
+            "valor": 40,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-04",
+            "anyo": 2025,
+            "mes": 4,
+            "valor": 51,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-05",
+            "anyo": 2025,
+            "mes": 5,
+            "valor": 56,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-06",
+            "anyo": 2025,
+            "mes": 6,
+            "valor": 56,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-07",
+            "anyo": 2025,
+            "mes": 7,
+            "valor": 58,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-08",
+            "anyo": 2025,
+            "mes": 8,
+            "valor": 58,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-09",
+            "anyo": 2025,
+            "mes": 9,
+            "valor": 58,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-10",
+            "anyo": 2025,
+            "mes": 10,
+            "valor": 46,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-11",
+            "anyo": 2025,
+            "mes": 11,
+            "valor": 23,
+            "secreto": false
+          },
+          {
+            "fecha": "2025-12",
+            "anyo": 2025,
+            "mes": 12,
+            "valor": 27,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-01",
+            "anyo": 2026,
+            "mes": 1,
+            "valor": 22,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-02",
+            "anyo": 2026,
+            "mes": 2,
+            "valor": 31,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-03",
+            "anyo": 2026,
+            "mes": 3,
+            "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-04",
+            "anyo": 2026,
+            "mes": 4,
+            "valor": 55,
             "secreto": false
           }
         ]
