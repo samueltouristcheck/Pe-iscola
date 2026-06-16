@@ -135,15 +135,18 @@
    */
   function apiBackendBase() {
     var loc = window.location;
-    var nodePort = String(
-      typeof window.__DASHBOARD_API_PORT__ !== 'undefined' && window.__DASHBOARD_API_PORT__ !== null
-        ? window.__DASHBOARD_API_PORT__
-        : 7777
-    );
+    var explicit = (typeof window.__DASHBOARD_API_PORT__ !== 'undefined' && window.__DASHBOARD_API_PORT__ !== null);
+    var nodePort = String(explicit ? window.__DASHBOARD_API_PORT__ : 7777);
+    // Abierto como archivo local (file://): el backend está en localhost:puerto.
     if (loc.protocol === 'file:') return 'http://localhost:' + nodePort;
-    var cur = loc.port || (loc.protocol === 'https:' ? '443' : '80');
-    if (String(cur) === nodePort) return '';
-    return loc.protocol + '//' + loc.hostname + ':' + nodePort;
+    // Solo apuntar a otro puerto si se ha configurado explícitamente (p. ej. Live Server).
+    // En el resto de casos (npm start en :7777 o producción en :443) la API es del mismo origen.
+    if (explicit) {
+      var cur = loc.port || (loc.protocol === 'https:' ? '443' : '80');
+      if (String(cur) === nodePort) return '';
+      return loc.protocol + '//' + loc.hostname + ':' + nodePort;
+    }
+    return '';
   }
 
   /** Datos respecto a la URL de la página; `/api/*` siempre al servidor Node. */
