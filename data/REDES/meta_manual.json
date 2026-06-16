@@ -23,7 +23,35 @@
     "hombres": 35.1,
     "edadPrincipal": "45-54",
     "topCiudad": "Zaragoza",
-    "topPais": "España"
+    "topPais": "España",
+    "edadSexo": [
+      { "rango": "18-24", "mujeres": 0.4, "hombres": 0.4 },
+      { "rango": "25-34", "mujeres": 9.2, "hombres": 7.5 },
+      { "rango": "35-44", "mujeres": 17.7, "hombres": 8.7 },
+      { "rango": "45-54", "mujeres": 19.1, "hombres": 8.8 },
+      { "rango": "55-64", "mujeres": 11.7, "hombres": 5.7 },
+      { "rango": "65+", "mujeres": 6.8, "hombres": 4 }
+    ],
+    "ciudades": [
+      { "nombre": "Zaragoza", "pct": 6.1 },
+      { "nombre": "Valencia", "pct": 5.8 },
+      { "nombre": "Madrid", "pct": 3.9 },
+      { "nombre": "Barcelona", "pct": 2.9 },
+      { "nombre": "Benicarló", "pct": 2.5 },
+      { "nombre": "Castellón de la Plana", "pct": 2.2 },
+      { "nombre": "Peñíscola", "pct": 2.2 },
+      { "nombre": "Vinaroz", "pct": 1.7 }
+    ],
+    "paises": [
+      { "nombre": "España", "pct": 75 },
+      { "nombre": "Francia", "pct": 5.5 },
+      { "nombre": "Marruecos", "pct": 2 },
+      { "nombre": "Alemania", "pct": 1.8 },
+      { "nombre": "Bélgica", "pct": 1.2 },
+      { "nombre": "Reino Unido", "pct": 1.1 },
+      { "nombre": "Estados Unidos", "pct": 1 },
+      { "nombre": "Italia", "pct": 0.9 }
+    ]
   },
   "historico": [
     {

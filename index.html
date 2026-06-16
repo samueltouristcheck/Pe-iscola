@@ -1000,6 +1000,27 @@
             <div class="turismo-mini-kpis" id="redes-mini-facebook"></div>
             <div class="turismo-charts-row">
               <div class="turismo-chart-card">
+                <h4>Audiencia por edad y sexo</h4>
+                <p class="turismo-chart-hint">% de seguidores</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-redes-fb-edadsexo"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Reparto por sexo</h4>
+                <div class="chart-container" style="height:320px"><canvas id="chart-redes-fb-sexo"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Top países</h4>
+                <div class="chart-container" style="height:320px"><canvas id="chart-redes-fb-paises"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Top ciudades</h4>
+                <div class="chart-container" style="height:320px"><canvas id="chart-redes-fb-ciudades"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
                 <h4>Alcance por día</h4>
                 <div class="chart-container" style="height:340px"><canvas id="chart-redes-fb-reach"></canvas></div>
               </div>
@@ -1091,6 +1112,6 @@
     /* Puerto de server.js (process.env.PORT o 7777). Si usas otro valor en .env, cámbialo aquí también. */
     window.__DASHBOARD_API_PORT__ = 7777;
   </script>
-  <script src="js/dashboard.js?v=76"></script>
+  <script src="js/dashboard.js?v=77"></script>
 </body>
 </html>
