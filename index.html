@@ -216,24 +216,18 @@
 
       <!-- ===== LPR: VEHÍCULOS (color, marca, tipo) ===== -->
       <section id="section-camaras-colores" class="section">
-        <div class="camaras-charts-row">
-          <div class="camaras-chart-card">
-            <h4>Vehículos por color</h4>
-            <div class="chart-container" style="height:360px"><canvas id="chart-lpr-color"></canvas></div>
+        <div class="camaras-charts-row" style="align-items:flex-start">
+          <div class="camaras-chart-card" style="flex:1 1 300px">
+            <h4>🎨 Color del vehículo</h4>
+            <ol id="lpr-list-color" class="lpr-rank" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem"></ol>
           </div>
-          <div class="camaras-chart-card">
-            <h4>Colores (dona)</h4>
-            <div class="chart-container" style="height:360px"><canvas id="chart-lpr-color-dona"></canvas></div>
+          <div class="camaras-chart-card" style="flex:1 1 300px">
+            <h4>🚙 Tipo de vehículo</h4>
+            <ol id="lpr-list-tipo" class="lpr-rank" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem"></ol>
           </div>
-        </div>
-        <div class="camaras-charts-row">
-          <div class="camaras-chart-card">
-            <h4>Marcas más frecuentes (top 15)</h4>
-            <div class="chart-container" style="height:420px"><canvas id="chart-lpr-marca"></canvas></div>
-          </div>
-          <div class="camaras-chart-card">
-            <h4>Tipo de vehículo</h4>
-            <div class="chart-container" style="height:420px"><canvas id="chart-lpr-tipo"></canvas></div>
+          <div class="camaras-chart-card" style="flex:1.2 1 340px">
+            <h4>🏷️ Marcas más frecuentes (top 15)</h4>
+            <ol id="lpr-list-marca" class="lpr-rank" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem"></ol>
           </div>
         </div>
       </section>
@@ -1201,6 +1195,6 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=85"></script>
+  <script src="js/dashboard.js?v=86"></script>
 </body>
 </html>

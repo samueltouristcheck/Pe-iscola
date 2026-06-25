@@ -1003,30 +1003,31 @@
     if (c2) multiCharts.lprPaises = new Chart(c2, { type: 'bar', data: { labels: top.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: top.map(function (e) { return e[1]; }), backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO }] }, options: Object.assign({ indexAxis: 'y' }, opts) });
   }
 
+  var LPR_COLOR_MAP = { 'White': '#e5e7eb', 'Blanco': '#e5e7eb', 'Negro': '#111827', 'Black': '#111827', 'Gris': '#9ca3af', 'Gray': '#9ca3af', 'Grey': '#9ca3af', 'Rojo': '#ef4444', 'Red': '#ef4444', 'Azul': '#3b82f6', 'Blue': '#3b82f6', 'Verde': '#22c55e', 'Green': '#22c55e', 'Amarillo': '#eab308', 'Yellow': '#eab308', 'Marrón': '#92400e', 'Marron': '#92400e', 'Naranja': '#f97316', 'Plata': '#d1d5db', 'Silver': '#d1d5db', 'Cian': '#06b6d4', 'Morado': '#a855f7', 'Rosa': '#ec4899' };
+  // Lista-ranking reutilizable: entries = [[nombre, valor], ...]
+  function lprRankList(id, entries, opts) {
+    var ol = document.getElementById(id); if (!ol) return;
+    opts = opts || {};
+    var total = entries.reduce(function (s, e) { return s + e[1]; }, 0) || 1;
+    var max = entries.length ? entries[0][1] : 1;
+    ol.innerHTML = '';
+    if (!entries.length) { ol.innerHTML = '<li style="color:#94a3b8;font-size:.85rem">Sin datos para el periodo.</li>'; return; }
+    entries.forEach(function (e, i) {
+      var pct = max ? Math.round(e[1] / max * 100) : 0;
+      var pctTot = (e[1] / total * 100).toFixed(1);
+      var barCol = opts.colorFn ? opts.colorFn(e[0]) : (opts.bar || '#2563eb');
+      var swatch = opts.colorFn ? '<span style="display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid #cbd5e1;background:' + barCol + ';margin-right:6px;vertical-align:middle"></span>' : '<b style="color:#cbd5e1;margin-right:5px">' + (i + 1) + '.</b>';
+      var li = document.createElement('li');
+      li.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:3px"><span style="font-size:.85rem;color:#334155">' + swatch + e[0] + '</span><span style="font-size:.82rem;font-weight:600;color:#0f172a">' + multiNf(e[1]) + ' <span style="color:#94a3b8;font-weight:400">(' + pctTot + '%)</span></span></div><div style="height:7px;background:#eef2f7;border-radius:6px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:' + barCol + ';border-radius:6px"></div></div>';
+      ol.appendChild(li);
+    });
+  }
   function renderLprColores() {
     var agg = lprFilteredAgg();
-    var opts = chartCartesianOptions();
-    var COLOR_MAP = { 'White': '#e5e7eb', 'Blanco': '#e5e7eb', 'Negro': '#111827', 'Black': '#111827', 'Gris': '#9ca3af', 'Gray': '#9ca3af', 'Grey': '#9ca3af', 'Rojo': '#ef4444', 'Red': '#ef4444', 'Azul': '#3b82f6', 'Blue': '#3b82f6', 'Verde': '#22c55e', 'Green': '#22c55e', 'Amarillo': '#eab308', 'Yellow': '#eab308', 'Marrón': '#92400e', 'Naranja': '#f97316', 'Plata': '#d1d5db', 'Silver': '#d1d5db' };
-    var ordenar = function (o, n) { var e = Object.keys(o).map(function (k) { return [k, o[k]]; }).sort(function (a, b) { return b[1] - a[1]; }); return n ? e.slice(0, n) : e; };
-    // Color
-    var entC = ordenar(agg.color);
-    var colsC = entC.map(function (e) { return COLOR_MAP[e[0]] || '#a78bfa'; });
-    multiDestroy('lprColor');
-    var c1 = document.getElementById('chart-lpr-color');
-    if (c1) multiCharts.lprColor = new Chart(c1, { type: 'bar', data: { labels: entC.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: entC.map(function (e) { return e[1]; }), backgroundColor: colsC, borderRadius: BARRA_RADIO }] }, options: opts });
-    multiDestroy('lprColorDona');
-    var c2 = document.getElementById('chart-lpr-color-dona');
-    if (c2) multiCharts.lprColorDona = new Chart(c2, { type: 'doughnut', data: { labels: entC.map(function (e) { return e[0]; }), datasets: [{ data: entC.map(function (e) { return e[1]; }), backgroundColor: colsC }] }, options: chartRadialOptions({ cutout: '60%' }) });
-    // Marca (top 15)
-    var entM = ordenar(agg.marca, 15);
-    multiDestroy('lprMarca');
-    var c3 = document.getElementById('chart-lpr-marca');
-    if (c3) multiCharts.lprMarca = new Chart(c3, { type: 'bar', data: { labels: entM.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: entM.map(function (e) { return e[1]; }), backgroundColor: '#8b5cf6', borderRadius: BARRA_RADIO }] }, options: Object.assign({ indexAxis: 'y' }, opts) });
-    // Tipo de vehículo
-    var entT = ordenar(agg.tipo);
-    multiDestroy('lprTipo');
-    var c4 = document.getElementById('chart-lpr-tipo');
-    if (c4) multiCharts.lprTipo = new Chart(c4, { type: 'doughnut', data: { labels: entT.map(function (e) { return e[0]; }), datasets: [{ data: entT.map(function (e) { return e[1]; }), backgroundColor: CHART_PALETTE }] }, options: chartRadialOptions({ cutout: '55%' }) });
+    var ord = function (o, n) { var e = Object.keys(o).map(function (k) { return [k, o[k]]; }).sort(function (a, b) { return b[1] - a[1]; }); return n ? e.slice(0, n) : e; };
+    lprRankList('lpr-list-color', ord(agg.color), { colorFn: function (k) { return LPR_COLOR_MAP[k] || '#a78bfa'; } });
+    lprRankList('lpr-list-tipo', ord(agg.tipo), { bar: '#0ea5e9' });
+    lprRankList('lpr-list-marca', ord(agg.marca, 15), { bar: '#8b5cf6' });
   }
 
   // Filtros año/mes para las vistas LPR
