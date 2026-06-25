@@ -156,6 +156,7 @@ app.get('/api/camaras/dashboard', (req, res) => {
                 byColor: lpr.byColor || {},
                 agregados: lpr.agregados || []
             },
+            multiobjeto: data.multiobjeto || [],
             camarasMapa: data.camarasMapa || []
         });
     } catch (e) {

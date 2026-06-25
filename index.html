@@ -25,6 +25,7 @@
         <a href="#" class="nav-item" data-section="camaras-camara"><span class="nav-icon">📷</span><span>Por cámara</span></a>
         <a href="#" class="nav-item" data-section="camaras-nacionalidad"><span class="nav-icon">🌍</span><span>Nacionalidad</span></a>
         <a href="#" class="nav-item" data-section="camaras-color"><span class="nav-icon">🎨</span><span>Colores</span></a>
+        <a href="#" class="nav-item" data-section="camaras-multiobjeto"><span class="nav-icon">👥</span><span>Aforo (multiobjeto)</span></a>
       </nav>
       <nav class="nav" id="nav-residuos" style="display:none">
         <a href="#" class="nav-item active" data-section="kpis"><span class="nav-icon">📊</span><span>KPIs</span></a>
@@ -253,6 +254,31 @@
             <div class="chart-container" style="height:350px">
               <canvas id="chart-camaras-color-dona"></canvas>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-camaras-multiobjeto" class="section">
+        <div class="turismo-context-row" style="margin-bottom:1rem">
+          <div class="turismo-context-card"><span class="turismo-context-icon">👥</span><div><span class="turismo-context-label">Personas (paso total)</span><span class="turismo-context-value" id="multi-kpi-personas">—</span><span class="turismo-context-sub">avanzar + retroceso</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">🚗</span><div><span class="turismo-context-label">Vehículos a motor</span><span class="turismo-context-value" id="multi-kpi-motor">—</span><span class="turismo-context-sub">total</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">🚲</span><div><span class="turismo-context-label">Vehículos sin motor</span><span class="turismo-context-value" id="multi-kpi-sinmotor">—</span><span class="turismo-context-sub">bicis, patinetes…</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">📷</span><div><span class="turismo-context-label">Cámaras</span><span class="turismo-context-value" id="multi-kpi-camaras">—</span><span class="turismo-context-sub" id="multi-kpi-rango">—</span></div></div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Evolución mensual (personas y vehículos)</h4>
+            <div class="chart-container" style="height:340px"><canvas id="chart-multi-evolucion"></canvas></div>
+          </div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Personas por cámara</h4>
+            <div class="chart-container" style="height:400px"><canvas id="chart-multi-cam-personas"></canvas></div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>Vehículos por cámara</h4>
+            <div class="chart-container" style="height:400px"><canvas id="chart-multi-cam-veh"></canvas></div>
           </div>
         </div>
       </section>
@@ -1136,6 +1162,6 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=80"></script>
+  <script src="js/dashboard.js?v=81"></script>
 </body>
 </html>

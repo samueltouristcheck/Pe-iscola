@@ -141,6 +141,9 @@ function procesarMultiobjeto(filePath, nombreCamara) {
   if (lines.length < 17) return [];
   const rows = [];
   for (let i = 16; i < lines.length; i++) {
+    // Tras la primera tabla diaria vienen las tablas de "Subtipos de vehículos"
+    // (autobuses, sedanes…) que repiten fechas con OTRAS columnas. No deben contarse.
+    if (rows.length && /Exportar contenido/i.test(lines[i])) break;
     const parts = lines[i].split(';').map(p => p.trim());
     const horaRaw = parts[1] || '';
     const m = horaRaw.match(/(\d{4})\/(\d{2})\/(\d{2})/);
