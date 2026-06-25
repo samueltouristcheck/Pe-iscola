@@ -493,23 +493,8 @@
   }
 
   function initCamaras() {
-    const yearSelect = document.getElementById('camaras-year-select');
-    const mesSelect = document.getElementById('camaras-mes-select');
     const reloadBtn = document.getElementById('camaras-reload');
-    if (!yearSelect || !mesSelect || !reloadBtn) return;
-    yearSelect.addEventListener('change', () => {
-      const es = (camarasData && camarasData.lpr && camarasData.lpr.entradasSalidasPorMes) || null;
-      const monthsFiltered = filterMonthsByYear(es, yearSelect.value || '');
-      const monthKeys = Object.keys(monthsFiltered).sort();
-      mesSelect.innerHTML = '';
-      mesSelect.appendChild(new Option('Todo el año', ''));
-      monthKeys.forEach((key) => { mesSelect.appendChild(new Option(MESES[parseInt(key.split('-')[1], 10) - 1] || key, key)); });
-      if (monthKeys.length > 0) mesSelect.value = monthKeys[monthKeys.length - 1];
-      updateCamarasKPIs();
-      updateCamarasCharts();
-    });
-    mesSelect.addEventListener('change', () => { updateCamarasKPIs(); updateCamarasCharts(); });
-    reloadBtn.addEventListener('click', loadCamarasData);
+    if (reloadBtn) reloadBtn.addEventListener('click', loadCamarasData);
   }
 
   function loadCamarasData() {
@@ -528,12 +513,13 @@
       const es = (data && data.lpr && data.lpr.entradasSalidasPorMes) || null;
       const count = es ? Object.keys(es).length : 0;
       if (dataSource) dataSource.innerHTML = '<h3>Fuente</h3><p>data/camaras/todos.json</p><p class="camaras-stats">' + count + ' meses</p>';
-      updateCamarasDashboard();
-      updateTraficoDashboard();
-      updateCamarasChartsExtras();
+      renderLprResumen();
+      renderLprEvolucion();
+      renderLprHorario();
+      renderLprProcedencia();
+      renderLprColores();
       initMultiSelect();
       renderCamarasMultiobjeto();
-      initCamarasTrafico();
     }).catch((err) => { clearTimeout(timeout); if (placeholder) placeholder.innerHTML = '<h3>Error al cargar cámaras</h3><p>' + (err.message || err) + '</p><p>Asegúrate de ejecutar <code>npm start</code> en la raíz del proyecto y abrir <code>http://localhost:7777</code></p>'; });
   }
 
@@ -832,6 +818,164 @@
       { label: 'Avanzar', data: [o.pa, o.va, o.sa], backgroundColor: '#2563eb', borderRadius: BARRA_RADIO },
       { label: 'Retroceso', data: [o.pr, o.vr, o.sr], backgroundColor: '#94a3b8', borderRadius: BARRA_RADIO }
     ] }, options: opts });
+  }
+
+  // ============ LPR (matrículas) — vistas rediseñadas ============
+  var mapaLpr = null;
+  function lprNombre(c) { return String(c || '').replace(/\s*LPR\s*$/i, '').trim(); }
+  function lprData() { return (camarasData && camarasData.lpr) || {}; }
+
+  function lprResumenStats() {
+    var l = lprData();
+    var es = l.entradasSalidasPorMes || {};
+    var meses = Object.keys(es).sort();
+    var ent = 0, sal = 0;
+    meses.forEach(function (m) { ent += es[m].Avance || 0; sal += es[m].Retroceso || 0; });
+    var byCam = l.byCamara || {};
+    var total = l.total || Object.keys(byCam).reduce(function (s, k) { return s + byCam[k]; }, 0);
+    var nac = l.byNacionalidad || {};
+    var esp = nac['España'] || nac['Espana'] || 0;
+    var noId = (nac['No compatible'] || 0) + (nac['No Compatible'] || 0) + (nac['No reconocido'] || 0) + (nac['No Reconocido'] || 0);
+    var totalNac = Object.keys(nac).reduce(function (s, k) { return s + nac[k]; }, 0);
+    var intl = totalNac - esp - noId;
+    return { meses: meses, ent: ent, sal: sal, total: total, byCam: byCam, esp: esp, noId: noId, intl: intl, identificadas: esp + intl };
+  }
+
+  function renderLprResumen() {
+    var s = lprResumenStats();
+    var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+    if (!s.meses.length && !Object.keys(s.byCam).length) return;
+    set('lpr-kpi-total', multiNf(s.total));
+    set('lpr-kpi-rango', s.meses.length ? (mesEtiqueta(s.meses[0]) + ' – ' + mesEtiqueta(s.meses[s.meses.length - 1])) : '—');
+    set('lpr-kpi-entradas', multiNf(s.ent));
+    set('lpr-kpi-salidas', multiNf(s.sal));
+    set('lpr-kpi-intl', (s.identificadas ? Math.round(s.intl / s.identificadas * 100) : 0) + '%');
+    set('lpr-kpi-intl-sub', multiNf(s.intl) + ' de ' + multiNf(s.identificadas) + ' identificadas');
+    drawMapaLpr(s.byCam);
+    renderLprTopAccesos(s.byCam);
+  }
+
+  function drawMapaLpr(byCam) {
+    var container = document.getElementById('mapa-lpr');
+    if (!container || typeof L === 'undefined') return;
+    var mapaArr = (camarasData && camarasData.camarasMapa) || [];
+    var pts = Object.keys(byCam).map(function (c) {
+      var e = mapaArr.find(function (x) { return x.nombre === c; });
+      var ll = e ? camaraLatLng(e) : null;
+      return ll ? { c: c, ll: ll, v: byCam[c] } : null;
+    }).filter(function (x) { return x && coordsEnTerminoPeniscola(x.ll[0], x.ll[1]); });
+    if (mapaLpr) { mapaLpr.remove(); mapaLpr = null; }
+    if (!pts.length) { container.innerHTML = '<p style="padding:2rem;color:#64748b">Sin coordenadas para las cámaras.</p>'; return; }
+    container.innerHTML = '';
+    var max = Math.max.apply(null, pts.map(function (x) { return x.v; })) || 1;
+    try {
+      mapaLpr = L.map('mapa-lpr', Object.assign({}, mapOptionsPeniscola())).setView(pts[0].ll, 13);
+      addDashboardBasemap(mapaLpr);
+      pts.sort(function (a, b) { return a.v - b.v; });
+      pts.forEach(function (x) {
+        var t = x.v / max;
+        L.circleMarker(x.ll, { radius: 9 + 24 * Math.sqrt(t), color: '#ffffff', weight: 1.5, fillColor: multiColor(t), fillOpacity: 0.82 })
+          .addTo(mapaLpr).bindPopup('<strong>' + lprNombre(x.c) + '</strong><br>Vehículos: ' + multiNf(x.v));
+      });
+      mapaLpr.fitBounds(L.latLngBounds(pts.map(function (x) { return x.ll; })), { padding: [35, 35] });
+      mapaLpr.whenReady(function () {
+        setTimeout(function () { if (mapaLpr) mapaLpr.invalidateSize(true); }, 0);
+        setTimeout(function () { if (mapaLpr) mapaLpr.invalidateSize(true); }, 350);
+      });
+    } catch (e) { container.innerHTML = '<p style="padding:2rem;color:#f43f5e">Error al cargar el mapa: ' + (e.message || e) + '</p>'; }
+  }
+
+  function renderLprTopAccesos(byCam) {
+    var ol = document.getElementById('lpr-top-accesos'); if (!ol) return;
+    var ent = Object.keys(byCam).map(function (c) { return { c: c, v: byCam[c] }; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 10);
+    var max = ent.length ? ent[0].v : 1;
+    ol.innerHTML = '';
+    ent.forEach(function (x, i) {
+      var pct = max ? Math.round(x.v / max * 100) : 0;
+      var li = document.createElement('li');
+      li.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:3px"><span style="font-size:.85rem;color:#334155"><b style="color:#94a3b8">' + (i + 1) + '.</b> ' + lprNombre(x.c) + '</span><span style="font-size:.84rem;font-weight:600;color:#0f172a">' + multiNf(x.v) + '</span></div><div style="height:7px;background:#eef2f7;border-radius:6px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:' + multiColor(max ? x.v / max : 0) + ';border-radius:6px"></div></div>';
+      ol.appendChild(li);
+    });
+  }
+
+  function renderLprEvolucion() {
+    var l = lprData();
+    var es = l.entradasSalidasPorMes || {};
+    var meses = Object.keys(es).sort();
+    var opts = chartCartesianOptions();
+    multiDestroy('lprMes');
+    var cM = document.getElementById('chart-lpr-mes');
+    if (cM) multiCharts.lprMes = new Chart(cM, { type: 'bar', data: { labels: meses.map(mesEtiqueta), datasets: [
+      { label: 'Entradas', data: meses.map(function (m) { return es[m].Avance || 0; }), backgroundColor: '#2563eb', borderRadius: BARRA_RADIO },
+      { label: 'Salidas', data: meses.map(function (m) { return es[m].Retroceso || 0; }), backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO }
+    ] }, options: opts });
+    var dia = l.entradasSalidasPorDia || {};
+    var dias = Object.keys(dia).sort();
+    multiDestroy('lprDia');
+    var cD = document.getElementById('chart-lpr-dia');
+    if (cD) multiCharts.lprDia = new Chart(cD, { type: 'line', data: { labels: dias, datasets: [
+      { label: 'Entradas', data: dias.map(function (d) { return dia[d].Avance || 0; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.10)', fill: true, tension: 0.25, pointRadius: 0 },
+      { label: 'Salidas', data: dias.map(function (d) { return dia[d].Retroceso || 0; }), borderColor: '#f59e0b', fill: false, tension: 0.25, pointRadius: 0 }
+    ] }, options: opts });
+  }
+
+  function renderLprHorario() {
+    var l = lprData();
+    var h = l.entradasSalidasPorHora || {};
+    var horas = []; for (var i = 0; i < 24; i++) horas.push(i);
+    var ent = horas.map(function (i) { return (h[i] || {}).Avance || 0; });
+    var sal = horas.map(function (i) { return (h[i] || {}).Retroceso || 0; });
+    var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+    var argmax = function (arr) { var mi = 0; arr.forEach(function (v, i) { if (v > arr[mi]) mi = i; }); return mi; };
+    set('lpr-kpi-hora-ent', (ent.some(function (v) { return v; }) ? ('' + argmax(ent)).padStart(2, '0') + ':00 h' : '—'));
+    set('lpr-kpi-hora-sal', (sal.some(function (v) { return v; }) ? ('' + argmax(sal)).padStart(2, '0') + ':00 h' : '—'));
+    var opts = chartCartesianOptions();
+    multiDestroy('lprHora');
+    var c = document.getElementById('chart-lpr-hora');
+    if (c) multiCharts.lprHora = new Chart(c, { type: 'bar', data: { labels: horas.map(function (i) { return ('' + i).padStart(2, '0') + 'h'; }), datasets: [
+      { label: 'Entradas', data: ent, backgroundColor: '#2563eb', borderRadius: BARRA_RADIO },
+      { label: 'Salidas', data: sal, backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO }
+    ] }, options: opts });
+  }
+
+  function renderLprProcedencia() {
+    var l = lprData();
+    var nac = l.byNacionalidad || {};
+    var esp = nac['España'] || nac['Espana'] || 0;
+    var noKeys = ['No compatible', 'No Compatible', 'No reconocido', 'No Reconocido'];
+    var noId = noKeys.reduce(function (s, k) { return s + (nac[k] || 0); }, 0);
+    var total = Object.keys(nac).reduce(function (s, k) { return s + nac[k]; }, 0);
+    var intl = total - esp - noId;
+    var ident = esp + intl;
+    var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+    set('lpr-kpi-nac', multiNf(esp));
+    set('lpr-kpi-intl2', multiNf(intl));
+    set('lpr-kpi-intl2-sub', (ident ? Math.round(intl / ident * 100) : 0) + '% de identificadas');
+    var excl = { 'España': 1, 'Espana': 1 }; noKeys.forEach(function (k) { excl[k] = 1; });
+    var top = Object.keys(nac).filter(function (k) { return !excl[k]; }).map(function (k) { return [k, nac[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 12);
+    if (top.length) { set('lpr-kpi-pais-top', top[0][0]); set('lpr-kpi-pais-top-sub', multiNf(top[0][1]) + ' vehículos'); }
+    var opts = chartCartesianOptions();
+    multiDestroy('lprNacIntl');
+    var c1 = document.getElementById('chart-lpr-nacintl');
+    if (c1) multiCharts.lprNacIntl = new Chart(c1, { type: 'doughnut', data: { labels: ['Nacionales (España)', 'Internacionales', 'No identificadas'], datasets: [{ data: [esp, intl, noId], backgroundColor: ['#2563eb', '#f59e0b', '#cbd5e1'] }] }, options: chartRadialOptions({ cutout: '60%' }) });
+    multiDestroy('lprPaises');
+    var c2 = document.getElementById('chart-lpr-paises');
+    if (c2) multiCharts.lprPaises = new Chart(c2, { type: 'bar', data: { labels: top.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: top.map(function (e) { return e[1]; }), backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO }] }, options: Object.assign({ indexAxis: 'y' }, opts) });
+  }
+
+  function renderLprColores() {
+    var l = lprData();
+    var byColor = l.byColor || {};
+    var ent = Object.keys(byColor).map(function (k) { return [k, byColor[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
+    var COLOR_MAP = { 'White': '#e5e7eb', 'Blanco': '#e5e7eb', 'Negro': '#111827', 'Black': '#111827', 'Gris': '#9ca3af', 'Gray': '#9ca3af', 'Grey': '#9ca3af', 'Rojo': '#ef4444', 'Red': '#ef4444', 'Azul': '#3b82f6', 'Blue': '#3b82f6', 'Verde': '#22c55e', 'Green': '#22c55e', 'Amarillo': '#eab308', 'Yellow': '#eab308', 'Marrón': '#92400e', 'Naranja': '#f97316' };
+    var cols = ent.map(function (e) { return COLOR_MAP[e[0]] || '#a78bfa'; });
+    var opts = chartCartesianOptions();
+    multiDestroy('lprColor');
+    var c1 = document.getElementById('chart-lpr-color');
+    if (c1) multiCharts.lprColor = new Chart(c1, { type: 'bar', data: { labels: ent.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: ent.map(function (e) { return e[1]; }), backgroundColor: cols, borderRadius: BARRA_RADIO }] }, options: opts });
+    multiDestroy('lprColorDona');
+    var c2 = document.getElementById('chart-lpr-color-dona');
+    if (c2) multiCharts.lprColorDona = new Chart(c2, { type: 'doughnut', data: { labels: ent.map(function (e) { return e[0]; }), datasets: [{ data: ent.map(function (e) { return e[1]; }), backgroundColor: cols }] }, options: chartRadialOptions({ cutout: '60%' }) });
   }
 
   function camaraLatLng(c) {
@@ -4723,21 +4867,26 @@
         document.querySelectorAll('#main-camaras .section').forEach((s) => s.classList.remove('active'));
         const sec = document.getElementById('section-' + el.dataset.section);
         if (sec) sec.classList.add('active');
-        if (el.dataset.section === 'camaras-camara') {
-          setTimeout(function () { initMapaCamaras(); invalidateMapaCamaras(); }, 180);
+        var sname = el.dataset.section;
+        if (sname === 'camaras-resumen') {
+          setTimeout(function () { renderLprResumen(); if (mapaLpr) mapaLpr.invalidateSize(true); }, 180);
         }
-        if (el.dataset.section === 'camaras-multiobjeto') {
+        if (sname === 'camaras-evolucion') { setTimeout(renderLprEvolucion, 60); }
+        if (sname === 'camaras-horario') { setTimeout(renderLprHorario, 60); }
+        if (sname === 'camaras-procedencia') { setTimeout(renderLprProcedencia, 60); }
+        if (sname === 'camaras-colores') { setTimeout(renderLprColores, 60); }
+        if (sname === 'camaras-multiobjeto') {
           setTimeout(function () { renderCamarasMultiobjeto(); if (mapaMultiobjeto) mapaMultiobjeto.invalidateSize(true); }, 180);
         }
-        if (el.dataset.section === 'camaras-multiobjeto-calles') {
+        if (sname === 'camaras-multiobjeto-calles') {
           setTimeout(renderMultiCalles, 60);
         }
-        if (el.dataset.section === 'camaras-multiobjeto-detalle') {
+        if (sname === 'camaras-multiobjeto-detalle') {
           setTimeout(function () { initMultiSelect(); renderMultiDetalle(); }, 60);
         }
         const header = document.getElementById('header-camaras');
         if (header) {
-          const titles = { 'camaras-entradas': 'Cámaras LPR - Entradas y salidas', 'camaras-trafico': 'Tráfico por Vehículo y Dirección', 'camaras-camara': 'Tráfico por cámara', 'camaras-nacionalidad': 'Tráfico por nacionalidad', 'camaras-color': 'Vehículos por color', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara' };
+          const titles = { 'camaras-resumen': 'Accesos — mapa de tráfico (LPR)', 'camaras-evolucion': 'Evolución del tráfico (LPR)', 'camaras-horario': 'Perfil horario (LPR)', 'camaras-procedencia': 'Procedencia de los vehículos (LPR)', 'camaras-colores': 'Vehículos por color (LPR)', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara' };
           const h2 = header.querySelector('h2');
           if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];
         }

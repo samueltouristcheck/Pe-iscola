@@ -20,11 +20,13 @@
         <img src="assets/logo-ajuntament.png" alt="Peñíscola" class="logo-img" decoding="async">
       </a>
       <nav class="nav" id="nav-camaras" style="display:none">
-        <a href="#" class="nav-item active" data-section="camaras-entradas"><span class="nav-icon">📊</span><span>Entradas/Salidas</span></a>
-        <a href="#" class="nav-item" data-section="camaras-trafico"><span class="nav-icon">🚗</span><span>Tráfico por vehículo</span></a>
-        <a href="#" class="nav-item" data-section="camaras-camara"><span class="nav-icon">📷</span><span>Por cámara</span></a>
-        <a href="#" class="nav-item" data-section="camaras-nacionalidad"><span class="nav-icon">🌍</span><span>Nacionalidad</span></a>
-        <a href="#" class="nav-item" data-section="camaras-color"><span class="nav-icon">🎨</span><span>Colores</span></a>
+        <div class="nav-group-label" style="padding:.4rem .9rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:600">Matrículas (LPR)</div>
+        <a href="#" class="nav-item active" data-section="camaras-resumen"><span class="nav-icon">🗺️</span><span>Accesos (mapa)</span></a>
+        <a href="#" class="nav-item" data-section="camaras-evolucion"><span class="nav-icon">📈</span><span>Evolución</span></a>
+        <a href="#" class="nav-item" data-section="camaras-horario"><span class="nav-icon">🕐</span><span>Perfil horario</span></a>
+        <a href="#" class="nav-item" data-section="camaras-procedencia"><span class="nav-icon">🌍</span><span>Procedencia</span></a>
+        <a href="#" class="nav-item" data-section="camaras-colores"><span class="nav-icon">🎨</span><span>Colores</span></a>
+        <div class="nav-group-label" style="padding:.4rem .9rem .2rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:600">Aforo (personas/vehículos)</div>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto"><span class="nav-icon">🗺️</span><span>Afluencia (mapa)</span></a>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-calles"><span class="nav-icon">🔥</span><span>Calles concurridas</span></a>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-detalle"><span class="nav-icon">📷</span><span>Por cámara</span></a>
@@ -130,132 +132,92 @@
       </header>
 
       <div id="main-camaras" style="display:none">
-      <section id="section-camaras-entradas" class="section active">
+      <!-- ===== LPR: ACCESOS / MAPA (resumen) ===== -->
+      <section id="section-camaras-resumen" class="section active">
         <div class="camaras-data-source" id="camaras-data-source" style="display:none" aria-hidden="true"></div>
         <div class="camaras-placeholder" id="camaras-placeholder">
           <h3>Cargando datos de cámaras...</h3>
           <p>Esperando data/camaras/todos.json</p>
         </div>
         <div id="camaras-content" aria-hidden="true" style="display:none">
-          <div class="camaras-lpr-filters">
-            <label for="camaras-year-select">Año</label>
-            <select id="camaras-year-select" class="fuente-select"></select>
-            <label for="camaras-mes-select">Mes</label>
-            <select id="camaras-mes-select" class="fuente-select"></select>
+          <div class="turismo-context-row" style="margin-bottom:1rem">
+            <div class="turismo-context-card"><span class="turismo-context-icon">🚗</span><div><span class="turismo-context-label">Vehículos detectados</span><span class="turismo-context-value" id="lpr-kpi-total">—</span><span class="turismo-context-sub" id="lpr-kpi-rango">—</span></div></div>
+            <div class="turismo-context-card"><span class="turismo-context-icon">⬇️</span><div><span class="turismo-context-label">Entradas</span><span class="turismo-context-value" id="lpr-kpi-entradas">—</span><span class="turismo-context-sub">sentido avance</span></div></div>
+            <div class="turismo-context-card"><span class="turismo-context-icon">⬆️</span><div><span class="turismo-context-label">Salidas</span><span class="turismo-context-value" id="lpr-kpi-salidas">—</span><span class="turismo-context-sub">sentido retroceso</span></div></div>
+            <div class="turismo-context-card"><span class="turismo-context-icon">🌍</span><div><span class="turismo-context-label">Vehículos extranjeros</span><span class="turismo-context-value" id="lpr-kpi-intl">—</span><span class="turismo-context-sub" id="lpr-kpi-intl-sub">sobre matrículas identificadas</span></div></div>
           </div>
-          <div class="camaras-kpi-cards">
-            <div class="camaras-kpi-card camaras-kpi-entradas">
-              <span class="camaras-kpi-label">Entradas (Avance)</span>
-              <span class="camaras-kpi-value" id="camaras-kpi-entradas">—</span>
-              <span class="camaras-kpi-sub" id="camaras-kpi-entradas-sub">—</span>
+          <div class="camaras-charts-row" style="align-items:stretch">
+            <div class="camaras-chart-card" style="flex:2 1 460px">
+              <h4>Mapa de accesos <span style="font-weight:400;color:#64748b;font-size:.82em">— tamaño y color = volumen de tráfico</span></h4>
+              <div id="mapa-lpr" style="height:480px;border-radius:10px;overflow:hidden"></div>
             </div>
-            <div class="camaras-kpi-card camaras-kpi-salidas">
-              <span class="camaras-kpi-label">Salidas (Retroceso)</span>
-              <span class="camaras-kpi-value" id="camaras-kpi-salidas">—</span>
-              <span class="camaras-kpi-sub" id="camaras-kpi-salidas-sub">—</span>
-            </div>
-          </div>
-          <div class="camaras-charts-row">
-            <div class="camaras-chart-card">
-              <h4>Entradas/Salidas por mes</h4>
-              <div class="chart-container" style="height:280px">
-                <canvas id="chart-camaras-mes"></canvas>
-              </div>
-            </div>
-            <div class="camaras-chart-card">
-              <h4>Entradas/Salidas por día</h4>
-              <div class="chart-container" style="height:280px">
-                <canvas id="chart-camaras-dia"></canvas>
-              </div>
+            <div class="camaras-chart-card" style="flex:1 1 280px">
+              <h4>Accesos más transitados</h4>
+              <ol id="lpr-top-accesos" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem"></ol>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="section-camaras-trafico" class="section">
-        <h3 class="section-title">Tráfico por Vehículo y Dirección</h3>
-        <div class="camaras-trafico-filters">
-          <label>Cámaras</label>
-          <select id="trafico-camara-select" class="fuente-select"><option value="">Todas</option></select>
-          <label>Mes</label>
-          <select id="trafico-mes-select" class="fuente-select"><option value="">Todas</option></select>
-          <label>Fecha</label>
-          <select id="trafico-fecha-select" class="fuente-select"><option value="">Todas</option></select>
-        </div>
-        <div class="camaras-trafico-kpis">
-          <div class="camaras-trafico-kpi">
-            <span class="camaras-trafico-kpi-label">Balance Neto</span>
-            <span class="camaras-trafico-kpi-value" id="trafico-balance">—</span>
-            <span class="camaras-trafico-kpi-sub" id="trafico-balance-sub">Balance mes anterior: —</span>
-          </div>
-          <div class="camaras-trafico-kpi">
-            <span class="camaras-trafico-kpi-label">Entradas al Pueblo</span>
-            <span class="camaras-trafico-kpi-value" id="trafico-entradas">—</span>
-            <span class="camaras-trafico-kpi-sub" id="trafico-entradas-sub">Entradas mes anterior: —</span>
-          </div>
-          <div class="camaras-trafico-kpi">
-            <span class="camaras-trafico-kpi-label">Salidas del Pueblo</span>
-            <span class="camaras-trafico-kpi-value" id="trafico-salidas">—</span>
-            <span class="camaras-trafico-kpi-sub" id="trafico-salidas-sub">Salidas mes anterior: —</span>
+      <!-- ===== LPR: EVOLUCIÓN ===== -->
+      <section id="section-camaras-evolucion" class="section">
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Entradas y salidas por mes</h4>
+            <div class="chart-container" style="height:340px"><canvas id="chart-lpr-mes"></canvas></div>
           </div>
         </div>
         <div class="camaras-charts-row">
           <div class="camaras-chart-card">
-            <h4>Entradas y Salidas por Hora del Día</h4>
-            <div class="chart-container" style="height:300px">
-              <canvas id="chart-trafico-hora"></canvas>
-            </div>
-          </div>
-          <div class="camaras-chart-card">
-            <h4>Entradas y Salidas por Día del Mes</h4>
-            <div class="chart-container" style="height:300px">
-              <canvas id="chart-trafico-dia"></canvas>
-            </div>
+            <h4>Tráfico diario (entradas + salidas)</h4>
+            <div class="chart-container" style="height:320px"><canvas id="chart-lpr-dia"></canvas></div>
           </div>
         </div>
       </section>
 
-      <section id="section-camaras-camara" class="section">
-        <div class="camaras-chart-card">
-          <h4>Mapa de cámaras</h4>
-          <div id="mapa-camaras" class="mapa-camaras"></div>
+      <!-- ===== LPR: PERFIL HORARIO ===== -->
+      <section id="section-camaras-horario" class="section">
+        <div class="turismo-context-row" style="margin-bottom:1rem">
+          <div class="turismo-context-card"><span class="turismo-context-icon">🕐</span><div><span class="turismo-context-label">Hora punta de entradas</span><span class="turismo-context-value" id="lpr-kpi-hora-ent">—</span><span class="turismo-context-sub">mayor flujo de acceso</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">🌙</span><div><span class="turismo-context-label">Hora punta de salidas</span><span class="turismo-context-value" id="lpr-kpi-hora-sal">—</span><span class="turismo-context-sub">mayor flujo de salida</span></div></div>
         </div>
-        <div class="camaras-chart-card">
-          <h4>Tráfico por cámara (total)</h4>
-          <div class="chart-container" style="height:400px">
-            <canvas id="chart-camaras-por-camara"></canvas>
-          </div>
-        </div>
-      </section>
-      <section id="section-camaras-nacionalidad" class="section">
         <div class="camaras-charts-row">
           <div class="camaras-chart-card">
-            <h4>Tráfico por nacionalidad (top 15)</h4>
-            <div class="chart-container" style="height:350px">
-              <canvas id="chart-camaras-nacionalidad"></canvas>
-            </div>
-          </div>
-          <div class="camaras-chart-card">
-            <h4>Nacionalidad (dona)</h4>
-            <div class="chart-container" style="height:350px">
-              <canvas id="chart-camaras-nacionalidad-dona"></canvas>
-            </div>
+            <h4>Entradas y salidas por hora del día (acumulado)</h4>
+            <div class="chart-container" style="height:380px"><canvas id="chart-lpr-hora"></canvas></div>
           </div>
         </div>
       </section>
-      <section id="section-camaras-color" class="section">
+
+      <!-- ===== LPR: PROCEDENCIA ===== -->
+      <section id="section-camaras-procedencia" class="section">
+        <div class="turismo-context-row" style="margin-bottom:1rem">
+          <div class="turismo-context-card"><span class="turismo-context-icon">🇪🇸</span><div><span class="turismo-context-label">Nacionales</span><span class="turismo-context-value" id="lpr-kpi-nac">—</span><span class="turismo-context-sub">matrículas españolas</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">🌍</span><div><span class="turismo-context-label">Internacionales</span><span class="turismo-context-value" id="lpr-kpi-intl2">—</span><span class="turismo-context-sub" id="lpr-kpi-intl2-sub">—</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">🏆</span><div><span class="turismo-context-label">País extranjero top</span><span class="turismo-context-value" id="lpr-kpi-pais-top" style="font-size:1.25rem">—</span><span class="turismo-context-sub" id="lpr-kpi-pais-top-sub">—</span></div></div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Reparto nacional / internacional</h4>
+            <div class="chart-container" style="height:340px"><canvas id="chart-lpr-nacintl"></canvas></div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>Top países extranjeros</h4>
+            <div class="chart-container" style="height:340px"><canvas id="chart-lpr-paises"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== LPR: COLORES ===== -->
+      <section id="section-camaras-colores" class="section">
         <div class="camaras-charts-row">
           <div class="camaras-chart-card">
             <h4>Vehículos por color</h4>
-            <div class="chart-container" style="height:350px">
-              <canvas id="chart-camaras-color"></canvas>
-            </div>
+            <div class="chart-container" style="height:360px"><canvas id="chart-lpr-color"></canvas></div>
           </div>
           <div class="camaras-chart-card">
             <h4>Colores (dona)</h4>
-            <div class="chart-container" style="height:350px">
-              <canvas id="chart-camaras-color-dona"></canvas>
-            </div>
+            <div class="chart-container" style="height:360px"><canvas id="chart-lpr-color-dona"></canvas></div>
           </div>
         </div>
       </section>
@@ -1223,6 +1185,6 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=83"></script>
+  <script src="js/dashboard.js?v=84"></script>
 </body>
 </html>
