@@ -4597,7 +4597,9 @@
     if (d && d.meta && d.meta.error) errs.push('Meta: ' + d.meta.error);
     if (d && d.meta && d.meta.facebook && d.meta.facebook.insightsError) errs.push('Facebook insights: ' + d.meta.facebook.insightsError);
     if (d && d.meta && d.meta.instagram && d.meta.instagram.insightsError) errs.push('Instagram insights: ' + d.meta.instagram.insightsError);
-    if (d && d.ga && d.ga.error) errs.push('Google Analytics: ' + d.ga.error);
+    var gaErr = (d && d.ga && d.ga.error) ? String(d.ga.error) : '';
+    var gaAuth = gaErr && /grant|token|auth|unauthor|401|invalid|expired|caduc/i.test(gaErr);
+    if (gaErr) errs.push('Google Analytics: ' + (gaAuth ? 'sesión de Google caducada (' + gaErr + ')' : gaErr));
 
     if (!problems.length && !errs.length) {
       box.className = 'redes-status redes-status-ok';
@@ -4618,6 +4620,9 @@
     if (errs.length) {
       html += (problems.length ? '<br>' : '<strong>Aviso de las APIs</strong>') + errs.map(function (e) { return '<div>· ' + e + '</div>'; }).join('');
     }
+    if (gaAuth) {
+      html += '<div style="margin-top:.65rem"><a href="/api/redes/oauth/start" target="_blank" rel="noopener" class="reload-btn" style="display:inline-block;text-decoration:none">🔄 Reconectar Google Analytics</a> <span style="color:#64748b;font-size:.85rem">— inicia sesión con tu cuenta de Google y autoriza; luego pulsa “Actualizar”.</span></div>';
+    }
     html += '</div>';
     box.innerHTML = html;
   }
@@ -4632,18 +4637,22 @@
     set('redes-kpi-fb-name', fb.name || (d && d.config && d.config.meta ? 'Facebook' : 'No conectado'));
     set('redes-kpi-ig-followers', redesFmt(ig.followers));
     set('redes-kpi-ig-name', ig.username ? '@' + ig.username : (d && d.config && d.config.meta ? 'Instagram' : 'No conectado'));
-    set('redes-kpi-ga-sessions', redesFmt(ga.sessions));
-    set('redes-kpi-ga-users', ga.users != null ? redesFmt(ga.users) + ' usuarios' : (d && d.config && d.config.ga ? '—' : 'No conectado'));
+    var byDay = ga.byDay || [];
+    var gaDown = !!ga.error || (ga.sessions == null && !byDay.length);
+    set('redes-kpi-ga-sessions', gaDown ? 'Sin conexión' : redesFmt(ga.sessions));
+    set('redes-kpi-ga-users', ga.error ? 'Reautorizar GA' : (ga.users != null ? redesFmt(ga.users) + ' usuarios' : (d && d.config && d.config.ga ? '—' : 'No conectado')));
     var reach = (fb.reach || 0) + (ig.reach || 0);
     set('redes-kpi-reach', reach ? redesFmt(reach) : '—');
 
-    // Sesiones web por día
-    var byDay = ga.byDay || [];
-    redesChart('chart-redes-ga-dia', {
-      type: 'line',
-      data: { labels: byDay.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Sesiones', data: byDay.map(function (x) { return x.sessions; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', fill: true, tension: 0.3 }] },
-      options: redesLineOpts()
-    });
+    // Sesiones web por día (oculta la tarjeta cuando GA está caído o sin datos, para no mostrar una gráfica vacía)
+    toggleRedesChartCard('chart-redes-ga-dia', byDay.length > 0);
+    if (byDay.length) {
+      redesChart('chart-redes-ga-dia', {
+        type: 'line',
+        data: { labels: byDay.map(function (x) { return x.date.slice(5); }), datasets: [{ label: 'Sesiones', data: byDay.map(function (x) { return x.sessions; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', fill: true, tension: 0.3 }] },
+        options: redesLineOpts()
+      });
+    }
     // Alcance redes por día (FB + IG combinados por fecha)
     var map = {};
     (fb.daily || []).forEach(function (x) { if (x.date) map[x.date] = (map[x.date] || 0) + (x.reach || 0); });
@@ -4812,8 +4821,9 @@
     var fbName = (meta.facebook && meta.facebook.name) || '';
     var igName = (meta.instagram && meta.instagram.username) ? '@' + meta.instagram.username : '';
     var metaDetail = [fbName, igName].filter(Boolean).join(' · ') || 'sin nombre';
+    var reconectar = ga.error ? '<div style="margin-top:.5rem"><a href="/api/redes/oauth/start" target="_blank" rel="noopener" class="reload-btn" style="display:inline-block;text-decoration:none">🔄 Reconectar Google Analytics</a></div>' : '';
     cont.innerHTML = card('Meta (Facebook + Instagram)', cfg.meta && !meta.error, metaDetail) +
-      card('Google Analytics 4', cfg.ga && !ga.error, ga.propertyId ? 'propiedad ' + ga.propertyId : '');
+      card('Google Analytics 4', cfg.ga && !ga.error, ga.propertyId ? 'propiedad ' + ga.propertyId : '') + reconectar;
   }
 
   // Dibuja las 4 gráficas de audiencia para una plataforma ('fb' o 'ig').
