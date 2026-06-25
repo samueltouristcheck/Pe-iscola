@@ -38,6 +38,9 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
     const byNacionalidad = {};
     const byColor = {};
     const byHora = {};
+    const byMarca = {};
+    const byTipo = {};
+    const porMes = {};
     const setsDedupUse = setsDedup || {};
     const setsDedupDiaUse = setsDedupDia || {};
     let lineNum = 0;
@@ -56,6 +59,7 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
             camara: cols.findIndex(c => /cámara|camara/i.test(c)),
             pais: cols.findIndex(c => /país|pais|región|region/i.test(c)),
             tipo: cols.findIndex(c => /tipo de vehículo|tipo/i.test(c)),
+            marca: cols.findIndex(c => /^marca$/i.test(c)),
             color: cols.findIndex(c => /^color$/i.test(c)),
             direccion: cols.findIndex(c => /dirección de conducción|direccion de conduccion/i.test(c))
           };
@@ -72,6 +76,8 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
       else if (/invertir/i.test(direccion)) direccion = 'Retroceso';
       const nacionalidad = (idx.pais >= 0 ? parts[idx.pais] : '').trim() || 'Desconocido';
       const color = (idx.color >= 0 ? parts[idx.color] : '').trim() || 'Desconocido';
+      const tipo = (idx.tipo >= 0 ? parts[idx.tipo] : '').trim() || '';
+      const marca = (idx.marca >= 0 ? parts[idx.marca] : '').trim() || '';
       let fecha = '';
       const ts = parseHora(hora);
       if (hora && /^\d{4}\/\d{2}\/\d{2}/.test(hora)) {
@@ -89,11 +95,24 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
       }
       if (nacionalidad && nacionalidad !== '--') byNacionalidad[nacionalidad] = (byNacionalidad[nacionalidad] || 0) + 1;
       if (color && color !== '--') byColor[color] = (byColor[color] || 0) + 1;
+      if (tipo && tipo !== '--') byTipo[tipo] = (byTipo[tipo] || 0) + 1;
+      if (marca && marca !== '--') byMarca[marca] = (byMarca[marca] || 0) + 1;
+
+      // Desgloses por mes (cuentas brutas) para permitir filtrar por año/mes
+      if (!porMes[fecha]) porMes[fecha] = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {} };
+      const pm = porMes[fecha];
+      pm.camara[camara] = (pm.camara[camara] || 0) + 1;
+      if (nacionalidad && nacionalidad !== '--') pm.pais[nacionalidad] = (pm.pais[nacionalidad] || 0) + 1;
+      if (color && color !== '--') pm.color[color] = (pm.color[color] || 0) + 1;
+      if (tipo && tipo !== '--') pm.tipo[tipo] = (pm.tipo[tipo] || 0) + 1;
+      if (marca && marca !== '--') pm.marca[marca] = (pm.marca[marca] || 0) + 1;
 
       if (direccion && ts) {
         const hour = new Date(ts).getHours();
         if (!byHora[hour]) byHora[hour] = { Avance: 0, Retroceso: 0, Otro: 0 };
         byHora[hour][direccion] = (byHora[hour][direccion] || 0) + 1;
+        if (!pm.hora[hour]) pm.hora[hour] = { Avance: 0, Retroceso: 0, Otro: 0 };
+        pm.hora[hour][direccion] = (pm.hora[hour][direccion] || 0) + 1;
       }
       if (direccion && ts) {
         const bucket = Math.floor(ts / BUCKET_MS);
@@ -126,7 +145,10 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
         byCamara,
         byNacionalidad,
         byColor,
+        byMarca,
+        byTipo,
         byHora,
+        porMes,
         total: Object.values(byKey).reduce((a, c) => a + c, 0)
       });
     });
@@ -190,6 +212,9 @@ async function main() {
     byCamara: {},
     byNacionalidad: {},
     byColor: {},
+    byMarca: {},
+    byTipo: {},
+    porMes: {},
     total: 0
   };
   let multiobjeto = [];
@@ -221,6 +246,19 @@ async function main() {
           Object.entries(res.byCamara || {}).forEach(([c, n]) => { lprResult.byCamara[c] = (lprResult.byCamara[c] || 0) + n; });
           Object.entries(res.byNacionalidad || {}).forEach(([n, c]) => { lprResult.byNacionalidad[n] = (lprResult.byNacionalidad[n] || 0) + c; });
           Object.entries(res.byColor || {}).forEach(([col, c]) => { lprResult.byColor[col] = (lprResult.byColor[col] || 0) + c; });
+          Object.entries(res.byMarca || {}).forEach(([mk, c]) => { lprResult.byMarca[mk] = (lprResult.byMarca[mk] || 0) + c; });
+          Object.entries(res.byTipo || {}).forEach(([tp, c]) => { lprResult.byTipo[tp] = (lprResult.byTipo[tp] || 0) + c; });
+          Object.entries(res.porMes || {}).forEach(([mes, dims]) => {
+            if (!lprResult.porMes[mes]) lprResult.porMes[mes] = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {} };
+            const tgt = lprResult.porMes[mes];
+            ['camara', 'pais', 'color', 'marca', 'tipo'].forEach((dim) => {
+              Object.entries(dims[dim] || {}).forEach(([k, c]) => { tgt[dim][k] = (tgt[dim][k] || 0) + c; });
+            });
+            Object.entries(dims.hora || {}).forEach(([h, obj]) => {
+              if (!tgt.hora[h]) tgt.hora[h] = { Avance: 0, Retroceso: 0, Otro: 0 };
+              ['Avance', 'Retroceso', 'Otro'].forEach((d) => { tgt.hora[h][d] = (tgt.hora[h][d] || 0) + (obj[d] || 0); });
+            });
+          });
           Object.entries(res.byHora || {}).forEach(([h, obj]) => {
             if (!byHoraMerged[h]) byHoraMerged[h] = { Avance: 0, Retroceso: 0, Otro: 0 };
             ['Avance', 'Retroceso', 'Otro'].forEach((d) => { byHoraMerged[h][d] = (byHoraMerged[h][d] || 0) + (obj[d] || 0); });
@@ -331,7 +369,22 @@ async function main() {
     multiobjeto
   };
   fs.mkdirSync(path.dirname(SALIDA_PATH), { recursive: true });
-  fs.writeFileSync(SALIDA_PATH, JSON.stringify(resultado, null, 2), 'utf8');
+  // Escritura robusta frente a bloqueos de OneDrive/antivirus: tmp + rename con reintentos.
+  const json = JSON.stringify(resultado, null, 2);
+  const tmp = SALIDA_PATH + '.tmp';
+  let escrito = false;
+  for (let intento = 1; intento <= 6 && !escrito; intento++) {
+    try {
+      fs.writeFileSync(tmp, json, 'utf8');
+      fs.renameSync(tmp, SALIDA_PATH);
+      escrito = true;
+    } catch (e) {
+      console.warn('  (intento ' + intento + ' de escritura falló: ' + e.code + ')');
+      try { if (fs.existsSync(tmp)) fs.unlinkSync(tmp); } catch (_) {}
+      const until = Date.now() + 1500; while (Date.now() < until) { /* espera bloqueante breve */ }
+      if (intento === 6) throw e;
+    }
+  }
   console.log('\nGuardado:', SALIDA_PATH);
   console.log('  LPR:', lprResult.total, 'matrículas (agregados:', lprResult.agregados.length, ', direccion:', lprResult.agregadosPorDireccion.length, ')');
   console.log('  Cámaras en mapa:', camarasMapa.length);

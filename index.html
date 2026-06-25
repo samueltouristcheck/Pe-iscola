@@ -25,7 +25,7 @@
         <a href="#" class="nav-item" data-section="camaras-evolucion"><span class="nav-icon">📈</span><span>Evolución</span></a>
         <a href="#" class="nav-item" data-section="camaras-horario"><span class="nav-icon">🕐</span><span>Perfil horario</span></a>
         <a href="#" class="nav-item" data-section="camaras-procedencia"><span class="nav-icon">🌍</span><span>Procedencia</span></a>
-        <a href="#" class="nav-item" data-section="camaras-colores"><span class="nav-icon">🎨</span><span>Colores</span></a>
+        <a href="#" class="nav-item" data-section="camaras-colores"><span class="nav-icon">🎨</span><span>Color, marca y tipo</span></a>
         <div class="nav-group-label" style="padding:.4rem .9rem .2rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:600">Aforo (personas/vehículos)</div>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto"><span class="nav-icon">🗺️</span><span>Afluencia (mapa)</span></a>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-calles"><span class="nav-icon">🔥</span><span>Calles concurridas</span></a>
@@ -132,6 +132,12 @@
       </header>
 
       <div id="main-camaras" style="display:none">
+      <div class="filters-bar" id="lpr-filtros" style="margin-bottom:1rem">
+        <label>Año</label>
+        <select id="lpr-f-anio" class="fuente-select"></select>
+        <label>Mes</label>
+        <select id="lpr-f-mes" class="fuente-select"></select>
+      </div>
       <!-- ===== LPR: ACCESOS / MAPA (resumen) ===== -->
       <section id="section-camaras-resumen" class="section active">
         <div class="camaras-data-source" id="camaras-data-source" style="display:none" aria-hidden="true"></div>
@@ -208,7 +214,7 @@
         </div>
       </section>
 
-      <!-- ===== LPR: COLORES ===== -->
+      <!-- ===== LPR: VEHÍCULOS (color, marca, tipo) ===== -->
       <section id="section-camaras-colores" class="section">
         <div class="camaras-charts-row">
           <div class="camaras-chart-card">
@@ -218,6 +224,16 @@
           <div class="camaras-chart-card">
             <h4>Colores (dona)</h4>
             <div class="chart-container" style="height:360px"><canvas id="chart-lpr-color-dona"></canvas></div>
+          </div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Marcas más frecuentes (top 15)</h4>
+            <div class="chart-container" style="height:420px"><canvas id="chart-lpr-marca"></canvas></div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>Tipo de vehículo</h4>
+            <div class="chart-container" style="height:420px"><canvas id="chart-lpr-tipo"></canvas></div>
           </div>
         </div>
       </section>
@@ -1185,6 +1201,6 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=84"></script>
+  <script src="js/dashboard.js?v=85"></script>
 </body>
 </html>

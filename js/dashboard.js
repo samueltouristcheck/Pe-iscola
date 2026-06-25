@@ -513,11 +513,8 @@
       const es = (data && data.lpr && data.lpr.entradasSalidasPorMes) || null;
       const count = es ? Object.keys(es).length : 0;
       if (dataSource) dataSource.innerHTML = '<h3>Fuente</h3><p>data/camaras/todos.json</p><p class="camaras-stats">' + count + ' meses</p>';
-      renderLprResumen();
-      renderLprEvolucion();
-      renderLprHorario();
-      renderLprProcedencia();
-      renderLprColores();
+      initLprFiltros();
+      renderAllLpr();
       initMultiSelect();
       renderCamarasMultiobjeto();
     }).catch((err) => { clearTimeout(timeout); if (placeholder) placeholder.innerHTML = '<h3>Error al cargar cámaras</h3><p>' + (err.message || err) + '</p><p>Asegúrate de ejecutar <code>npm start</code> en la raíz del proyecto y abrir <code>http://localhost:7777</code></p>'; });
@@ -820,39 +817,78 @@
     ] }, options: opts });
   }
 
-  // ============ LPR (matrículas) — vistas rediseñadas ============
+  // ============ LPR (matrículas) — vistas rediseñadas + filtros año/mes ============
   var mapaLpr = null;
+  var NOID_KEYS = ['No compatible', 'No Compatible', 'No reconocido', 'No Reconocido'];
   function lprNombre(c) { return String(c || '').replace(/\s*LPR\s*$/i, '').trim(); }
   function lprData() { return (camarasData && camarasData.lpr) || {}; }
-
-  function lprResumenStats() {
+  function lprFiltro() {
+    return {
+      anio: (document.getElementById('lpr-f-anio') || {}).value || '',
+      mes: (document.getElementById('lpr-f-mes') || {}).value || ''
+    };
+  }
+  function lprClavesMes() {
+    var pm = lprData().porMes || {};
+    var k = Object.keys(pm);
+    return k.length ? k : Object.keys(lprData().entradasSalidasPorMes || {});
+  }
+  function lprMesesFiltrados() {
+    var f = lprFiltro();
+    return lprClavesMes().filter(function (m) {
+      if (f.mes) return m === f.mes;
+      if (f.anio) return m.slice(0, 4) === f.anio;
+      return true;
+    }).sort();
+  }
+  // Agrega los desgloses (cámara, país, color, marca, tipo, hora) según el filtro año/mes.
+  function lprFilteredAgg() {
     var l = lprData();
-    var es = l.entradasSalidasPorMes || {};
-    var meses = Object.keys(es).sort();
-    var ent = 0, sal = 0;
-    meses.forEach(function (m) { ent += es[m].Avance || 0; sal += es[m].Retroceso || 0; });
-    var byCam = l.byCamara || {};
-    var total = l.total || Object.keys(byCam).reduce(function (s, k) { return s + byCam[k]; }, 0);
-    var nac = l.byNacionalidad || {};
-    var esp = nac['España'] || nac['Espana'] || 0;
-    var noId = (nac['No compatible'] || 0) + (nac['No Compatible'] || 0) + (nac['No reconocido'] || 0) + (nac['No Reconocido'] || 0);
-    var totalNac = Object.keys(nac).reduce(function (s, k) { return s + nac[k]; }, 0);
-    var intl = totalNac - esp - noId;
-    return { meses: meses, ent: ent, sal: sal, total: total, byCam: byCam, esp: esp, noId: noId, intl: intl, identificadas: esp + intl };
+    var pm = l.porMes || {};
+    if (!Object.keys(pm).length) {
+      // datos antiguos sin porMes: usar totales globales
+      return { camara: l.byCamara || {}, pais: l.byNacionalidad || {}, color: l.byColor || {}, marca: l.byMarca || {}, tipo: l.byTipo || {}, hora: l.entradasSalidasPorHora || {}, meses: Object.keys(l.entradasSalidasPorMes || {}).sort() };
+    }
+    var meses = lprMesesFiltrados();
+    var agg = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {}, meses: meses };
+    meses.forEach(function (m) {
+      var d = pm[m] || {};
+      ['camara', 'pais', 'color', 'marca', 'tipo'].forEach(function (dim) {
+        var src = d[dim] || {};
+        Object.keys(src).forEach(function (k) { agg[dim][k] = (agg[dim][k] || 0) + src[k]; });
+      });
+      var hr = d.hora || {};
+      Object.keys(hr).forEach(function (h) {
+        if (!agg.hora[h]) agg.hora[h] = { Avance: 0, Retroceso: 0, Otro: 0 };
+        ['Avance', 'Retroceso', 'Otro'].forEach(function (x) { agg.hora[h][x] = (agg.hora[h][x] || 0) + (hr[h][x] || 0); });
+      });
+    });
+    return agg;
   }
 
   function renderLprResumen() {
-    var s = lprResumenStats();
+    var l = lprData();
+    var agg = lprFilteredAgg();
+    var es = l.entradasSalidasPorMes || {};
+    var meses = agg.meses;
+    var ent = 0, sal = 0;
+    meses.forEach(function (m) { if (es[m]) { ent += es[m].Avance || 0; sal += es[m].Retroceso || 0; } });
+    var total = Object.keys(agg.camara).reduce(function (s, k) { return s + agg.camara[k]; }, 0);
+    var nac = agg.pais;
+    var esp = nac['España'] || nac['Espana'] || 0;
+    var noId = NOID_KEYS.reduce(function (s, k) { return s + (nac[k] || 0); }, 0);
+    var totalNac = Object.keys(nac).reduce(function (s, k) { return s + nac[k]; }, 0);
+    var intl = totalNac - esp - noId, ident = esp + intl;
     var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
-    if (!s.meses.length && !Object.keys(s.byCam).length) return;
-    set('lpr-kpi-total', multiNf(s.total));
-    set('lpr-kpi-rango', s.meses.length ? (mesEtiqueta(s.meses[0]) + ' – ' + mesEtiqueta(s.meses[s.meses.length - 1])) : '—');
-    set('lpr-kpi-entradas', multiNf(s.ent));
-    set('lpr-kpi-salidas', multiNf(s.sal));
-    set('lpr-kpi-intl', (s.identificadas ? Math.round(s.intl / s.identificadas * 100) : 0) + '%');
-    set('lpr-kpi-intl-sub', multiNf(s.intl) + ' de ' + multiNf(s.identificadas) + ' identificadas');
-    drawMapaLpr(s.byCam);
-    renderLprTopAccesos(s.byCam);
+    if (!meses.length && !Object.keys(agg.camara).length) return;
+    set('lpr-kpi-total', multiNf(total));
+    set('lpr-kpi-rango', meses.length ? (mesEtiqueta(meses[0]) + (meses.length > 1 ? ' – ' + mesEtiqueta(meses[meses.length - 1]) : '')) : '—');
+    set('lpr-kpi-entradas', multiNf(ent));
+    set('lpr-kpi-salidas', multiNf(sal));
+    set('lpr-kpi-intl', (ident ? Math.round(intl / ident * 100) : 0) + '%');
+    set('lpr-kpi-intl-sub', multiNf(intl) + ' de ' + multiNf(ident) + ' identificadas');
+    drawMapaLpr(agg.camara);
+    renderLprTopAccesos(agg.camara);
   }
 
   function drawMapaLpr(byCam) {
@@ -900,8 +936,10 @@
 
   function renderLprEvolucion() {
     var l = lprData();
+    var f = lprFiltro();
     var es = l.entradasSalidasPorMes || {};
-    var meses = Object.keys(es).sort();
+    // La evolución mensual respeta el filtro de AÑO (muestra la serie de ese año o toda).
+    var meses = Object.keys(es).filter(function (m) { return !f.anio || m.slice(0, 4) === f.anio; }).sort();
     var opts = chartCartesianOptions();
     multiDestroy('lprMes');
     var cM = document.getElementById('chart-lpr-mes');
@@ -909,8 +947,13 @@
       { label: 'Entradas', data: meses.map(function (m) { return es[m].Avance || 0; }), backgroundColor: '#2563eb', borderRadius: BARRA_RADIO },
       { label: 'Salidas', data: meses.map(function (m) { return es[m].Retroceso || 0; }), backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO }
     ] }, options: opts });
+    // El tráfico diario respeta año + mes.
     var dia = l.entradasSalidasPorDia || {};
-    var dias = Object.keys(dia).sort();
+    var dias = Object.keys(dia).filter(function (d) {
+      if (f.mes) return d.slice(0, 7) === f.mes;
+      if (f.anio) return d.slice(0, 4) === f.anio;
+      return true;
+    }).sort();
     multiDestroy('lprDia');
     var cD = document.getElementById('chart-lpr-dia');
     if (cD) multiCharts.lprDia = new Chart(cD, { type: 'line', data: { labels: dias, datasets: [
@@ -920,8 +963,7 @@
   }
 
   function renderLprHorario() {
-    var l = lprData();
-    var h = l.entradasSalidasPorHora || {};
+    var h = lprFilteredAgg().hora || {};
     var horas = []; for (var i = 0; i < 24; i++) horas.push(i);
     var ent = horas.map(function (i) { return (h[i] || {}).Avance || 0; });
     var sal = horas.map(function (i) { return (h[i] || {}).Retroceso || 0; });
@@ -939,11 +981,9 @@
   }
 
   function renderLprProcedencia() {
-    var l = lprData();
-    var nac = l.byNacionalidad || {};
+    var nac = lprFilteredAgg().pais || {};
     var esp = nac['España'] || nac['Espana'] || 0;
-    var noKeys = ['No compatible', 'No Compatible', 'No reconocido', 'No Reconocido'];
-    var noId = noKeys.reduce(function (s, k) { return s + (nac[k] || 0); }, 0);
+    var noId = NOID_KEYS.reduce(function (s, k) { return s + (nac[k] || 0); }, 0);
     var total = Object.keys(nac).reduce(function (s, k) { return s + nac[k]; }, 0);
     var intl = total - esp - noId;
     var ident = esp + intl;
@@ -951,7 +991,7 @@
     set('lpr-kpi-nac', multiNf(esp));
     set('lpr-kpi-intl2', multiNf(intl));
     set('lpr-kpi-intl2-sub', (ident ? Math.round(intl / ident * 100) : 0) + '% de identificadas');
-    var excl = { 'España': 1, 'Espana': 1 }; noKeys.forEach(function (k) { excl[k] = 1; });
+    var excl = { 'España': 1, 'Espana': 1 }; NOID_KEYS.forEach(function (k) { excl[k] = 1; });
     var top = Object.keys(nac).filter(function (k) { return !excl[k]; }).map(function (k) { return [k, nac[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 12);
     if (top.length) { set('lpr-kpi-pais-top', top[0][0]); set('lpr-kpi-pais-top-sub', multiNf(top[0][1]) + ' vehículos'); }
     var opts = chartCartesianOptions();
@@ -964,18 +1004,60 @@
   }
 
   function renderLprColores() {
-    var l = lprData();
-    var byColor = l.byColor || {};
-    var ent = Object.keys(byColor).map(function (k) { return [k, byColor[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
-    var COLOR_MAP = { 'White': '#e5e7eb', 'Blanco': '#e5e7eb', 'Negro': '#111827', 'Black': '#111827', 'Gris': '#9ca3af', 'Gray': '#9ca3af', 'Grey': '#9ca3af', 'Rojo': '#ef4444', 'Red': '#ef4444', 'Azul': '#3b82f6', 'Blue': '#3b82f6', 'Verde': '#22c55e', 'Green': '#22c55e', 'Amarillo': '#eab308', 'Yellow': '#eab308', 'Marrón': '#92400e', 'Naranja': '#f97316' };
-    var cols = ent.map(function (e) { return COLOR_MAP[e[0]] || '#a78bfa'; });
+    var agg = lprFilteredAgg();
     var opts = chartCartesianOptions();
+    var COLOR_MAP = { 'White': '#e5e7eb', 'Blanco': '#e5e7eb', 'Negro': '#111827', 'Black': '#111827', 'Gris': '#9ca3af', 'Gray': '#9ca3af', 'Grey': '#9ca3af', 'Rojo': '#ef4444', 'Red': '#ef4444', 'Azul': '#3b82f6', 'Blue': '#3b82f6', 'Verde': '#22c55e', 'Green': '#22c55e', 'Amarillo': '#eab308', 'Yellow': '#eab308', 'Marrón': '#92400e', 'Naranja': '#f97316', 'Plata': '#d1d5db', 'Silver': '#d1d5db' };
+    var ordenar = function (o, n) { var e = Object.keys(o).map(function (k) { return [k, o[k]]; }).sort(function (a, b) { return b[1] - a[1]; }); return n ? e.slice(0, n) : e; };
+    // Color
+    var entC = ordenar(agg.color);
+    var colsC = entC.map(function (e) { return COLOR_MAP[e[0]] || '#a78bfa'; });
     multiDestroy('lprColor');
     var c1 = document.getElementById('chart-lpr-color');
-    if (c1) multiCharts.lprColor = new Chart(c1, { type: 'bar', data: { labels: ent.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: ent.map(function (e) { return e[1]; }), backgroundColor: cols, borderRadius: BARRA_RADIO }] }, options: opts });
+    if (c1) multiCharts.lprColor = new Chart(c1, { type: 'bar', data: { labels: entC.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: entC.map(function (e) { return e[1]; }), backgroundColor: colsC, borderRadius: BARRA_RADIO }] }, options: opts });
     multiDestroy('lprColorDona');
     var c2 = document.getElementById('chart-lpr-color-dona');
-    if (c2) multiCharts.lprColorDona = new Chart(c2, { type: 'doughnut', data: { labels: ent.map(function (e) { return e[0]; }), datasets: [{ data: ent.map(function (e) { return e[1]; }), backgroundColor: cols }] }, options: chartRadialOptions({ cutout: '60%' }) });
+    if (c2) multiCharts.lprColorDona = new Chart(c2, { type: 'doughnut', data: { labels: entC.map(function (e) { return e[0]; }), datasets: [{ data: entC.map(function (e) { return e[1]; }), backgroundColor: colsC }] }, options: chartRadialOptions({ cutout: '60%' }) });
+    // Marca (top 15)
+    var entM = ordenar(agg.marca, 15);
+    multiDestroy('lprMarca');
+    var c3 = document.getElementById('chart-lpr-marca');
+    if (c3) multiCharts.lprMarca = new Chart(c3, { type: 'bar', data: { labels: entM.map(function (e) { return e[0]; }), datasets: [{ label: 'Vehículos', data: entM.map(function (e) { return e[1]; }), backgroundColor: '#8b5cf6', borderRadius: BARRA_RADIO }] }, options: Object.assign({ indexAxis: 'y' }, opts) });
+    // Tipo de vehículo
+    var entT = ordenar(agg.tipo);
+    multiDestroy('lprTipo');
+    var c4 = document.getElementById('chart-lpr-tipo');
+    if (c4) multiCharts.lprTipo = new Chart(c4, { type: 'doughnut', data: { labels: entT.map(function (e) { return e[0]; }), datasets: [{ data: entT.map(function (e) { return e[1]; }), backgroundColor: CHART_PALETTE }] }, options: chartRadialOptions({ cutout: '55%' }) });
+  }
+
+  // Filtros año/mes para las vistas LPR
+  function lprAnios() { return Object.keys(lprClavesMes().reduce(function (a, m) { a[m.slice(0, 4)] = 1; return a; }, {})).sort(); }
+  function lprPoblarMeses() {
+    var sel = document.getElementById('lpr-f-mes'); if (!sel) return;
+    var anio = (document.getElementById('lpr-f-anio') || {}).value || '';
+    var meses = lprClavesMes().filter(function (m) { return !anio || m.slice(0, 4) === anio; }).sort();
+    var prev = sel.value;
+    sel.innerHTML = ''; sel.appendChild(new Option('Todos los meses', ''));
+    meses.forEach(function (m) { sel.appendChild(new Option(mesEtiqueta(m), m)); });
+    sel.value = (prev && meses.indexOf(prev) >= 0) ? prev : '';
+  }
+  function initLprFiltros() {
+    var anioSel = document.getElementById('lpr-f-anio'); if (!anioSel) return;
+    var prevA = anioSel.value;
+    anioSel.innerHTML = ''; anioSel.appendChild(new Option('Todos los años', ''));
+    lprAnios().forEach(function (a) { anioSel.appendChild(new Option(a, a)); });
+    if (prevA) anioSel.value = prevA;
+    lprPoblarMeses();
+    if (!anioSel._bound) { anioSel.addEventListener('change', function () { lprPoblarMeses(); renderAllLpr(); }); anioSel._bound = true; }
+    var mesSel = document.getElementById('lpr-f-mes');
+    if (mesSel && !mesSel._bound) { mesSel.addEventListener('change', renderAllLpr); mesSel._bound = true; }
+  }
+  function renderAllLpr() {
+    renderLprResumen();
+    renderLprEvolucion();
+    renderLprHorario();
+    renderLprProcedencia();
+    renderLprColores();
+    if (mapaLpr) setTimeout(function () { if (mapaLpr) mapaLpr.invalidateSize(true); }, 80);
   }
 
   function camaraLatLng(c) {
@@ -4868,6 +4950,9 @@
         const sec = document.getElementById('section-' + el.dataset.section);
         if (sec) sec.classList.add('active');
         var sname = el.dataset.section;
+        var lprSecs = ['camaras-resumen', 'camaras-evolucion', 'camaras-horario', 'camaras-procedencia', 'camaras-colores'];
+        var fb = document.getElementById('lpr-filtros');
+        if (fb) fb.style.display = (lprSecs.indexOf(sname) >= 0) ? '' : 'none';
         if (sname === 'camaras-resumen') {
           setTimeout(function () { renderLprResumen(); if (mapaLpr) mapaLpr.invalidateSize(true); }, 180);
         }

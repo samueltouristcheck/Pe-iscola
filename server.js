@@ -154,6 +154,9 @@ app.get('/api/camaras/dashboard', (req, res) => {
                 byCamara: lpr.byCamara || {},
                 byNacionalidad: lpr.byNacionalidad || {},
                 byColor: lpr.byColor || {},
+                byMarca: lpr.byMarca || {},
+                byTipo: lpr.byTipo || {},
+                porMes: lpr.porMes || {},
                 agregados: lpr.agregados || []
             },
             multiobjeto: data.multiobjeto || [],
