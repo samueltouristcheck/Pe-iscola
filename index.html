@@ -25,7 +25,9 @@
         <a href="#" class="nav-item" data-section="camaras-camara"><span class="nav-icon">📷</span><span>Por cámara</span></a>
         <a href="#" class="nav-item" data-section="camaras-nacionalidad"><span class="nav-icon">🌍</span><span>Nacionalidad</span></a>
         <a href="#" class="nav-item" data-section="camaras-color"><span class="nav-icon">🎨</span><span>Colores</span></a>
-        <a href="#" class="nav-item" data-section="camaras-multiobjeto"><span class="nav-icon">👥</span><span>Aforo (multiobjeto)</span></a>
+        <a href="#" class="nav-item" data-section="camaras-multiobjeto"><span class="nav-icon">🗺️</span><span>Afluencia (mapa)</span></a>
+        <a href="#" class="nav-item" data-section="camaras-multiobjeto-calles"><span class="nav-icon">🔥</span><span>Calles concurridas</span></a>
+        <a href="#" class="nav-item" data-section="camaras-multiobjeto-detalle"><span class="nav-icon">📷</span><span>Por cámara</span></a>
       </nav>
       <nav class="nav" id="nav-residuos" style="display:none">
         <a href="#" class="nav-item active" data-section="kpis"><span class="nav-icon">📊</span><span>KPIs</span></a>
@@ -258,6 +260,7 @@
         </div>
       </section>
 
+      <!-- ===== AFLUENCIA: MAPA ===== -->
       <section id="section-camaras-multiobjeto" class="section">
         <div class="turismo-context-row" style="margin-bottom:1rem">
           <div class="turismo-context-card"><span class="turismo-context-icon">👥</span><div><span class="turismo-context-label">Personas (paso total)</span><span class="turismo-context-value" id="multi-kpi-personas">—</span><span class="turismo-context-sub">avanzar + retroceso</span></div></div>
@@ -265,20 +268,78 @@
           <div class="turismo-context-card"><span class="turismo-context-icon">🚲</span><div><span class="turismo-context-label">Vehículos sin motor</span><span class="turismo-context-value" id="multi-kpi-sinmotor">—</span><span class="turismo-context-sub">bicis, patinetes…</span></div></div>
           <div class="turismo-context-card"><span class="turismo-context-icon">📷</span><div><span class="turismo-context-label">Cámaras</span><span class="turismo-context-value" id="multi-kpi-camaras">—</span><span class="turismo-context-sub" id="multi-kpi-rango">—</span></div></div>
         </div>
+        <div class="filters-bar" style="margin-bottom:.75rem">
+          <label>Métrica del mapa</label>
+          <select id="multi-mapa-metrica" class="fuente-select">
+            <option value="p">Personas</option>
+            <option value="vm">Vehículos a motor</option>
+            <option value="vs">Vehículos sin motor</option>
+            <option value="tot">Total (personas + vehículos)</option>
+          </select>
+        </div>
+        <div class="camaras-charts-row" style="align-items:stretch">
+          <div class="camaras-chart-card" style="flex:2 1 460px">
+            <h4>Mapa de afluencia <span style="font-weight:400;color:#64748b;font-size:.82em">— tamaño y color = intensidad de paso</span></h4>
+            <div id="mapa-multiobjeto" style="height:480px;border-radius:10px;overflow:hidden"></div>
+          </div>
+          <div class="camaras-chart-card" style="flex:1 1 280px">
+            <h4 id="multi-top-titulo">Calles más concurridas</h4>
+            <ol id="multi-top-calles" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem"></ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CALLES MÁS CONCURRIDAS ===== -->
+      <section id="section-camaras-multiobjeto-calles" class="section">
         <div class="camaras-charts-row">
           <div class="camaras-chart-card">
-            <h4>Evolución mensual (personas y vehículos)</h4>
-            <div class="chart-container" style="height:340px"><canvas id="chart-multi-evolucion"></canvas></div>
+            <h4>Personas por calle</h4>
+            <div class="chart-container" style="height:440px"><canvas id="chart-multi-cam-personas"></canvas></div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>Vehículos por calle (motor + sin motor)</h4>
+            <div class="chart-container" style="height:440px"><canvas id="chart-multi-cam-veh"></canvas></div>
           </div>
         </div>
         <div class="camaras-charts-row">
           <div class="camaras-chart-card">
-            <h4>Personas por cámara</h4>
-            <div class="chart-container" style="height:400px"><canvas id="chart-multi-cam-personas"></canvas></div>
+            <h4>Evolución mensual (todas las cámaras)</h4>
+            <div class="chart-container" style="height:320px"><canvas id="chart-multi-evolucion"></canvas></div>
+          </div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Detalle por calle</h4>
+            <div style="overflow:auto"><table id="multi-tabla" style="width:100%;border-collapse:collapse;font-size:.9rem"></table></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== POR CÁMARA ===== -->
+      <section id="section-camaras-multiobjeto-detalle" class="section">
+        <div class="filters-bar" style="margin-bottom:1rem">
+          <label>Cámara</label>
+          <select id="multi-cam-select" class="fuente-select"></select>
+        </div>
+        <div class="turismo-context-row" style="margin-bottom:1rem">
+          <div class="turismo-context-card"><span class="turismo-context-icon">👥</span><div><span class="turismo-context-label">Personas</span><span class="turismo-context-value" id="multi-det-personas">—</span><span class="turismo-context-sub">paso total</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">🚗</span><div><span class="turismo-context-label">Vehículos a motor</span><span class="turismo-context-value" id="multi-det-motor">—</span><span class="turismo-context-sub">total</span></div></div>
+          <div class="turismo-context-card"><span class="turismo-context-icon">🚲</span><div><span class="turismo-context-label">Vehículos sin motor</span><span class="turismo-context-value" id="multi-det-sinmotor">—</span><span class="turismo-context-sub">bicis, patinetes…</span></div></div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Evolución mensual</h4>
+            <div class="chart-container" style="height:340px"><canvas id="chart-multi-det-evol"></canvas></div>
+          </div>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>Reparto del aforo</h4>
+            <div class="chart-container" style="height:320px"><canvas id="chart-multi-det-reparto"></canvas></div>
           </div>
           <div class="camaras-chart-card">
-            <h4>Vehículos por cámara</h4>
-            <div class="chart-container" style="height:400px"><canvas id="chart-multi-cam-veh"></canvas></div>
+            <h4>Sentido de paso (avanzar / retroceso)</h4>
+            <div class="chart-container" style="height:320px"><canvas id="chart-multi-det-sentido"></canvas></div>
           </div>
         </div>
       </section>
@@ -1162,6 +1223,6 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=81"></script>
+  <script src="js/dashboard.js?v=83"></script>
 </body>
 </html>
