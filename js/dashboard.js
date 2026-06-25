@@ -1038,7 +1038,11 @@
     var meses = lprClavesMes().filter(function (m) { return !anio || m.slice(0, 4) === anio; }).sort();
     var prev = sel.value;
     sel.innerHTML = ''; sel.appendChild(new Option('Todos los meses', ''));
-    meses.forEach(function (m) { sel.appendChild(new Option(mesEtiqueta(m), m)); });
+    // Sin año selecciondo puede haber meses repetidos (2 años): solo entonces añade el año para distinguir.
+    meses.forEach(function (m) {
+      var etq = anio ? (MESES[parseInt(m.slice(5, 7), 10) - 1] || m) : mesEtiqueta(m);
+      sel.appendChild(new Option(etq, m));
+    });
     sel.value = (prev && meses.indexOf(prev) >= 0) ? prev : '';
   }
   function initLprFiltros() {
