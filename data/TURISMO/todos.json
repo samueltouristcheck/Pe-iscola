@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-06-16T08:29:36.983Z",
+  "generadoEn": "2026-07-06T11:07:59.101Z",
   "fuente": "INE - Instituto Nacional de Estadística (https://www.ine.es)",
   "municipio": "Peñíscola",
   "codigoMunicipio": "12089",
@@ -8,21 +8,21 @@
   "errores": [],
   "resumen": {
     "hoteles": {
-      "ultimoMes": "2026-04",
-      "viajerosUltimo": 45877,
-      "pernoctacionesUltimo": 143452,
-      "totalViajerosAnyo": 87746,
-      "totalPernoctacionesAnyo": 290990,
-      "totalViajerosAnyoAnterior": 393629,
-      "totalPernoctacionesAnyoAnterior": 1486363,
-      "ultimoGradoOcupacion": 47.82,
-      "ultimasPlazas": 9815,
-      "ultimosEstablecimientos": 55,
-      "ultimoAdr": 65.48,
-      "ultimoAdrMes": "2026-04",
-      "ultimoRevpar": 35.08,
-      "ultimoRevparMes": "2026-04",
-      "ultimoPersonal": 976
+      "ultimoMes": "2026-05",
+      "viajerosUltimo": 47270,
+      "pernoctacionesUltimo": 162755,
+      "totalViajerosAnyo": 135016,
+      "totalPernoctacionesAnyo": 453745,
+      "totalViajerosAnyoAnterior": 394028,
+      "totalPernoctacionesAnyoAnterior": 1486529,
+      "ultimoGradoOcupacion": 53.24,
+      "ultimasPlazas": 9716,
+      "ultimosEstablecimientos": 57,
+      "ultimoAdr": 65.97,
+      "ultimoAdrMes": "2026-05",
+      "ultimoRevpar": 40.61,
+      "ultimoRevparMes": "2026-05",
+      "ultimoPersonal": 1007
     },
     "apartamentos": {
       "ultimoMes": null,
@@ -34,16 +34,16 @@
       "totalPernoctacionesAnyoAnterior": null
     },
     "campings": {
-      "ultimoMes": "2026-04",
-      "viajerosUltimo": 6601,
-      "pernoctacionesUltimo": 37566,
-      "totalViajerosAnyo": 19463,
-      "totalPernoctacionesAnyo": 170246,
+      "ultimoMes": "2026-05",
+      "viajerosUltimo": 5939,
+      "pernoctacionesUltimo": 32793,
+      "totalViajerosAnyo": 25402,
+      "totalPernoctacionesAnyo": 203039,
       "totalViajerosAnyoAnterior": 61570,
       "totalPernoctacionesAnyoAnterior": 405299,
-      "ultimoGradoOcupacion": 55.84,
-      "ultimasPlazas": 3756,
-      "ultimosEstablecimientos": 9
+      "ultimoGradoOcupacion": 43.76,
+      "ultimasPlazas": 4399,
+      "ultimosEstablecimientos": 10
     },
     "padron": {
       "ultimoAnyo": 2025,
@@ -1516,7 +1516,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 35827,
+            "valor": 35957,
             "secreto": false
           },
           {
@@ -1594,6 +1594,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 38173,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 38248,
             "secreto": false
           }
         ]
@@ -3008,7 +3015,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 9078,
+            "valor": 9347,
             "secreto": false
           },
           {
@@ -3086,6 +3093,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 7704,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 9022,
             "secreto": false
           }
         ]
@@ -4500,7 +4514,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 122850,
+            "valor": 122803,
             "secreto": false
           },
           {
@@ -4578,6 +4592,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 123004,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 133279,
             "secreto": false
           }
         ]
@@ -5992,7 +6013,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 30806,
+            "valor": 31019,
             "secreto": false
           },
           {
@@ -6070,6 +6091,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 20448,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 29476,
             "secreto": false
           }
         ]
@@ -7484,7 +7512,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 3.42,
+            "valor": 3.4,
             "secreto": false
           },
           {
@@ -7562,6 +7590,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 3.13,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 3.44,
             "secreto": false
           }
         ]
@@ -9055,6 +9090,13 @@
             "mes": 4,
             "valor": 9815,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 9716,
+            "secreto": false
           }
         ]
       },
@@ -10547,6 +10589,13 @@
             "mes": 4,
             "valor": 55,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 57,
+            "secreto": false
           }
         ]
       },
@@ -11967,7 +12016,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 49.91,
+            "valor": 49.97,
             "secreto": false
           },
           {
@@ -12045,6 +12094,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 47.82,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 53.24,
             "secreto": false
           }
         ]
@@ -13459,7 +13515,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 937,
+            "valor": 936,
             "secreto": false
           },
           {
@@ -13537,6 +13593,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 976,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 1007,
             "secreto": false
           }
         ]
@@ -13908,7 +13971,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 55.34,
+            "valor": 55.16,
             "secreto": false
           },
           {
@@ -13986,6 +14049,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 65.48,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 65.97,
             "secreto": false
           }
         ]
@@ -14357,7 +14427,7 @@
             "fecha": "2025-05",
             "anyo": 2025,
             "mes": 5,
-            "valor": 31.63,
+            "valor": 31.59,
             "secreto": false
           },
           {
@@ -14435,6 +14505,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 35.08,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 40.61,
             "secreto": false
           }
         ]
@@ -16254,6 +16331,13 @@
             "mes": 4,
             "valor": 1883,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 762,
+            "secreto": false
           }
         ]
       },
@@ -18039,6 +18123,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 4718,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 5177,
             "secreto": false
           }
         ]
@@ -19826,6 +19917,13 @@
             "mes": 4,
             "valor": 7663,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 5177,
+            "secreto": false
           }
         ]
       },
@@ -21611,6 +21709,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 29903,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 27616,
             "secreto": false
           }
         ]
@@ -23398,6 +23503,13 @@
             "mes": 4,
             "valor": 9,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 10,
+            "secreto": false
           }
         ]
       },
@@ -25183,6 +25295,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 3756,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 4399,
             "secreto": false
           }
         ]
@@ -26970,6 +27089,13 @@
             "mes": 4,
             "valor": 1258,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 1422,
+            "secreto": false
           }
         ]
       },
@@ -28755,6 +28881,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 21069,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 19283,
             "secreto": false
           }
         ]
@@ -30542,6 +30675,13 @@
             "mes": 4,
             "valor": 55.84,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 43.76,
+            "secreto": false
           }
         ]
       },
@@ -32328,6 +32468,13 @@
             "mes": 4,
             "valor": 61.85,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 54.93,
+            "secreto": false
           }
         ]
       },
@@ -34113,6 +34260,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 65,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 67,
             "secreto": false
           }
         ]
