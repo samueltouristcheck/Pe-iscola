@@ -4903,21 +4903,29 @@
 
   function renderRedesWeb(d) {
     var ga = (d && d.ga) || {};
-    var cont = document.getElementById('redes-mini-web');
-    if (cont) {
-      if (!(d && d.config && d.config.ga)) {
-        cont.innerHTML = miniKpi('Estado', 'No conectado');
-      } else {
-        var dur = ga.avgDuration ? Math.round(ga.avgDuration) + ' s' : '—';
-        var bounce = ga.bounceRate != null ? (ga.bounceRate * 100).toFixed(1) + ' %' : '—';
-        cont.innerHTML = miniKpi('Sesiones', redesFmt(ga.sessions)) +
-          miniKpi('Usuarios', redesFmt(ga.users)) +
-          miniKpi('Páginas vistas', redesFmt(ga.pageviews)) +
-          miniKpi('Duración media', dur) +
-          miniKpi('% rebote', bounce);
-      }
-    }
     var byDay = ga.byDay || [];
+    var gaCharts = ['chart-redes-ga-trend', 'chart-redes-ga-sources', 'chart-redes-ga-pages', 'chart-redes-ga-countries'];
+    var cont = document.getElementById('redes-mini-web');
+    // GA caído (sesión caducada) o sin datos: no dibujar gráficas vacías, mostrar aviso + reconectar.
+    if (ga.error || (!byDay.length && (ga.sessions == null))) {
+      if (cont) {
+        cont.innerHTML = ga.error
+          ? '<div style="padding:.4rem 0;color:#334155">⚠ Google Analytics desconectado (sesión de Google caducada). <a href="/api/redes/oauth/start" target="_blank" rel="noopener" class="reload-btn" style="display:inline-block;text-decoration:none;margin-left:.4rem">🔄 Reconectar Google Analytics</a></div>'
+          : miniKpi('Estado', (d && d.config && d.config.ga) ? 'Sin datos' : 'No conectado');
+      }
+      gaCharts.forEach(function (id) { toggleRedesChartCard(id, false); });
+      return;
+    }
+    gaCharts.forEach(function (id) { toggleRedesChartCard(id, true); });
+    if (cont) {
+      var dur = ga.avgDuration ? Math.round(ga.avgDuration) + ' s' : '—';
+      var bounce = ga.bounceRate != null ? (ga.bounceRate * 100).toFixed(1) + ' %' : '—';
+      cont.innerHTML = miniKpi('Sesiones', redesFmt(ga.sessions)) +
+        miniKpi('Usuarios', redesFmt(ga.users)) +
+        miniKpi('Páginas vistas', redesFmt(ga.pageviews)) +
+        miniKpi('Duración media', dur) +
+        miniKpi('% rebote', bounce);
+    }
     redesChart('chart-redes-ga-trend', {
       type: 'line',
       data: { labels: byDay.map(function (x) { return x.date.slice(5); }), datasets: [
