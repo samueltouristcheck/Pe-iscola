@@ -134,11 +134,28 @@
       </header>
 
       <div id="main-camaras" style="display:none">
-      <div class="filters-bar" id="lpr-filtros" style="margin-bottom:1rem">
+      <div class="filters-bar" id="lpr-filtros" style="margin-bottom:1rem;flex-wrap:wrap">
         <label>Año</label>
         <select id="lpr-f-anio" class="fuente-select"></select>
         <label>Mes</label>
         <select id="lpr-f-mes" class="fuente-select"></select>
+        <span id="lpr-f-dir-wrap"><label>Sentido</label>
+          <select id="lpr-f-dir" class="fuente-select">
+            <option value="">Entradas y salidas</option>
+            <option value="av">Solo entradas</option>
+            <option value="re">Solo salidas</option>
+          </select></span>
+        <span id="lpr-f-cam-wrap"><label>Cámara</label>
+          <select id="lpr-f-cam" class="fuente-select"></select></span>
+      </div>
+      <div class="filters-bar" id="multi-filtros" style="margin-bottom:1rem;display:none;flex-wrap:wrap;align-items:flex-end">
+        <span><label>Año</label><br><select id="multi-f-anio" class="fuente-select"></select></span>
+        <span><label>Mes</label><br><select id="multi-f-mes" class="fuente-select"></select></span>
+        <span id="multi-f-cam-wrap"><label>Cámara</label><br><select id="multi-f-cam" class="fuente-select"></select></span>
+        <span style="border-left:1px solid #e2e8f0;padding-left:.9rem"><label>Desde</label><br><input type="date" id="multi-f-desde" class="fuente-select"></span>
+        <span><label>Hasta</label><br><input type="date" id="multi-f-hasta" class="fuente-select"></span>
+        <button type="button" id="multi-f-clear" class="reload-btn" style="align-self:flex-end">Limpiar</button>
+        <span id="multi-f-nota" style="color:#94a3b8;font-size:.8rem;align-self:flex-end"></span>
       </div>
       <!-- ===== LPR: ACCESOS / MAPA (resumen) ===== -->
       <section id="section-camaras-resumen" class="section active">
@@ -1197,6 +1214,6 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=88"></script>
+  <script src="js/dashboard.js?v=89"></script>
 </body>
 </html>

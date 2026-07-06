@@ -28,6 +28,16 @@ function parseHora(horaStr) {
   return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTime();
 }
 
+// Fusiona nombres de cámara duplicados (misma cámara, distinto texto en el CSV).
+const CAMARA_ALIAS = {
+  'Avda. Papa Luna - Calle Madrid': 'Avda. Papa Luna - C. Madrid LPR',
+  'Assegador De La Creu': 'Assegador De La Creu LPR'
+};
+function normCamara(n) {
+  n = (n || '').trim();
+  return CAMARA_ALIAS[n] || n;
+}
+
 // --- LPR: procesar línea a línea, agregar + deduplicar por matrícula/10min
 function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
   return new Promise((resolve, reject) => {
@@ -69,7 +79,7 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
       const parts = line.split(';').map(p => p.trim().replace(/^["']|["']$/g, '').replace(/^="|"$/g, ''));
       const matriculaRaw = (idx.matricula >= 0 ? parts[idx.matricula] : '').trim() || '';
       const hora = idx.hora >= 0 ? parts[idx.hora] : '';
-      const camara = (idx.camara >= 0 ? parts[idx.camara] : '').trim() || 'Sin cámara';
+      const camara = normCamara((idx.camara >= 0 ? parts[idx.camara] : '').trim() || 'Sin cámara');
       let direccion = (idx.direccion >= 0 ? parts[idx.direccion] : '').trim() || '';
       if (direccion && !/avance|invertir/i.test(direccion)) direccion = 'Otro';
       else if (/avance/i.test(direccion)) direccion = 'Avance';
@@ -99,7 +109,7 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
       if (marca && marca !== '--') byMarca[marca] = (byMarca[marca] || 0) + 1;
 
       // Desgloses por mes (cuentas brutas) para permitir filtrar por año/mes
-      if (!porMes[fecha]) porMes[fecha] = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {} };
+      if (!porMes[fecha]) porMes[fecha] = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {}, camaraHora: {} };
       const pm = porMes[fecha];
       pm.camara[camara] = (pm.camara[camara] || 0) + 1;
       if (nacionalidad && nacionalidad !== '--') pm.pais[nacionalidad] = (pm.pais[nacionalidad] || 0) + 1;
@@ -107,12 +117,20 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
       if (tipo && tipo !== '--') pm.tipo[tipo] = (pm.tipo[tipo] || 0) + 1;
       if (marca && marca !== '--') pm.marca[marca] = (pm.marca[marca] || 0) + 1;
 
-      if (direccion && ts) {
+      if (ts) {
         const hour = new Date(ts).getHours();
-        if (!byHora[hour]) byHora[hour] = { Avance: 0, Retroceso: 0, Otro: 0 };
-        byHora[hour][direccion] = (byHora[hour][direccion] || 0) + 1;
-        if (!pm.hora[hour]) pm.hora[hour] = { Avance: 0, Retroceso: 0, Otro: 0 };
-        pm.hora[hour][direccion] = (pm.hora[hour][direccion] || 0) + 1;
+        // Bucket por dirección: av=Avance (entrada), re=Retroceso (salida), ot=otro/desconocido.
+        const dk = direccion === 'Avance' ? 'av' : (direccion === 'Retroceso' ? 're' : 'ot');
+        // camaraHora: por cámara + hora + dirección (permite filtrar mapa/evolución/horario por cámara y sentido)
+        if (!pm.camaraHora[camara]) pm.camaraHora[camara] = {};
+        if (!pm.camaraHora[camara][hour]) pm.camaraHora[camara][hour] = { av: 0, re: 0, ot: 0 };
+        pm.camaraHora[camara][hour][dk]++;
+        if (direccion) {
+          if (!byHora[hour]) byHora[hour] = { Avance: 0, Retroceso: 0, Otro: 0 };
+          byHora[hour][direccion] = (byHora[hour][direccion] || 0) + 1;
+          if (!pm.hora[hour]) pm.hora[hour] = { Avance: 0, Retroceso: 0, Otro: 0 };
+          pm.hora[hour][direccion] = (pm.hora[hour][direccion] || 0) + 1;
+        }
       }
       if (direccion && ts) {
         const bucket = Math.floor(ts / BUCKET_MS);
@@ -249,7 +267,7 @@ async function main() {
           Object.entries(res.byMarca || {}).forEach(([mk, c]) => { lprResult.byMarca[mk] = (lprResult.byMarca[mk] || 0) + c; });
           Object.entries(res.byTipo || {}).forEach(([tp, c]) => { lprResult.byTipo[tp] = (lprResult.byTipo[tp] || 0) + c; });
           Object.entries(res.porMes || {}).forEach(([mes, dims]) => {
-            if (!lprResult.porMes[mes]) lprResult.porMes[mes] = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {} };
+            if (!lprResult.porMes[mes]) lprResult.porMes[mes] = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {}, camaraHora: {} };
             const tgt = lprResult.porMes[mes];
             ['camara', 'pais', 'color', 'marca', 'tipo'].forEach((dim) => {
               Object.entries(dims[dim] || {}).forEach(([k, c]) => { tgt[dim][k] = (tgt[dim][k] || 0) + c; });
@@ -257,6 +275,16 @@ async function main() {
             Object.entries(dims.hora || {}).forEach(([h, obj]) => {
               if (!tgt.hora[h]) tgt.hora[h] = { Avance: 0, Retroceso: 0, Otro: 0 };
               ['Avance', 'Retroceso', 'Otro'].forEach((d) => { tgt.hora[h][d] = (tgt.hora[h][d] || 0) + (obj[d] || 0); });
+            });
+            if (!tgt.camaraHora) tgt.camaraHora = {};
+            Object.entries(dims.camaraHora || {}).forEach(([cam, horas]) => {
+              if (!tgt.camaraHora[cam]) tgt.camaraHora[cam] = {};
+              Object.entries(horas).forEach(([h, o]) => {
+                if (!tgt.camaraHora[cam][h]) tgt.camaraHora[cam][h] = { av: 0, re: 0, ot: 0 };
+                tgt.camaraHora[cam][h].av += o.av || 0;
+                tgt.camaraHora[cam][h].re += o.re || 0;
+                tgt.camaraHora[cam][h].ot += o.ot || 0;
+              });
             });
           });
           Object.entries(res.byHora || {}).forEach(([h, obj]) => {

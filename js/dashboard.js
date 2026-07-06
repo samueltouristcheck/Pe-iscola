@@ -515,6 +515,7 @@
       if (dataSource) dataSource.innerHTML = '<h3>Fuente</h3><p>data/camaras/todos.json</p><p class="camaras-stats">' + count + ' meses</p>';
       initLprFiltros();
       renderAllLpr();
+      initMultiFiltros();
       initMultiSelect();
       renderCamarasMultiobjeto();
     }).catch((err) => { clearTimeout(timeout); if (placeholder) placeholder.innerHTML = '<h3>Error al cargar cámaras</h3><p>' + (err.message || err) + '</p><p>Asegúrate de ejecutar <code>npm start</code> en la raíz del proyecto y abrir <code>http://localhost:7777</code></p>'; });
@@ -656,10 +657,34 @@
   }
   function multiDestroy(k) { if (multiCharts[k]) { try { multiCharts[k].destroy(); } catch (_) {} multiCharts[k] = null; } }
 
+  function multiFiltro() {
+    return {
+      anio: (document.getElementById('multi-f-anio') || {}).value || '',
+      mes: (document.getElementById('multi-f-mes') || {}).value || '',
+      cam: (document.getElementById('multi-f-cam') || {}).value || '',
+      desde: (document.getElementById('multi-f-desde') || {}).value || '',
+      hasta: (document.getElementById('multi-f-hasta') || {}).value || ''
+    };
+  }
+  function multiFechaCompleta(r) { return r.fecha + '-' + ('' + (r.dia || 1)).padStart(2, '0'); }
+  function multiPasaFiltro(r, f) {
+    if (f.cam && r.camara !== f.cam) return false;
+    if (f.desde || f.hasta) {
+      var fd = multiFechaCompleta(r);
+      if (f.desde && fd < f.desde) return false;
+      if (f.hasta && fd > f.hasta) return false;
+      return true; // el rango personalizado ignora año/mes
+    }
+    if (f.mes && r.fecha !== f.mes) return false;
+    if (f.anio && String(r.fecha).slice(0, 4) !== f.anio) return false;
+    return true;
+  }
   function multiAgg() {
     var m = (camarasData && camarasData.multiobjeto) || [];
+    var f = multiFiltro();
     var totP = 0, totM = 0, totS = 0, porMes = {}, porCam = {}, porCamMes = {};
     m.forEach(function (r) {
+      if (!multiPasaFiltro(r, f)) return;
       var pa = r.personas_avanzar || 0, pr = r.personas_retroceso || 0;
       var va = r.vehiculos_motor_avanzar || 0, vr = r.vehiculos_motor_retroceso || 0;
       var sa = r.vehiculos_sin_motor_avanzar || 0, sr = r.vehiculos_sin_motor_retroceso || 0;
@@ -673,6 +698,53 @@
       if (mes) { if (!porCamMes[c]) porCamMes[c] = {}; if (!porCamMes[c][mes]) porCamMes[c][mes] = { p: 0, vm: 0, vs: 0 }; var q = porCamMes[c][mes]; q.p += p; q.vm += vm; q.vs += vs; }
     });
     return { totP: totP, totM: totM, totS: totS, porMes: porMes, porCam: porCam, porCamMes: porCamMes, meses: Object.keys(porMes).sort(), cams: Object.keys(porCam) };
+  }
+
+  function multiFechas() { var m = (camarasData && camarasData.multiobjeto) || []; return Object.keys(m.reduce(function (a, r) { a[r.fecha] = 1; return a; }, {})).sort(); }
+  function multiPoblarMeses() {
+    var sel = document.getElementById('multi-f-mes'); if (!sel) return;
+    var anio = (document.getElementById('multi-f-anio') || {}).value || '';
+    var fechas = multiFechas().filter(function (x) { return !anio || x.slice(0, 4) === anio; });
+    var prev = sel.value;
+    sel.innerHTML = ''; sel.appendChild(new Option('Todos los meses', ''));
+    fechas.forEach(function (x) { var etq = anio ? (MESES[parseInt(x.slice(5, 7), 10) - 1] || x) : mesEtiqueta(x); sel.appendChild(new Option(etq, x)); });
+    sel.value = (prev && fechas.indexOf(prev) >= 0) ? prev : '';
+  }
+  function multiActualizarNota() {
+    var f = multiFiltro(); var nota = document.getElementById('multi-f-nota'); if (!nota) return;
+    nota.textContent = (f.desde || f.hasta) ? '⚠ Rango personalizado activo (ignora año/mes)' : '';
+  }
+  function renderActiveMulti() {
+    var active = document.querySelector('#main-camaras .section.active');
+    var id = active ? active.id : '';
+    if (id === 'section-camaras-multiobjeto-calles') renderMultiCalles();
+    else if (id === 'section-camaras-multiobjeto-detalle') { initMultiSelect(); renderMultiDetalle(); }
+    else { renderCamarasMultiobjeto(); if (mapaMultiobjeto) setTimeout(function () { if (mapaMultiobjeto) mapaMultiobjeto.invalidateSize(true); }, 80); }
+  }
+  function initMultiFiltros() {
+    var m = (camarasData && camarasData.multiobjeto) || [];
+    var fechas = multiFechas();
+    var anios = Object.keys(fechas.reduce(function (a, x) { a[x.slice(0, 4)] = 1; return a; }, {})).sort();
+    var cams = Object.keys(m.reduce(function (a, r) { a[r.camara] = 1; return a; }, {})).sort();
+    var aSel = document.getElementById('multi-f-anio');
+    if (aSel) { var pa = aSel.value; aSel.innerHTML = ''; aSel.appendChild(new Option('Todos los años', '')); anios.forEach(function (a) { aSel.appendChild(new Option(a, a)); }); if (pa) aSel.value = pa; }
+    multiPoblarMeses();
+    var cSel = document.getElementById('multi-f-cam');
+    if (cSel) { var pc = cSel.value; cSel.innerHTML = ''; cSel.appendChild(new Option('Todas las cámaras', '')); cams.forEach(function (c) { cSel.appendChild(new Option(multiNombre(c), c)); }); if (pc) cSel.value = pc; }
+    // límites de fecha en los date pickers
+    if (fechas.length) {
+      var min = fechas[0] + '-01';
+      var lm = fechas[fechas.length - 1]; var ld = new Date(parseInt(lm.slice(0, 4), 10), parseInt(lm.slice(5, 7), 10), 0).getDate();
+      var max = lm + '-' + ('' + ld).padStart(2, '0');
+      ['multi-f-desde', 'multi-f-hasta'].forEach(function (id) { var el = document.getElementById(id); if (el) { el.min = min; el.max = max; } });
+    }
+    ['multi-f-anio', 'multi-f-mes', 'multi-f-cam', 'multi-f-desde', 'multi-f-hasta'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el && !el._bound) { el.addEventListener('change', function () { if (id === 'multi-f-anio') multiPoblarMeses(); multiActualizarNota(); renderActiveMulti(); }); el._bound = true; }
+    });
+    var clr = document.getElementById('multi-f-clear');
+    if (clr && !clr._bound) { clr.addEventListener('click', function () { ['multi-f-anio', 'multi-f-mes', 'multi-f-cam', 'multi-f-desde', 'multi-f-hasta'].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ''; }); multiPoblarMeses(); multiActualizarNota(); renderActiveMulti(); }); clr._bound = true; }
+    multiActualizarNota();
   }
 
   // Vista 1: resumen (KPIs) + mapa de afluencia + ranking lateral
@@ -817,15 +889,20 @@
     ] }, options: opts });
   }
 
-  // ============ LPR (matrículas) — vistas rediseñadas + filtros año/mes ============
+  // ============ LPR (matrículas) — vistas rediseñadas + filtros ============
   var mapaLpr = null;
   var NOID_KEYS = ['No compatible', 'No Compatible', 'No reconocido', 'No Reconocido'];
+  // Países considerados europeos (el resto de identificados + Georgia van a "Otros").
+  var LPR_EUROPA = {};
+  ['Francia', 'Alemania', 'Gran Bretaña', 'Reino Unido', 'Italia', 'Portugal', 'Bélgica', 'Países Bajos', 'Suiza', 'Austria', 'Irlanda', 'Luxemburgo', 'Dinamarca', 'Suecia', 'Finlandia', 'Noruega', 'Islandia', 'Polonia', 'República Checa', 'Eslovaquia', 'Hungría', 'Rumanía', 'Bulgaria', 'Grecia', 'Croacia', 'Eslovenia', 'Estonia', 'Letonia', 'Lituania', 'Malta', 'Chipre', 'Ucrania', 'República de Belarús', 'Moldavia', 'Serbia', 'Bosnia y Herzegovina', 'Albania', 'Macedonia del Norte', 'Kosovo', 'Montenegro', 'Liechtenstein'].forEach(function (k) { LPR_EUROPA[k] = 1; });
   function lprNombre(c) { return String(c || '').replace(/\s*LPR\s*$/i, '').trim(); }
   function lprData() { return (camarasData && camarasData.lpr) || {}; }
   function lprFiltro() {
     return {
       anio: (document.getElementById('lpr-f-anio') || {}).value || '',
-      mes: (document.getElementById('lpr-f-mes') || {}).value || ''
+      mes: (document.getElementById('lpr-f-mes') || {}).value || '',
+      dir: (document.getElementById('lpr-f-dir') || {}).value || '',
+      cam: (document.getElementById('lpr-f-cam') || {}).value || ''
     };
   }
   function lprClavesMes() {
@@ -841,54 +918,84 @@
       return true;
     }).sort();
   }
-  // Agrega los desgloses (cámara, país, color, marca, tipo, hora) según el filtro año/mes.
-  function lprFilteredAgg() {
-    var l = lprData();
-    var pm = l.porMes || {};
-    if (!Object.keys(pm).length) {
-      // datos antiguos sin porMes: usar totales globales
-      return { camara: l.byCamara || {}, pais: l.byNacionalidad || {}, color: l.byColor || {}, marca: l.byMarca || {}, tipo: l.byTipo || {}, hora: l.entradasSalidasPorHora || {}, meses: Object.keys(l.entradasSalidasPorMes || {}).sort() };
-    }
+  function lprCamaras() {
+    var pm = lprData().porMes || {}; var set = {};
+    Object.keys(pm).forEach(function (m) { var ch = pm[m].camaraHora || {}; Object.keys(ch).forEach(function (c) { set[c] = 1; }); });
+    if (!Object.keys(set).length) Object.keys(lprData().byCamara || {}).forEach(function (c) { set[c] = 1; });
+    return Object.keys(set).sort();
+  }
+  function lprDirVal(o, dir) { if (!o) return 0; if (dir === 'av') return o.av; if (dir === 're') return o.re; return o.av + o.re + o.ot; }
+  // Agrega camaraHora sobre los meses filtrados. applyCam=true respeta el filtro de cámara.
+  function lprCHAgg(applyCam) {
+    var pm = lprData().porMes || {};
+    var f = lprFiltro();
+    var cam = applyCam ? f.cam : '';
     var meses = lprMesesFiltrados();
-    var agg = { camara: {}, pais: {}, color: {}, marca: {}, tipo: {}, hora: {}, meses: meses };
-    meses.forEach(function (m) {
-      var d = pm[m] || {};
-      ['camara', 'pais', 'color', 'marca', 'tipo'].forEach(function (dim) {
-        var src = d[dim] || {};
-        Object.keys(src).forEach(function (k) { agg[dim][k] = (agg[dim][k] || 0) + src[k]; });
-      });
-      var hr = d.hora || {};
-      Object.keys(hr).forEach(function (h) {
-        if (!agg.hora[h]) agg.hora[h] = { Avance: 0, Retroceso: 0, Otro: 0 };
-        ['Avance', 'Retroceso', 'Otro'].forEach(function (x) { agg.hora[h][x] = (agg.hora[h][x] || 0) + (hr[h][x] || 0); });
+    var porCam = {}, porHora = {};
+    meses.forEach(function (mes) {
+      var ch = (pm[mes] && pm[mes].camaraHora) || {};
+      Object.keys(ch).forEach(function (c) {
+        if (cam && c !== cam) return;
+        var horas = ch[c];
+        Object.keys(horas).forEach(function (h) {
+          var o = horas[h];
+          if (!porCam[c]) porCam[c] = { av: 0, re: 0, ot: 0 };
+          porCam[c].av += o.av; porCam[c].re += o.re; porCam[c].ot += o.ot;
+          if (!porHora[h]) porHora[h] = { av: 0, re: 0, ot: 0 };
+          porHora[h].av += o.av; porHora[h].re += o.re; porHora[h].ot += o.ot;
+        });
       });
     });
+    return { porCam: porCam, porHora: porHora, meses: meses };
+  }
+  // Evolución mensual (respeta AÑO, no el mes concreto; respeta cámara).
+  function lprMensualCH() {
+    var pm = lprData().porMes || {};
+    var f = lprFiltro();
+    var meses = lprClavesMes().filter(function (m) { return !f.anio || m.slice(0, 4) === f.anio; }).sort();
+    var data = {};
+    meses.forEach(function (mes) {
+      var ch = (pm[mes] && pm[mes].camaraHora) || {}; var acc = { av: 0, re: 0, ot: 0 };
+      Object.keys(ch).forEach(function (c) { if (f.cam && c !== f.cam) return; var horas = ch[c]; Object.keys(horas).forEach(function (h) { var o = horas[h]; acc.av += o.av; acc.re += o.re; acc.ot += o.ot; }); });
+      data[mes] = acc;
+    });
+    return { meses: meses, data: data };
+  }
+  // Desgloses país/color/marca/tipo por año/mes (no dependen de cámara/sentido).
+  function lprDimAgg() {
+    var l = lprData(); var pm = l.porMes || {};
+    if (!Object.keys(pm).length) return { pais: l.byNacionalidad || {}, color: l.byColor || {}, marca: l.byMarca || {}, tipo: l.byTipo || {} };
+    var meses = lprMesesFiltrados(); var agg = { pais: {}, color: {}, marca: {}, tipo: {} };
+    meses.forEach(function (m) { var d = pm[m] || {}; ['pais', 'color', 'marca', 'tipo'].forEach(function (dim) { var src = d[dim] || {}; Object.keys(src).forEach(function (k) { agg[dim][k] = (agg[dim][k] || 0) + src[k]; }); }); });
     return agg;
   }
 
   function renderLprResumen() {
-    var l = lprData();
-    var agg = lprFilteredAgg();
-    var es = l.entradasSalidasPorMes || {};
-    var meses = agg.meses;
-    var ent = 0, sal = 0;
-    meses.forEach(function (m) { if (es[m]) { ent += es[m].Avance || 0; sal += es[m].Retroceso || 0; } });
-    var total = Object.keys(agg.camara).reduce(function (s, k) { return s + agg.camara[k]; }, 0);
-    var nac = agg.pais;
+    var f = lprFiltro();
+    var ch = lprCHAgg(false); // el mapa muestra todas las cámaras
+    var dim = lprDimAgg();
+    var meses = ch.meses;
+    var porCam = ch.porCam;
+    var totAv = 0, totRe = 0, totOt = 0;
+    Object.keys(porCam).forEach(function (c) { totAv += porCam[c].av; totRe += porCam[c].re; totOt += porCam[c].ot; });
+    var total = f.dir === 'av' ? totAv : (f.dir === 're' ? totRe : (totAv + totRe + totOt));
+    var nac = dim.pais;
     var esp = nac['España'] || nac['Espana'] || 0;
     var noId = NOID_KEYS.reduce(function (s, k) { return s + (nac[k] || 0); }, 0);
     var totalNac = Object.keys(nac).reduce(function (s, k) { return s + nac[k]; }, 0);
     var intl = totalNac - esp - noId, ident = esp + intl;
     var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
-    if (!meses.length && !Object.keys(agg.camara).length) return;
+    if (!meses.length && !Object.keys(porCam).length) return;
     set('lpr-kpi-total', multiNf(total));
     set('lpr-kpi-rango', meses.length ? (mesEtiqueta(meses[0]) + (meses.length > 1 ? ' – ' + mesEtiqueta(meses[meses.length - 1]) : '')) : '—');
-    set('lpr-kpi-entradas', multiNf(ent));
-    set('lpr-kpi-salidas', multiNf(sal));
+    set('lpr-kpi-entradas', multiNf(totAv));
+    set('lpr-kpi-salidas', multiNf(totRe));
     set('lpr-kpi-intl', (ident ? Math.round(intl / ident * 100) : 0) + '%');
     set('lpr-kpi-intl-sub', multiNf(intl) + ' de ' + multiNf(ident) + ' identificadas');
-    drawMapaLpr(agg.camara);
-    renderLprTopAccesos(agg.camara);
+    var vals = {};
+    Object.keys(porCam).forEach(function (c) { vals[c] = lprDirVal(porCam[c], f.dir); });
+    drawMapaLpr(vals);
+    renderLprTopAccesos(vals);
   }
 
   function drawMapaLpr(byCam) {
@@ -937,51 +1044,58 @@
   function renderLprEvolucion() {
     var l = lprData();
     var f = lprFiltro();
-    var es = l.entradasSalidasPorMes || {};
-    // La evolución mensual respeta el filtro de AÑO (muestra la serie de ese año o toda).
-    var meses = Object.keys(es).filter(function (m) { return !f.anio || m.slice(0, 4) === f.anio; }).sort();
     var opts = chartCartesianOptions();
+    // Evolución mensual desde camaraHora (respeta año + sentido + cámara).
+    var mm = lprMensualCH();
+    var dsM = [];
+    if (f.dir !== 're') dsM.push({ label: 'Entradas', data: mm.meses.map(function (m) { return mm.data[m].av; }), backgroundColor: '#2563eb', borderRadius: BARRA_RADIO });
+    if (f.dir !== 'av') dsM.push({ label: 'Salidas', data: mm.meses.map(function (m) { return mm.data[m].re; }), backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO });
     multiDestroy('lprMes');
     var cM = document.getElementById('chart-lpr-mes');
-    if (cM) multiCharts.lprMes = new Chart(cM, { type: 'bar', data: { labels: meses.map(mesEtiqueta), datasets: [
-      { label: 'Entradas', data: meses.map(function (m) { return es[m].Avance || 0; }), backgroundColor: '#2563eb', borderRadius: BARRA_RADIO },
-      { label: 'Salidas', data: meses.map(function (m) { return es[m].Retroceso || 0; }), backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO }
-    ] }, options: opts });
-    // El tráfico diario respeta año + mes.
+    if (cM) multiCharts.lprMes = new Chart(cM, { type: 'bar', data: { labels: mm.meses.map(mesEtiqueta), datasets: dsM }, options: opts });
+    // Tráfico diario: entradasSalidasPorDia (todas las cámaras) por sentido + año/mes.
+    // No hay datos diarios por cámara, así que se oculta al filtrar una cámara concreta.
     var dia = l.entradasSalidasPorDia || {};
-    var dias = Object.keys(dia).filter(function (d) {
-      if (f.mes) return d.slice(0, 7) === f.mes;
-      if (f.anio) return d.slice(0, 4) === f.anio;
-      return true;
-    }).sort();
-    multiDestroy('lprDia');
     var cD = document.getElementById('chart-lpr-dia');
-    if (cD) multiCharts.lprDia = new Chart(cD, { type: 'line', data: { labels: dias, datasets: [
-      { label: 'Entradas', data: dias.map(function (d) { return dia[d].Avance || 0; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.10)', fill: true, tension: 0.25, pointRadius: 0 },
-      { label: 'Salidas', data: dias.map(function (d) { return dia[d].Retroceso || 0; }), borderColor: '#f59e0b', fill: false, tension: 0.25, pointRadius: 0 }
-    ] }, options: opts });
+    var card = cD && cD.closest('.camaras-chart-card');
+    multiDestroy('lprDia');
+    if (f.cam) {
+      if (card) card.style.display = 'none';
+    } else {
+      if (card) card.style.display = '';
+      var dias = Object.keys(dia).filter(function (d) {
+        if (f.mes) return d.slice(0, 7) === f.mes;
+        if (f.anio) return d.slice(0, 4) === f.anio;
+        return true;
+      }).sort();
+      var dsD = [];
+      if (f.dir !== 're') dsD.push({ label: 'Entradas', data: dias.map(function (d) { return dia[d].Avance || 0; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.10)', fill: true, tension: 0.25, pointRadius: 0 });
+      if (f.dir !== 'av') dsD.push({ label: 'Salidas', data: dias.map(function (d) { return dia[d].Retroceso || 0; }), borderColor: '#f59e0b', fill: false, tension: 0.25, pointRadius: 0 });
+      if (cD) multiCharts.lprDia = new Chart(cD, { type: 'line', data: { labels: dias, datasets: dsD }, options: opts });
+    }
   }
 
   function renderLprHorario() {
-    var h = lprFilteredAgg().hora || {};
+    var f = lprFiltro();
+    var h = lprCHAgg(true).porHora || {};
     var horas = []; for (var i = 0; i < 24; i++) horas.push(i);
-    var ent = horas.map(function (i) { return (h[i] || {}).Avance || 0; });
-    var sal = horas.map(function (i) { return (h[i] || {}).Retroceso || 0; });
+    var ent = horas.map(function (i) { return (h[i] || {}).av || 0; });
+    var sal = horas.map(function (i) { return (h[i] || {}).re || 0; });
     var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
     var argmax = function (arr) { var mi = 0; arr.forEach(function (v, i) { if (v > arr[mi]) mi = i; }); return mi; };
     set('lpr-kpi-hora-ent', (ent.some(function (v) { return v; }) ? ('' + argmax(ent)).padStart(2, '0') + ':00 h' : '—'));
     set('lpr-kpi-hora-sal', (sal.some(function (v) { return v; }) ? ('' + argmax(sal)).padStart(2, '0') + ':00 h' : '—'));
     var opts = chartCartesianOptions();
+    var ds = [];
+    if (f.dir !== 're') ds.push({ label: 'Entradas', data: ent, backgroundColor: '#2563eb', borderRadius: BARRA_RADIO });
+    if (f.dir !== 'av') ds.push({ label: 'Salidas', data: sal, backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO });
     multiDestroy('lprHora');
     var c = document.getElementById('chart-lpr-hora');
-    if (c) multiCharts.lprHora = new Chart(c, { type: 'bar', data: { labels: horas.map(function (i) { return ('' + i).padStart(2, '0') + 'h'; }), datasets: [
-      { label: 'Entradas', data: ent, backgroundColor: '#2563eb', borderRadius: BARRA_RADIO },
-      { label: 'Salidas', data: sal, backgroundColor: '#f59e0b', borderRadius: BARRA_RADIO }
-    ] }, options: opts });
+    if (c) multiCharts.lprHora = new Chart(c, { type: 'bar', data: { labels: horas.map(function (i) { return ('' + i).padStart(2, '0') + 'h'; }), datasets: ds }, options: opts });
   }
 
   function renderLprProcedencia() {
-    var nac = lprFilteredAgg().pais || {};
+    var nac = lprDimAgg().pais || {};
     var esp = nac['España'] || nac['Espana'] || 0;
     var noId = NOID_KEYS.reduce(function (s, k) { return s + (nac[k] || 0); }, 0);
     var total = Object.keys(nac).reduce(function (s, k) { return s + nac[k]; }, 0);
@@ -991,8 +1105,17 @@
     set('lpr-kpi-nac', multiNf(esp));
     set('lpr-kpi-intl2', multiNf(intl));
     set('lpr-kpi-intl2-sub', (ident ? Math.round(intl / ident * 100) : 0) + '% de identificadas');
+    // Europeos individuales; resto de identificados (fuera de Europa, incl. Georgia) -> "Otros".
     var excl = { 'España': 1, 'Espana': 1 }; NOID_KEYS.forEach(function (k) { excl[k] = 1; });
-    var top = Object.keys(nac).filter(function (k) { return !excl[k]; }).map(function (k) { return [k, nac[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 12);
+    var euro = [], otros = 0;
+    Object.keys(nac).forEach(function (k) {
+      if (excl[k]) return;
+      if (LPR_EUROPA[k]) euro.push([k, nac[k]]); else otros += nac[k];
+    });
+    euro.sort(function (a, b) { return b[1] - a[1]; });
+    var top = euro.slice(0, 11);
+    if (otros > 0) top.push(['Otros (fuera de Europa)', otros]);
+    top.sort(function (a, b) { return b[1] - a[1]; });
     if (top.length) { set('lpr-kpi-pais-top', top[0][0]); set('lpr-kpi-pais-top-sub', multiNf(top[0][1]) + ' vehículos'); }
     var opts = chartCartesianOptions();
     multiDestroy('lprNacIntl');
@@ -1023,7 +1146,7 @@
     });
   }
   function renderLprColores() {
-    var agg = lprFilteredAgg();
+    var agg = lprDimAgg();
     var ord = function (o, n) { var e = Object.keys(o).map(function (k) { return [k, o[k]]; }).sort(function (a, b) { return b[1] - a[1]; }); return n ? e.slice(0, n) : e; };
     lprRankList('lpr-list-color', ord(agg.color), { colorFn: function (k) { return LPR_COLOR_MAP[k] || '#a78bfa'; } });
     lprRankList('lpr-list-tipo', ord(agg.tipo), { bar: '#0ea5e9' });
@@ -1045,6 +1168,13 @@
     });
     sel.value = (prev && meses.indexOf(prev) >= 0) ? prev : '';
   }
+  function lprPoblarCamaras() {
+    var sel = document.getElementById('lpr-f-cam'); if (!sel) return;
+    var prev = sel.value;
+    sel.innerHTML = ''; sel.appendChild(new Option('Todas las cámaras', ''));
+    lprCamaras().forEach(function (c) { sel.appendChild(new Option(lprNombre(c), c)); });
+    if (prev) sel.value = prev;
+  }
   function initLprFiltros() {
     var anioSel = document.getElementById('lpr-f-anio'); if (!anioSel) return;
     var prevA = anioSel.value;
@@ -1052,9 +1182,17 @@
     lprAnios().forEach(function (a) { anioSel.appendChild(new Option(a, a)); });
     if (prevA) anioSel.value = prevA;
     lprPoblarMeses();
+    lprPoblarCamaras();
     if (!anioSel._bound) { anioSel.addEventListener('change', function () { lprPoblarMeses(); renderAllLpr(); }); anioSel._bound = true; }
     var mesSel = document.getElementById('lpr-f-mes');
     if (mesSel && !mesSel._bound) { mesSel.addEventListener('change', renderAllLpr); mesSel._bound = true; }
+    var dirSel = document.getElementById('lpr-f-dir');
+    if (dirSel && !dirSel._bound) { dirSel.addEventListener('change', renderAllLpr); dirSel._bound = true; }
+    var camSel = document.getElementById('lpr-f-cam');
+    if (camSel && !camSel._bound) { camSel.addEventListener('change', renderAllLpr); camSel._bound = true; }
+    // Estado inicial (sección activa por defecto = accesos: Sentido visible, Cámara oculta)
+    var dw = document.getElementById('lpr-f-dir-wrap'); if (dw) dw.style.display = '';
+    var cw = document.getElementById('lpr-f-cam-wrap'); if (cw) cw.style.display = 'none';
   }
   function renderAllLpr() {
     renderLprResumen();
@@ -4968,6 +5106,22 @@
         var lprSecs = ['camaras-resumen', 'camaras-evolucion', 'camaras-horario', 'camaras-procedencia', 'camaras-colores'];
         var fb = document.getElementById('lpr-filtros');
         if (fb) fb.style.display = (lprSecs.indexOf(sname) >= 0) ? '' : 'none';
+        var dirWrap = document.getElementById('lpr-f-dir-wrap');
+        var camWrap = document.getElementById('lpr-f-cam-wrap');
+        var showDir = ['camaras-resumen', 'camaras-evolucion', 'camaras-horario'].indexOf(sname) >= 0;
+        var showCam = ['camaras-evolucion', 'camaras-horario'].indexOf(sname) >= 0;
+        if (dirWrap) dirWrap.style.display = showDir ? '' : 'none';
+        if (camWrap) camWrap.style.display = showCam ? '' : 'none';
+        // Barra de filtros de aforo (multiobjeto)
+        var multiSecs = ['camaras-multiobjeto', 'camaras-multiobjeto-calles', 'camaras-multiobjeto-detalle'];
+        var mfb = document.getElementById('multi-filtros');
+        if (mfb) mfb.style.display = (multiSecs.indexOf(sname) >= 0) ? '' : 'none';
+        var mCamWrap = document.getElementById('multi-f-cam-wrap');
+        if (mCamWrap) {
+          // En "Por cámara" se usa el selector propio: ocultamos (y reseteamos) el filtro global de cámara.
+          if (sname === 'camaras-multiobjeto-detalle') { mCamWrap.style.display = 'none'; var mc = document.getElementById('multi-f-cam'); if (mc) mc.value = ''; }
+          else mCamWrap.style.display = '';
+        }
         if (sname === 'camaras-resumen') {
           setTimeout(function () { renderLprResumen(); if (mapaLpr) mapaLpr.invalidateSize(true); }, 180);
         }
