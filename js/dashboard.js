@@ -4418,6 +4418,67 @@
     }
   }
 
+  // ====== Procedencia nacional (turistas españoles por CCAA / provincia) ======
+  function renderTurismoProcedencia() {
+    if (!turismoData) return;
+    var proc = (turismoData.series && turismoData.series.procedencia) || [];
+    if (!proc.length) return;
+    var fechas = new Set();
+    proc.forEach(function (s) { (s.data || []).forEach(function (d) { fechas.add(d.fecha); }); });
+    var ult12 = Array.from(fechas).sort().slice(-12);
+    var sumSerie = function (s) { return (s.data || []).filter(function (d) { return ult12.indexOf(d.fecha) >= 0; }).reduce(function (a, b) { return a + (b.valor || 0); }, 0); };
+    var mapRank = function (residencia) {
+      return proc.filter(function (s) { return s.residencia === residencia && s.nombre !== 'Total Nacional'; })
+        .map(function (s) { return { n: s.nombre, v: sumSerie(s) }; })
+        .filter(function (x) { return x.v > 0; })
+        .sort(function (a, b) { return b.v - a.v; });
+    };
+    var ccaa = mapRank('ccaa');
+    var prov = mapRank('provincia');
+    var totalNac = proc.find(function (s) { return s.nombre === 'Total Nacional'; });
+    var ultMes = ult12.length ? ult12[ult12.length - 1] : '';
+    var totalCcaa = ccaa.reduce(function (a, b) { return a + b.v; }, 0);
+    var cont = document.getElementById('turismo-mini-procedencia');
+    if (cont) {
+      cont.innerHTML = [
+        { l: 'Último mes', v: ultMes ? fechaLabelTurismo(ultMes) : '—' },
+        { l: 'Turistas nacionales (12 m)', v: tFmtNum(totalCcaa) },
+        { l: 'CCAA top', v: ccaa[0] ? ccaa[0].n : '—', sub: ccaa[0] ? tFmtNum(ccaa[0].v) + ' turistas' : '' },
+        { l: 'Provincia top', v: prov[0] ? prov[0].n : '—', sub: prov[0] ? tFmtNum(prov[0].v) + ' turistas' : '' }
+      ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
+    }
+    var pal = ['#2563eb', '#0891b2', '#059669', '#d97706', '#7c3aed', '#e11d48', '#0ea5e9', '#14b8a6', '#facc15', '#ec4899', '#8b5cf6', '#f97316'];
+    var hbarOpts = function (fontY) {
+      var base = turismoChartDefaults();
+      return Object.assign({}, base, {
+        indexAxis: 'y',
+        plugins: Object.assign({}, base.plugins, { legend: { display: false } }),
+        scales: {
+          x: { ticks: { color: '#64748b', callback: function (v) { return tFmtNum(v); } }, grid: { color: 'rgba(226, 232, 240, 0.7)' } },
+          y: { ticks: { color: '#0f172a', font: { size: fontY, weight: '600' } }, grid: { display: false } }
+        }
+      });
+    };
+    destroyTurismoChart('proc-ccaa');
+    var c1 = document.getElementById('chart-turismo-proc-ccaa');
+    if (c1) {
+      var topC = ccaa.slice(0, 12);
+      turismoCharts['proc-ccaa'] = new Chart(c1, { type: 'bar', data: { labels: topC.map(function (x) { return x.n; }), datasets: [{ label: 'Turistas', data: topC.map(function (x) { return x.v; }), backgroundColor: topC.map(function (_, i) { return pal[i % pal.length]; }), borderRadius: 4 }] }, options: hbarOpts(12) });
+    }
+    destroyTurismoChart('proc-prov');
+    var c2 = document.getElementById('chart-turismo-proc-prov');
+    if (c2) {
+      var topP = prov.slice(0, 15);
+      turismoCharts['proc-prov'] = new Chart(c2, { type: 'bar', data: { labels: topP.map(function (x) { return x.n; }), datasets: [{ label: 'Turistas', data: topP.map(function (x) { return x.v; }), backgroundColor: '#0891b2', borderRadius: 4 }] }, options: hbarOpts(11) });
+    }
+    destroyTurismoChart('proc-mes');
+    var c3 = document.getElementById('chart-turismo-proc-mes');
+    if (c3 && totalNac) {
+      var d = totalNac.data || [];
+      turismoCharts['proc-mes'] = new Chart(c3, { type: 'bar', data: { labels: d.map(function (x) { return fechaLabelTurismo(x.fecha); }), datasets: [{ label: 'Turistas nacionales', data: d.map(function (x) { return x.valor; }), backgroundColor: '#2563eb', borderRadius: 4 }] }, options: turismoChartDefaults() });
+    }
+  }
+
   // ====== Capacidad/oferta campings ======
   function renderTurismoOfertaCampings() {
     if (!turismoData) return;
@@ -4599,6 +4660,7 @@
     renderTurismoMiniKpis('apartamentos', 'turismo-mini-apartamentos');
     renderTurismoMiniKpis('campings', 'turismo-mini-campings');
     renderTurismoMovilidad();
+    renderTurismoProcedencia();
     ensureViviendasLoaded().then((d) => { if (d) renderTurismoViviendas(); });
     renderTurismoCategoriaMesChart('chart-turismo-hoteles-mes', 'hoteles');
     renderTurismoCategoriaOrigenChart('chart-turismo-hoteles-origen', 'hoteles');
@@ -4634,6 +4696,7 @@
           const titles = {
             'turismo-resumen': 'Turismo - Resumen',
             'turismo-movilidad': 'Turismo - Movilidad turística (INE móvil)',
+            'turismo-procedencia': 'Turismo - Procedencia nacional (CCAA y provincias)',
             'turismo-hoteles': 'Turismo - Hoteles',
             'turismo-rentabilidad': 'Turismo - Rentabilidad',
             'turismo-apartamentos': 'Turismo - Apartamentos',
