@@ -78,7 +78,7 @@
         var tb = body.map(function (fila, ri) {
           return '<tr style="background:' + (ri % 2 ? '#f8fafc' : '#fff') + '">' + Array.from({ length: nCols }).map(function (_, i) { return '<td style="padding:.35rem .55rem;border-bottom:1px solid #f1f5f9;white-space:nowrap;color:#334155">' + esc(fila[i] || '') + '</td>'; }).join('') + '</tr>';
         }).join('');
-        prevEl.innerHTML = '<div style="max-height:420px;overflow:auto;border:1px solid #e2e8f0;border-radius:8px"><table style="border-collapse:collapse;font-size:.8rem;min-width:100%">' + th + tb + '</table></div>' +
+        prevEl.innerHTML = '<div style="max-height:68vh;overflow:auto;border:1px solid #e2e8f0;border-radius:8px"><table style="border-collapse:collapse;font-size:.85rem;min-width:100%">' + th + tb + '</table></div>' +
           '<div style="margin-top:.35rem;color:#94a3b8;font-size:.78rem">Mostrando ' + body.length + ' filas' + (j.truncado ? ' (primeras 200)' : '') + '</div>';
       })
       .catch(function (e) { prevEl.innerHTML = '<div style="padding:.8rem;color:#ef4444;font-size:.85rem">' + e.message + '</div>'; });
@@ -109,9 +109,29 @@
       })
       .catch(function (e) { cont.innerHTML = '<div style="padding:.6rem;color:#ef4444;font-size:.85rem">' + e.message + '</div>'; });
   }
+  function setCount(tipo) {
+    fetch('/api/repositorio/ficheros?tipo=' + tipo, { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { var c = document.getElementById('repo-' + tipo + '-count'); if (c && j.ok) c.textContent = '(' + j.total + ')'; })
+      .catch(function () {});
+  }
+  var repoCamTipo = 'lpr';
+  function initCamTabs() {
+    var tabs = document.querySelectorAll('.repo-tab');
+    if (!tabs.length) return;
+    setCount('lpr'); setCount('aforo');
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (x) { x.classList.remove('active'); x.style.background = '#e2e8f0'; x.style.color = '#334155'; });
+        t.classList.add('active'); t.style.background = ''; t.style.color = '';
+        repoCamTipo = t.dataset.repo;
+        cargarFicheros(repoCamTipo, 'repo-cam-ficheros', 'repo-' + repoCamTipo + '-count');
+      });
+    });
+    cargarFicheros('lpr', 'repo-cam-ficheros', 'repo-lpr-count');
+  }
   function cargarTodosFicheros() {
-    cargarFicheros('lpr', 'repo-lpr-ficheros', 'repo-lpr-count');
-    cargarFicheros('aforo', 'repo-aforo-ficheros', 'repo-aforo-count');
+    initCamTabs();
     cargarFicheros('pesajes', 'repo-pesajes-ficheros', 'repo-pesajes-count');
   }
 

@@ -343,17 +343,14 @@
       <section id="section-camaras-repositorio" class="section">
         <div class="turismo-section-card" style="margin-bottom:1rem">
           <h3 class="section-title">📁 Repositorio de datos de cámaras</h3>
-          <p class="turismo-chart-hint">Consulta los ficheros de origen de las cámaras (export de HikCentral). Elige un fichero y se abre su contenido en tabla.</p>
+          <p class="turismo-chart-hint">Elige el tipo de dato y el fichero; se abre su contenido en tabla.</p>
+          <div style="display:flex;gap:.6rem;margin-top:.9rem;flex-wrap:wrap">
+            <button type="button" class="repo-tab reload-btn active" data-repo="lpr">🚗 Matrículas (LPR) <span id="repo-lpr-count" style="opacity:.75"></span></button>
+            <button type="button" class="repo-tab reload-btn" data-repo="aforo" style="background:#e2e8f0;color:#334155">👥 Aforo (multiobjeto) <span id="repo-aforo-count" style="opacity:.75"></span></button>
+          </div>
         </div>
-        <div class="camaras-charts-row">
-          <div class="camaras-chart-card">
-            <h4>🚗 Matrículas (LPR) <span id="repo-lpr-count" style="color:#94a3b8;font-weight:400;font-size:.8rem"></span></h4>
-            <div id="repo-lpr-ficheros" style="margin-top:.6rem"></div>
-          </div>
-          <div class="camaras-chart-card">
-            <h4>👥 Aforo (multiobjeto) <span id="repo-aforo-count" style="color:#94a3b8;font-weight:400;font-size:.8rem"></span></h4>
-            <div id="repo-aforo-ficheros" style="margin-top:.6rem"></div>
-          </div>
+        <div class="camaras-chart-card">
+          <div id="repo-cam-ficheros"></div>
         </div>
       </section>
 
@@ -1277,6 +1274,6 @@
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
   <script src="js/dashboard.js?v=92"></script>
-  <script src="js/repositorio.js?v=4"></script>
+  <script src="js/repositorio.js?v=5"></script>
 </body>
 </html>
