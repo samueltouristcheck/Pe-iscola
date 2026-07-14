@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-07-06T15:25:48.541Z",
+  "generadoEn": "2026-07-14T07:49:32.260Z",
   "fuente": "INE - Instituto Nacional de Estadística (https://www.ine.es)",
   "municipio": "Peñíscola",
   "codigoMunicipio": "12089",
@@ -47312,6 +47312,13 @@
             "mes": 4,
             "valor": 475,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 455,
+            "secreto": false
           }
         ]
       },
@@ -47895,6 +47902,13 @@
             "mes": 4,
             "valor": 9259,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 7564,
+            "secreto": false
           }
         ]
       },
@@ -48274,6 +48288,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 128,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 154,
             "secreto": false
           }
         ]
@@ -48704,6 +48725,13 @@
             "mes": 4,
             "valor": 92,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 83,
+            "secreto": false
           }
         ]
       },
@@ -48943,6 +48971,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 32,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 308,
             "secreto": false
           }
         ]
@@ -49351,6 +49386,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 105,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 145,
             "secreto": false
           }
         ]
@@ -49893,6 +49935,13 @@
             "mes": 4,
             "valor": 1589,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 1543,
+            "secreto": false
           }
         ]
       },
@@ -50426,6 +50475,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 908,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 876,
             "secreto": false
           }
         ]
@@ -51009,6 +51065,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 9923,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 9696,
             "secreto": false
           }
         ]
@@ -51616,6 +51679,13 @@
             "mes": 4,
             "valor": 7370,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 6601,
+            "secreto": false
           }
         ]
       },
@@ -51988,6 +52058,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 85,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 60,
             "secreto": false
           }
         ]
@@ -52417,6 +52494,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 176,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 270,
             "secreto": false
           }
         ]
@@ -53000,6 +53084,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 5397,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 5363,
             "secreto": false
           }
         ]
@@ -53607,6 +53698,13 @@
             "mes": 4,
             "valor": 555,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 494,
+            "secreto": false
           }
         ]
       },
@@ -54161,6 +54259,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 1990,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 1157,
             "secreto": false
           }
         ]
@@ -54724,6 +54829,13 @@
             "mes": 4,
             "valor": 3890,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 2099,
+            "secreto": false
           }
         ]
       },
@@ -55285,6 +55397,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 725,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 514,
             "secreto": false
           }
         ]
@@ -55869,6 +55988,13 @@
             "mes": 4,
             "valor": 42737,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 37382,
+            "secreto": false
           }
         ]
       },
@@ -56290,6 +56416,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 306,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 129,
             "secreto": false
           }
         ]
@@ -56867,6 +57000,13 @@
             "mes": 4,
             "valor": 1259,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 1243,
+            "secreto": false
           }
         ]
       },
@@ -56973,6 +57113,13 @@
             "anyo": 2025,
             "mes": 10,
             "valor": 50,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 38,
             "secreto": false
           }
         ]
@@ -57508,6 +57655,13 @@
             "mes": 4,
             "valor": 786,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 606,
+            "secreto": false
           }
         ]
       },
@@ -57887,6 +58041,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 128,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 154,
             "secreto": false
           }
         ]
@@ -58753,6 +58914,13 @@
             "mes": 4,
             "valor": 7262,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 6773,
+            "secreto": false
           }
         ]
       },
@@ -59301,6 +59469,13 @@
             "mes": 4,
             "valor": 1299,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 562,
+            "secreto": false
           }
         ]
       },
@@ -59653,6 +59828,13 @@
             "mes": 4,
             "valor": 188,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 164,
+            "secreto": false
           }
         ]
       },
@@ -59892,6 +60074,13 @@
             "anyo": 2025,
             "mes": 11,
             "valor": 35,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 40,
             "secreto": false
           }
         ]
@@ -60202,6 +60391,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 130,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 126,
             "secreto": false
           }
         ]
@@ -60520,6 +60716,13 @@
             "mes": 4,
             "valor": 61,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 142,
+            "secreto": false
           }
         ]
       },
@@ -60830,6 +61033,13 @@
             "mes": 4,
             "valor": 49,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 60,
+            "secreto": false
           }
         ]
       },
@@ -61064,6 +61274,13 @@
             "anyo": 2025,
             "mes": 10,
             "valor": 129,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 49,
             "secreto": false
           }
         ]
@@ -61612,6 +61829,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 1805,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 931,
             "secreto": false
           }
         ]
@@ -62182,6 +62406,13 @@
             "mes": 4,
             "valor": 563,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 640,
+            "secreto": false
           }
         ]
       },
@@ -62598,6 +62829,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 106,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 114,
             "secreto": false
           }
         ]
@@ -63163,6 +63401,13 @@
             "mes": 4,
             "valor": 766,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 836,
+            "secreto": false
           }
         ]
       },
@@ -63551,6 +63796,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 102,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 69,
             "secreto": false
           }
         ]
@@ -64092,6 +64344,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 280,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 371,
             "secreto": false
           }
         ]
@@ -64839,6 +65098,13 @@
             "mes": 4,
             "valor": 2214,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 2030,
+            "secreto": false
           }
         ]
       },
@@ -65422,6 +65688,13 @@
             "mes": 4,
             "valor": 555,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 494,
+            "secreto": false
           }
         ]
       },
@@ -65864,6 +66137,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 82,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 45,
             "secreto": false
           }
         ]
@@ -66420,6 +66700,13 @@
             "mes": 4,
             "valor": 1990,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 1157,
+            "secreto": false
           }
         ]
       },
@@ -66844,6 +67131,13 @@
             "mes": 9,
             "valor": 160,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 38,
+            "secreto": false
           }
         ]
       },
@@ -66978,6 +67272,13 @@
             "anyo": 2025,
             "mes": 4,
             "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 141,
             "secreto": false
           }
         ]
@@ -67274,6 +67575,13 @@
             "anyo": 2026,
             "mes": 3,
             "valor": 41,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 108,
             "secreto": false
           }
         ]
@@ -67599,6 +67907,13 @@
             "mes": 4,
             "valor": 58,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 129,
+            "secreto": false
           }
         ]
       },
@@ -67705,6 +68020,13 @@
             "anyo": 2026,
             "mes": 3,
             "valor": 103,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 167,
             "secreto": false
           }
         ]
@@ -68291,6 +68613,13 @@
             "mes": 4,
             "valor": 74,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 75,
+            "secreto": false
           }
         ]
       },
@@ -68628,6 +68957,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 103,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 71,
             "secreto": false
           }
         ]
@@ -69155,6 +69491,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 166,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 241,
             "secreto": false
           }
         ]
@@ -69739,6 +70082,13 @@
             "mes": 4,
             "valor": 1230,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 1224,
+            "secreto": false
           }
         ]
       },
@@ -70230,6 +70580,13 @@
             "anyo": 2026,
             "mes": 4,
             "valor": 363,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 336,
             "secreto": false
           }
         ]
@@ -70814,6 +71171,13 @@
             "mes": 4,
             "valor": 6111,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 5358,
+            "secreto": false
           }
         ]
       },
@@ -71159,6 +71523,13 @@
             "mes": 4,
             "valor": 118,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 71,
+            "secreto": false
           }
         ]
       },
@@ -71328,6 +71699,13 @@
             "anyo": 2025,
             "mes": 9,
             "valor": 98,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 31,
             "secreto": false
           }
         ]
@@ -71905,6 +72283,13 @@
             "mes": 4,
             "valor": 5655,
             "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 4120,
+            "secreto": false
           }
         ]
       },
@@ -72200,6 +72585,13 @@
             "anyo": 2025,
             "mes": 10,
             "valor": 52,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-05",
+            "anyo": 2026,
+            "mes": 5,
+            "valor": 56,
             "secreto": false
           }
         ]

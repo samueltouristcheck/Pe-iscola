@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "actualizar": "node scripts/actualizar_datos.js",
     "preparar": "node scripts/preparar_todo.js",
     "preparar-residuos": "python preparar_datos.py",
     "manifest:pesajes": "node scripts/generar_excels_manifest.cjs",
