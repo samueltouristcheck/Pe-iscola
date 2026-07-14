@@ -60,8 +60,33 @@
       });
   }
 
+  function relDe(f) { return f.carpeta ? f.carpeta + '/' + f.nombre : f.nombre; }
+
+  function previewFichero(tipo, rel, prevEl) {
+    prevEl.innerHTML = '<div style="padding:.8rem;color:#94a3b8;font-size:.85rem">Cargando vista previa…</div>';
+    fetch('/api/repositorio/preview?tipo=' + tipo + '&rel=' + encodeURIComponent(rel), { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j.ok) { prevEl.innerHTML = '<div style="padding:.8rem;color:#ef4444;font-size:.85rem">' + (j.error || 'Error') + '</div>'; return; }
+        var filas = (j.filas || []).filter(function (f) { return f && f.some(function (c) { return String(c).trim() !== ''; }); });
+        if (!filas.length) { prevEl.innerHTML = '<div style="padding:.8rem;color:#94a3b8;font-size:.85rem">Sin contenido.</div>'; return; }
+        var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+        var nCols = filas.reduce(function (m, f) { return Math.max(m, f.length); }, 0);
+        var head = filas[0];
+        var body = filas.slice(1);
+        var th = '<tr>' + Array.from({ length: nCols }).map(function (_, i) { return '<th style="position:sticky;top:0;background:#1e293b;color:#fff;padding:.4rem .55rem;text-align:left;font-weight:600;white-space:nowrap;font-size:.78rem">' + esc(head[i] || '') + '</th>'; }).join('') + '</tr>';
+        var tb = body.map(function (fila, ri) {
+          return '<tr style="background:' + (ri % 2 ? '#f8fafc' : '#fff') + '">' + Array.from({ length: nCols }).map(function (_, i) { return '<td style="padding:.35rem .55rem;border-bottom:1px solid #f1f5f9;white-space:nowrap;color:#334155">' + esc(fila[i] || '') + '</td>'; }).join('') + '</tr>';
+        }).join('');
+        prevEl.innerHTML = '<div style="max-height:420px;overflow:auto;border:1px solid #e2e8f0;border-radius:8px"><table style="border-collapse:collapse;font-size:.8rem;min-width:100%">' + th + tb + '</table></div>' +
+          '<div style="margin-top:.35rem;color:#94a3b8;font-size:.78rem">Mostrando ' + body.length + ' filas' + (j.truncado ? ' (primeras 200)' : '') + '</div>';
+      })
+      .catch(function (e) { prevEl.innerHTML = '<div style="padding:.8rem;color:#ef4444;font-size:.85rem">' + e.message + '</div>'; });
+  }
+
   function cargarFicheros(tipo, contId, countId) {
     var cont = document.getElementById(contId); if (!cont) return;
+    var pref = contId.replace('-ficheros', '');
     cont.innerHTML = '<div style="padding:.6rem;color:#94a3b8;font-size:.85rem">Cargando…</div>';
     fetch('/api/repositorio/ficheros?tipo=' + tipo, { cache: 'no-store' })
       .then(function (r) { return r.json(); })
@@ -70,10 +95,17 @@
         var cnt = document.getElementById(countId); if (cnt) cnt.textContent = '(' + j.total + ')';
         if (!j.files.length) { cont.innerHTML = '<div style="padding:.6rem;color:#94a3b8;font-size:.85rem">Todavía no hay ficheros.</div>'; return; }
         var fmt = function (d) { try { return new Date(d).toLocaleDateString('es-ES'); } catch (e) { return ''; } };
-        var rows = j.files.map(function (f) {
-          return '<tr style="border-top:1px solid #f1f5f9"><td style="padding:.35rem .5rem;color:#334155">' + (f.carpeta ? '<span style="color:#94a3b8">' + f.carpeta + '/</span>' : '') + f.nombre + '</td><td style="padding:.35rem .5rem;text-align:right;color:#64748b;white-space:nowrap">' + f.kb.toLocaleString('es-ES') + ' KB</td><td style="padding:.35rem .5rem;text-align:right;color:#94a3b8;white-space:nowrap">' + fmt(f.mtime) + '</td></tr>';
-        }).join('');
-        cont.innerHTML = '<table style="width:100%;border-collapse:collapse;font-size:.82rem"><tbody>' + rows + '</tbody></table>';
+        var opts = j.files.map(function (f) { return '<option value="' + relDe(f).replace(/"/g, '&quot;') + '">' + (f.carpeta ? f.carpeta + ' / ' : '') + f.nombre + '  ·  ' + f.kb.toLocaleString('es-ES') + ' KB  ·  ' + fmt(f.mtime) + '</option>'; }).join('');
+        cont.innerHTML =
+          '<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap">' +
+          '<span style="color:#64748b;font-size:.82rem">Abrir fichero:</span>' +
+          '<select id="' + pref + '-select" class="fuente-select" style="max-width:100%;flex:1;min-width:220px">' + opts + '</select>' +
+          '</div><div id="' + pref + '-preview"></div>';
+        var sel = document.getElementById(pref + '-select');
+        var prevEl = document.getElementById(pref + '-preview');
+        var abrir = function () { previewFichero(tipo, sel.value, prevEl); };
+        sel.addEventListener('change', abrir);
+        abrir(); // previsualiza el primero
       })
       .catch(function (e) { cont.innerHTML = '<div style="padding:.6rem;color:#ef4444;font-size:.85rem">' + e.message + '</div>'; });
   }

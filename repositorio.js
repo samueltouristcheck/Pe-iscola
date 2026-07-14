@@ -13,8 +13,10 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
 const { spawn } = require('child_process');
 const multer = require('multer');
+let XLSX = null; try { XLSX = require('xlsx'); } catch (_) { /* opcional */ }
 
 const ROOT = __dirname;
 const TMP = path.join(ROOT, 'data', '_uploads_tmp');
@@ -195,6 +197,45 @@ function registrar(app) {
         })(dir);
         files.sort((a, b) => (a.carpeta + '/' + a.nombre).localeCompare(b.carpeta + '/' + b.nombre, 'es'));
         res.json({ ok: true, tipo, total: files.length, files });
+    });
+
+    // --- Preview del contenido de un fichero (primeras filas), estilo visor de tablas ---
+    function dirDeTipo(tipo) {
+        if (tipo === 'pesajes') return { dir: PESAJES_DIR, enc: 'xlsx' };
+        if (tipo === 'lpr') return { dir: LPR_DIR, enc: 'utf8' };
+        if (tipo === 'aforo') return { dir: AFORO_DIR, enc: 'latin1' };
+        return null;
+    }
+    app.get('/api/repositorio/preview', (req, res) => {
+        const conf = dirDeTipo(req.query.tipo);
+        if (!conf) return res.status(400).json({ ok: false, error: 'tipo inválido' });
+        const relNorm = String(req.query.rel || '').replace(/\\/g, '/').split('/').filter((p) => p && p !== '.' && p !== '..').join('/');
+        const base = path.resolve(conf.dir);
+        const abs = path.resolve(base, relNorm);
+        if (abs.toLowerCase() !== base.toLowerCase() && !abs.toLowerCase().startsWith(base.toLowerCase() + path.sep)) return res.status(400).json({ ok: false, error: 'ruta no válida' });
+        if (!fs.existsSync(abs) || !fs.statSync(abs).isFile()) return res.status(404).json({ ok: false, error: 'no encontrado' });
+        const MAX = 200;
+        if (conf.enc === 'xlsx') {
+            if (!XLSX) return res.status(500).json({ ok: false, error: 'XLSX no disponible' });
+            try {
+                const wb = XLSX.readFile(abs, { sheetRows: MAX + 1 });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const filas = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' }).slice(0, MAX).map((r) => r.map((c) => (c == null ? '' : String(c))));
+                return res.json({ ok: true, nombre: path.basename(abs), hoja: wb.SheetNames[0], filas, truncado: filas.length >= MAX });
+            } catch (e) { return res.status(500).json({ ok: false, error: e.message }); }
+        }
+        // CSV: primeras filas en streaming (los CSV de matrículas pesan mucho)
+        const filas = [];
+        let n = 0, cerrado = false;
+        const rl = readline.createInterface({ input: fs.createReadStream(abs, { encoding: conf.enc }), crlfDelay: Infinity });
+        rl.on('line', (l) => {
+            if (n++ >= MAX) { if (!cerrado) { cerrado = true; rl.close(); } return; }
+            const limpio = l.replace(/^﻿/, '');
+            const sep = limpio.indexOf(';') >= 0 ? ';' : ',';
+            filas.push(limpio.split(sep).map((c) => c.replace(/^\s*=?"?/, '').replace(/"?\s*$/, '').trim()));
+        });
+        rl.on('close', () => { if (!res.headersSent) res.json({ ok: true, nombre: path.basename(abs), filas, truncado: n > MAX }); });
+        rl.on('error', (e) => { if (!res.headersSent) res.status(500).json({ ok: false, error: e.message }); });
     });
 
     // Errores de multer (tamaño, etc.)
