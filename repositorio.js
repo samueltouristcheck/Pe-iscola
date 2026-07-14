@@ -224,17 +224,48 @@ function registrar(app) {
                 return res.json({ ok: true, nombre: path.basename(abs), hoja: wb.SheetNames[0], filas, truncado: filas.length >= MAX });
             } catch (e) { return res.status(500).json({ ok: false, error: e.message }); }
         }
-        // CSV: primeras filas en streaming (los CSV de matrículas pesan mucho)
-        const filas = [];
+        // CSV: leemos las primeras líneas en streaming (los CSV de matrículas pesan mucho)
+        // y las parseamos en una tabla LIMPIA con columnas con sentido según el tipo.
+        const lineas = [];
         let n = 0, cerrado = false;
         const rl = readline.createInterface({ input: fs.createReadStream(abs, { encoding: conf.enc }), crlfDelay: Infinity });
-        rl.on('line', (l) => {
-            if (n++ >= MAX) { if (!cerrado) { cerrado = true; rl.close(); } return; }
-            const limpio = l.replace(/^﻿/, '');
-            const sep = limpio.indexOf(';') >= 0 ? ';' : ',';
-            filas.push(limpio.split(sep).map((c) => c.replace(/^\s*=?"?/, '').replace(/"?\s*$/, '').trim()));
+        rl.on('line', (l) => { if (n++ >= 400) { if (!cerrado) { cerrado = true; rl.close(); } return; } lineas.push(l.replace(/^﻿/, '')); });
+        rl.on('close', () => {
+            if (res.headersSent) return;
+            const clean = (s) => String(s == null ? '' : s).replace(/"/g, '').replace(/^\s*=/, '').trim();
+            const split = (l) => l.split(l.indexOf(';') >= 0 ? ';' : ',').map(clean);
+            let filas = [];
+            if (req.query.tipo === 'lpr') {
+                const hi = lineas.findIndex((l) => /matr[ií]cula/i.test(l) && /c[aá]mara/i.test(l));
+                if (hi >= 0) {
+                    const cols = split(lineas[hi]);
+                    const idx = (re) => cols.findIndex((c) => re.test(c));
+                    const map = [
+                        ['Matrícula', idx(/matr[ií]cula/i)], ['Hora', idx(/^hora$/i)], ['Cámara', idx(/c[aá]mara/i)],
+                        ['País', idx(/pa[ií]s|regi[oó]n/i)], ['Tipo', idx(/tipo/i)], ['Marca', idx(/^marca$/i)],
+                        ['Color', idx(/^color$/i)], ['Sentido', idx(/direcci[oó]n/i)]
+                    ].filter((m) => m[1] >= 0);
+                    filas.push(map.map((m) => m[0]));
+                    for (let i = hi + 1; i < lineas.length && filas.length <= MAX; i++) {
+                        const p = split(lineas[i]); if (!p.some((c) => c)) continue;
+                        filas.push(map.map((m) => p[m[1]] || ''));
+                    }
+                }
+            } else if (req.query.tipo === 'aforo') {
+                filas.push(['Fecha', 'Personas ⬇', 'Personas ⬆', 'Veh. motor ⬇', 'Veh. motor ⬆', 'Veh. sin motor ⬇', 'Veh. sin motor ⬆']);
+                for (let i = 0; i < lineas.length && filas.length <= MAX; i++) {
+                    if (filas.length > 1 && /Exportar contenido/i.test(lineas[i])) break;
+                    const p = split(lineas[i]);
+                    const m = (p[1] || '').match(/(\d{4})\/(\d{2})\/(\d{2})/);
+                    if (!m) continue;
+                    filas.push([m[3] + '/' + m[2] + '/' + m[1], p[2] || '', p[5] || '', p[8] || '', p[11] || '', p[14] || '', p[17] || '']);
+                }
+            }
+            if (!filas.length) { // fallback: crudo sin metadatos de una sola celda
+                filas = lineas.map(split).filter((f) => f.filter((c) => c).length >= 2).slice(0, MAX);
+            }
+            res.json({ ok: true, nombre: path.basename(abs), filas, truncado: n >= 400 });
         });
-        rl.on('close', () => { if (!res.headersSent) res.json({ ok: true, nombre: path.basename(abs), filas, truncado: n > MAX }); });
         rl.on('error', (e) => { if (!res.headersSent) res.status(500).json({ ok: false, error: e.message }); });
     });
 
