@@ -224,47 +224,67 @@ function registrar(app) {
                 return res.json({ ok: true, nombre: path.basename(abs), hoja: wb.SheetNames[0], filas, truncado: filas.length >= MAX });
             } catch (e) { return res.status(500).json({ ok: false, error: e.message }); }
         }
-        // CSV: leemos las primeras líneas en streaming (los CSV de matrículas pesan mucho)
-        // y las parseamos en una tabla LIMPIA con columnas con sentido según el tipo.
-        const lineas = [];
-        let n = 0, cerrado = false;
+        // CSV en streaming con FILTROS. Los CSV de matrículas pesan mucho, así que
+        // escaneamos hasta un tope de líneas y devolvemos hasta MAXRES filas que
+        // cumplan el filtro, más los valores distintos para poblar los desplegables.
+        const tipoQ = req.query.tipo;
+        const MAXRES = 500;
+        const MAXSCAN = tipoQ === 'lpr' ? 80000 : Infinity;
+        const clean = (s) => String(s == null ? '' : s).replace(/"/g, '').replace(/^\s*=/, '').trim();
+        const split = (l) => l.split(l.indexOf(';') >= 0 ? ';' : ',').map(clean);
+        const f = {
+            cam: req.query.fcam || '', sent: req.query.fsent || '', pais: req.query.fpais || '',
+            vtipo: req.query.fvtipo || '', marca: req.query.fmarca || '', color: req.query.fcolor || '',
+            mes: req.query.fmes || '', dia: req.query.fdia ? String(req.query.fdia).padStart(2, '0') : ''
+        };
+        let header = null, colMap = null, headerFound = false, scanned = 0, cerrado = false;
+        const data = [], dist = {};
+        const addDist = (k, v) => { if (v == null || v === '') return; (dist[k] || (dist[k] = new Set())).add(v); };
         const rl = readline.createInterface({ input: fs.createReadStream(abs, { encoding: conf.enc }), crlfDelay: Infinity });
-        rl.on('line', (l) => { if (n++ >= 400) { if (!cerrado) { cerrado = true; rl.close(); } return; } lineas.push(l.replace(/^﻿/, '')); });
+        rl.on('line', (raw) => {
+            const l = raw.replace(/^﻿/, '');
+            if (tipoQ === 'lpr') {
+                if (!headerFound) {
+                    if (/matr[ií]cula/i.test(l) && /c[aá]mara/i.test(l)) {
+                        const cols = split(l);
+                        const idx = (re) => cols.findIndex((c) => re.test(c));
+                        colMap = { 'Matrícula': idx(/matr[ií]cula/i), 'Hora': idx(/^hora$/i), 'Cámara': idx(/c[aá]mara/i), 'País': idx(/pa[ií]s|regi[oó]n/i), 'Tipo': idx(/tipo/i), 'Marca': idx(/^marca$/i), 'Color': idx(/^color$/i), 'Sentido': idx(/direcci[oó]n/i) };
+                        header = Object.keys(colMap).filter((k) => colMap[k] >= 0);
+                        headerFound = true;
+                    }
+                    return;
+                }
+                if (++scanned > MAXSCAN) { if (!cerrado) { cerrado = true; rl.close(); } return; }
+                const p = split(l); if (!p.some((c) => c)) return;
+                const g = (k) => (colMap[k] >= 0 ? p[colMap[k]] || '' : '');
+                const cam = g('Cámara'), pais = g('País'), vtipo = g('Tipo'), marca = g('Marca'), color = g('Color'), sent = g('Sentido'), hora = g('Hora');
+                addDist('cam', cam); addDist('sent', sent); addDist('pais', pais); addDist('vtipo', vtipo); addDist('marca', marca); addDist('color', color);
+                if (f.cam && cam !== f.cam) return;
+                if (f.sent && sent !== f.sent) return;
+                if (f.pais && pais !== f.pais) return;
+                if (f.vtipo && vtipo !== f.vtipo) return;
+                if (f.marca && marca !== f.marca) return;
+                if (f.color && color !== f.color) return;
+                if (f.dia) { const m = hora.match(/\d{4}\/\d{2}\/(\d{2})/); if (!m || m[1] !== f.dia) return; }
+                if (data.length < MAXRES) data.push(header.map((k) => g(k)));
+            } else if (tipoQ === 'aforo') {
+                if (data.length && /Exportar contenido/i.test(l)) { if (!cerrado) { cerrado = true; rl.close(); } return; }
+                const p = split(l);
+                const m = (p[1] || '').match(/(\d{4})\/(\d{2})\/(\d{2})/);
+                if (!m) return;
+                const mes = m[1] + '-' + m[2];
+                addDist('mes', mes);
+                if (f.mes && mes !== f.mes) return;
+                if (f.dia && m[3] !== f.dia) return;
+                if (data.length < MAXRES) data.push([m[3] + '/' + m[2] + '/' + m[1], p[2] || '', p[5] || '', p[8] || '', p[11] || '', p[14] || '', p[17] || '']);
+            }
+        });
         rl.on('close', () => {
             if (res.headersSent) return;
-            const clean = (s) => String(s == null ? '' : s).replace(/"/g, '').replace(/^\s*=/, '').trim();
-            const split = (l) => l.split(l.indexOf(';') >= 0 ? ';' : ',').map(clean);
-            let filas = [];
-            if (req.query.tipo === 'lpr') {
-                const hi = lineas.findIndex((l) => /matr[ií]cula/i.test(l) && /c[aá]mara/i.test(l));
-                if (hi >= 0) {
-                    const cols = split(lineas[hi]);
-                    const idx = (re) => cols.findIndex((c) => re.test(c));
-                    const map = [
-                        ['Matrícula', idx(/matr[ií]cula/i)], ['Hora', idx(/^hora$/i)], ['Cámara', idx(/c[aá]mara/i)],
-                        ['País', idx(/pa[ií]s|regi[oó]n/i)], ['Tipo', idx(/tipo/i)], ['Marca', idx(/^marca$/i)],
-                        ['Color', idx(/^color$/i)], ['Sentido', idx(/direcci[oó]n/i)]
-                    ].filter((m) => m[1] >= 0);
-                    filas.push(map.map((m) => m[0]));
-                    for (let i = hi + 1; i < lineas.length && filas.length <= MAX; i++) {
-                        const p = split(lineas[i]); if (!p.some((c) => c)) continue;
-                        filas.push(map.map((m) => p[m[1]] || ''));
-                    }
-                }
-            } else if (req.query.tipo === 'aforo') {
-                filas.push(['Fecha', 'Personas ⬇', 'Personas ⬆', 'Veh. motor ⬇', 'Veh. motor ⬆', 'Veh. sin motor ⬇', 'Veh. sin motor ⬆']);
-                for (let i = 0; i < lineas.length && filas.length <= MAX; i++) {
-                    if (filas.length > 1 && /Exportar contenido/i.test(lineas[i])) break;
-                    const p = split(lineas[i]);
-                    const m = (p[1] || '').match(/(\d{4})\/(\d{2})\/(\d{2})/);
-                    if (!m) continue;
-                    filas.push([m[3] + '/' + m[2] + '/' + m[1], p[2] || '', p[5] || '', p[8] || '', p[11] || '', p[14] || '', p[17] || '']);
-                }
-            }
-            if (!filas.length) { // fallback: crudo sin metadatos de una sola celda
-                filas = lineas.map(split).filter((f) => f.filter((c) => c).length >= 2).slice(0, MAX);
-            }
-            res.json({ ok: true, nombre: path.basename(abs), filas, truncado: n >= 400 });
+            if (tipoQ === 'aforo') header = ['Fecha', 'Personas ⬇', 'Personas ⬆', 'Veh. motor ⬇', 'Veh. motor ⬆', 'Veh. sin motor ⬇', 'Veh. sin motor ⬆'];
+            const distintos = {};
+            Object.keys(dist).forEach((k) => { distintos[k] = Array.from(dist[k]).sort((a, b) => String(a).localeCompare(String(b), 'es')); });
+            res.json({ ok: true, nombre: path.basename(abs), header: header || [], filas: data, distintos, matches: data.length, escaneadas: scanned, truncado: cerrado || data.length >= MAXRES });
         });
         rl.on('error', (e) => { if (!res.headersSent) res.status(500).json({ ok: false, error: e.message }); });
     });
