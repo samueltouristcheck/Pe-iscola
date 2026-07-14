@@ -172,6 +172,31 @@ function registrar(app) {
         res.json({ procesando: estado.procesando, tipo: estado.tipo, desde: estado.inicio, ultimo: estado.ultimo });
     });
 
+    // --- Listado de ficheros del repositorio (para mostrar "todos los excels/csv") ---
+    app.get('/api/repositorio/ficheros', (req, res) => {
+        const tipo = req.query.tipo;
+        let dir, ext, recursive = false;
+        if (tipo === 'pesajes') { dir = PESAJES_DIR; ext = /\.(xlsx|xls)$/i; recursive = true; }
+        else if (tipo === 'lpr') { dir = LPR_DIR; ext = /\.csv$/i; }
+        else if (tipo === 'aforo') { dir = AFORO_DIR; ext = /\.csv$/i; recursive = true; }
+        else return res.status(400).json({ ok: false, error: 'tipo inválido (pesajes|lpr|aforo)' });
+        const files = [];
+        (function walk(d) {
+            if (!fs.existsSync(d)) return;
+            for (const it of fs.readdirSync(d, { withFileTypes: true })) {
+                const full = path.join(d, it.name);
+                if (it.isDirectory()) { if (recursive) walk(full); }
+                else if (ext.test(it.name)) {
+                    let st; try { st = fs.statSync(full); } catch (_) { continue; }
+                    const rel = path.relative(dir, full).replace(/\\/g, '/');
+                    files.push({ nombre: it.name, carpeta: path.dirname(rel) === '.' ? '' : path.dirname(rel), kb: Math.round(st.size / 1024), mtime: st.mtime });
+                }
+            }
+        })(dir);
+        files.sort((a, b) => (a.carpeta + '/' + a.nombre).localeCompare(b.carpeta + '/' + b.nombre, 'es'));
+        res.json({ ok: true, tipo, total: files.length, files });
+    });
+
     // Errores de multer (tamaño, etc.)
     app.use('/api/repositorio', (err, req, res, next) => {
         if (err) return res.status(400).json({ ok: false, error: err.message || 'Error en la subida' });
