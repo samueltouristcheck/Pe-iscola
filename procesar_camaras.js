@@ -178,9 +178,14 @@ function procesarLPRStream(filePath, setsDedup, setsDedupDia) {
 function procesarMultiobjeto(filePath, nombreCamara) {
   const txt = fs.readFileSync(filePath, 'utf8');
   const lines = txt.split(/\r?\n/).filter(l => l.trim());
-  if (lines.length < 17) return [];
+  if (lines.length < 12) return [];
   const rows = [];
-  for (let i = 16; i < lines.length; i++) {
+  // Inicio dinámico de la tabla diaria = primera fila cuya 2ª columna tiene una
+  // fecha (YYYY/MM/DD). Así es robusto a que la cabecera tenga 14 o 16 líneas
+  // (los export de 1 mes y los de rango personalizado difieren en 2 líneas).
+  let inicio = lines.findIndex((l) => { const c = l.split(';'); return c[1] && /\d{4}\/\d{2}\/\d{2}/.test(c[1]); });
+  if (inicio < 0) return [];
+  for (let i = inicio; i < lines.length; i++) {
     // Tras la primera tabla diaria vienen las tablas de "Subtipos de vehículos"
     // (autobuses, sedanes…) que repiten fechas con OTRAS columnas. No deben contarse.
     if (rows.length && /Exportar contenido/i.test(lines[i])) break;
