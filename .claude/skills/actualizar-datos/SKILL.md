@@ -34,6 +34,12 @@ Córrelo en segundo plano si es largo y lee el log al terminar. Si un paso falla
 - Verifica que nada staged supera ~100 MB antes de commitear.
 - Commit con mensaje tipo `Datos: actualización mensual (camión, pesajes, turismo, viviendas, cámaras)` y push a `main`. Render despliega solo.
 
+## 4b. Cámaras nuevas
+El orquestador ejecuta `scripts/detectar_camaras_nuevas.js`, que compara las cámaras de los datos con `data/camaras/camaras_conocidas.json` y avisa de **LPR/aforo nuevas o desaparecidas**. Si aparece una **LPR nueva** (está previsto que instalen más):
+1. Confírmalo con el usuario.
+2. Añade sus coordenadas en `data/camaras/camaras_coordenadas.json` (para que salga en el mapa).
+3. Fija la nueva referencia: `node scripts/detectar_camaras_nuevas.js --guardar`.
+
 ## 5. Informa y recuerda lo pendiente
 Resume qué se actualizó (meses nuevos por fuente) y recuerda lo que NO es automático:
 - **Google Analytics**: si el aviso marca `invalid_grant`, hay que reconectar OAuth (enlace `/api/redes/oauth/start`).

@@ -113,5 +113,8 @@ function resumenFinal() {
   run('Turismo INE (procesar_turismo.js)', 'node', ['procesar_turismo.js']);
   run('Viviendas GVA (procesar_viviendas.js)', 'node', ['procesar_viviendas.js']);
 
+  // Detección de cámaras nuevas/desaparecidas (avisa cuando instalan LPR nuevas)
+  run('Detección de cámaras (nuevas/desaparecidas)', 'node', ['scripts/detectar_camaras_nuevas.js']);
+
   resumenFinal();
 })();

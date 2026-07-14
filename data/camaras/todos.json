@@ -352,6 +352,51 @@
         "count": 20570
       },
       {
+        "fecha": "2025-12",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "count": 82065
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Estibaliz LPR",
+        "count": 311739
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Ratlla Del Terme - CV-140 LPR",
+        "count": 211494
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Rotonda Abellers - Avda.Estacion LPR",
+        "count": 203837
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Rotonda La Volta Oeste LPR",
+        "count": 36802
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Calle Irta - San Antonio LPR",
+        "count": 27610
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Avda. Papa Luna - Benicarló LPR",
+        "count": 21518
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Assegador De La Creu LPR",
+        "count": 18796
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "count": 7286
+      },
+      {
         "fecha": "2026-01",
         "camara": "Rotonda Abellers - Avda.Estacion LPR",
         "count": 169069
@@ -575,6 +620,51 @@
         "fecha": "2026-05",
         "camara": "Assegador De La Creu LPR",
         "count": 25203
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Ratlla Del Terme - CV-140 LPR",
+        "count": 337536
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "count": 158185
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Rotonda Abellers - Avda.Estacion LPR",
+        "count": 280788
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Avda. Papa Luna - Benicarló LPR",
+        "count": 43088
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Estibaliz LPR",
+        "count": 438472
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Rotonda La Volta Oeste LPR",
+        "count": 83120
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Calle Irta - San Antonio LPR",
+        "count": 45026
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "count": 61539
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Assegador De La Creu LPR",
+        "count": 26591
       }
     ],
     "agregadosPorDireccion": [
@@ -1647,6 +1737,150 @@
         "count": 23
       },
       {
+        "fecha": "2025-12",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "direccion": "Avance",
+        "count": 29432
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Estibaliz LPR",
+        "direccion": "Retroceso",
+        "count": 159414
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "direccion": "Retroceso",
+        "count": 52622
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Ratlla Del Terme - CV-140 LPR",
+        "direccion": "Avance",
+        "count": 95041
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Rotonda Abellers - Avda.Estacion LPR",
+        "direccion": "Avance",
+        "count": 99273
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Ratlla Del Terme - CV-140 LPR",
+        "direccion": "Retroceso",
+        "count": 116448
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Rotonda La Volta Oeste LPR",
+        "direccion": "Avance",
+        "count": 36798
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Rotonda Abellers - Avda.Estacion LPR",
+        "direccion": "Retroceso",
+        "count": 104549
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Estibaliz LPR",
+        "direccion": "Avance",
+        "count": 152313
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Calle Irta - San Antonio LPR",
+        "direccion": "Avance",
+        "count": 27608
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Avda. Papa Luna - Benicarló LPR",
+        "direccion": "Retroceso",
+        "count": 21503
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Assegador De La Creu LPR",
+        "direccion": "Avance",
+        "count": 13498
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "direccion": "Retroceso",
+        "count": 6648
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "direccion": "Avance",
+        "count": 573
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Assegador De La Creu LPR",
+        "direccion": "Retroceso",
+        "count": 5296
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Assegador De La Creu LPR",
+        "direccion": "Otro",
+        "count": 2
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "direccion": "Otro",
+        "count": 65
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "direccion": "Otro",
+        "count": 11
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Avda. Papa Luna - Benicarló LPR",
+        "direccion": "Avance",
+        "count": 15
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Rotonda Abellers - Avda.Estacion LPR",
+        "direccion": "Otro",
+        "count": 15
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Rotonda La Volta Oeste LPR",
+        "direccion": "Otro",
+        "count": 4
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Estibaliz LPR",
+        "direccion": "Otro",
+        "count": 12
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Ratlla Del Terme - CV-140 LPR",
+        "direccion": "Otro",
+        "count": 5
+      },
+      {
+        "fecha": "2025-12",
+        "camara": "Calle Irta - San Antonio LPR",
+        "direccion": "Otro",
+        "count": 2
+      },
+      {
         "fecha": "2026-01",
         "camara": "Rotonda Abellers - Avda.Estacion LPR",
         "direccion": "Retroceso",
@@ -2287,6 +2521,120 @@
         "camara": "Avda. Papa Luna - Benicarló LPR",
         "direccion": "Avance",
         "count": 5
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Ratlla Del Terme - CV-140 LPR",
+        "direccion": "Retroceso",
+        "count": 186790
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "direccion": "Retroceso",
+        "count": 93442
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Rotonda Abellers - Avda.Estacion LPR",
+        "direccion": "Retroceso",
+        "count": 141789
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Avda. Papa Luna - Benicarló LPR",
+        "direccion": "Retroceso",
+        "count": 43085
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Estibaliz LPR",
+        "direccion": "Avance",
+        "count": 204940
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Ratlla Del Terme - CV-140 LPR",
+        "direccion": "Avance",
+        "count": 150746
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Rotonda Abellers - Avda.Estacion LPR",
+        "direccion": "Avance",
+        "count": 138999
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "direccion": "Avance",
+        "count": 64722
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Rotonda La Volta Oeste LPR",
+        "direccion": "Avance",
+        "count": 83120
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Estibaliz LPR",
+        "direccion": "Retroceso",
+        "count": 233532
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Calle Irta - San Antonio LPR",
+        "direccion": "Avance",
+        "count": 45026
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "direccion": "Retroceso",
+        "count": 35523
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Assegador De La Creu LPR",
+        "direccion": "Avance",
+        "count": 18854
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Assegador De La Creu LPR",
+        "direccion": "Retroceso",
+        "count": 7733
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "direccion": "Avance",
+        "count": 12284
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Acceso Casco Antiguo - Calle M.Roca LPR",
+        "direccion": "Otro",
+        "count": 13732
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Avda. Papa Luna - C. Madrid LPR",
+        "direccion": "Otro",
+        "count": 21
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Assegador De La Creu LPR",
+        "direccion": "Otro",
+        "count": 4
+      },
+      {
+        "fecha": "2026-06",
+        "camara": "Avda. Papa Luna - Benicarló LPR",
+        "direccion": "Avance",
+        "count": 3
       }
     ],
     "byFecha": {
@@ -2298,339 +2646,342 @@
       "2025-09": 1387660,
       "2025-10": 1114219,
       "2025-11": 880436,
+      "2025-12": 921147,
       "2026-01": 814500,
       "2026-02": 722298,
       "2026-03": 1030371,
       "2026-04": 1261292,
-      "2026-05": 1310869
+      "2026-05": 1310869,
+      "2026-06": 1474345
     },
     "byCamara": {
-      "Estibaliz LPR": 4816451,
-      "Ratlla Del Terme - CV-140 LPR": 3567944,
-      "Rotonda La Volta Oeste LPR": 856389,
-      "Avda. Papa Luna - C. Madrid LPR": 1691685,
-      "Avda. Papa Luna - Benicarló LPR": 450968,
-      "Rotonda Abellers - Avda.Estacion LPR": 3079055,
-      "Acceso Casco Antiguo - Calle M.Roca LPR": 153355,
-      "Calle Irta - San Antonio LPR": 512987,
-      "Assegador De La Creu LPR": 450945
+      "Estibaliz LPR": 5566662,
+      "Ratlla Del Terme - CV-140 LPR": 4116974,
+      "Rotonda La Volta Oeste LPR": 976311,
+      "Avda. Papa Luna - C. Madrid LPR": 1931935,
+      "Avda. Papa Luna - Benicarló LPR": 515574,
+      "Rotonda Abellers - Avda.Estacion LPR": 3563680,
+      "Acceso Casco Antiguo - Calle M.Roca LPR": 222180,
+      "Calle Irta - San Antonio LPR": 585623,
+      "Assegador De La Creu LPR": 496332
     },
     "byNacionalidad": {
-      "No compatible": 1272228,
-      "España": 11755640,
-      "Gran Bretaña": 100443,
-      "Armenia": 12432,
-      "Suiza": 39023,
-      "Bulgaria": 11876,
-      "Kirguistán": 41411,
-      "República de Belarús": 39099,
-      "Italia": 73157,
-      "Estonia": 20447,
-      "Ucrania": 69278,
-      "Mongolia": 40166,
-      "Georgia": 163090,
-      "Israel": 11752,
-      "Portugal": 42876,
-      "Turquía": 13302,
-      "Región CIS": 17896,
-      "Francia": 566445,
-      "Kosovo": 401,
-      "Alemania": 223813,
-      "Polonia": 14165,
-      "Bélgica": 82066,
-      "Rumanía": 31154,
-      "Macedonia del Norte": 971,
-      "Países Bajos": 69068,
-      "Luxemburgo": 6088,
-      "Estado de Palestina": 5971,
-      "Uzbekistán": 2323,
-      "Lituania": 5531,
-      "Azerbaiyán": 1619,
-      "Dinamarca": 3092,
-      "Liechtenstein": 820,
-      "No reconocido": 797086,
-      "Hungría": 1643,
-      "Kazajistán": 3291,
-      "Suecia": 2674,
-      "Austria": 6403,
-      "República Checa": 6383,
-      "Irlanda": 6660,
-      "Albania": 4831,
-      "Croacia": 2129,
-      "Moldavia": 1881,
-      "Finlandia": 2383,
-      "Letonia": 1415,
-      "Eslovaquia": 962,
-      "Eslovenia": 1100,
-      "Turkmenistán": 208,
-      "Bosnia y Herzegovina": 939,
-      "Islandia": 478,
-      "Grecia": 127,
-      "Malta": 1418,
-      "Serbia": 39,
-      "Chipre": 72,
+      "No compatible": 1549677,
+      "España": 13644118,
+      "Gran Bretaña": 115165,
+      "Armenia": 14535,
+      "Suiza": 43848,
+      "Bulgaria": 13941,
+      "Kirguistán": 46012,
+      "República de Belarús": 43007,
+      "Italia": 82641,
+      "Estonia": 22879,
+      "Ucrania": 77544,
+      "Mongolia": 45811,
+      "Georgia": 177458,
+      "Israel": 12952,
+      "Portugal": 50180,
+      "Turquía": 14960,
+      "Región CIS": 20024,
+      "Francia": 630811,
+      "Kosovo": 462,
+      "Alemania": 257926,
+      "Polonia": 16184,
+      "Bélgica": 91967,
+      "Rumanía": 35615,
+      "Macedonia del Norte": 1170,
+      "Países Bajos": 77710,
+      "Luxemburgo": 6819,
+      "Estado de Palestina": 6760,
+      "Uzbekistán": 2581,
+      "Lituania": 6261,
+      "Azerbaiyán": 1816,
+      "Dinamarca": 3506,
+      "Liechtenstein": 947,
+      "No reconocido": 808910,
+      "Hungría": 1839,
+      "Kazajistán": 3775,
+      "Suecia": 3049,
+      "Austria": 7349,
+      "República Checa": 7479,
+      "Irlanda": 7384,
+      "Albania": 5437,
+      "Croacia": 2462,
+      "Moldavia": 2024,
+      "Finlandia": 2763,
+      "Letonia": 1544,
+      "Eslovaquia": 1072,
+      "Eslovenia": 1265,
+      "Turkmenistán": 230,
+      "Bosnia y Herzegovina": 986,
+      "Islandia": 520,
+      "Grecia": 142,
+      "Malta": 1615,
+      "Serbia": 45,
+      "Chipre": 80,
       "Tayikistán": 10,
       "Montenegro": 4
     },
     "byColor": {
-      "White": 5579182,
-      "Gris": 3189065,
-      "Negro": 4174903,
-      "Verde": 172416,
-      "Amarillo": 159181,
-      "Azul": 1018425,
-      "Rojo": 1186111,
-      "Marrón": 74905,
-      "Morado": 5635,
-      "Cian": 13576,
-      "Rosa": 5610,
-      "Otros colores": 770
+      "White": 6463356,
+      "Gris": 3667147,
+      "Negro": 4811839,
+      "Verde": 198915,
+      "Amarillo": 184687,
+      "Azul": 1166751,
+      "Rojo": 1365740,
+      "Marrón": 88064,
+      "Morado": 6012,
+      "Cian": 16248,
+      "Rosa": 5738,
+      "Otros colores": 774
     },
     "byMarca": {
-      "Audi": 775144,
-      "Infiniti": 11658,
-      "Citroen": 791218,
-      "Mazda": 254552,
-      "Volkswagen": 1586582,
-      "Peugeot": 1091971,
-      "Porsche": 72302,
-      "Otros": 547626,
-      "Renault": 955489,
-      "Dongfeng": 170091,
-      "Suzuki": 245861,
-      "Perodua": 4085,
-      "Mitsubishi": 230621,
-      "Iveco": 143140,
-      "Nissan": 743986,
-      "Changan": 39323,
-      "Subaru": 34105,
-      "JAC": 51550,
-      "Chang'an Di Ai Shi": 114150,
-      "Toyota": 772897,
-      "Seat": 483032,
-      "Mercedes-Benz": 870174,
-      "Hyundai": 527539,
-      "Ford": 778956,
-      "Chery": 97693,
-      "Volvo": 179349,
-      "BMW": 717375,
-      "Fiat": 326798,
-      "Opel": 402288,
-      "Geely": 27972,
-      "Baojun": 19176,
-      "Chevrolet": 135547,
-      "BYD": 101594,
-      "Land Rover": 80047,
-      "Dayun": 2540,
-      "KIA": 448485,
-      "Bentley": 5731,
-      "Buick": 107088,
-      "Skoda": 226029,
-      "Shuchi": 227,
-      "Trumpchi": 22405,
-      "JEEP": 159438,
-      "Lexus": 66576,
-      "Foton": 61860,
-      "Fukuda Shidai": 7638,
-      "Roewe": 29257,
-      "BMW MINI": 54738,
-      "Yutong": 30055,
-      "Honda": 200296,
-      "Kairui": 6111,
-      "Benz SMART": 20575,
-      "Lamborghini": 3343,
-      "MG": 96995,
-      "Suzhou Jinglong": 9460,
-      "Shuanglong": 40265,
-      "FAW": 12279,
-      "Higer": 20614,
-      "Chrysler": 18056,
-      "Tesla": 54225,
-      "Changhe": 5388,
-      "Hafei": 7658,
-      "Shenlong": 36914,
-      "JMC": 13477,
-      "GMC": 12048,
-      "Jinbei": 5345,
-      "Cadillac": 22344,
-      "CNHTC": 5659,
-      "Venucia": 7139,
-      "Jaguar": 43806,
-      "LINCOLN": 3885,
-      "Hentong": 2091,
-      "JETOUR": 3246,
-      "Zotye": 23994,
-      "Zhidou": 1487,
-      "Xiamen Golden Dragon": 26378,
-      "HAVAL": 4994,
-      "Yongyuan Motor": 2530,
-      "Fábrica de vehículos de Pequín/BAW": 4693,
-      "SGMW": 24863,
-      "Autobús Yangtse": 718,
-      "Qingling/Isuzu": 17246,
-      "Hongyan Motor": 187,
-      "Lianhua Motor": 2847,
-      "Changan Oushang": 4299,
-      "ISUZU": 3812,
-      "Acura": 5169,
-      "FERRARI": 2057,
-      "Beijing Motor": 13282,
-      "Huanghai Motor": 4312,
-      "Shudu": 43,
-      "Ruiling": 1410,
-      "SOUEAST": 5487,
-      "Lifan": 5357,
-      "Mustang": 1610,
-      "Zhonghua": 4968,
-      "Great Wall": 4419,
-      "Autobús Ankai": 4713,
-      "Dafa": 1929,
-      "Maserati": 6990,
-      "Autobús Dayu": 4999,
-      "ALFA ROMEO": 18483,
-      "Haima": 10190,
-      "Yuancheng": 930,
-      "CAKY": 2230,
-      "DENZA": 418,
-      "Dodge": 8461,
-      "Changfeng": 2249,
-      "YOGOMO": 1597,
-      "SAAB": 4899,
-      "NIO": 4726,
-      "Linian": 594,
-      "Yuejin Motor": 4670,
-      "Weltmeiter": 2291,
-      "Wu Zhou Long": 405,
-      "Kaiyi": 820,
-      "Lynk & Co": 10857,
-      "Jiangnan": 273,
-      "Huatai": 1364,
-      "Huapu Motor": 1122,
-      "Shengwo Bus": 751,
-      "Kama": 343,
-      "Shenye": 151,
-      "Beiben": 4083,
-      "Zhongxing": 1472,
-      "Scania": 6496,
-      "Hino": 3262,
-      "Shanghai Huizhong": 1084,
-      "Na Zhi Jie": 1674,
-      "Neoplan": 912,
-      "Nanjing Jinlong": 2924,
-      "Yinlong": 1778,
-      "Shaanxi Motor": 212,
-      "Jiulong": 426,
-      "Autobús Yaxing": 1225,
-      "Land Wind": 3563,
-      "JMMC": 176,
-      "Shuanghuan Motor": 1047,
-      "Yudo": 290,
-      "Tangjun": 1617,
-      "Shangrao": 322,
-      "Hualing Xingma Motor": 453,
-      "Ora": 4289,
-      "Meiya": 42,
-      "EVCRRC": 553,
-      "BORGWARD": 416,
-      "MITSUOKA": 126,
-      "LEVDEO": 396,
-      "Joven": 894,
-      "Wanda": 26,
-      "Changlong": 435,
-      "GreenWheel": 1385,
-      "Ji'ao": 451,
-      "Ayvip": 190,
-      "BAIC Weiwang": 1442,
-      "Fudi": 250,
-      "Junma": 775,
-      "Zhinuo": 1369,
-      "Rolls-Royce": 1424,
-      "Shaolin": 454,
-      "Hongxing": 98,
-      "Camión Beiben/vehículo Beiben": 360,
-      "Jijiang": 74,
-      "Guanzhi": 800,
-      "SWM": 400,
-      "BISU": 289,
-      "Beifang": 313,
-      "Yangzi": 111,
-      "BRABUS": 44,
-      "HUMMER": 81,
-      "Sanhuan": 86,
-      "Yongyuan Feidie": 587,
-      "Hanjiang": 43,
-      "Hanteng": 398,
-      "Beiqi Yinxiang": 394,
-      "CHTC": 131,
-      "MAYBACH": 161,
-      "FQT": 66,
-      "Weiling Motor": 278,
-      "Panther": 123,
-      "Zoomlion": 336,
-      "Zhongshun": 31,
-      "Huaili": 119,
-      "Youyi": 237,
-      "Xiwo": 83,
-      "Wanxiang": 406,
-      "Tongxin": 55,
+      "Audi": 892164,
+      "Infiniti": 13341,
+      "Citroen": 905533,
+      "Mazda": 291798,
+      "Volkswagen": 1824716,
+      "Peugeot": 1254209,
+      "Porsche": 83729,
+      "Otros": 639957,
+      "Renault": 1096150,
+      "Dongfeng": 199067,
+      "Suzuki": 285311,
+      "Perodua": 4639,
+      "Mitsubishi": 266898,
+      "Iveco": 165454,
+      "Nissan": 855517,
+      "Changan": 48434,
+      "Subaru": 39076,
+      "JAC": 59615,
+      "Chang'an Di Ai Shi": 131434,
+      "Toyota": 891181,
+      "Seat": 558016,
+      "Mercedes-Benz": 1004852,
+      "Hyundai": 608035,
+      "Ford": 894516,
+      "Chery": 113740,
+      "Volvo": 206119,
+      "BMW": 832111,
+      "Fiat": 377961,
+      "Opel": 461892,
+      "Geely": 32936,
+      "Baojun": 22494,
+      "Chevrolet": 157298,
+      "BYD": 118849,
+      "Land Rover": 91882,
+      "Dayun": 3021,
+      "KIA": 517135,
+      "Bentley": 6562,
+      "Buick": 122541,
+      "Skoda": 261011,
+      "Shuchi": 277,
+      "Trumpchi": 26870,
+      "JEEP": 184101,
+      "Lexus": 76647,
+      "Foton": 74366,
+      "Fukuda Shidai": 8889,
+      "Roewe": 35000,
+      "BMW MINI": 63015,
+      "Yutong": 35840,
+      "Honda": 229373,
+      "Kairui": 7020,
+      "Benz SMART": 24062,
+      "Lamborghini": 3849,
+      "MG": 112183,
+      "Suzhou Jinglong": 11905,
+      "Shuanglong": 46025,
+      "FAW": 14028,
+      "Higer": 27228,
+      "Chrysler": 20613,
+      "Tesla": 63222,
+      "Changhe": 6209,
+      "Hafei": 8803,
+      "Shenlong": 42349,
+      "JMC": 15743,
+      "GMC": 14367,
+      "Jinbei": 6072,
+      "Cadillac": 25804,
+      "CNHTC": 6471,
+      "Venucia": 8575,
+      "Jaguar": 49942,
+      "LINCOLN": 4666,
+      "Hentong": 2323,
+      "JETOUR": 3880,
+      "Zotye": 28293,
+      "Zhidou": 1740,
+      "Xiamen Golden Dragon": 30731,
+      "HAVAL": 5664,
+      "Yongyuan Motor": 2960,
+      "Fábrica de vehículos de Pequín/BAW": 5467,
+      "SGMW": 29062,
+      "Autobús Yangtse": 802,
+      "Qingling/Isuzu": 19829,
+      "Hongyan Motor": 216,
+      "Lianhua Motor": 3331,
+      "Changan Oushang": 5195,
+      "ISUZU": 4385,
+      "Acura": 5937,
+      "FERRARI": 2380,
+      "Beijing Motor": 15991,
+      "Huanghai Motor": 4929,
+      "Shudu": 46,
+      "Ruiling": 1659,
+      "SOUEAST": 6474,
+      "Lifan": 6059,
+      "Mustang": 1892,
+      "Zhonghua": 5716,
+      "Great Wall": 5089,
+      "Autobús Ankai": 5577,
+      "Dafa": 2266,
+      "Maserati": 7890,
+      "Autobús Dayu": 5583,
+      "ALFA ROMEO": 21174,
+      "Haima": 11718,
+      "Yuancheng": 1055,
+      "CAKY": 2578,
+      "DENZA": 533,
+      "Dodge": 9981,
+      "Changfeng": 2595,
+      "YOGOMO": 1811,
+      "SAAB": 5541,
+      "NIO": 5846,
+      "Linian": 719,
+      "Yuejin Motor": 5456,
+      "Weltmeiter": 2709,
+      "Wu Zhou Long": 480,
+      "Kaiyi": 1079,
+      "Lynk & Co": 12749,
+      "Jiangnan": 298,
+      "Huatai": 1596,
+      "Huapu Motor": 1239,
+      "Shengwo Bus": 868,
+      "Kama": 397,
+      "Shenye": 164,
+      "Beiben": 4877,
+      "Zhongxing": 1688,
+      "Scania": 7582,
+      "Hino": 3902,
+      "Shanghai Huizhong": 1210,
+      "Na Zhi Jie": 1891,
+      "Neoplan": 1037,
+      "Nanjing Jinlong": 3531,
+      "Yinlong": 2057,
+      "Shaanxi Motor": 241,
+      "Jiulong": 504,
+      "Autobús Yaxing": 1401,
+      "Land Wind": 4110,
+      "JMMC": 213,
+      "Shuanghuan Motor": 1231,
+      "Yudo": 348,
+      "Tangjun": 1869,
+      "Shangrao": 373,
+      "Hualing Xingma Motor": 522,
+      "Ora": 5205,
+      "Meiya": 52,
+      "EVCRRC": 647,
+      "BORGWARD": 509,
+      "MITSUOKA": 139,
+      "LEVDEO": 455,
+      "Joven": 1045,
+      "Wanda": 30,
+      "Changlong": 485,
+      "GreenWheel": 1616,
+      "Ji'ao": 528,
+      "Ayvip": 229,
+      "BAIC Weiwang": 1696,
+      "Fudi": 291,
+      "Junma": 932,
+      "Zhinuo": 1593,
+      "Rolls-Royce": 1787,
+      "Shaolin": 554,
+      "Hongxing": 113,
+      "Camión Beiben/vehículo Beiben": 424,
+      "Jijiang": 82,
+      "Guanzhi": 991,
+      "SWM": 438,
+      "BISU": 344,
+      "Beifang": 390,
+      "Yangzi": 126,
+      "BRABUS": 52,
+      "HUMMER": 89,
+      "Sanhuan": 95,
+      "Yongyuan Feidie": 678,
+      "Hanjiang": 49,
+      "Hanteng": 481,
+      "Beiqi Yinxiang": 452,
+      "CHTC": 146,
+      "MAYBACH": 186,
+      "FQT": 75,
+      "Weiling Motor": 313,
+      "Panther": 140,
+      "Zoomlion": 379,
+      "Zhongshun": 35,
+      "Huaili": 128,
+      "Youyi": 273,
+      "Xiwo": 93,
+      "Wanxiang": 460,
+      "Tongxin": 65,
       "LANCIA": 3,
-      "ASTON MARTIN": 130,
-      "Baolong": 82,
-      "Shanqi": 141,
-      "Union": 16,
-      "Zhongda Motor": 89,
-      "Shidai Fengling/Shifeng": 32,
-      "McLaren": 374,
-      "Sany Heavy Industry": 157,
-      "Kawei": 29,
-      "Nanjun": 7,
+      "ASTON MARTIN": 148,
+      "Baolong": 97,
+      "Shanqi": 170,
+      "Union": 18,
+      "Zhongda Motor": 107,
+      "Shidai Fengling/Shifeng": 37,
+      "McLaren": 432,
+      "Sany Heavy Industry": 183,
+      "Kawei": 32,
+      "Nanjun": 9,
       "Tianma": 9,
-      "Kandi": 8,
-      "Dima": 24,
-      "Hengshan": 52,
-      "UD": 88,
+      "Kandi": 9,
+      "Dima": 25,
+      "Hengshan": 56,
+      "UD": 105,
       "Xin Da Di": 11,
-      "Xugong": 93,
-      "STARTECH": 16,
-      "Concedido": 36,
-      "Dearcc": 108,
-      "Qiling T3": 87,
-      "NLM": 71,
-      "Chuanjiao": 7,
-      "Yixing": 32,
-      "Feichi": 10,
+      "Xugong": 107,
+      "STARTECH": 19,
+      "Concedido": 47,
+      "Dearcc": 129,
+      "Qiling T3": 103,
+      "NLM": 93,
+      "Chuanjiao": 8,
+      "Yixing": 34,
+      "Feichi": 11,
       "Chuanma": 26,
-      "Guojin": 20,
-      "Chufeng": 40,
-      "Denway": 8,
-      "Lada": 6,
-      "Hangtian Yuantong": 15,
-      "Guangzhou Yunbao": 9,
-      "Nanjing Auto": 9,
+      "Guojin": 22,
+      "Chufeng": 53,
+      "Denway": 11,
+      "Lada": 8,
+      "Hangtian Yuantong": 19,
+      "Guangzhou Yunbao": 13,
+      "Nanjing Auto": 11,
       "Carlsson": 4,
       "Jiachuan": 6,
       "LOTUS NYO": 9,
       "Lishan": 2,
       "Wanfeng": 2,
-      "Dadi": 9,
+      "Dadi": 10,
       "SOYAT": 6,
       "Qingqi": 2,
-      "ZTRV": 4,
+      "ZTRV": 5,
       "BONLUCK": 4,
       "SPACE AUTO": 3,
+      "Wudan": 1,
       "FAW-Liut": 2,
       "Dongwo": 3,
       "Yingtian": 2
     },
     "byTipo": {
-      "SUV/MPV": 6916250,
-      "Coche de salón": 6119681,
-      "Camión ligero": 234926,
-      "Bus": 195317,
-      "Camioneta pickup": 66390,
-      "Monovolumen": 1212335,
-      "Camión": 104538,
-      "Otros": 730342
+      "SUV/MPV": 8036519,
+      "Coche de salón": 7085242,
+      "Camión ligero": 279303,
+      "Bus": 227366,
+      "Camioneta pickup": 76948,
+      "Monovolumen": 1413566,
+      "Camión": 125941,
+      "Otros": 730386
     },
     "porMes": {
       "2025-04": {
@@ -14637,6 +14988,1534 @@
           }
         }
       },
+      "2025-12": {
+        "camara": {
+          "Avda. Papa Luna - C. Madrid LPR": 82065,
+          "Estibaliz LPR": 311739,
+          "Ratlla Del Terme - CV-140 LPR": 211494,
+          "Rotonda Abellers - Avda.Estacion LPR": 203837,
+          "Rotonda La Volta Oeste LPR": 36802,
+          "Calle Irta - San Antonio LPR": 27610,
+          "Avda. Papa Luna - Benicarló LPR": 21518,
+          "Assegador De La Creu LPR": 18796,
+          "Acceso Casco Antiguo - Calle M.Roca LPR": 7286
+        },
+        "pais": {
+          "No compatible": 137375,
+          "España": 681620,
+          "Bélgica": 3856,
+          "Países Bajos": 3884,
+          "Suiza": 1828,
+          "Alemania": 19803,
+          "Georgia": 5758,
+          "Francia": 21026,
+          "Italia": 4331,
+          "Gran Bretaña": 7908,
+          "Finlandia": 247,
+          "Rumanía": 2002,
+          "Portugal": 2271,
+          "Armenia": 1532,
+          "Israel": 794,
+          "Kirguistán": 2802,
+          "Uzbekistán": 152,
+          "República de Belarús": 2688,
+          "Mongolia": 3384,
+          "Polonia": 757,
+          "Estado de Palestina": 364,
+          "Turquía": 1039,
+          "Estonia": 1279,
+          "Ucrania": 5093,
+          "No reconocido": 3452,
+          "Región CIS": 1153,
+          "Albania": 225,
+          "Eslovaquia": 78,
+          "Kazajistán": 300,
+          "Azerbaiyán": 121,
+          "Dinamarca": 129,
+          "Macedonia del Norte": 85,
+          "Bulgaria": 914,
+          "Austria": 501,
+          "Croacia": 114,
+          "Hungría": 93,
+          "Bosnia y Herzegovina": 23,
+          "Irlanda": 361,
+          "República Checa": 499,
+          "Lituania": 336,
+          "Letonia": 62,
+          "Suecia": 179,
+          "Luxemburgo": 300,
+          "Malta": 99,
+          "Kosovo": 33,
+          "Islandia": 29,
+          "Liechtenstein": 62,
+          "Eslovenia": 110,
+          "Moldavia": 82,
+          "Serbia": 3,
+          "Grecia": 8,
+          "Chipre": 2,
+          "Turkmenistán": 1
+        },
+        "color": {
+          "White": 338326,
+          "Negro": 268201,
+          "Gris": 176998,
+          "Azul": 44691,
+          "Marrón": 5166,
+          "Amarillo": 9976,
+          "Verde": 11373,
+          "Rojo": 65460,
+          "Morado": 177,
+          "Cian": 670,
+          "Rosa": 105,
+          "Otros colores": 4
+        },
+        "marca": {
+          "BYD": 9865,
+          "BMW": 40066,
+          "Citroen": 42662,
+          "Skoda": 13088,
+          "Audi": 42074,
+          "Seat": 24331,
+          "Chery": 8296,
+          "Chevrolet": 9264,
+          "Peugeot": 57532,
+          "Dayun": 366,
+          "Volkswagen": 92583,
+          "Volvo": 9387,
+          "Mazda": 13952,
+          "JEEP": 11831,
+          "Tesla": 4101,
+          "Suzuki": 21318,
+          "Mercedes-Benz": 47203,
+          "Renault": 51194,
+          "KIA": 25362,
+          "Yutong": 2557,
+          "Nissan": 44755,
+          "Toyota": 43831,
+          "Geely": 2204,
+          "Dongfeng": 15494,
+          "MG": 6693,
+          "Ford": 44614,
+          "Otros": 35741,
+          "Foton": 4970,
+          "Hyundai": 30171,
+          "Jaguar": 2299,
+          "BMW MINI": 3776,
+          "SOUEAST": 445,
+          "Mitsubishi": 15989,
+          "JAC": 4170,
+          "Opel": 21173,
+          "Hino": 302,
+          "JMC": 799,
+          "Changan Oushang": 339,
+          "Chang'an Di Ai Shi": 6345,
+          "Honda": 11309,
+          "NIO": 430,
+          "Porsche": 5273,
+          "GreenWheel": 140,
+          "Lexus": 3343,
+          "Roewe": 2561,
+          "Buick": 5454,
+          "Fiat": 21044,
+          "FAW": 735,
+          "Acura": 330,
+          "Land Rover": 4520,
+          "Subaru": 2349,
+          "Chrysler": 1080,
+          "Beijing Motor": 965,
+          "Fukuda Shidai": 743,
+          "Lifan": 376,
+          "GMC": 1252,
+          "Huanghai Motor": 301,
+          "Dodge": 630,
+          "Maserati": 363,
+          "Lamborghini": 300,
+          "Land Wind": 292,
+          "Jinbei": 315,
+          "SGMW": 2035,
+          "Shenlong": 2624,
+          "Iveco": 8414,
+          "Changan": 2775,
+          "Yuancheng": 56,
+          "Benz SMART": 1819,
+          "Venucia": 618,
+          "Higer": 1445,
+          "Zhidou": 126,
+          "Xiamen Golden Dragon": 1853,
+          "Cadillac": 1266,
+          "Joven": 80,
+          "Haima": 700,
+          "Zotye": 2188,
+          "Yinlong": 105,
+          "Lynk & Co": 641,
+          "Autobús Yaxing": 92,
+          "Mustang": 140,
+          "Perodua": 255,
+          "HAVAL": 247,
+          "BAIC Weiwang": 132,
+          "Kairui": 420,
+          "Baojun": 1239,
+          "Rolls-Royce": 186,
+          "LINCOLN": 296,
+          "FERRARI": 161,
+          "Changhe": 436,
+          "Shuanghuan Motor": 83,
+          "Trumpchi": 1499,
+          "Na Zhi Jie": 100,
+          "Ruiling": 122,
+          "Hafei": 580,
+          "Shuanglong": 2044,
+          "Nanjing Jinlong": 285,
+          "Zhongxing": 130,
+          "Beiben": 210,
+          "Fábrica de vehículos de Pequín/BAW": 473,
+          "Guanzhi": 93,
+          "DENZA": 41,
+          "Yudo": 11,
+          "Sany Heavy Industry": 11,
+          "Ora": 400,
+          "Yongyuan Motor": 196,
+          "Hentong": 148,
+          "ALFA ROMEO": 1001,
+          "Zhonghua": 343,
+          "Infiniti": 686,
+          "Autobús Dayu": 156,
+          "YOGOMO": 89,
+          "Bentley": 470,
+          "EVCRRC": 30,
+          "Dafa": 164,
+          "JETOUR": 133,
+          "Meiya": 5,
+          "Autobús Ankai": 254,
+          "Dearcc": 18,
+          "Suzhou Jinglong": 590,
+          "Wu Zhou Long": 31,
+          "Wanxiang": 25,
+          "Qingling/Isuzu": 814,
+          "Weltmeiter": 175,
+          "Tangjun": 82,
+          "CNHTC": 340,
+          "Junma": 89,
+          "Changlong": 25,
+          "BORGWARD": 25,
+          "Shanghai Huizhong": 59,
+          "Yuejin Motor": 295,
+          "Neoplan": 56,
+          "Lada": 2,
+          "Shengwo Bus": 45,
+          "Jiulong": 42,
+          "Great Wall": 288,
+          "Shenye": 11,
+          "ISUZU": 249,
+          "Lianhua Motor": 198,
+          "Jiangnan": 16,
+          "Hanteng": 32,
+          "Changfeng": 157,
+          "LEVDEO": 18,
+          "Yongyuan Feidie": 33,
+          "BISU": 20,
+          "CAKY": 131,
+          "Hualing Xingma Motor": 29,
+          "Scania": 363,
+          "JMMC": 10,
+          "SAAB": 212,
+          "Zhinuo": 62,
+          "Kama": 24,
+          "Huapu Motor": 71,
+          "Sanhuan": 2,
+          "Shangrao": 32,
+          "Kaiyi": 32,
+          "Shanqi": 14,
+          "Fudi": 25,
+          "CHTC": 7,
+          "Ayvip": 14,
+          "Autobús Yangtse": 51,
+          "Shidai Fengling/Shifeng": 2,
+          "McLaren": 25,
+          "Youyi": 21,
+          "Beifang": 37,
+          "Linian": 49,
+          "Hongxing": 9,
+          "Qiling T3": 6,
+          "Zoomlion": 27,
+          "Baolong": 12,
+          "Shaolin": 27,
+          "Hongyan Motor": 14,
+          "Shudu": 2,
+          "Huatai": 86,
+          "Wanda": 2,
+          "MITSUOKA": 5,
+          "Ji'ao": 45,
+          "Zhongda Motor": 4,
+          "Weiling Motor": 18,
+          "Beiqi Yinxiang": 31,
+          "Shaanxi Motor": 6,
+          "Chufeng": 5,
+          "Xugong": 9,
+          "Yangzi": 3,
+          "FQT": 5,
+          "Panther": 11,
+          "Hanjiang": 1,
+          "Zhongshun": 1,
+          "MAYBACH": 16,
+          "Guangzhou Yunbao": 3,
+          "NLM": 9,
+          "SWM": 15,
+          "Camión Beiben/vehículo Beiben": 18,
+          "BRABUS": 3,
+          "UD": 5,
+          "Xiwo": 5,
+          "Huaili": 5,
+          "Shuchi": 16,
+          "Tongxin": 2,
+          "HUMMER": 3,
+          "Kawei": 1,
+          "Concedido": 5,
+          "Jijiang": 3,
+          "Nanjun": 1,
+          "Hengshan": 2,
+          "ASTON MARTIN": 3,
+          "Yixing": 1,
+          "Nanjing Auto": 2,
+          "Wudan": 1,
+          "Denway": 1,
+          "ZTRV": 1,
+          "Hangtian Yuantong": 2,
+          "Kandi": 1
+        },
+        "tipo": {
+          "SUV/MPV": 415890,
+          "Coche de salón": 379049,
+          "Monovolumen": 85642,
+          "Camión": 6712,
+          "Camión ligero": 16867,
+          "Bus": 12299,
+          "Camioneta pickup": 4644,
+          "Otros": 44
+        },
+        "hora": {
+          "0": {
+            "Avance": 3111,
+            "Retroceso": 3773,
+            "Otro": 0
+          },
+          "1": {
+            "Avance": 1564,
+            "Retroceso": 1675,
+            "Otro": 0
+          },
+          "2": {
+            "Avance": 814,
+            "Retroceso": 943,
+            "Otro": 0
+          },
+          "3": {
+            "Avance": 589,
+            "Retroceso": 715,
+            "Otro": 0
+          },
+          "4": {
+            "Avance": 610,
+            "Retroceso": 677,
+            "Otro": 0
+          },
+          "5": {
+            "Avance": 1761,
+            "Retroceso": 1809,
+            "Otro": 0
+          },
+          "6": {
+            "Avance": 4033,
+            "Retroceso": 4242,
+            "Otro": 0
+          },
+          "7": {
+            "Avance": 13017,
+            "Retroceso": 12686,
+            "Otro": 1
+          },
+          "8": {
+            "Avance": 21402,
+            "Retroceso": 22958,
+            "Otro": 0
+          },
+          "9": {
+            "Avance": 25820,
+            "Retroceso": 26818,
+            "Otro": 47
+          },
+          "10": {
+            "Avance": 32007,
+            "Retroceso": 33185,
+            "Otro": 4
+          },
+          "11": {
+            "Avance": 37280,
+            "Retroceso": 38593,
+            "Otro": 4
+          },
+          "12": {
+            "Avance": 39059,
+            "Retroceso": 39428,
+            "Otro": 4
+          },
+          "13": {
+            "Avance": 37505,
+            "Retroceso": 38844,
+            "Otro": 4
+          },
+          "14": {
+            "Avance": 29871,
+            "Retroceso": 30012,
+            "Otro": 3
+          },
+          "15": {
+            "Avance": 28596,
+            "Retroceso": 29426,
+            "Otro": 17
+          },
+          "16": {
+            "Avance": 31940,
+            "Retroceso": 32433,
+            "Otro": 6
+          },
+          "17": {
+            "Avance": 35364,
+            "Retroceso": 34885,
+            "Otro": 11
+          },
+          "18": {
+            "Avance": 34321,
+            "Retroceso": 33980,
+            "Otro": 11
+          },
+          "19": {
+            "Avance": 28195,
+            "Retroceso": 28593,
+            "Otro": 1
+          },
+          "20": {
+            "Avance": 20717,
+            "Retroceso": 21420,
+            "Otro": 2
+          },
+          "21": {
+            "Avance": 12612,
+            "Retroceso": 13850,
+            "Otro": 0
+          },
+          "22": {
+            "Avance": 8442,
+            "Retroceso": 9115,
+            "Otro": 0
+          },
+          "23": {
+            "Avance": 5921,
+            "Retroceso": 6420,
+            "Otro": 1
+          }
+        },
+        "camaraHora": {
+          "Avda. Papa Luna - C. Madrid LPR": {
+            "0": {
+              "av": 217,
+              "re": 390,
+              "ot": 0
+            },
+            "1": {
+              "av": 88,
+              "re": 199,
+              "ot": 0
+            },
+            "2": {
+              "av": 53,
+              "re": 116,
+              "ot": 0
+            },
+            "3": {
+              "av": 45,
+              "re": 82,
+              "ot": 0
+            },
+            "4": {
+              "av": 51,
+              "re": 41,
+              "ot": 0
+            },
+            "5": {
+              "av": 35,
+              "re": 149,
+              "ot": 0
+            },
+            "6": {
+              "av": 123,
+              "re": 238,
+              "ot": 0
+            },
+            "7": {
+              "av": 503,
+              "re": 978,
+              "ot": 1
+            },
+            "8": {
+              "av": 938,
+              "re": 3709,
+              "ot": 0
+            },
+            "9": {
+              "av": 1547,
+              "re": 2556,
+              "ot": 4
+            },
+            "10": {
+              "av": 2310,
+              "re": 3182,
+              "ot": 1
+            },
+            "11": {
+              "av": 2806,
+              "re": 3743,
+              "ot": 0
+            },
+            "12": {
+              "av": 2917,
+              "re": 3837,
+              "ot": 0
+            },
+            "13": {
+              "av": 2494,
+              "re": 4879,
+              "ot": 0
+            },
+            "14": {
+              "av": 1645,
+              "re": 3185,
+              "ot": 0
+            },
+            "15": {
+              "av": 1466,
+              "re": 3533,
+              "ot": 3
+            },
+            "16": {
+              "av": 2013,
+              "re": 3986,
+              "ot": 0
+            },
+            "17": {
+              "av": 2380,
+              "re": 3769,
+              "ot": 0
+            },
+            "18": {
+              "av": 2631,
+              "re": 3901,
+              "ot": 1
+            },
+            "19": {
+              "av": 2055,
+              "re": 3469,
+              "ot": 0
+            },
+            "20": {
+              "av": 1500,
+              "re": 2708,
+              "ot": 0
+            },
+            "21": {
+              "av": 737,
+              "re": 1876,
+              "ot": 0
+            },
+            "22": {
+              "av": 532,
+              "re": 1197,
+              "ot": 0
+            },
+            "23": {
+              "av": 346,
+              "re": 899,
+              "ot": 1
+            }
+          },
+          "Estibaliz LPR": {
+            "0": {
+              "av": 1245,
+              "re": 1027,
+              "ot": 0
+            },
+            "1": {
+              "av": 572,
+              "re": 525,
+              "ot": 0
+            },
+            "2": {
+              "av": 305,
+              "re": 270,
+              "ot": 0
+            },
+            "3": {
+              "av": 257,
+              "re": 149,
+              "ot": 0
+            },
+            "4": {
+              "av": 273,
+              "re": 215,
+              "ot": 0
+            },
+            "5": {
+              "av": 786,
+              "re": 486,
+              "ot": 0
+            },
+            "6": {
+              "av": 2008,
+              "re": 1157,
+              "ot": 0
+            },
+            "7": {
+              "av": 4077,
+              "re": 4414,
+              "ot": 0
+            },
+            "8": {
+              "av": 6174,
+              "re": 7646,
+              "ot": 0
+            },
+            "9": {
+              "av": 8777,
+              "re": 9152,
+              "ot": 12
+            },
+            "10": {
+              "av": 11285,
+              "re": 11055,
+              "ot": 0
+            },
+            "11": {
+              "av": 12080,
+              "re": 13539,
+              "ot": 0
+            },
+            "12": {
+              "av": 11881,
+              "re": 15065,
+              "ot": 0
+            },
+            "13": {
+              "av": 11045,
+              "re": 15089,
+              "ot": 0
+            },
+            "14": {
+              "av": 9909,
+              "re": 11072,
+              "ot": 0
+            },
+            "15": {
+              "av": 9873,
+              "re": 9993,
+              "ot": 0
+            },
+            "16": {
+              "av": 10269,
+              "re": 9931,
+              "ot": 0
+            },
+            "17": {
+              "av": 10963,
+              "re": 12024,
+              "ot": 0
+            },
+            "18": {
+              "av": 10879,
+              "re": 12033,
+              "ot": 0
+            },
+            "19": {
+              "av": 9785,
+              "re": 9948,
+              "ot": 0
+            },
+            "20": {
+              "av": 8110,
+              "re": 6610,
+              "ot": 0
+            },
+            "21": {
+              "av": 5335,
+              "re": 4036,
+              "ot": 0
+            },
+            "22": {
+              "av": 3726,
+              "re": 2448,
+              "ot": 0
+            },
+            "23": {
+              "av": 2699,
+              "re": 1530,
+              "ot": 0
+            }
+          },
+          "Ratlla Del Terme - CV-140 LPR": {
+            "0": {
+              "av": 715,
+              "re": 1286,
+              "ot": 0
+            },
+            "1": {
+              "av": 395,
+              "re": 485,
+              "ot": 0
+            },
+            "2": {
+              "av": 188,
+              "re": 252,
+              "ot": 0
+            },
+            "3": {
+              "av": 129,
+              "re": 220,
+              "ot": 0
+            },
+            "4": {
+              "av": 126,
+              "re": 148,
+              "ot": 0
+            },
+            "5": {
+              "av": 528,
+              "re": 335,
+              "ot": 0
+            },
+            "6": {
+              "av": 696,
+              "re": 741,
+              "ot": 0
+            },
+            "7": {
+              "av": 3502,
+              "re": 3210,
+              "ot": 0
+            },
+            "8": {
+              "av": 5563,
+              "re": 5678,
+              "ot": 0
+            },
+            "9": {
+              "av": 5697,
+              "re": 7112,
+              "ot": 5
+            },
+            "10": {
+              "av": 6120,
+              "re": 8333,
+              "ot": 0
+            },
+            "11": {
+              "av": 7276,
+              "re": 9822,
+              "ot": 0
+            },
+            "12": {
+              "av": 7777,
+              "re": 9652,
+              "ot": 0
+            },
+            "13": {
+              "av": 7611,
+              "re": 8923,
+              "ot": 0
+            },
+            "14": {
+              "av": 6088,
+              "re": 6935,
+              "ot": 0
+            },
+            "15": {
+              "av": 5830,
+              "re": 6917,
+              "ot": 0
+            },
+            "16": {
+              "av": 6470,
+              "re": 9103,
+              "ot": 0
+            },
+            "17": {
+              "av": 6861,
+              "re": 9573,
+              "ot": 0
+            },
+            "18": {
+              "av": 7070,
+              "re": 8543,
+              "ot": 0
+            },
+            "19": {
+              "av": 6246,
+              "re": 6691,
+              "ot": 0
+            },
+            "20": {
+              "av": 4529,
+              "re": 5277,
+              "ot": 0
+            },
+            "21": {
+              "av": 2675,
+              "re": 3262,
+              "ot": 0
+            },
+            "22": {
+              "av": 1730,
+              "re": 2188,
+              "ot": 0
+            },
+            "23": {
+              "av": 1219,
+              "re": 1762,
+              "ot": 0
+            }
+          },
+          "Rotonda Abellers - Avda.Estacion LPR": {
+            "0": {
+              "av": 534,
+              "re": 854,
+              "ot": 0
+            },
+            "1": {
+              "av": 256,
+              "re": 368,
+              "ot": 0
+            },
+            "2": {
+              "av": 127,
+              "re": 224,
+              "ot": 0
+            },
+            "3": {
+              "av": 62,
+              "re": 160,
+              "ot": 0
+            },
+            "4": {
+              "av": 71,
+              "re": 217,
+              "ot": 0
+            },
+            "5": {
+              "av": 240,
+              "re": 793,
+              "ot": 0
+            },
+            "6": {
+              "av": 635,
+              "re": 1972,
+              "ot": 0
+            },
+            "7": {
+              "av": 2691,
+              "re": 3330,
+              "ot": 0
+            },
+            "8": {
+              "av": 4298,
+              "re": 4316,
+              "ot": 0
+            },
+            "9": {
+              "av": 4840,
+              "re": 6078,
+              "ot": 15
+            },
+            "10": {
+              "av": 5953,
+              "re": 7751,
+              "ot": 0
+            },
+            "11": {
+              "av": 7851,
+              "re": 8161,
+              "ot": 0
+            },
+            "12": {
+              "av": 9254,
+              "re": 7658,
+              "ot": 0
+            },
+            "13": {
+              "av": 9435,
+              "re": 7039,
+              "ot": 0
+            },
+            "14": {
+              "av": 7081,
+              "re": 6646,
+              "ot": 0
+            },
+            "15": {
+              "av": 6444,
+              "re": 6850,
+              "ot": 0
+            },
+            "16": {
+              "av": 7184,
+              "re": 7074,
+              "ot": 0
+            },
+            "17": {
+              "av": 8865,
+              "re": 6999,
+              "ot": 0
+            },
+            "18": {
+              "av": 8476,
+              "re": 7304,
+              "ot": 0
+            },
+            "19": {
+              "av": 6308,
+              "re": 6721,
+              "ot": 0
+            },
+            "20": {
+              "av": 3947,
+              "re": 5571,
+              "ot": 0
+            },
+            "21": {
+              "av": 2331,
+              "re": 3843,
+              "ot": 0
+            },
+            "22": {
+              "av": 1483,
+              "re": 2757,
+              "ot": 0
+            },
+            "23": {
+              "av": 907,
+              "re": 1863,
+              "ot": 0
+            }
+          },
+          "Rotonda La Volta Oeste LPR": {
+            "0": {
+              "av": 232,
+              "re": 0,
+              "ot": 0
+            },
+            "1": {
+              "av": 128,
+              "re": 0,
+              "ot": 0
+            },
+            "2": {
+              "av": 76,
+              "re": 0,
+              "ot": 0
+            },
+            "3": {
+              "av": 44,
+              "re": 0,
+              "ot": 0
+            },
+            "4": {
+              "av": 53,
+              "re": 0,
+              "ot": 0
+            },
+            "5": {
+              "av": 63,
+              "re": 0,
+              "ot": 0
+            },
+            "6": {
+              "av": 232,
+              "re": 0,
+              "ot": 0
+            },
+            "7": {
+              "av": 1117,
+              "re": 0,
+              "ot": 0
+            },
+            "8": {
+              "av": 2215,
+              "re": 0,
+              "ot": 0
+            },
+            "9": {
+              "av": 2001,
+              "re": 0,
+              "ot": 4
+            },
+            "10": {
+              "av": 2448,
+              "re": 0,
+              "ot": 0
+            },
+            "11": {
+              "av": 2924,
+              "re": 0,
+              "ot": 0
+            },
+            "12": {
+              "av": 3164,
+              "re": 0,
+              "ot": 0
+            },
+            "13": {
+              "av": 3210,
+              "re": 0,
+              "ot": 0
+            },
+            "14": {
+              "av": 2396,
+              "re": 0,
+              "ot": 0
+            },
+            "15": {
+              "av": 2264,
+              "re": 0,
+              "ot": 0
+            },
+            "16": {
+              "av": 2740,
+              "re": 0,
+              "ot": 0
+            },
+            "17": {
+              "av": 2738,
+              "re": 0,
+              "ot": 0
+            },
+            "18": {
+              "av": 2686,
+              "re": 0,
+              "ot": 0
+            },
+            "19": {
+              "av": 2205,
+              "re": 0,
+              "ot": 0
+            },
+            "20": {
+              "av": 1731,
+              "re": 0,
+              "ot": 0
+            },
+            "21": {
+              "av": 1006,
+              "re": 0,
+              "ot": 0
+            },
+            "22": {
+              "av": 659,
+              "re": 0,
+              "ot": 0
+            },
+            "23": {
+              "av": 466,
+              "re": 0,
+              "ot": 0
+            }
+          },
+          "Calle Irta - San Antonio LPR": {
+            "0": {
+              "av": 125,
+              "re": 0,
+              "ot": 0
+            },
+            "1": {
+              "av": 109,
+              "re": 0,
+              "ot": 0
+            },
+            "2": {
+              "av": 53,
+              "re": 0,
+              "ot": 0
+            },
+            "3": {
+              "av": 41,
+              "re": 0,
+              "ot": 0
+            },
+            "4": {
+              "av": 36,
+              "re": 0,
+              "ot": 0
+            },
+            "5": {
+              "av": 88,
+              "re": 0,
+              "ot": 0
+            },
+            "6": {
+              "av": 284,
+              "re": 0,
+              "ot": 0
+            },
+            "7": {
+              "av": 739,
+              "re": 0,
+              "ot": 0
+            },
+            "8": {
+              "av": 1405,
+              "re": 0,
+              "ot": 0
+            },
+            "9": {
+              "av": 1999,
+              "re": 0,
+              "ot": 2
+            },
+            "10": {
+              "av": 2569,
+              "re": 0,
+              "ot": 0
+            },
+            "11": {
+              "av": 2800,
+              "re": 0,
+              "ot": 0
+            },
+            "12": {
+              "av": 2551,
+              "re": 0,
+              "ot": 0
+            },
+            "13": {
+              "av": 2357,
+              "re": 0,
+              "ot": 0
+            },
+            "14": {
+              "av": 1668,
+              "re": 0,
+              "ot": 0
+            },
+            "15": {
+              "av": 1740,
+              "re": 0,
+              "ot": 0
+            },
+            "16": {
+              "av": 2172,
+              "re": 0,
+              "ot": 0
+            },
+            "17": {
+              "av": 2263,
+              "re": 0,
+              "ot": 0
+            },
+            "18": {
+              "av": 1868,
+              "re": 0,
+              "ot": 0
+            },
+            "19": {
+              "av": 1141,
+              "re": 0,
+              "ot": 0
+            },
+            "20": {
+              "av": 689,
+              "re": 0,
+              "ot": 0
+            },
+            "21": {
+              "av": 417,
+              "re": 0,
+              "ot": 0
+            },
+            "22": {
+              "av": 257,
+              "re": 0,
+              "ot": 0
+            },
+            "23": {
+              "av": 237,
+              "re": 0,
+              "ot": 0
+            }
+          },
+          "Avda. Papa Luna - Benicarló LPR": {
+            "0": {
+              "av": 0,
+              "re": 159,
+              "ot": 0
+            },
+            "1": {
+              "av": 4,
+              "re": 69,
+              "ot": 0
+            },
+            "2": {
+              "av": 0,
+              "re": 66,
+              "ot": 0
+            },
+            "3": {
+              "av": 1,
+              "re": 88,
+              "ot": 0
+            },
+            "4": {
+              "av": 0,
+              "re": 35,
+              "ot": 0
+            },
+            "5": {
+              "av": 0,
+              "re": 23,
+              "ot": 0
+            },
+            "6": {
+              "av": 1,
+              "re": 103,
+              "ot": 0
+            },
+            "7": {
+              "av": 0,
+              "re": 512,
+              "ot": 0
+            },
+            "8": {
+              "av": 0,
+              "re": 944,
+              "ot": 0
+            },
+            "9": {
+              "av": 0,
+              "re": 1015,
+              "ot": 0
+            },
+            "10": {
+              "av": 1,
+              "re": 1504,
+              "ot": 0
+            },
+            "11": {
+              "av": 1,
+              "re": 1867,
+              "ot": 0
+            },
+            "12": {
+              "av": 0,
+              "re": 1962,
+              "ot": 0
+            },
+            "13": {
+              "av": 0,
+              "re": 1843,
+              "ot": 0
+            },
+            "14": {
+              "av": 1,
+              "re": 1273,
+              "ot": 0
+            },
+            "15": {
+              "av": 0,
+              "re": 1359,
+              "ot": 0
+            },
+            "16": {
+              "av": 0,
+              "re": 1531,
+              "ot": 0
+            },
+            "17": {
+              "av": 0,
+              "re": 1628,
+              "ot": 0
+            },
+            "18": {
+              "av": 3,
+              "re": 1728,
+              "ot": 0
+            },
+            "19": {
+              "av": 1,
+              "re": 1450,
+              "ot": 0
+            },
+            "20": {
+              "av": 0,
+              "re": 999,
+              "ot": 0
+            },
+            "21": {
+              "av": 0,
+              "re": 633,
+              "ot": 0
+            },
+            "22": {
+              "av": 2,
+              "re": 420,
+              "ot": 0
+            },
+            "23": {
+              "av": 0,
+              "re": 292,
+              "ot": 0
+            }
+          },
+          "Assegador De La Creu LPR": {
+            "0": {
+              "av": 43,
+              "re": 11,
+              "ot": 0
+            },
+            "1": {
+              "av": 12,
+              "re": 8,
+              "ot": 0
+            },
+            "2": {
+              "av": 12,
+              "re": 3,
+              "ot": 0
+            },
+            "3": {
+              "av": 10,
+              "re": 5,
+              "ot": 0
+            },
+            "4": {
+              "av": 0,
+              "re": 2,
+              "ot": 0
+            },
+            "5": {
+              "av": 21,
+              "re": 2,
+              "ot": 0
+            },
+            "6": {
+              "av": 49,
+              "re": 2,
+              "ot": 0
+            },
+            "7": {
+              "av": 387,
+              "re": 62,
+              "ot": 0
+            },
+            "8": {
+              "av": 802,
+              "re": 199,
+              "ot": 0
+            },
+            "9": {
+              "av": 951,
+              "re": 381,
+              "ot": 1
+            },
+            "10": {
+              "av": 1289,
+              "re": 517,
+              "ot": 0
+            },
+            "11": {
+              "av": 1490,
+              "re": 710,
+              "ot": 0
+            },
+            "12": {
+              "av": 1442,
+              "re": 675,
+              "ot": 0
+            },
+            "13": {
+              "av": 1307,
+              "re": 578,
+              "ot": 0
+            },
+            "14": {
+              "av": 1049,
+              "re": 476,
+              "ot": 0
+            },
+            "15": {
+              "av": 934,
+              "re": 390,
+              "ot": 0
+            },
+            "16": {
+              "av": 1028,
+              "re": 483,
+              "ot": 0
+            },
+            "17": {
+              "av": 1223,
+              "re": 497,
+              "ot": 1
+            },
+            "18": {
+              "av": 656,
+              "re": 113,
+              "ot": 0
+            },
+            "19": {
+              "av": 422,
+              "re": 80,
+              "ot": 0
+            },
+            "20": {
+              "av": 187,
+              "re": 38,
+              "ot": 0
+            },
+            "21": {
+              "av": 94,
+              "re": 31,
+              "ot": 0
+            },
+            "22": {
+              "av": 45,
+              "re": 21,
+              "ot": 0
+            },
+            "23": {
+              "av": 45,
+              "re": 12,
+              "ot": 0
+            }
+          },
+          "Acceso Casco Antiguo - Calle M.Roca LPR": {
+            "0": {
+              "av": 0,
+              "re": 46,
+              "ot": 0
+            },
+            "1": {
+              "av": 0,
+              "re": 21,
+              "ot": 0
+            },
+            "2": {
+              "av": 0,
+              "re": 12,
+              "ot": 0
+            },
+            "3": {
+              "av": 0,
+              "re": 11,
+              "ot": 0
+            },
+            "4": {
+              "av": 0,
+              "re": 19,
+              "ot": 0
+            },
+            "5": {
+              "av": 0,
+              "re": 21,
+              "ot": 0
+            },
+            "6": {
+              "av": 5,
+              "re": 29,
+              "ot": 0
+            },
+            "7": {
+              "av": 1,
+              "re": 180,
+              "ot": 0
+            },
+            "8": {
+              "av": 7,
+              "re": 466,
+              "ot": 0
+            },
+            "9": {
+              "av": 8,
+              "re": 524,
+              "ot": 4
+            },
+            "10": {
+              "av": 32,
+              "re": 843,
+              "ot": 3
+            },
+            "11": {
+              "av": 52,
+              "re": 751,
+              "ot": 4
+            },
+            "12": {
+              "av": 73,
+              "re": 579,
+              "ot": 4
+            },
+            "13": {
+              "av": 46,
+              "re": 493,
+              "ot": 4
+            },
+            "14": {
+              "av": 34,
+              "re": 425,
+              "ot": 3
+            },
+            "15": {
+              "av": 45,
+              "re": 384,
+              "ot": 14
+            },
+            "16": {
+              "av": 64,
+              "re": 325,
+              "ot": 6
+            },
+            "17": {
+              "av": 71,
+              "re": 395,
+              "ot": 10
+            },
+            "18": {
+              "av": 52,
+              "re": 358,
+              "ot": 10
+            },
+            "19": {
+              "av": 32,
+              "re": 234,
+              "ot": 1
+            },
+            "20": {
+              "av": 24,
+              "re": 217,
+              "ot": 2
+            },
+            "21": {
+              "av": 17,
+              "re": 169,
+              "ot": 0
+            },
+            "22": {
+              "av": 8,
+              "re": 84,
+              "ot": 0
+            },
+            "23": {
+              "av": 2,
+              "re": 62,
+              "ot": 0
+            }
+          }
+        }
+      },
       "2026-01": {
         "camara": {
           "Rotonda Abellers - Avda.Estacion LPR": 169069,
@@ -22276,9 +24155,1537 @@
             }
           }
         }
+      },
+      "2026-06": {
+        "camara": {
+          "Ratlla Del Terme - CV-140 LPR": 337536,
+          "Avda. Papa Luna - C. Madrid LPR": 158185,
+          "Rotonda Abellers - Avda.Estacion LPR": 280788,
+          "Avda. Papa Luna - Benicarló LPR": 43088,
+          "Estibaliz LPR": 438472,
+          "Rotonda La Volta Oeste LPR": 83120,
+          "Calle Irta - San Antonio LPR": 45026,
+          "Acceso Casco Antiguo - Calle M.Roca LPR": 61539,
+          "Assegador De La Creu LPR": 26591
+        },
+        "pais": {
+          "España": 1206858,
+          "No compatible": 140074,
+          "Georgia": 8610,
+          "Gran Bretaña": 6814,
+          "Italia": 5153,
+          "República de Belarús": 1220,
+          "Bélgica": 6045,
+          "Mongolia": 2261,
+          "Región CIS": 975,
+          "Francia": 43340,
+          "Ucrania": 3173,
+          "Portugal": 5033,
+          "Israel": 406,
+          "Alemania": 14310,
+          "Países Bajos": 4758,
+          "Armenia": 571,
+          "Kirguistán": 1799,
+          "Estonia": 1153,
+          "Albania": 381,
+          "Turquía": 619,
+          "Rumanía": 2459,
+          "Lituania": 394,
+          "Letonia": 67,
+          "Suiza": 2997,
+          "Uzbekistán": 106,
+          "Croacia": 219,
+          "Suecia": 196,
+          "Finlandia": 133,
+          "Kosovo": 28,
+          "Bulgaria": 1151,
+          "Macedonia del Norte": 114,
+          "Estado de Palestina": 425,
+          "No reconocido": 8372,
+          "Austria": 445,
+          "Polonia": 1262,
+          "Moldavia": 61,
+          "Kazajistán": 184,
+          "República Checa": 597,
+          "Luxemburgo": 431,
+          "Hungría": 103,
+          "Dinamarca": 285,
+          "Eslovenia": 55,
+          "Irlanda": 363,
+          "Liechtenstein": 65,
+          "Malta": 98,
+          "Azerbaiyán": 76,
+          "Bosnia y Herzegovina": 24,
+          "Islandia": 13,
+          "Eslovaquia": 32,
+          "Grecia": 7,
+          "Serbia": 3,
+          "Turkmenistán": 21,
+          "Chipre": 6
+        },
+        "color": {
+          "Rojo": 114169,
+          "Negro": 368735,
+          "White": 545848,
+          "Azul": 103635,
+          "Gris": 301084,
+          "Verde": 15126,
+          "Amarillo": 15530,
+          "Marrón": 7993,
+          "Morado": 200,
+          "Cian": 2002,
+          "Rosa": 23
+        },
+        "marca": {
+          "KIA": 43288,
+          "Nissan": 66776,
+          "Chery": 7751,
+          "Chang'an Di Ai Shi": 10939,
+          "Toyota": 74453,
+          "Hyundai": 50325,
+          "Honda": 17768,
+          "Mitsubishi": 20288,
+          "Volkswagen": 145551,
+          "Renault": 89467,
+          "BYD": 7390,
+          "Citroen": 71653,
+          "Mercedes-Benz": 87475,
+          "Ford": 70946,
+          "Iveco": 13900,
+          "Dongfeng": 13482,
+          "Tesla": 4896,
+          "Subaru": 2622,
+          "Audi": 74946,
+          "Seat": 50653,
+          "BMW": 74670,
+          "Peugeot": 104706,
+          "Suzuki": 18132,
+          "Chevrolet": 12487,
+          "Otros": 56590,
+          "NIO": 690,
+          "Geely": 2760,
+          "SGMW": 2164,
+          "JEEP": 12832,
+          "MG": 8495,
+          "Shuanghuan Motor": 101,
+          "Volvo": 17383,
+          "Fábrica de vehículos de Pequín/BAW": 301,
+          "Foton": 7536,
+          "Changan": 6336,
+          "Porsche": 6154,
+          "Roewe": 3182,
+          "Changan Oushang": 557,
+          "BMW MINI": 4501,
+          "Xiamen Golden Dragon": 2500,
+          "Buick": 9999,
+          "Infiniti": 997,
+          "Mazda": 23294,
+          "Haima": 828,
+          "Fiat": 30119,
+          "Hafei": 565,
+          "JAC": 3895,
+          "Opel": 38431,
+          "HAVAL": 423,
+          "Yutong": 3228,
+          "Beiben": 584,
+          "Benz SMART": 1668,
+          "Skoda": 21894,
+          "Nanjing Jinlong": 322,
+          "Beijing Motor": 1744,
+          "Jaguar": 3837,
+          "Changfeng": 189,
+          "Chrysler": 1477,
+          "Bentley": 361,
+          "Land Rover": 7315,
+          "Shuanglong": 3716,
+          "Cadillac": 2194,
+          "Qingling/Isuzu": 1769,
+          "Fukuda Shidai": 508,
+          "GMC": 1067,
+          "SOUEAST": 542,
+          "Rolls-Royce": 177,
+          "Lamborghini": 206,
+          "Zotye": 2111,
+          "JMC": 1467,
+          "Zhongxing": 86,
+          "Zhonghua": 405,
+          "Lexus": 6728,
+          "CNHTC": 472,
+          "Zhidou": 127,
+          "ALFA ROMEO": 1690,
+          "Trumpchi": 2966,
+          "Yongyuan Motor": 234,
+          "Ruiling": 127,
+          "BORGWARD": 68,
+          "FAW": 1014,
+          "Baojun": 2079,
+          "GreenWheel": 91,
+          "Shenlong": 2811,
+          "LINCOLN": 485,
+          "JETOUR": 501,
+          "Ora": 516,
+          "LEVDEO": 41,
+          "Higer": 5169,
+          "DENZA": 74,
+          "Autobús Ankai": 610,
+          "Na Zhi Jie": 117,
+          "Shuchi": 34,
+          "Venucia": 818,
+          "Kairui": 489,
+          "Yinlong": 174,
+          "Lynk & Co": 1251,
+          "Dayun": 115,
+          "Lifan": 326,
+          "Guojin": 2,
+          "Linian": 76,
+          "Dafa": 173,
+          "Huatai": 146,
+          "Suzhou Jinglong": 1855,
+          "Maserati": 537,
+          "Ji'ao": 32,
+          "Great Wall": 382,
+          "Mustang": 142,
+          "Acura": 438,
+          "Perodua": 299,
+          "Guanzhi": 98,
+          "Lianhua Motor": 286,
+          "Changhe": 385,
+          "Junma": 68,
+          "Huanghai Motor": 316,
+          "Weltmeiter": 243,
+          "Scania": 723,
+          "Autobús Dayu": 428,
+          "Dodge": 890,
+          "SAAB": 430,
+          "Zhinuo": 162,
+          "ASTON MARTIN": 15,
+          "Yuancheng": 69,
+          "Qiling T3": 10,
+          "Hangtian Yuantong": 2,
+          "FERRARI": 162,
+          "Land Wind": 255,
+          "Hino": 338,
+          "BISU": 35,
+          "Jinbei": 412,
+          "Tangjun": 170,
+          "Fudi": 16,
+          "McLaren": 33,
+          "BAIC Weiwang": 122,
+          "Yuejin Motor": 491,
+          "CAKY": 217,
+          "Hentong": 84,
+          "Shaolin": 73,
+          "Sany Heavy Industry": 15,
+          "Kaiyi": 227,
+          "Shanghai Huizhong": 67,
+          "Hanteng": 51,
+          "Shengwo Bus": 72,
+          "ISUZU": 324,
+          "Camión Beiben/vehículo Beiben": 46,
+          "Yangzi": 12,
+          "Wu Zhou Long": 44,
+          "Yongyuan Feidie": 58,
+          "EVCRRC": 64,
+          "Joven": 71,
+          "Autobús Yangtse": 33,
+          "Hualing Xingma Motor": 40,
+          "Hengshan": 2,
+          "Ayvip": 25,
+          "Wanxiang": 29,
+          "Jiulong": 36,
+          "Xugong": 5,
+          "YOGOMO": 125,
+          "JMMC": 27,
+          "Huapu Motor": 46,
+          "Neoplan": 69,
+          "Shaanxi Motor": 23,
+          "Beiqi Yinxiang": 27,
+          "Zoomlion": 16,
+          "Youyi": 15,
+          "SWM": 23,
+          "Shidai Fengling/Shifeng": 3,
+          "UD": 12,
+          "BRABUS": 5,
+          "Kama": 30,
+          "Xiwo": 5,
+          "Autobús Yaxing": 84,
+          "Weiling Motor": 17,
+          "Jiangnan": 9,
+          "HUMMER": 5,
+          "Panther": 6,
+          "Dearcc": 3,
+          "FQT": 4,
+          "Yudo": 47,
+          "Sanhuan": 7,
+          "Beifang": 40,
+          "Changlong": 25,
+          "Tongxin": 8,
+          "MAYBACH": 9,
+          "Hanjiang": 5,
+          "Zhongda Motor": 14,
+          "Hongxing": 6,
+          "NLM": 13,
+          "CHTC": 8,
+          "Meiya": 5,
+          "Shanqi": 15,
+          "Shangrao": 19,
+          "Kawei": 2,
+          "Huaili": 4,
+          "Chufeng": 8,
+          "Guangzhou Yunbao": 1,
+          "Baolong": 3,
+          "Union": 2,
+          "MITSUOKA": 8,
+          "Hongyan Motor": 15,
+          "Zhongshun": 3,
+          "STARTECH": 3,
+          "Denway": 2,
+          "Shenye": 2,
+          "Shudu": 1,
+          "Dima": 1,
+          "Yixing": 1,
+          "Jijiang": 5,
+          "Concedido": 6,
+          "Dadi": 1,
+          "Chuanjiao": 1,
+          "Feichi": 1,
+          "Nanjun": 1,
+          "Wanda": 2
+        },
+        "tipo": {
+          "Coche de salón": 586512,
+          "SUV/MPV": 704379,
+          "Monovolumen": 115589,
+          "Bus": 19750,
+          "Camión": 14691,
+          "Camioneta pickup": 5914,
+          "Camión ligero": 27510
+        },
+        "hora": {
+          "0": {
+            "Avance": 10269,
+            "Retroceso": 14967,
+            "Otro": 186
+          },
+          "1": {
+            "Avance": 5004,
+            "Retroceso": 6957,
+            "Otro": 310
+          },
+          "2": {
+            "Avance": 2808,
+            "Retroceso": 3937,
+            "Otro": 384
+          },
+          "3": {
+            "Avance": 1973,
+            "Retroceso": 2568,
+            "Otro": 346
+          },
+          "4": {
+            "Avance": 2030,
+            "Retroceso": 2616,
+            "Otro": 420
+          },
+          "5": {
+            "Avance": 4173,
+            "Retroceso": 4310,
+            "Otro": 377
+          },
+          "6": {
+            "Avance": 10227,
+            "Retroceso": 8653,
+            "Otro": 121
+          },
+          "7": {
+            "Avance": 22225,
+            "Retroceso": 20225,
+            "Otro": 70
+          },
+          "8": {
+            "Avance": 35934,
+            "Retroceso": 33011,
+            "Otro": 215
+          },
+          "9": {
+            "Avance": 44758,
+            "Retroceso": 42473,
+            "Otro": 227
+          },
+          "10": {
+            "Avance": 53092,
+            "Retroceso": 52686,
+            "Otro": 443
+          },
+          "11": {
+            "Avance": 56151,
+            "Retroceso": 56576,
+            "Otro": 692
+          },
+          "12": {
+            "Avance": 55260,
+            "Retroceso": 56589,
+            "Otro": 773
+          },
+          "13": {
+            "Avance": 51067,
+            "Retroceso": 51854,
+            "Otro": 1614
+          },
+          "14": {
+            "Avance": 42241,
+            "Retroceso": 44887,
+            "Otro": 1447
+          },
+          "15": {
+            "Avance": 40059,
+            "Retroceso": 41881,
+            "Otro": 909
+          },
+          "16": {
+            "Avance": 42272,
+            "Retroceso": 47312,
+            "Otro": 1061
+          },
+          "17": {
+            "Avance": 43795,
+            "Retroceso": 47248,
+            "Otro": 953
+          },
+          "18": {
+            "Avance": 47193,
+            "Retroceso": 47378,
+            "Otro": 892
+          },
+          "19": {
+            "Avance": 47079,
+            "Retroceso": 45569,
+            "Otro": 533
+          },
+          "20": {
+            "Avance": 39112,
+            "Retroceso": 39091,
+            "Otro": 507
+          },
+          "21": {
+            "Avance": 27106,
+            "Retroceso": 28320,
+            "Otro": 405
+          },
+          "22": {
+            "Avance": 19449,
+            "Retroceso": 22183,
+            "Otro": 489
+          },
+          "23": {
+            "Avance": 15417,
+            "Retroceso": 20603,
+            "Otro": 383
+          }
+        },
+        "camaraHora": {
+          "Ratlla Del Terme - CV-140 LPR": {
+            "0": {
+              "av": 1647,
+              "re": 5221,
+              "ot": 0
+            },
+            "1": {
+              "av": 756,
+              "re": 1714,
+              "ot": 0
+            },
+            "2": {
+              "av": 385,
+              "re": 873,
+              "ot": 0
+            },
+            "3": {
+              "av": 285,
+              "re": 419,
+              "ot": 0
+            },
+            "4": {
+              "av": 302,
+              "re": 375,
+              "ot": 0
+            },
+            "5": {
+              "av": 1060,
+              "re": 728,
+              "ot": 0
+            },
+            "6": {
+              "av": 2653,
+              "re": 1715,
+              "ot": 0
+            },
+            "7": {
+              "av": 5741,
+              "re": 4556,
+              "ot": 0
+            },
+            "8": {
+              "av": 9486,
+              "re": 8495,
+              "ot": 0
+            },
+            "9": {
+              "av": 9610,
+              "re": 10863,
+              "ot": 0
+            },
+            "10": {
+              "av": 10072,
+              "re": 12544,
+              "ot": 0
+            },
+            "11": {
+              "av": 11293,
+              "re": 12937,
+              "ot": 0
+            },
+            "12": {
+              "av": 11653,
+              "re": 13352,
+              "ot": 0
+            },
+            "13": {
+              "av": 11006,
+              "re": 12367,
+              "ot": 0
+            },
+            "14": {
+              "av": 8577,
+              "re": 11380,
+              "ot": 0
+            },
+            "15": {
+              "av": 8677,
+              "re": 10486,
+              "ot": 0
+            },
+            "16": {
+              "av": 8276,
+              "re": 13635,
+              "ot": 0
+            },
+            "17": {
+              "av": 8477,
+              "re": 12910,
+              "ot": 0
+            },
+            "18": {
+              "av": 9822,
+              "re": 12407,
+              "ot": 0
+            },
+            "19": {
+              "av": 10755,
+              "re": 11583,
+              "ot": 0
+            },
+            "20": {
+              "av": 8398,
+              "re": 9394,
+              "ot": 0
+            },
+            "21": {
+              "av": 5329,
+              "re": 6883,
+              "ot": 0
+            },
+            "22": {
+              "av": 3682,
+              "re": 5330,
+              "ot": 0
+            },
+            "23": {
+              "av": 2804,
+              "re": 6623,
+              "ot": 0
+            }
+          },
+          "Avda. Papa Luna - C. Madrid LPR": {
+            "0": {
+              "av": 1295,
+              "re": 3188,
+              "ot": 0
+            },
+            "1": {
+              "av": 630,
+              "re": 1207,
+              "ot": 0
+            },
+            "2": {
+              "av": 369,
+              "re": 646,
+              "ot": 0
+            },
+            "3": {
+              "av": 228,
+              "re": 362,
+              "ot": 0
+            },
+            "4": {
+              "av": 182,
+              "re": 270,
+              "ot": 0
+            },
+            "5": {
+              "av": 255,
+              "re": 304,
+              "ot": 0
+            },
+            "6": {
+              "av": 723,
+              "re": 706,
+              "ot": 0
+            },
+            "7": {
+              "av": 1552,
+              "re": 1784,
+              "ot": 3
+            },
+            "8": {
+              "av": 3069,
+              "re": 4491,
+              "ot": 1
+            },
+            "9": {
+              "av": 4446,
+              "re": 4888,
+              "ot": 2
+            },
+            "10": {
+              "av": 5174,
+              "re": 5974,
+              "ot": 0
+            },
+            "11": {
+              "av": 4540,
+              "re": 6270,
+              "ot": 3
+            },
+            "12": {
+              "av": 4296,
+              "re": 7420,
+              "ot": 1
+            },
+            "13": {
+              "av": 3655,
+              "re": 6225,
+              "ot": 3
+            },
+            "14": {
+              "av": 2842,
+              "re": 5534,
+              "ot": 2
+            },
+            "15": {
+              "av": 2781,
+              "re": 4668,
+              "ot": 2
+            },
+            "16": {
+              "av": 3177,
+              "re": 5506,
+              "ot": 0
+            },
+            "17": {
+              "av": 3584,
+              "re": 5211,
+              "ot": 1
+            },
+            "18": {
+              "av": 4425,
+              "re": 5134,
+              "ot": 0
+            },
+            "19": {
+              "av": 5053,
+              "re": 5465,
+              "ot": 0
+            },
+            "20": {
+              "av": 4525,
+              "re": 5251,
+              "ot": 3
+            },
+            "21": {
+              "av": 3409,
+              "re": 4434,
+              "ot": 0
+            },
+            "22": {
+              "av": 2595,
+              "re": 4062,
+              "ot": 0
+            },
+            "23": {
+              "av": 1917,
+              "re": 4442,
+              "ot": 0
+            }
+          },
+          "Rotonda Abellers - Avda.Estacion LPR": {
+            "0": {
+              "av": 1076,
+              "re": 2542,
+              "ot": 0
+            },
+            "1": {
+              "av": 520,
+              "re": 1167,
+              "ot": 0
+            },
+            "2": {
+              "av": 267,
+              "re": 633,
+              "ot": 0
+            },
+            "3": {
+              "av": 177,
+              "re": 496,
+              "ot": 0
+            },
+            "4": {
+              "av": 125,
+              "re": 446,
+              "ot": 0
+            },
+            "5": {
+              "av": 469,
+              "re": 1275,
+              "ot": 0
+            },
+            "6": {
+              "av": 1510,
+              "re": 2751,
+              "ot": 0
+            },
+            "7": {
+              "av": 4610,
+              "re": 4526,
+              "ot": 0
+            },
+            "8": {
+              "av": 6808,
+              "re": 6318,
+              "ot": 0
+            },
+            "9": {
+              "av": 7590,
+              "re": 9122,
+              "ot": 0
+            },
+            "10": {
+              "av": 9734,
+              "re": 11343,
+              "ot": 0
+            },
+            "11": {
+              "av": 11824,
+              "re": 10768,
+              "ot": 0
+            },
+            "12": {
+              "av": 12383,
+              "re": 9618,
+              "ot": 0
+            },
+            "13": {
+              "av": 11558,
+              "re": 8644,
+              "ot": 0
+            },
+            "14": {
+              "av": 9179,
+              "re": 8842,
+              "ot": 0
+            },
+            "15": {
+              "av": 8072,
+              "re": 9428,
+              "ot": 0
+            },
+            "16": {
+              "av": 8078,
+              "re": 9576,
+              "ot": 0
+            },
+            "17": {
+              "av": 8612,
+              "re": 9518,
+              "ot": 0
+            },
+            "18": {
+              "av": 9477,
+              "re": 9036,
+              "ot": 0
+            },
+            "19": {
+              "av": 8998,
+              "re": 7248,
+              "ot": 0
+            },
+            "20": {
+              "av": 7717,
+              "re": 6302,
+              "ot": 0
+            },
+            "21": {
+              "av": 5308,
+              "re": 4959,
+              "ot": 0
+            },
+            "22": {
+              "av": 3042,
+              "re": 3925,
+              "ot": 0
+            },
+            "23": {
+              "av": 1865,
+              "re": 3306,
+              "ot": 0
+            }
+          },
+          "Avda. Papa Luna - Benicarló LPR": {
+            "0": {
+              "av": 1,
+              "re": 677,
+              "ot": 0
+            },
+            "1": {
+              "av": 0,
+              "re": 336,
+              "ot": 0
+            },
+            "2": {
+              "av": 0,
+              "re": 128,
+              "ot": 0
+            },
+            "3": {
+              "av": 0,
+              "re": 102,
+              "ot": 0
+            },
+            "4": {
+              "av": 0,
+              "re": 59,
+              "ot": 0
+            },
+            "5": {
+              "av": 0,
+              "re": 96,
+              "ot": 0
+            },
+            "6": {
+              "av": 0,
+              "re": 242,
+              "ot": 0
+            },
+            "7": {
+              "av": 0,
+              "re": 1073,
+              "ot": 0
+            },
+            "8": {
+              "av": 0,
+              "re": 1571,
+              "ot": 0
+            },
+            "9": {
+              "av": 0,
+              "re": 2110,
+              "ot": 0
+            },
+            "10": {
+              "av": 0,
+              "re": 3009,
+              "ot": 0
+            },
+            "11": {
+              "av": 0,
+              "re": 3683,
+              "ot": 0
+            },
+            "12": {
+              "av": 0,
+              "re": 3952,
+              "ot": 0
+            },
+            "13": {
+              "av": 0,
+              "re": 3643,
+              "ot": 0
+            },
+            "14": {
+              "av": 0,
+              "re": 2567,
+              "ot": 0
+            },
+            "15": {
+              "av": 0,
+              "re": 2378,
+              "ot": 0
+            },
+            "16": {
+              "av": 0,
+              "re": 2372,
+              "ot": 0
+            },
+            "17": {
+              "av": 0,
+              "re": 2431,
+              "ot": 0
+            },
+            "18": {
+              "av": 0,
+              "re": 2668,
+              "ot": 0
+            },
+            "19": {
+              "av": 0,
+              "re": 2801,
+              "ot": 0
+            },
+            "20": {
+              "av": 0,
+              "re": 2668,
+              "ot": 0
+            },
+            "21": {
+              "av": 0,
+              "re": 1981,
+              "ot": 0
+            },
+            "22": {
+              "av": 2,
+              "re": 1457,
+              "ot": 0
+            },
+            "23": {
+              "av": 0,
+              "re": 1081,
+              "ot": 0
+            }
+          },
+          "Estibaliz LPR": {
+            "0": {
+              "av": 4232,
+              "re": 2035,
+              "ot": 0
+            },
+            "1": {
+              "av": 1778,
+              "re": 988,
+              "ot": 0
+            },
+            "2": {
+              "av": 936,
+              "re": 555,
+              "ot": 0
+            },
+            "3": {
+              "av": 588,
+              "re": 328,
+              "ot": 0
+            },
+            "4": {
+              "av": 514,
+              "re": 356,
+              "ot": 0
+            },
+            "5": {
+              "av": 1287,
+              "re": 733,
+              "ot": 0
+            },
+            "6": {
+              "av": 3088,
+              "re": 2630,
+              "ot": 0
+            },
+            "7": {
+              "av": 5840,
+              "re": 7808,
+              "ot": 0
+            },
+            "8": {
+              "av": 8724,
+              "re": 11357,
+              "ot": 0
+            },
+            "9": {
+              "av": 13159,
+              "re": 14354,
+              "ot": 0
+            },
+            "10": {
+              "av": 15986,
+              "re": 17378,
+              "ot": 0
+            },
+            "11": {
+              "av": 15561,
+              "re": 19820,
+              "ot": 0
+            },
+            "12": {
+              "av": 14635,
+              "re": 19921,
+              "ot": 0
+            },
+            "13": {
+              "av": 13667,
+              "re": 18390,
+              "ot": 0
+            },
+            "14": {
+              "av": 12677,
+              "re": 14443,
+              "ot": 0
+            },
+            "15": {
+              "av": 12336,
+              "re": 12796,
+              "ot": 0
+            },
+            "16": {
+              "av": 13637,
+              "re": 13203,
+              "ot": 0
+            },
+            "17": {
+              "av": 13713,
+              "re": 14270,
+              "ot": 0
+            },
+            "18": {
+              "av": 13174,
+              "re": 15874,
+              "ot": 0
+            },
+            "19": {
+              "av": 11152,
+              "re": 16300,
+              "ot": 0
+            },
+            "20": {
+              "av": 9492,
+              "re": 13167,
+              "ot": 0
+            },
+            "21": {
+              "av": 7244,
+              "re": 8554,
+              "ot": 0
+            },
+            "22": {
+              "av": 5870,
+              "re": 4880,
+              "ot": 0
+            },
+            "23": {
+              "av": 5650,
+              "re": 3392,
+              "ot": 0
+            }
+          },
+          "Rotonda La Volta Oeste LPR": {
+            "0": {
+              "av": 983,
+              "re": 0,
+              "ot": 0
+            },
+            "1": {
+              "av": 435,
+              "re": 0,
+              "ot": 0
+            },
+            "2": {
+              "av": 254,
+              "re": 0,
+              "ot": 0
+            },
+            "3": {
+              "av": 154,
+              "re": 0,
+              "ot": 0
+            },
+            "4": {
+              "av": 203,
+              "re": 0,
+              "ot": 0
+            },
+            "5": {
+              "av": 365,
+              "re": 0,
+              "ot": 0
+            },
+            "6": {
+              "av": 1336,
+              "re": 0,
+              "ot": 0
+            },
+            "7": {
+              "av": 2461,
+              "re": 0,
+              "ot": 0
+            },
+            "8": {
+              "av": 4381,
+              "re": 0,
+              "ot": 0
+            },
+            "9": {
+              "av": 4844,
+              "re": 0,
+              "ot": 0
+            },
+            "10": {
+              "av": 5846,
+              "re": 0,
+              "ot": 0
+            },
+            "11": {
+              "av": 6579,
+              "re": 0,
+              "ot": 0
+            },
+            "12": {
+              "av": 6985,
+              "re": 0,
+              "ot": 0
+            },
+            "13": {
+              "av": 6453,
+              "re": 0,
+              "ot": 0
+            },
+            "14": {
+              "av": 4890,
+              "re": 0,
+              "ot": 0
+            },
+            "15": {
+              "av": 4601,
+              "re": 0,
+              "ot": 0
+            },
+            "16": {
+              "av": 4670,
+              "re": 0,
+              "ot": 0
+            },
+            "17": {
+              "av": 4682,
+              "re": 0,
+              "ot": 0
+            },
+            "18": {
+              "av": 5079,
+              "re": 0,
+              "ot": 0
+            },
+            "19": {
+              "av": 5949,
+              "re": 0,
+              "ot": 0
+            },
+            "20": {
+              "av": 4798,
+              "re": 0,
+              "ot": 0
+            },
+            "21": {
+              "av": 3313,
+              "re": 0,
+              "ot": 0
+            },
+            "22": {
+              "av": 2232,
+              "re": 0,
+              "ot": 0
+            },
+            "23": {
+              "av": 1627,
+              "re": 0,
+              "ot": 0
+            }
+          },
+          "Calle Irta - San Antonio LPR": {
+            "0": {
+              "av": 361,
+              "re": 0,
+              "ot": 0
+            },
+            "1": {
+              "av": 186,
+              "re": 0,
+              "ot": 0
+            },
+            "2": {
+              "av": 118,
+              "re": 0,
+              "ot": 0
+            },
+            "3": {
+              "av": 51,
+              "re": 0,
+              "ot": 0
+            },
+            "4": {
+              "av": 81,
+              "re": 0,
+              "ot": 0
+            },
+            "5": {
+              "av": 148,
+              "re": 0,
+              "ot": 0
+            },
+            "6": {
+              "av": 468,
+              "re": 0,
+              "ot": 0
+            },
+            "7": {
+              "av": 1179,
+              "re": 0,
+              "ot": 0
+            },
+            "8": {
+              "av": 2110,
+              "re": 0,
+              "ot": 0
+            },
+            "9": {
+              "av": 3433,
+              "re": 0,
+              "ot": 0
+            },
+            "10": {
+              "av": 4022,
+              "re": 0,
+              "ot": 0
+            },
+            "11": {
+              "av": 3807,
+              "re": 0,
+              "ot": 0
+            },
+            "12": {
+              "av": 3237,
+              "re": 0,
+              "ot": 0
+            },
+            "13": {
+              "av": 2854,
+              "re": 0,
+              "ot": 0
+            },
+            "14": {
+              "av": 2348,
+              "re": 0,
+              "ot": 0
+            },
+            "15": {
+              "av": 1981,
+              "re": 0,
+              "ot": 0
+            },
+            "16": {
+              "av": 2702,
+              "re": 0,
+              "ot": 0
+            },
+            "17": {
+              "av": 3000,
+              "re": 0,
+              "ot": 0
+            },
+            "18": {
+              "av": 3398,
+              "re": 0,
+              "ot": 0
+            },
+            "19": {
+              "av": 3447,
+              "re": 0,
+              "ot": 0
+            },
+            "20": {
+              "av": 2709,
+              "re": 0,
+              "ot": 0
+            },
+            "21": {
+              "av": 1710,
+              "re": 0,
+              "ot": 0
+            },
+            "22": {
+              "av": 1013,
+              "re": 0,
+              "ot": 0
+            },
+            "23": {
+              "av": 663,
+              "re": 0,
+              "ot": 0
+            }
+          },
+          "Acceso Casco Antiguo - Calle M.Roca LPR": {
+            "0": {
+              "av": 614,
+              "re": 1252,
+              "ot": 186
+            },
+            "1": {
+              "av": 678,
+              "re": 1519,
+              "ot": 310
+            },
+            "2": {
+              "av": 463,
+              "re": 1092,
+              "ot": 384
+            },
+            "3": {
+              "av": 476,
+              "re": 852,
+              "ot": 346
+            },
+            "4": {
+              "av": 612,
+              "re": 1102,
+              "ot": 420
+            },
+            "5": {
+              "av": 556,
+              "re": 1159,
+              "ot": 377
+            },
+            "6": {
+              "av": 202,
+              "re": 582,
+              "ot": 121
+            },
+            "7": {
+              "av": 127,
+              "re": 299,
+              "ot": 67
+            },
+            "8": {
+              "av": 160,
+              "re": 451,
+              "ot": 214
+            },
+            "9": {
+              "av": 250,
+              "re": 691,
+              "ot": 225
+            },
+            "10": {
+              "av": 703,
+              "re": 1860,
+              "ot": 443
+            },
+            "11": {
+              "av": 893,
+              "re": 2434,
+              "ot": 688
+            },
+            "12": {
+              "av": 458,
+              "re": 1586,
+              "ot": 772
+            },
+            "13": {
+              "av": 449,
+              "re": 1880,
+              "ot": 1611
+            },
+            "14": {
+              "av": 504,
+              "re": 1593,
+              "ot": 1444
+            },
+            "15": {
+              "av": 566,
+              "re": 1672,
+              "ot": 907
+            },
+            "16": {
+              "av": 584,
+              "re": 2564,
+              "ot": 1061
+            },
+            "17": {
+              "av": 570,
+              "re": 2386,
+              "ot": 951
+            },
+            "18": {
+              "av": 606,
+              "re": 1747,
+              "ot": 891
+            },
+            "19": {
+              "av": 503,
+              "re": 1630,
+              "ot": 533
+            },
+            "20": {
+              "av": 442,
+              "re": 1816,
+              "ot": 504
+            },
+            "21": {
+              "av": 260,
+              "re": 1167,
+              "ot": 405
+            },
+            "22": {
+              "av": 837,
+              "re": 2475,
+              "ot": 489
+            },
+            "23": {
+              "av": 771,
+              "re": 1714,
+              "ot": 383
+            }
+          },
+          "Assegador De La Creu LPR": {
+            "0": {
+              "av": 60,
+              "re": 52,
+              "ot": 0
+            },
+            "1": {
+              "av": 21,
+              "re": 26,
+              "ot": 0
+            },
+            "2": {
+              "av": 16,
+              "re": 10,
+              "ot": 0
+            },
+            "3": {
+              "av": 14,
+              "re": 9,
+              "ot": 0
+            },
+            "4": {
+              "av": 11,
+              "re": 8,
+              "ot": 0
+            },
+            "5": {
+              "av": 33,
+              "re": 15,
+              "ot": 0
+            },
+            "6": {
+              "av": 247,
+              "re": 27,
+              "ot": 0
+            },
+            "7": {
+              "av": 715,
+              "re": 179,
+              "ot": 0
+            },
+            "8": {
+              "av": 1196,
+              "re": 328,
+              "ot": 0
+            },
+            "9": {
+              "av": 1426,
+              "re": 445,
+              "ot": 0
+            },
+            "10": {
+              "av": 1555,
+              "re": 578,
+              "ot": 0
+            },
+            "11": {
+              "av": 1654,
+              "re": 664,
+              "ot": 1
+            },
+            "12": {
+              "av": 1613,
+              "re": 740,
+              "ot": 0
+            },
+            "13": {
+              "av": 1425,
+              "re": 705,
+              "ot": 0
+            },
+            "14": {
+              "av": 1224,
+              "re": 528,
+              "ot": 1
+            },
+            "15": {
+              "av": 1045,
+              "re": 453,
+              "ot": 0
+            },
+            "16": {
+              "av": 1148,
+              "re": 456,
+              "ot": 0
+            },
+            "17": {
+              "av": 1157,
+              "re": 522,
+              "ot": 1
+            },
+            "18": {
+              "av": 1212,
+              "re": 512,
+              "ot": 1
+            },
+            "19": {
+              "av": 1222,
+              "re": 542,
+              "ot": 0
+            },
+            "20": {
+              "av": 1031,
+              "re": 493,
+              "ot": 0
+            },
+            "21": {
+              "av": 533,
+              "re": 342,
+              "ot": 0
+            },
+            "22": {
+              "av": 176,
+              "re": 54,
+              "ot": 0
+            },
+            "23": {
+              "av": 120,
+              "re": 45,
+              "ot": 0
+            }
+          }
+        }
       }
     },
-    "total": 15579779,
+    "total": 17975271,
     "entradasSalidasPorMes": {
       "2025-04": {
         "Avance": 84798,
@@ -22320,6 +25727,11 @@
         "Retroceso": 434418,
         "Otro": 630
       },
+      "2025-12": {
+        "Avance": 426855,
+        "Retroceso": 456820,
+        "Otro": 114
+      },
       "2026-01": {
         "Avance": 370165,
         "Retroceso": 405350,
@@ -22344,6 +25756,11 @@
         "Avance": 577222,
         "Retroceso": 645045,
         "Otro": 12849
+      },
+      "2026-06": {
+        "Avance": 653131,
+        "Retroceso": 722720,
+        "Otro": 13757
       }
     },
     "entradasSalidasPorDia": {
@@ -23500,6 +26917,153 @@
         "Retroceso": 15427,
         "Otro": 1
       },
+      "2025-12-31": {
+        "Avance": 14101,
+        "Retroceso": 14375,
+        "Otro": 2
+      },
+      "2025-12-30": {
+        "Avance": 16982,
+        "Retroceso": 17734,
+        "Otro": 3
+      },
+      "2025-12-29": {
+        "Avance": 14583,
+        "Retroceso": 15623,
+        "Otro": 1
+      },
+      "2025-12-28": {
+        "Avance": 10032,
+        "Retroceso": 11072,
+        "Otro": 42
+      },
+      "2025-12-27": {
+        "Avance": 10609,
+        "Retroceso": 11781,
+        "Otro": 1
+      },
+      "2025-12-26": {
+        "Avance": 12437,
+        "Retroceso": 12795,
+        "Otro": 4
+      },
+      "2025-12-25": {
+        "Avance": 7896,
+        "Retroceso": 8509
+      },
+      "2025-12-24": {
+        "Avance": 11851,
+        "Retroceso": 12455
+      },
+      "2025-12-23": {
+        "Avance": 14033,
+        "Retroceso": 15023,
+        "Otro": 1
+      },
+      "2025-12-22": {
+        "Avance": 14428,
+        "Retroceso": 15794,
+        "Otro": 2
+      },
+      "2025-12-21": {
+        "Avance": 11501,
+        "Retroceso": 11983,
+        "Otro": 3
+      },
+      "2025-12-20": {
+        "Avance": 13556,
+        "Retroceso": 14412
+      },
+      "2025-12-19": {
+        "Avance": 14421,
+        "Retroceso": 15870,
+        "Otro": 1
+      },
+      "2025-12-18": {
+        "Avance": 13434,
+        "Retroceso": 15185
+      },
+      "2025-12-17": {
+        "Avance": 11949,
+        "Retroceso": 13603,
+        "Otro": 2
+      },
+      "2025-12-16": {
+        "Avance": 12538,
+        "Retroceso": 13752,
+        "Otro": 1
+      },
+      "2025-12-15": {
+        "Avance": 12137,
+        "Retroceso": 13514,
+        "Otro": 8
+      },
+      "2025-12-14": {
+        "Avance": 7512,
+        "Retroceso": 8385,
+        "Otro": 1
+      },
+      "2025-12-13": {
+        "Avance": 13795,
+        "Retroceso": 14806
+      },
+      "2025-12-12": {
+        "Avance": 14936,
+        "Retroceso": 16001,
+        "Otro": 2
+      },
+      "2025-12-11": {
+        "Avance": 13453,
+        "Retroceso": 14544,
+        "Otro": 4
+      },
+      "2025-12-10": {
+        "Avance": 13675,
+        "Retroceso": 14667,
+        "Otro": 4
+      },
+      "2025-12-09": {
+        "Avance": 14291,
+        "Retroceso": 15552
+      },
+      "2025-12-08": {
+        "Avance": 16338,
+        "Retroceso": 17219
+      },
+      "2025-12-07": {
+        "Avance": 22112,
+        "Retroceso": 22648,
+        "Otro": 5
+      },
+      "2025-12-06": {
+        "Avance": 21270,
+        "Retroceso": 21602,
+        "Otro": 13
+      },
+      "2025-12-05": {
+        "Avance": 17034,
+        "Retroceso": 17362
+      },
+      "2025-12-04": {
+        "Avance": 14389,
+        "Retroceso": 15486,
+        "Otro": 1
+      },
+      "2025-12-03": {
+        "Avance": 13951,
+        "Retroceso": 15186,
+        "Otro": 2
+      },
+      "2025-12-02": {
+        "Avance": 13612,
+        "Retroceso": 14645,
+        "Otro": 10
+      },
+      "2025-12-01": {
+        "Avance": 13999,
+        "Retroceso": 15237,
+        "Otro": 1
+      },
       "2026-01-31": {
         "Avance": 11090,
         "Retroceso": 12094
@@ -24220,128 +27784,278 @@
         "Avance": 20325,
         "Retroceso": 21416,
         "Otro": 1
+      },
+      "2026-06-30": {
+        "Avance": 22520,
+        "Retroceso": 23836,
+        "Otro": 232
+      },
+      "2026-06-29": {
+        "Avance": 23359,
+        "Retroceso": 24855,
+        "Otro": 92
+      },
+      "2026-06-28": {
+        "Avance": 22807,
+        "Retroceso": 24832,
+        "Otro": 103
+      },
+      "2026-06-27": {
+        "Avance": 24697,
+        "Retroceso": 26629,
+        "Otro": 149
+      },
+      "2026-06-26": {
+        "Avance": 25602,
+        "Retroceso": 26783,
+        "Otro": 40
+      },
+      "2026-06-25": {
+        "Avance": 24250,
+        "Retroceso": 26023,
+        "Otro": 55
+      },
+      "2026-06-24": {
+        "Avance": 20686,
+        "Retroceso": 22290,
+        "Otro": 412
+      },
+      "2026-06-23": {
+        "Avance": 22575,
+        "Retroceso": 24144,
+        "Otro": 218
+      },
+      "2026-06-22": {
+        "Avance": 23691,
+        "Retroceso": 26415,
+        "Otro": 275
+      },
+      "2026-06-21": {
+        "Avance": 19850,
+        "Retroceso": 22222,
+        "Otro": 338
+      },
+      "2026-06-20": {
+        "Avance": 24439,
+        "Retroceso": 27327,
+        "Otro": 684
+      },
+      "2026-06-19": {
+        "Avance": 24318,
+        "Retroceso": 27065,
+        "Otro": 330
+      },
+      "2026-06-18": {
+        "Avance": 21154,
+        "Retroceso": 23485,
+        "Otro": 200
+      },
+      "2026-06-17": {
+        "Avance": 19944,
+        "Retroceso": 22024,
+        "Otro": 137
+      },
+      "2026-06-16": {
+        "Avance": 19647,
+        "Retroceso": 21254,
+        "Otro": 152
+      },
+      "2026-06-15": {
+        "Avance": 20805,
+        "Retroceso": 23173,
+        "Otro": 889
+      },
+      "2026-06-14": {
+        "Avance": 20255,
+        "Retroceso": 23631,
+        "Otro": 569
+      },
+      "2026-06-13": {
+        "Avance": 23490,
+        "Retroceso": 26165,
+        "Otro": 708
+      },
+      "2026-06-12": {
+        "Avance": 24251,
+        "Retroceso": 27887,
+        "Otro": 2006
+      },
+      "2026-06-11": {
+        "Avance": 21007,
+        "Retroceso": 25686,
+        "Otro": 1418
+      },
+      "2026-06-10": {
+        "Avance": 19393,
+        "Retroceso": 21637,
+        "Otro": 130
+      },
+      "2026-06-09": {
+        "Avance": 20765,
+        "Retroceso": 23020,
+        "Otro": 342
+      },
+      "2026-06-08": {
+        "Avance": 22119,
+        "Retroceso": 23989,
+        "Otro": 456
+      },
+      "2026-06-07": {
+        "Avance": 19248,
+        "Retroceso": 22093,
+        "Otro": 117
+      },
+      "2026-06-06": {
+        "Avance": 22527,
+        "Retroceso": 24249,
+        "Otro": 392
+      },
+      "2026-06-05": {
+        "Avance": 23951,
+        "Retroceso": 26377,
+        "Otro": 682
+      },
+      "2026-06-04": {
+        "Avance": 19429,
+        "Retroceso": 21325,
+        "Otro": 301
+      },
+      "2026-06-03": {
+        "Avance": 19358,
+        "Retroceso": 22326,
+        "Otro": 619
+      },
+      "2026-06-02": {
+        "Avance": 17986,
+        "Retroceso": 19776,
+        "Otro": 696
+      },
+      "2026-06-01": {
+        "Avance": 19008,
+        "Retroceso": 22202,
+        "Otro": 1015
       }
     },
     "entradasSalidasPorHora": {
       "0": {
-        "Avance": 93307,
-        "Retroceso": 115872,
-        "Otro": 9636
+        "Avance": 106687,
+        "Retroceso": 134612,
+        "Otro": 9822
       },
       "1": {
-        "Avance": 44266,
-        "Retroceso": 53332,
-        "Otro": 4208
+        "Avance": 50834,
+        "Retroceso": 61964,
+        "Otro": 4518
       },
       "2": {
-        "Avance": 22338,
-        "Retroceso": 25911,
-        "Otro": 2126
+        "Avance": 25960,
+        "Retroceso": 30791,
+        "Otro": 2510
       },
       "3": {
-        "Avance": 14940,
-        "Retroceso": 17265,
-        "Otro": 1678
+        "Avance": 17502,
+        "Retroceso": 20548,
+        "Otro": 2024
       },
       "4": {
-        "Avance": 14438,
-        "Retroceso": 15184,
-        "Otro": 1381
+        "Avance": 17078,
+        "Retroceso": 18477,
+        "Otro": 1801
       },
       "5": {
-        "Avance": 35189,
-        "Retroceso": 32284,
-        "Otro": 3247
+        "Avance": 41123,
+        "Retroceso": 38403,
+        "Otro": 3624
       },
       "6": {
-        "Avance": 84761,
-        "Retroceso": 72963,
-        "Otro": 7264
+        "Avance": 99021,
+        "Retroceso": 85858,
+        "Otro": 7385
       },
       "7": {
-        "Avance": 223961,
-        "Retroceso": 200788,
-        "Otro": 20767
+        "Avance": 259203,
+        "Retroceso": 233699,
+        "Otro": 20838
       },
       "8": {
-        "Avance": 363761,
-        "Retroceso": 343618,
-        "Otro": 34861
+        "Avance": 421097,
+        "Retroceso": 399587,
+        "Otro": 35076
       },
       "9": {
-        "Avance": 456420,
-        "Retroceso": 432706,
-        "Otro": 43340
+        "Avance": 526998,
+        "Retroceso": 501997,
+        "Otro": 43614
       },
       "10": {
-        "Avance": 553871,
-        "Retroceso": 540072,
-        "Otro": 55051
+        "Avance": 638970,
+        "Retroceso": 625943,
+        "Otro": 55498
       },
       "11": {
-        "Avance": 610973,
-        "Retroceso": 588547,
-        "Otro": 63739
+        "Avance": 704404,
+        "Retroceso": 683716,
+        "Otro": 64435
       },
       "12": {
-        "Avance": 606210,
-        "Retroceso": 586631,
-        "Otro": 66113
+        "Avance": 700529,
+        "Retroceso": 682648,
+        "Otro": 66890
       },
       "13": {
-        "Avance": 562720,
-        "Retroceso": 551818,
-        "Otro": 60993
+        "Avance": 651292,
+        "Retroceso": 642516,
+        "Otro": 62611
       },
       "14": {
-        "Avance": 452695,
-        "Retroceso": 453556,
-        "Otro": 46457
+        "Avance": 524807,
+        "Retroceso": 528455,
+        "Otro": 47907
       },
       "15": {
-        "Avance": 444394,
-        "Retroceso": 442664,
-        "Otro": 43247
+        "Avance": 513049,
+        "Retroceso": 513971,
+        "Otro": 44173
       },
       "16": {
-        "Avance": 478211,
-        "Retroceso": 496844,
-        "Otro": 45955
+        "Avance": 552423,
+        "Retroceso": 576589,
+        "Otro": 47022
       },
       "17": {
-        "Avance": 489641,
-        "Retroceso": 493403,
-        "Otro": 46611
+        "Avance": 568800,
+        "Retroceso": 575536,
+        "Otro": 47575
       },
       "18": {
-        "Avance": 509957,
-        "Retroceso": 486239,
-        "Otro": 51666
+        "Avance": 591471,
+        "Retroceso": 567597,
+        "Otro": 52569
       },
       "19": {
-        "Avance": 489791,
-        "Retroceso": 443267,
-        "Otro": 46499
+        "Avance": 565065,
+        "Retroceso": 517429,
+        "Otro": 47033
       },
       "20": {
-        "Avance": 390067,
-        "Retroceso": 360693,
-        "Otro": 36790
+        "Avance": 449896,
+        "Retroceso": 421204,
+        "Otro": 37299
       },
       "21": {
-        "Avance": 250257,
-        "Retroceso": 244202,
-        "Otro": 23351
+        "Avance": 289975,
+        "Retroceso": 286372,
+        "Otro": 23756
       },
       "22": {
-        "Avance": 173029,
-        "Retroceso": 175585,
-        "Otro": 16249
+        "Avance": 200920,
+        "Retroceso": 206883,
+        "Otro": 16738
       },
       "23": {
-        "Avance": 139124,
-        "Retroceso": 156650,
-        "Otro": 14135
+        "Avance": 160462,
+        "Retroceso": 183673,
+        "Otro": 14519
       }
     }
   },
@@ -24350,63 +28064,63 @@
       "nombre": "Estibaliz LPR",
       "lat": 40.36763,
       "lng": 0.393503,
-      "count": 4816451,
+      "count": 5566662,
       "fuente": "lpr"
     },
     {
       "nombre": "Ratlla Del Terme - CV-140 LPR",
       "lat": 40.400784,
       "lng": 0.414709,
-      "count": 3567944,
+      "count": 4116974,
       "fuente": "lpr"
     },
     {
       "nombre": "Rotonda La Volta Oeste LPR",
       "lat": 40.393551,
       "lng": 0.408298,
-      "count": 856389,
+      "count": 976311,
       "fuente": "lpr"
     },
     {
       "nombre": "Avda. Papa Luna - C. Madrid LPR",
       "lat": 40.37066,
       "lng": 0.404496,
-      "count": 1691685,
+      "count": 1931935,
       "fuente": "lpr"
     },
     {
       "nombre": "Avda. Papa Luna - Benicarló LPR",
       "lat": 40.399806,
       "lng": 0.417028,
-      "count": 450968,
+      "count": 515574,
       "fuente": "lpr"
     },
     {
       "nombre": "Rotonda Abellers - Avda.Estacion LPR",
       "lat": 40.378614,
       "lng": 0.387877,
-      "count": 3079055,
+      "count": 3563680,
       "fuente": "lpr"
     },
     {
       "nombre": "Acceso Casco Antiguo - Calle M.Roca LPR",
       "lat": 40.357475,
       "lng": 0.405873,
-      "count": 153355,
+      "count": 222180,
       "fuente": "lpr"
     },
     {
       "nombre": "Calle Irta - San Antonio LPR",
       "lat": 40.353433,
       "lng": 0.395024,
-      "count": 512987,
+      "count": 585623,
       "fuente": "lpr"
     },
     {
       "nombre": "Assegador De La Creu LPR",
       "lat": 40.376017,
       "lng": 0.396905,
-      "count": 450945,
+      "count": 496332,
       "fuente": "lpr"
     },
     {
