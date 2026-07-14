@@ -124,9 +124,6 @@
   }
 
   function init() {
-    bind('repo-lpr-btn', '/api/repositorio/lpr', 'repo-lpr-file', 'repo-lpr-status');
-    bind('repo-aforo-btn', '/api/repositorio/aforo', 'repo-aforo-file', 'repo-aforo-status');
-    bind('repo-pesajes-btn', '/api/repositorio/pesajes', 'repo-pesajes-file', 'repo-pesajes-status');
     cargarTodosFicheros();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
