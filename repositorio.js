@@ -1,0 +1,182 @@
+/**
+ * Repositorio de subida de ficheros para el cuadro de mando.
+ * El encargado del ayuntamiento sube desde la web:
+ *   - Residuos: Excel de pesajes  (POST /api/repositorio/pesajes)
+ *   - Cámaras LPR: CSV de matrículas  (POST /api/repositorio/lpr)
+ *   - Cámaras aforo: CSV multiobjeto  (POST /api/repositorio/aforo)
+ * Al subir se guardan en su carpeta (sustituyendo el mismo mes) y se lanza el
+ * reproceso correspondiente en segundo plano. El estado se consulta en
+ *   GET /api/repositorio/estado
+ *
+ * Pensado para el servidor donde viven los datos y los scripts (no en Render).
+ */
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const { spawn } = require('child_process');
+const multer = require('multer');
+
+const ROOT = __dirname;
+const TMP = path.join(ROOT, 'data', '_uploads_tmp');
+const PESAJES_DIR = path.join(ROOT, 'data', 'RESIDUOS', 'pesajes');
+const LPR_DIR = path.join(ROOT, 'data', 'camaras', 'Trafico_camaras', 'CSV');
+const AFORO_DIR = path.join(ROOT, 'data', 'camaras', 'Camaras_Multiobjeto', 'CSV');
+const BASELINE = path.join(ROOT, 'data', 'camaras', 'camaras_conocidas.json');
+
+const MESES = { enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6, julio: 7, agosto: 8, septiembre: 9, octubre: 10, noviembre: 11, diciembre: 12 };
+
+if (!fs.existsSync(TMP)) fs.mkdirSync(TMP, { recursive: true });
+const upload = multer({
+    storage: multer.diskStorage({ destination: (r, f, cb) => cb(null, TMP), filename: (r, f, cb) => cb(null, Date.now() + '_' + f.originalname.replace(/[^\w.\-() ñÑáéíóúÁÉÍÓÚ]/g, '_')) }),
+    limits: { fileSize: 400 * 1024 * 1024 } // 400 MB (los CSV de matrículas pesan mucho)
+});
+
+// Estado global compartido (un reproceso pesado a la vez).
+const estado = { procesando: false, tipo: null, inicio: null, ultimo: null };
+
+function nombreLimpio(orig) { return orig.replace(/[^\w.\-() ñÑáéíóúÁÉÍÓÚ]/g, '_'); }
+
+// --- Inferencia de mes/año ---
+function inferPesajes(nombre) {
+    const stem = nombre.replace(/\.(xlsx|xls)$/i, '');
+    const low = stem.toLowerCase();
+    let month = null, year = null;
+    const lead = stem.match(/^(\d{1,2})\s*-\s*/);
+    if (lead) { const m = parseInt(lead[1], 10); if (m >= 1 && m <= 12) month = m; }
+    if (!month) for (const [n, num] of Object.entries(MESES)) { if (low.includes(n)) { month = num; break; } }
+    const y4 = stem.match(/\b(20\d{2})\b/);
+    if (y4) year = parseInt(y4[1], 10);
+    else { const y2 = stem.match(/(\d{2})\s*(?:\([^)]*\))?\s*$/); if (y2) { const n = parseInt(y2[1], 10); year = n <= 40 ? 2000 + n : 1900 + n; } }
+    return { month, year };
+}
+function ymLpr(nombre) {
+    const m6 = nombre.match(/(20\d{2})(\d{2})/); // 202606
+    if (m6) return m6[1].slice(2) + m6[2];
+    const m4 = nombre.match(/^(\d{2})(\d{2})\b/); // 2606
+    if (m4) return m4[1] + m4[2];
+    return null;
+}
+
+function limpiarTmp(files) { (files || []).forEach((f) => { try { fs.unlinkSync(f.path); } catch (_) {} }); }
+
+// --- Reproceso en segundo plano ---
+function camarasNuevas() {
+    try {
+        if (!fs.existsSync(BASELINE)) return [];
+        const base = JSON.parse(fs.readFileSync(BASELINE, 'utf8'));
+        const d = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'camaras', 'todos.json'), 'utf8'));
+        const actualesLpr = Object.keys((d.lpr && d.lpr.byCamara) || {});
+        const conocidas = new Set(base.lpr || []);
+        return actualesLpr.filter((c) => !conocidas.has(c));
+    } catch (_) { return []; }
+}
+function lanzarReproceso(tipo, ficheros) {
+    estado.procesando = true; estado.tipo = tipo; estado.inicio = Date.now();
+    const cmd = tipo === 'pesajes' ? { c: 'python', a: ['preparar_datos.py'] } : { c: 'node', a: ['procesar_camaras.js'] };
+    let out = '';
+    const proc = spawn(cmd.c, cmd.a, { cwd: ROOT });
+    proc.stdout.on('data', (d) => { out += d.toString(); });
+    proc.stderr.on('data', (d) => { out += d.toString(); });
+    proc.on('close', (code) => {
+        const nuevas = tipo === 'pesajes' ? [] : camarasNuevas();
+        estado.procesando = false;
+        estado.ultimo = {
+            tipo, ok: code === 0, fin: new Date().toISOString(), ficheros,
+            camarasNuevas: nuevas,
+            mensaje: code === 0
+                ? `Procesado correctamente${nuevas.length ? '. ⚠ Cámaras LPR nuevas detectadas: ' + nuevas.join(', ') : ''}`
+                : ('Error al procesar (código ' + code + '). ' + out.split('\n').slice(-4).join(' ').slice(0, 300))
+        };
+        console.log('[repositorio] Reproceso', tipo, code === 0 ? 'OK' : 'FALLÓ', nuevas.length ? '(nuevas: ' + nuevas.join(', ') + ')' : '');
+    });
+    proc.on('error', (e) => { estado.procesando = false; estado.ultimo = { tipo, ok: false, fin: new Date().toISOString(), ficheros, mensaje: 'No se pudo lanzar el reproceso: ' + e.message }; });
+}
+
+function registrar(app) {
+    // --- Pesajes (Excel) ---
+    app.post('/api/repositorio/pesajes', upload.array('file', 24), (req, res) => {
+        if (estado.procesando) { limpiarTmp(req.files); return res.status(409).json({ ok: false, error: 'Ya hay un reproceso en curso, espera a que termine.' }); }
+        const files = req.files || [];
+        if (!files.length) return res.status(400).json({ ok: false, error: 'No se recibió ningún fichero.' });
+        const guardados = [];
+        for (const f of files) {
+            if (!/\.(xlsx|xls)$/i.test(f.originalname)) { limpiarTmp([f]); continue; }
+            const { year } = inferPesajes(f.originalname);
+            const anio = year || new Date().getFullYear();
+            const dir = path.join(PESAJES_DIR, String(anio));
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+            // sustituye el mismo mes (mismo prefijo "MM -")
+            const lead = f.originalname.match(/^(\d{1,2})\s*-/);
+            if (lead) { for (const ex of fs.readdirSync(dir)) { const l2 = ex.match(/^(\d{1,2})\s*-/); if (l2 && parseInt(l2[1], 10) === parseInt(lead[1], 10)) { try { fs.unlinkSync(path.join(dir, ex)); } catch (_) {} } } }
+            const dest = path.join(dir, nombreLimpio(f.originalname));
+            fs.renameSync(f.path, dest);
+            guardados.push(path.relative(ROOT, dest));
+        }
+        if (!guardados.length) return res.status(400).json({ ok: false, error: 'Los ficheros no son Excel (.xlsx/.xls).' });
+        lanzarReproceso('pesajes', guardados);
+        res.json({ ok: true, guardados, procesando: true, mensaje: 'Ficheros guardados. Reprocesando residuos…' });
+    });
+
+    // --- Cámaras LPR (CSV de matrículas) ---
+    app.post('/api/repositorio/lpr', upload.array('file', 24), (req, res) => {
+        if (estado.procesando) { limpiarTmp(req.files); return res.status(409).json({ ok: false, error: 'Ya hay un reproceso en curso, espera a que termine.' }); }
+        const files = req.files || [];
+        if (!files.length) return res.status(400).json({ ok: false, error: 'No se recibió ningún fichero.' });
+        if (!fs.existsSync(LPR_DIR)) fs.mkdirSync(LPR_DIR, { recursive: true });
+        const guardados = [];
+        for (const f of files) {
+            if (!/\.csv$/i.test(f.originalname)) { limpiarTmp([f]); continue; }
+            const ym = ymLpr(f.originalname);
+            // sustituye el mismo mes para no duplicar
+            if (ym) { for (const ex of fs.readdirSync(LPR_DIR)) { if (ymLpr(ex) === ym) { try { fs.unlinkSync(path.join(LPR_DIR, ex)); } catch (_) {} } } }
+            const dest = path.join(LPR_DIR, nombreLimpio(f.originalname));
+            fs.renameSync(f.path, dest);
+            guardados.push(path.relative(ROOT, dest));
+        }
+        if (!guardados.length) return res.status(400).json({ ok: false, error: 'Los ficheros no son CSV.' });
+        lanzarReproceso('camaras', guardados);
+        res.json({ ok: true, guardados, procesando: true, mensaje: 'CSV guardados. Reprocesando cámaras…' });
+    });
+
+    // --- Cámaras aforo (CSV multiobjeto) ---
+    app.post('/api/repositorio/aforo', upload.array('file', 24), (req, res) => {
+        if (estado.procesando) { limpiarTmp(req.files); return res.status(409).json({ ok: false, error: 'Ya hay un reproceso en curso, espera a que termine.' }); }
+        const files = req.files || [];
+        if (!files.length) return res.status(400).json({ ok: false, error: 'No se recibió ningún fichero.' });
+        if (!fs.existsSync(AFORO_DIR)) fs.mkdirSync(AFORO_DIR, { recursive: true });
+        const carpetas = fs.existsSync(AFORO_DIR) ? fs.readdirSync(AFORO_DIR).filter((n) => fs.statSync(path.join(AFORO_DIR, n)).isDirectory()) : [];
+        const guardados = [];
+        for (const f of files) {
+            if (!/\.csv$/i.test(f.originalname)) { limpiarTmp([f]); continue; }
+            // lee cabecera (latin1) para sacar la cámara ("Objetivo de estadísticas: X")
+            let cabecera = '';
+            try { cabecera = fs.readFileSync(f.path, 'latin1').slice(0, 2000); } catch (_) {}
+            const mCam = cabecera.match(/Objetivo de estad[ií]sticas:\s*([^;\n\r"]+)/i);
+            const camara = mCam ? mCam[1].trim() : '';
+            // busca carpeta existente cuyo nombre (sin "NN - ") coincida
+            let folder = camara && carpetas.find((c) => c.replace(/^\d+\s*-\s*/, '').trim().toLowerCase() === camara.toLowerCase());
+            if (!folder) folder = camara || 'Sin cámara';
+            const dir = path.join(AFORO_DIR, folder);
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+            const dest = path.join(dir, nombreLimpio(f.originalname));
+            fs.renameSync(f.path, dest);
+            guardados.push(path.relative(ROOT, dest) + (camara ? '  (' + camara + ')' : ''));
+        }
+        if (!guardados.length) return res.status(400).json({ ok: false, error: 'Los ficheros no son CSV.' });
+        lanzarReproceso('camaras', guardados);
+        res.json({ ok: true, guardados, procesando: true, mensaje: 'CSV de aforo guardados. Reprocesando cámaras…' });
+    });
+
+    // --- Estado del reproceso ---
+    app.get('/api/repositorio/estado', (req, res) => {
+        res.json({ procesando: estado.procesando, tipo: estado.tipo, desde: estado.inicio, ultimo: estado.ultimo });
+    });
+
+    // Errores de multer (tamaño, etc.)
+    app.use('/api/repositorio', (err, req, res, next) => {
+        if (err) return res.status(400).json({ ok: false, error: err.message || 'Error en la subida' });
+        next();
+    });
+}
+
+module.exports = { registrar };

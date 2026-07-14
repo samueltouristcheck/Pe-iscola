@@ -106,6 +106,9 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
+// Repositorio de subida (pesajes / LPR / aforo) + reproceso automático
+try { require('./repositorio').registrar(app); } catch (e) { console.warn('[repositorio] no disponible:', e.message); }
+
 // Health check público (Render lo usa para "is the service alive?")
 app.get('/api/status', (req, res) => res.json({ ok: true, server: 'Node.js', htmlReport: true }));
 

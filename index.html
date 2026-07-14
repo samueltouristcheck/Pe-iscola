@@ -32,6 +32,8 @@
         <a href="#" class="nav-item" data-section="camaras-multiobjeto"><span class="nav-icon">🗺️</span><span>Afluencia (mapa)</span></a>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-calles"><span class="nav-icon">🔥</span><span>Calles concurridas</span></a>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-detalle"><span class="nav-icon">📷</span><span>Por cámara</span></a>
+        <div class="nav-group-label" style="padding:.4rem .9rem .2rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:600">Gestión</div>
+        <a href="#" class="nav-item" data-section="camaras-repositorio"><span class="nav-icon">📤</span><span>Repositorio (subir datos)</span></a>
       </nav>
       <nav class="nav" id="nav-residuos" style="display:none">
         <a href="#" class="nav-item active" data-section="kpis"><span class="nav-icon">📊</span><span>KPIs</span></a>
@@ -41,6 +43,7 @@
         <a href="#" class="nav-item" data-section="zonas"><span class="nav-icon">📍</span><span>Por zonas</span></a>
         <a href="#" class="nav-item" data-section="comparacion-tipos"><span class="nav-icon">📈</span><span>Comparación tipos</span></a>
         <a href="#" class="nav-item" data-section="tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
+        <a href="#" class="nav-item" data-section="residuos-repositorio"><span class="nav-icon">📤</span><span>Repositorio (subir datos)</span></a>
       </nav>
       <nav class="nav" id="nav-turismo" style="display:none">
         <a href="#" class="nav-item active" data-section="turismo-resumen"><span class="nav-icon">✨</span><span>Resumen</span></a>
@@ -336,6 +339,30 @@
         </div>
       </section>
 
+      <!-- ===== REPOSITORIO: subir datos de cámaras ===== -->
+      <section id="section-camaras-repositorio" class="section">
+        <div class="turismo-section-card" style="margin-bottom:1rem">
+          <h3 class="section-title">📤 Repositorio de datos de cámaras</h3>
+          <p class="turismo-chart-hint">Sube aquí los export de HikCentral y el cuadro de mando se actualiza solo (el proceso tarda unos minutos). Se sustituye automáticamente el mismo mes para no duplicar. Si aparece una cámara LPR nueva, se avisa al terminar.</p>
+        </div>
+        <div class="camaras-charts-row">
+          <div class="camaras-chart-card">
+            <h4>🚗 Matrículas (LPR)</h4>
+            <p class="turismo-chart-hint" style="margin-bottom:.6rem">CSV de matrículas, uno por mes. Ej: <code>202607 Matriculas Jul 26.csv</code></p>
+            <input type="file" id="repo-lpr-file" accept=".csv" multiple style="display:block;margin-bottom:.6rem">
+            <button type="button" id="repo-lpr-btn" class="reload-btn">Subir y procesar</button>
+            <div id="repo-lpr-status" class="repo-status" style="margin-top:.8rem;font-size:.9rem"></div>
+          </div>
+          <div class="camaras-chart-card">
+            <h4>👥 Aforo (multiobjeto)</h4>
+            <p class="turismo-chart-hint" style="margin-bottom:.6rem">CSV <code>Análisis de tipo multiobjetivo…</code> (la cámara se detecta del propio fichero).</p>
+            <input type="file" id="repo-aforo-file" accept=".csv" multiple style="display:block;margin-bottom:.6rem">
+            <button type="button" id="repo-aforo-btn" class="reload-btn">Subir y procesar</button>
+            <div id="repo-aforo-status" class="repo-status" style="margin-top:.8rem;font-size:.9rem"></div>
+          </div>
+        </div>
+      </section>
+
       </div>
 
       <div id="main-residuos" style="display:none">
@@ -482,6 +509,21 @@
           <div class="residuos-section-card">
             <h3 class="section-title">Tablas</h3>
             <div id="tablas-root" class="tablas-root"></div>
+          </div>
+        </section>
+
+        <!-- ===== REPOSITORIO: subir datos de residuos ===== -->
+        <section id="section-residuos-repositorio" class="section">
+          <div class="residuos-section-card">
+            <h3 class="section-title">📤 Repositorio de datos de residuos</h3>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Sube aquí el <strong>Excel de pesajes</strong> del mes y el cuadro de mando se actualiza solo (tarda unos minutos). Se sustituye automáticamente el mismo mes para no duplicar. El camión (API) ya se descarga solo.</p>
+            <div style="max-width:560px">
+              <h4>⚖️ Pesajes (Excel)</h4>
+              <p class="turismo-chart-hint" style="margin-bottom:.6rem">Ej: <code>07 - Pesajes julio 26.xlsx</code>. Puedes subir varios meses a la vez.</p>
+              <input type="file" id="repo-pesajes-file" accept=".xlsx,.xls" multiple style="display:block;margin-bottom:.6rem">
+              <button type="button" id="repo-pesajes-btn" class="reload-btn">Subir y procesar</button>
+              <div id="repo-pesajes-status" class="repo-status" style="margin-top:.8rem;font-size:.9rem"></div>
+            </div>
           </div>
         </section>
       </div>
@@ -1245,6 +1287,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=91"></script>
+  <script src="js/dashboard.js?v=92"></script>
+  <script src="js/repositorio.js?v=1"></script>
 </body>
 </html>
