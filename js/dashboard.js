@@ -2640,9 +2640,9 @@
   }
   function gpFmtKg(n) { return (Math.round(n || 0)).toLocaleString('es-ES') + ' kg'; }
   function gpDestroy(k) { if (_gpCharts[k]) { _gpCharts[k].destroy(); _gpCharts[k] = null; } }
-  function gpAgg(mes, estab) {
-    // Suma fracciones respetando filtros. mes='' = todos los meses; estab='' = todos.
-    var meses = mes ? [mes] : _gpData.meses;
+  function gpAgg(meses, estab) {
+    // Suma fracciones sobre la lista de meses dada. estab='' = todos los establecimientos.
+    meses = meses || _gpData.meses;
     var porEstab = {};
     var totalFrac = { envases: 0, organica: 0, papel: 0 };
     meses.forEach(function (m) {
@@ -2661,25 +2661,36 @@
   function renderGrandesProductores() {
     var render = function () {
       if (!_gpData || !_gpData.meses || !_gpData.meses.length) return;
-      // Selectores (una vez)
+      // Selectores
+      var selAnio = document.getElementById('gp-anio');
       var selMes = document.getElementById('gp-mes');
       var selEstab = document.getElementById('gp-estab');
-      if (!_gpFiltrosInit && selMes && selEstab) {
-        var gpMesNombre = function (ym) { return MESES[parseInt(String(ym).split('-')[1], 10) - 1] || ym; };
-        var gpMesCuenta = {};
-        _gpData.meses.forEach(function (m) { var n = gpMesNombre(m); gpMesCuenta[n] = (gpMesCuenta[n] || 0) + 1; });
-        var gpMesOpt = function (m) { var n = gpMesNombre(m); return gpMesCuenta[n] > 1 ? n + ' ' + String(m).split('-')[0] : n; };
-        selMes.innerHTML = '<option value="">Todos los meses</option>' + _gpData.meses.slice().reverse().map(function (m) { return '<option value="' + m + '">' + gpMesOpt(m) + '</option>'; }).join('');
+      var gpMesNombre = function (ym) { return MESES[parseInt(String(ym).split('-')[1], 10) - 1] || ym; };
+      // Rellena el desplegable de meses según el año elegido (solo nombre del mes).
+      var rellenaMeses = function (anioSel, keep) {
+        if (!selMes) return;
+        var lista = _gpData.meses.filter(function (m) { return !anioSel || m.split('-')[0] === anioSel; });
+        selMes.innerHTML = '<option value="">Todos los meses</option>' + lista.slice().reverse().map(function (m) { return '<option value="' + m + '">' + gpMesNombre(m) + '</option>'; }).join('');
+        if (keep && lista.indexOf(keep) >= 0) selMes.value = keep;
+      };
+      if (!_gpFiltrosInit && selAnio && selMes && selEstab) {
+        var anios = Array.from(new Set(_gpData.meses.map(function (m) { return m.split('-')[0]; }))).sort();
+        selAnio.innerHTML = '<option value="">Todos los años</option>' + anios.map(function (a) { return '<option value="' + a + '">' + a + '</option>'; }).join('');
+        rellenaMeses('', '');
         selEstab.innerHTML = '<option value="">Todos los establecimientos</option>' + _gpData.establecimientos.map(function (e) { return '<option value="' + e.replace(/"/g, '&quot;') + '">' + e + '</option>'; }).join('');
+        selAnio.addEventListener('change', function () { rellenaMeses(selAnio.value, ''); render(); });
         selMes.addEventListener('change', render);
         selEstab.addEventListener('change', render);
         _gpFiltrosInit = true;
       }
+      var anio = selAnio ? selAnio.value : '';
       var mes = selMes ? selMes.value : '';
       var estab = selEstab ? selEstab.value : '';
+      // Meses activos según año/mes seleccionados.
+      var mesesActivos = mes ? [mes] : _gpData.meses.filter(function (m) { return !anio || m.split('-')[0] === anio; });
       var per = document.getElementById('gp-periodo');
-      if (per) per.textContent = (mes ? gpMesLbl(mes) : gpMesLbl(_gpData.meses[0]) + ' – ' + gpMesLbl(_gpData.meses[_gpData.meses.length - 1])) + ' · actualizado ' + (_gpData.actualizado || '');
-      var ag = gpAgg(mes, estab);
+      if (per) per.textContent = (mesesActivos.length ? (mesesActivos.length === 1 ? gpMesLbl(mesesActivos[0]) : gpMesLbl(mesesActivos[0]) + ' – ' + gpMesLbl(mesesActivos[mesesActivos.length - 1])) : '—') + ' · actualizado ' + (_gpData.actualizado || '');
+      var ag = gpAgg(mesesActivos, estab);
       var entries = Object.entries(ag.porEstab).sort(function (a, b) { return b[1].total - a[1].total; });
       var pct = function (v) { return ag.total ? (100 * v / ag.total).toFixed(1).replace('.', ',') + ' %' : '0 %'; };
       // KPIs
@@ -2689,10 +2700,10 @@
         { l: 'Orgánica', v: gpFmtKg(ag.totalFrac.organica), sub: pct(ag.totalFrac.organica) },
         { l: 'Envases mezclados', v: gpFmtKg(ag.totalFrac.envases), sub: pct(ag.totalFrac.envases) },
         { l: 'Papel/Cartón', v: gpFmtKg(ag.totalFrac.papel), sub: pct(ag.totalFrac.papel) },
-        { l: mes ? 'Establecimientos' : 'Media mensual', v: mes ? String(entries.length) : gpFmtKg(ag.total / (ag.nMeses || 1)), sub: mes ? 'con datos' : ag.nMeses + ' meses' }
+        { l: mesesActivos.length === 1 ? 'Establecimientos' : 'Media mensual', v: mesesActivos.length === 1 ? String(entries.length) : gpFmtKg(ag.total / (ag.nMeses || 1)), sub: mesesActivos.length === 1 ? 'con datos' : ag.nMeses + ' meses' }
       ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span><span class="turismo-mini-kpi-sub">' + it.sub + '</span></div>'; }).join('');
-      // Ranking (respeta mes; ignora estab para no dejar una sola barra)
-      var agRank = gpAgg(mes, '');
+      // Ranking (respeta año/mes; ignora estab para no dejar una sola barra)
+      var agRank = gpAgg(mesesActivos, '');
       var rank = Object.entries(agRank.porEstab).sort(function (a, b) { return b[1].total - a[1].total; });
       gpDestroy('ranking');
       var cR = document.getElementById('chart-gp-ranking');
@@ -2716,14 +2727,15 @@
         data: { labels: ['Orgánica', 'Envases mezclados', 'Papel/Cartón'], datasets: [{ data: [Math.round(ag.totalFrac.organica), Math.round(ag.totalFrac.envases), Math.round(ag.totalFrac.papel)], backgroundColor: ['#16a34a', '#f59e0b', '#2563eb'] }] },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (c) { return c.label + ': ' + gpFmtKg(c.raw); } } } } }
       });
-      // Evolución mensual (respeta estab; ignora mes)
+      // Evolución mensual (respeta año y estab; ignora el mes concreto)
       gpDestroy('evolucion');
+      var evolMeses = _gpData.meses.filter(function (m) { return !anio || m.split('-')[0] === anio; });
       var cE = document.getElementById('chart-gp-evolucion');
       if (cE) _gpCharts['evolucion'] = new Chart(cE, {
         type: 'line',
         data: {
-          labels: _gpData.meses.map(gpMesLbl),
-          datasets: [{ label: 'kg totales' + (estab ? ' · ' + estab : ''), data: _gpData.meses.map(function (m) { return Math.round(gpAgg(m, estab).total); }), borderColor: '#0ea5e9', backgroundColor: 'rgba(14,165,233,0.15)', fill: true, tension: 0.3, pointRadius: 3 }]
+          labels: evolMeses.map(gpMesLbl),
+          datasets: [{ label: 'kg totales' + (estab ? ' · ' + estab : ''), data: evolMeses.map(function (m) { return Math.round(gpAgg([m], estab).total); }), borderColor: '#0ea5e9', backgroundColor: 'rgba(14,165,233,0.15)', fill: true, tension: 0.3, pointRadius: 3 }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return gpFmtKg(c.raw); } } } }, scales: { y: { beginAtZero: true, ticks: { callback: function (v) { return (v / 1000) + ' t'; } } } } }
       });
