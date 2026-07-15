@@ -4682,7 +4682,25 @@
       ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
       destroyTurismoChart('busquedas');
       var c = document.getElementById('chart-turismo-busquedas');
-      if (c) turismoCharts['busquedas'] = new Chart(c, { type: 'bar', data: { labels: ['Turistas', 'Reservas'], datasets: [{ data: [k.turistas, k.reservas], backgroundColor: ['#2563eb', '#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+      var serie = d.serieAnual || [{ anio: k.anio, turistas: k.turistas, reservas: k.reservas }];
+      if (c) turismoCharts['busquedas'] = new Chart(c, {
+        type: 'bar',
+        data: {
+          labels: serie.map(function (x) { return x.anio; }),
+          datasets: [
+            { type: 'bar', label: 'Turistas', data: serie.map(function (x) { return x.turistas; }), backgroundColor: '#2563eb', yAxisID: 'y', order: 2 },
+            { type: 'line', label: 'Reservas', data: serie.map(function (x) { return x.reservas; }), borderColor: '#f59e0b', backgroundColor: '#f59e0b', tension: 0.3, pointRadius: 4, yAxisID: 'y1', order: 1 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ': ' + tFmtNum(ctx.raw); } } } },
+          scales: {
+            y: { position: 'left', beginAtZero: true, title: { display: true, text: 'Turistas' } },
+            y1: { position: 'right', beginAtZero: true, grid: { drawOnChartArea: false }, title: { display: true, text: 'Reservas' } }
+          }
+        }
+      });
     };
     if (_sitBusquedas) { render(_sitBusquedas); return; }
     var url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/sit_busquedas_manual.json') : '/data/TURISMO/sit_busquedas_manual.json';
@@ -4949,6 +4967,12 @@
           const h2 = header.querySelector('h2');
           if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];
         }
+        // Las secciones del SIT-CV (gasto/demanda/reputación) traen sus propios
+        // datos/periodo y NO dependen de la barra global año/mes/categoría de
+        // turismo: se oculta esa barra en ellas para que no parezca que "no filtra".
+        const barTur = document.querySelector('#main-turismo .turismo-filters-bar');
+        const sitSecs = ['turismo-gasto', 'turismo-busquedas', 'turismo-reputacion'];
+        if (barTur) barTur.style.display = sitSecs.indexOf(el.dataset.section) >= 0 ? 'none' : '';
         setTimeout(() => renderTurismoAll(), 80);
       });
     });

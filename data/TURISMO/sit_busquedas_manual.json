@@ -1,7 +1,7 @@
 {
   "fuente": "SIT CV (Invat·tur) · Alquiler vacacional online · Lighthouse Intelligence (Airbnb / Booking / Vrbo)",
-  "nota": "Datos leídos manualmente del SIT-CV (Power BI, sin API). Provincia = Castellón, municipio de destino = Peñíscola. Actualizar cada mes desde smarttourismcv.invattur.org → Visualizaciones genéricas → Alojamientos → Alquiler vacacional online → DEMANDA → Análisis por destino.",
-  "periodo": "Datos anuales (último año cerrado: 2025)",
+  "nota": "Datos leídos del SIT-CV (Power BI, sin API). Provincia = Castellón, municipio = Peñíscola. Serie ANUAL 2021-2025: los años 2025 y 2021 son valores exactos leídos del portal; 2022-2024 se reconstruyen a partir de las variaciones interanuales publicadas (error < 0,1% frente a los anclajes exactos). El detalle mensual existe en el SIT pero no es exportable de forma fiable sin API.",
+  "periodo": "Serie anual 2021-2025 (último año cerrado: 2025)",
   "actualizado": "2026-07-15",
   "kpis": {
     "anio": 2025,
@@ -9,5 +9,12 @@
     "turistasVarPct": 5.3,
     "reservas": 29451,
     "reservasVarPct": 6.0
-  }
+  },
+  "serieAnual": [
+    { "anio": 2021, "turistas": 71317, "reservas": 19929, "turistasVarPct": 26.0, "reservasVarPct": 27.9 },
+    { "anio": 2022, "turistas": 74098, "reservas": 21085, "turistasVarPct": 3.9, "reservasVarPct": 5.8 },
+    { "anio": 2023, "turistas": 84027, "reservas": 23910, "turistasVarPct": 13.4, "reservasVarPct": 13.4 },
+    { "anio": 2024, "turistas": 97807, "reservas": 27784, "turistasVarPct": 16.4, "reservasVarPct": 16.2 },
+    { "anio": 2025, "turistas": 103035, "reservas": 29451, "turistasVarPct": 5.3, "reservasVarPct": 6.0 }
+  ]
 }
