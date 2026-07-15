@@ -1,0 +1,18 @@
+{
+  "fuente": "SIT CV (Invat·tur) · Escucha activa del destino",
+  "nota": "Datos leídos manualmente del SIT-CV (Power BI, sin API). Destino = Peñíscola. Actualizar cada mes desde smarttourismcv.invattur.org → Visualizaciones genéricas → Escucha activa del destino.",
+  "periodo": "01/01/2025 - 31/12/2025",
+  "actualizado": "2026-07-15",
+  "kpis": {
+    "menciones": 36924,
+    "impresiones": 175212973,
+    "alcance": 112421440
+  },
+  "sentimiento": {
+    "muyPositiva": 140,
+    "positiva": 13920,
+    "neutra": 8804,
+    "muyNegativa": 1005,
+    "pctPositivas": 58.31
+  }
+}

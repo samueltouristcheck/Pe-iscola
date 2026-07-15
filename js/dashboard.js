@@ -4506,6 +4506,53 @@
     fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _sitGasto = d; render(d); }).catch(function () {});
   }
 
+  var _sitBusquedas = null;
+  function renderTurismoBusquedas() {
+    var pct = function (p) { if (p == null) return ''; return (p >= 0 ? '▲ +' : '▼ ') + String(p).replace('.', ',') + '%'; };
+    var render = function (d) {
+      if (!d || !d.kpis) return;
+      var k = d.kpis;
+      var per = document.getElementById('turismo-busquedas-periodo');
+      if (per) per.textContent = (d.periodo ? '· ' + d.periodo : '') + (d.actualizado ? ' · actualizado ' + d.actualizado : '');
+      var cont = document.getElementById('turismo-busquedas-kpis');
+      if (cont) cont.innerHTML = [
+        { l: 'Turistas (' + k.anio + ')', v: tFmtNum(k.turistas), sub: pct(k.turistasVarPct) },
+        { l: 'Reservas (' + k.anio + ')', v: tFmtNum(k.reservas), sub: pct(k.reservasVarPct) },
+        { l: 'Reservas por turista', v: (k.reservas / k.turistas).toLocaleString('es-ES', { maximumFractionDigits: 2 }), sub: 'ratio' }
+      ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
+      destroyTurismoChart('busquedas');
+      var c = document.getElementById('chart-turismo-busquedas');
+      if (c) turismoCharts['busquedas'] = new Chart(c, { type: 'bar', data: { labels: ['Turistas', 'Reservas'], datasets: [{ data: [k.turistas, k.reservas], backgroundColor: ['#2563eb', '#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+    };
+    if (_sitBusquedas) { render(_sitBusquedas); return; }
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/sit_busquedas_manual.json') : '/data/TURISMO/sit_busquedas_manual.json';
+    fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _sitBusquedas = d; render(d); }).catch(function () {});
+  }
+
+  var _sitReputacion = null;
+  function renderTurismoReputacion() {
+    var render = function (d) {
+      if (!d || !d.kpis) return;
+      var k = d.kpis, s = d.sentimiento || {};
+      var per = document.getElementById('turismo-reputacion-periodo');
+      if (per) per.textContent = (d.periodo ? '· ' + d.periodo : '') + (d.actualizado ? ' · actualizado ' + d.actualizado : '');
+      var abrev = function (n) { if (n >= 1e6) return (n / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' M'; if (n >= 1e3) return (n / 1e3).toLocaleString('es-ES', { maximumFractionDigits: 0 }) + ' mil'; return tFmtNum(n); };
+      var cont = document.getElementById('turismo-reputacion-kpis');
+      if (cont) cont.innerHTML = [
+        { l: 'Menciones', v: tFmtNum(k.menciones), sub: 'en redes y medios' },
+        { l: 'Impresiones', v: abrev(k.impresiones), sub: 'veces mostradas' },
+        { l: 'Alcance', v: abrev(k.alcance), sub: 'cuentas alcanzadas' },
+        { l: '% menciones positivas', v: String(s.pctPositivas).replace('.', ',') + ' %', sub: 'del total' }
+      ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
+      destroyTurismoChart('reputacion');
+      var c = document.getElementById('chart-turismo-reputacion');
+      if (c) turismoCharts['reputacion'] = new Chart(c, { type: 'doughnut', data: { labels: ['Muy positiva', 'Positiva', 'Neutra', 'Muy negativa'], datasets: [{ data: [s.muyPositiva, s.positiva, s.neutra, s.muyNegativa], backgroundColor: ['#16a34a', '#86efac', '#cbd5e1', '#ef4444'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+    };
+    if (_sitReputacion) { render(_sitReputacion); return; }
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/sit_reputacion_manual.json') : '/data/TURISMO/sit_reputacion_manual.json';
+    fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _sitReputacion = d; render(d); }).catch(function () {});
+  }
+
   // ====== Capacidad/oferta campings ======
   function renderTurismoOfertaCampings() {
     if (!turismoData) return;
@@ -4689,6 +4736,8 @@
     renderTurismoMovilidad();
     renderTurismoProcedencia();
     renderTurismoGasto();
+    renderTurismoBusquedas();
+    renderTurismoReputacion();
     ensureViviendasLoaded().then((d) => { if (d) renderTurismoViviendas(); });
     renderTurismoCategoriaMesChart('chart-turismo-hoteles-mes', 'hoteles');
     renderTurismoCategoriaOrigenChart('chart-turismo-hoteles-origen', 'hoteles');
@@ -4726,6 +4775,8 @@
             'turismo-movilidad': 'Turismo - Movilidad turística (INE móvil)',
             'turismo-procedencia': 'Turismo - Procedencia nacional (CCAA y provincias)',
             'turismo-gasto': 'Turismo - Gasto con tarjeta (SIT CV)',
+            'turismo-busquedas': 'Turismo - Demanda online de alquiler vacacional (SIT CV)',
+            'turismo-reputacion': 'Turismo - Reputación y escucha del destino (SIT CV)',
             'turismo-hoteles': 'Turismo - Hoteles',
             'turismo-rentabilidad': 'Turismo - Rentabilidad',
             'turismo-apartamentos': 'Turismo - Apartamentos',

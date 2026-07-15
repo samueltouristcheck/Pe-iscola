@@ -1,0 +1,13 @@
+{
+  "fuente": "SIT CV (Invat·tur) · Alquiler vacacional online · Lighthouse Intelligence (Airbnb / Booking / Vrbo)",
+  "nota": "Datos leídos manualmente del SIT-CV (Power BI, sin API). Provincia = Castellón, municipio de destino = Peñíscola. Actualizar cada mes desde smarttourismcv.invattur.org → Visualizaciones genéricas → Alojamientos → Alquiler vacacional online → DEMANDA → Análisis por destino.",
+  "periodo": "Datos anuales (último año cerrado: 2025)",
+  "actualizado": "2026-07-15",
+  "kpis": {
+    "anio": 2025,
+    "turistas": 103035,
+    "turistasVarPct": 5.3,
+    "reservas": 29451,
+    "reservasVarPct": 6.0
+  }
+}

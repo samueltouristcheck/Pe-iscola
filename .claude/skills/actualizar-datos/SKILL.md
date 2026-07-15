@@ -40,10 +40,19 @@ El orquestador ejecuta `scripts/detectar_camaras_nuevas.js`, que compara las cá
 2. Añade sus coordenadas en `data/camaras/camaras_coordenadas.json` (para que salga en el mapa).
 3. Fija la nueva referencia: `node scripts/detectar_camaras_nuevas.js --guardar`.
 
+## 4c. SIT CV (gasto, demanda online, reputación) — extracción manual guiada
+El SIT-CV de Invat·tur es un **Power BI embebido cross-origin (sin API pública)**: los datos se leen a mano de la pantalla. Cuando el usuario tenga su sesión abierta en `smarttourismcv.invattur.org` (él hace el login, nunca metas tú credenciales), condúcelo tú con el navegador (mcp__claude-in-chrome) y refresca estos tres ficheros:
+
+- **Gasto** → `data/TURISMO/sit_gasto_manual.json`. Ruta: Visualizaciones genéricas → Gasto por tarjeta. Municipio de destino = **Peñíscola**. Copia KPIs (gasto total, ticket medio, nº tickets, nº tarjetas, % nacional/extranjero) y sus variaciones.
+- **Demanda online** → `data/TURISMO/sit_busquedas_manual.json`. Ruta: Visualizaciones genéricas → Alojamientos → Alquiler vacacional online → DEMANDA → Análisis por destino. Slicers: provincia = **Castellón/Castelló**, municipio = **Peníscola/Peñíscola**. Pasa el ratón por la última barra para leer el valor exacto de **turistas** y de **reservas** (y su var. interanual) del último año cerrado.
+- **Reputación** → `data/TURISMO/sit_reputacion_manual.json`. Ruta: Visualizaciones genéricas → Escucha activa del destino. Destino = **Peñíscola**. Copia menciones, impresiones, alcance y el desglose de sentimiento (muy positiva/positiva/neutra/muy negativa) + % positivas.
+
+Patrón fiable del slicer Power BI: abre el desplegable → clic en el campo "Buscar" → escribe "Peñíscola" → clic en el radio del resultado → clic fuera → espera ~6 s a que recargue. Actualiza `actualizado` y `periodo` en cada JSON. Estos ficheros son ligeros: se commitean con el resto. Verifica en local que las tres secciones de Turismo (Gasto / Demanda online / Reputación) muestran los nuevos números.
+
 ## 5. Informa y recuerda lo pendiente
 Resume qué se actualizó (meses nuevos por fuente) y recuerda lo que NO es automático:
 - **Google Analytics**: si el aviso marca `invalid_grant`, hay que reconectar OAuth (enlace `/api/redes/oauth/start`).
-- **SIT CV** (gasto/búsquedas/reputación): pendiente de que Invat·tur dé un feed/API.
+- **SIT CV** (gasto/demanda online/reputación): extracción manual guiada del paso 4c (mientras Invat·tur no dé un feed/API).
 - **Agua**: pendiente del fichero del servicio municipal.
 
 ## Notas

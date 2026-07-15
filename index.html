@@ -50,6 +50,8 @@
         <a href="#" class="nav-item" data-section="turismo-movilidad"><span class="nav-icon">🌍</span><span>Movilidad</span></a>
         <a href="#" class="nav-item" data-section="turismo-procedencia"><span class="nav-icon">🗺️</span><span>Procedencia nacional</span></a>
         <a href="#" class="nav-item" data-section="turismo-gasto"><span class="nav-icon">💳</span><span>Gasto (SIT CV)</span></a>
+        <a href="#" class="nav-item" data-section="turismo-busquedas"><span class="nav-icon">🔎</span><span>Demanda online (SIT CV)</span></a>
+        <a href="#" class="nav-item" data-section="turismo-reputacion"><span class="nav-icon">💬</span><span>Reputación (SIT CV)</span></a>
         <a href="#" class="nav-item" data-section="turismo-hoteles"><span class="nav-icon">🏨</span><span>Hoteles</span></a>
         <a href="#" class="nav-item" data-section="turismo-campings"><span class="nav-icon">⛺</span><span>Campings</span></a>
         <a href="#" class="nav-item" data-section="turismo-viviendas"><span class="nav-icon">🏡</span><span>Viviendas turísticas</span></a>
@@ -781,6 +783,50 @@
           </div>
         </section>
 
+        <section id="section-turismo-busquedas" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">🔎 Demanda de alquiler vacacional online</h3>
+              <span class="turismo-section-tag" id="turismo-busquedas-tag">SIT CV · Lighthouse</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Turistas y reservas de alquiler vacacional en Peñíscola detectados en los portales online (<strong>Airbnb, Booking y Vrbo</strong>, vía Lighthouse Intelligence en el SIT-CV de Invat·tur). <span id="turismo-busquedas-periodo" style="color:#94a3b8"></span></p>
+            <div class="turismo-mini-kpis" id="turismo-busquedas-kpis"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Turistas vs reservas</h4>
+                <p class="turismo-chart-hint">Último año cerrado</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-busquedas"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Cómo se integra</h4>
+                <p class="turismo-chart-hint" style="line-height:1.5">Datos del <strong>Power BI del SIT-CV</strong> (sin API pública): se leen y actualizan <strong>manualmente</strong> cada mes. Para el detalle completo (evolución mensual, origen del turista, comparativa de destinos) lo idóneo es solicitar un <strong>feed/API a Invat·tur</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="section-turismo-reputacion" class="section">
+          <div class="turismo-section-card">
+            <div class="turismo-section-head">
+              <h3 class="section-title">💬 Reputación y escucha del destino</h3>
+              <span class="turismo-section-tag" id="turismo-reputacion-tag">SIT CV · Escucha activa</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Menciones a Peñíscola en redes sociales y medios online, con su alcance y sentimiento (fuente <strong>Escucha activa del destino</strong>, SIT-CV de Invat·tur). <span id="turismo-reputacion-periodo" style="color:#94a3b8"></span></p>
+            <div class="turismo-mini-kpis" id="turismo-reputacion-kpis"></div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Sentimiento de las menciones</h4>
+                <p class="turismo-chart-hint">Reparto por tono</p>
+                <div class="chart-container" style="height:320px"><canvas id="chart-turismo-reputacion"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Cómo se integra</h4>
+                <p class="turismo-chart-hint" style="line-height:1.5">Datos del <strong>Power BI del SIT-CV</strong> (sin API pública): se leen y actualizan <strong>manualmente</strong> cada mes. Para el detalle completo (evolución de menciones, desglose por red social, temas y palabras clave) lo idóneo es solicitar un <strong>feed/API a Invat·tur</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="section-turismo-hoteles" class="section">
           <div class="turismo-section-card">
             <div class="turismo-section-head">
@@ -1296,7 +1342,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=93"></script>
+  <script src="js/dashboard.js?v=94"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>
