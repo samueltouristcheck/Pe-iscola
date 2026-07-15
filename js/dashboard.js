@@ -3811,6 +3811,10 @@
           tablas: 'Residuos - Tablas'
         };
         if (h2R && residTitles[el.dataset.section]) h2R.textContent = residTitles[el.dataset.section];
+        // La barra de filtros global (año/mes/comparar) no aplica a Grandes productores,
+        // que tiene sus propios filtros: se oculta para no confundir.
+        var barraResiduos = document.getElementById('residuos-filters-bar');
+        if (barraResiduos) barraResiduos.style.display = (el.dataset.section === 'grandes-productores') ? 'none' : '';
         if (el.dataset.section === 'grandes-productores') setTimeout(renderGrandesProductores, 60);
         else setTimeout(function () { updateResiduosKPIs(); }, 100);
       });
