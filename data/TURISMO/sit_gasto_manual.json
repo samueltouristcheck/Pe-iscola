@@ -1,0 +1,18 @@
+{
+  "fuente": "SIT CV (Invat·tur) · Gasto por tarjeta · Geoblink",
+  "nota": "Datos leídos manualmente del SIT-CV (Power BI, sin API). Municipio de destino = Peñíscola. Actualizar cada mes desde smarttourismcv.invattur.org → Visualizaciones genéricas → Gasto por tarjeta.",
+  "periodo": "Acumulado desde noviembre 2024",
+  "actualizado": "2026-07-14",
+  "kpis": {
+    "gastoTotalEur": 74293912.2,
+    "gastoVarPct": 12.8,
+    "ticketMedioEur": 40.3,
+    "ticketMedioVarPct": -0.1,
+    "ticketsTotales": 1842399,
+    "ticketsVarPct": 12.9,
+    "numTarjetas": 443996,
+    "tarjetasVarPct": 12.2,
+    "pctNacional": 96.71,
+    "pctExtranjero": 3.29
+  }
+}

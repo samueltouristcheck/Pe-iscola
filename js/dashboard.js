@@ -4479,6 +4479,33 @@
     }
   }
 
+  // ====== Gasto turístico (SIT CV / Geoblink) — dato manual ======
+  var _sitGasto = null;
+  function renderTurismoGasto() {
+    var pct = function (p) { if (p == null) return ''; return (p >= 0 ? '▲ +' : '▼ ') + String(p).replace('.', ',') + '%'; };
+    var render = function (d) {
+      if (!d || !d.kpis) return;
+      var k = d.kpis;
+      var per = document.getElementById('turismo-gasto-periodo');
+      if (per) per.textContent = (d.periodo ? '· ' + d.periodo : '') + (d.actualizado ? ' · actualizado ' + d.actualizado : '');
+      var eur = function (n) { return n >= 1e6 ? (n / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' M€' : tFmtNum(n) + ' €'; };
+      var cont = document.getElementById('turismo-gasto-kpis');
+      if (cont) cont.innerHTML = [
+        { l: 'Gasto total', v: eur(k.gastoTotalEur), sub: pct(k.gastoVarPct) },
+        { l: 'Ticket medio', v: String(k.ticketMedioEur).replace('.', ',') + ' €', sub: pct(k.ticketMedioVarPct) },
+        { l: 'Nº de tickets', v: tFmtNum(k.ticketsTotales), sub: pct(k.ticketsVarPct) },
+        { l: 'Nº de tarjetas', v: tFmtNum(k.numTarjetas), sub: pct(k.tarjetasVarPct) },
+        { l: '% gasto extranjero', v: String(k.pctExtranjero).replace('.', ',') + ' %', sub: 'del total' }
+      ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
+      destroyTurismoChart('gasto-origen');
+      var c = document.getElementById('chart-turismo-gasto-origen');
+      if (c) turismoCharts['gasto-origen'] = new Chart(c, { type: 'doughnut', data: { labels: ['Nacionales', 'Extranjeras'], datasets: [{ data: [k.pctNacional, k.pctExtranjero], backgroundColor: ['#2563eb', '#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+    };
+    if (_sitGasto) { render(_sitGasto); return; }
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/sit_gasto_manual.json') : '/data/TURISMO/sit_gasto_manual.json';
+    fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _sitGasto = d; render(d); }).catch(function () {});
+  }
+
   // ====== Capacidad/oferta campings ======
   function renderTurismoOfertaCampings() {
     if (!turismoData) return;
@@ -4661,6 +4688,7 @@
     renderTurismoMiniKpis('campings', 'turismo-mini-campings');
     renderTurismoMovilidad();
     renderTurismoProcedencia();
+    renderTurismoGasto();
     ensureViviendasLoaded().then((d) => { if (d) renderTurismoViviendas(); });
     renderTurismoCategoriaMesChart('chart-turismo-hoteles-mes', 'hoteles');
     renderTurismoCategoriaOrigenChart('chart-turismo-hoteles-origen', 'hoteles');
@@ -4697,6 +4725,7 @@
             'turismo-resumen': 'Turismo - Resumen',
             'turismo-movilidad': 'Turismo - Movilidad turística (INE móvil)',
             'turismo-procedencia': 'Turismo - Procedencia nacional (CCAA y provincias)',
+            'turismo-gasto': 'Turismo - Gasto con tarjeta (SIT CV)',
             'turismo-hoteles': 'Turismo - Hoteles',
             'turismo-rentabilidad': 'Turismo - Rentabilidad',
             'turismo-apartamentos': 'Turismo - Apartamentos',
