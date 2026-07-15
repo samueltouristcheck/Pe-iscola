@@ -802,6 +802,14 @@
               <span class="turismo-section-tag" id="turismo-gasto-tag">SIT CV · Geoblink</span>
             </div>
             <p class="turismo-chart-hint" style="margin-bottom:1rem">Gasto realizado con tarjeta en los datáfonos de Peñíscola (fuente <strong>Geoblink</strong>, vía SIT-CV de Invat·tur). Se excluye el gasto de residentes del propio municipio para aproximar el gasto turístico. <span id="turismo-gasto-periodo" style="color:#94a3b8"></span></p>
+            <div class="filters-bar" style="flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:.8rem">
+              <span style="display:inline-flex;align-items:center;gap:.35rem"><label style="font-size:.78rem;color:#64748b">Origen de la tarjeta</label>
+                <select id="gasto-origen" class="fuente-select" style="min-width:150px">
+                  <option value="">Todos</option>
+                  <option value="nacional">Nacional</option>
+                  <option value="extranjero">Extranjero</option>
+                </select></span>
+            </div>
             <div class="turismo-mini-kpis" id="turismo-gasto-kpis"></div>
             <div class="turismo-charts-row">
               <div class="turismo-chart-card">
@@ -849,6 +857,16 @@
               <span class="turismo-section-tag" id="turismo-reputacion-tag">SIT CV · Escucha activa</span>
             </div>
             <p class="turismo-chart-hint" style="margin-bottom:1rem">Menciones a Peñíscola en redes sociales y medios online, con su alcance y sentimiento (fuente <strong>Escucha activa del destino</strong>, SIT-CV de Invat·tur). <span id="turismo-reputacion-periodo" style="color:#94a3b8"></span></p>
+            <div class="filters-bar" style="flex-wrap:wrap;gap:.6rem;align-items:center;margin-bottom:.8rem">
+              <span style="display:inline-flex;align-items:center;gap:.35rem"><label style="font-size:.78rem;color:#64748b">Sentimiento</label>
+                <select id="reput-sent" class="fuente-select" style="min-width:160px">
+                  <option value="">Todas las menciones</option>
+                  <option value="muyPositiva">Muy positiva</option>
+                  <option value="positiva">Positiva</option>
+                  <option value="neutra">Neutra</option>
+                  <option value="muyNegativa">Muy negativa</option>
+                </select></span>
+            </div>
             <div class="turismo-mini-kpis" id="turismo-reputacion-kpis"></div>
             <div class="turismo-charts-row">
               <div class="turismo-chart-card">
@@ -1379,7 +1397,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=100"></script>
+  <script src="js/dashboard.js?v=101"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

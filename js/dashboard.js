@@ -4648,18 +4648,25 @@
       var k = d.kpis;
       var per = document.getElementById('turismo-gasto-periodo');
       if (per) per.textContent = (d.periodo ? '· ' + d.periodo : '') + (d.actualizado ? ' · actualizado ' + d.actualizado : '');
-      var eur = function (n) { return n >= 1e6 ? (n / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' M€' : tFmtNum(n) + ' €'; };
+      var eur = function (n) { return n >= 1e6 ? (n / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' M€' : tFmtNum(Math.round(n)) + ' €'; };
+      // Filtro Origen (liga una vez): reparte gasto/tickets/tarjetas por el % nacional/extranjero
+      var selO = document.getElementById('gasto-origen');
+      if (selO && selO.dataset.bound !== '1') { selO.addEventListener('change', function () { render(d); }); selO.dataset.bound = '1'; }
+      var origen = selO ? selO.value : '';
+      var frac = origen === 'nacional' ? (k.pctNacional / 100) : origen === 'extranjero' ? (k.pctExtranjero / 100) : 1;
+      var etq = origen === 'nacional' ? ' (nacional)' : origen === 'extranjero' ? ' (extranjero)' : '';
       var cont = document.getElementById('turismo-gasto-kpis');
       if (cont) cont.innerHTML = [
-        { l: 'Gasto total', v: eur(k.gastoTotalEur), sub: pct(k.gastoVarPct) },
+        { l: 'Gasto total' + etq, v: eur(k.gastoTotalEur * frac), sub: origen ? (String(origen === 'nacional' ? k.pctNacional : k.pctExtranjero).replace('.', ',') + '% del total') : pct(k.gastoVarPct) },
         { l: 'Ticket medio', v: String(k.ticketMedioEur).replace('.', ',') + ' €', sub: pct(k.ticketMedioVarPct) },
-        { l: 'Nº de tickets', v: tFmtNum(k.ticketsTotales), sub: pct(k.ticketsVarPct) },
-        { l: 'Nº de tarjetas', v: tFmtNum(k.numTarjetas), sub: pct(k.tarjetasVarPct) },
-        { l: '% gasto extranjero', v: String(k.pctExtranjero).replace('.', ',') + ' %', sub: 'del total' }
+        { l: 'Nº de tickets' + etq, v: tFmtNum(Math.round(k.ticketsTotales * frac)), sub: origen ? 'estimado por %' : pct(k.ticketsVarPct) },
+        { l: 'Nº de tarjetas' + etq, v: tFmtNum(Math.round(k.numTarjetas * frac)), sub: origen ? 'estimado por %' : pct(k.tarjetasVarPct) },
+        { l: origen ? '% del gasto' : '% gasto extranjero', v: String(origen === 'nacional' ? k.pctNacional : k.pctExtranjero).replace('.', ',') + ' %', sub: 'del total' }
       ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
       destroyTurismoChart('gasto-origen');
       var c = document.getElementById('chart-turismo-gasto-origen');
-      if (c) turismoCharts['gasto-origen'] = new Chart(c, { type: 'doughnut', data: { labels: ['Nacionales', 'Extranjeras'], datasets: [{ data: [k.pctNacional, k.pctExtranjero], backgroundColor: ['#2563eb', '#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+      var gcol = [origen === 'extranjero' ? '#bfdbfe' : '#2563eb', origen === 'nacional' ? '#fed7aa' : '#f59e0b'];
+      if (c) turismoCharts['gasto-origen'] = new Chart(c, { type: 'doughnut', data: { labels: ['Nacionales', 'Extranjeras'], datasets: [{ data: [k.pctNacional, k.pctExtranjero], backgroundColor: gcol }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
     };
     if (_sitGasto) { render(_sitGasto); return; }
     var url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/sit_gasto_manual.json') : '/data/TURISMO/sit_gasto_manual.json';
@@ -4725,17 +4732,30 @@
       var k = d.kpis, s = d.sentimiento || {};
       var per = document.getElementById('turismo-reputacion-periodo');
       if (per) per.textContent = (d.periodo ? '· ' + d.periodo : '') + (d.actualizado ? ' · actualizado ' + d.actualizado : '');
-      var abrev = function (n) { if (n >= 1e6) return (n / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' M'; if (n >= 1e3) return (n / 1e3).toLocaleString('es-ES', { maximumFractionDigits: 0 }) + ' mil'; return tFmtNum(n); };
+      var abrev = function (n) { if (n >= 1e6) return (n / 1e6).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' M'; if (n >= 1e3) return (n / 1e3).toLocaleString('es-ES', { maximumFractionDigits: 0 }) + ' mil'; return tFmtNum(Math.round(n)); };
+      // Filtro Sentimiento (liga una vez): filtra menciones/impresiones/alcance por tono
+      var selS = document.getElementById('reput-sent');
+      if (selS && selS.dataset.bound !== '1') { selS.addEventListener('change', function () { render(d); }); selS.dataset.bound = '1'; }
+      var sent = selS ? selS.value : '';
+      var sentLbl = { muyPositiva: 'Muy positiva', positiva: 'Positiva', neutra: 'Neutra', muyNegativa: 'Muy negativa' };
+      var totSent = (s.muyPositiva || 0) + (s.positiva || 0) + (s.neutra || 0) + (s.muyNegativa || 0);
+      var menSel = sent ? (s[sent] || 0) : k.menciones;
+      var fracS = (sent && totSent) ? (s[sent] / totSent) : 1;
+      var etq = sent ? ' (' + sentLbl[sent].toLowerCase() + ')' : '';
       var cont = document.getElementById('turismo-reputacion-kpis');
       if (cont) cont.innerHTML = [
-        { l: 'Menciones', v: tFmtNum(k.menciones), sub: 'en redes y medios' },
-        { l: 'Impresiones', v: abrev(k.impresiones), sub: 'veces mostradas' },
-        { l: 'Alcance', v: abrev(k.alcance), sub: 'cuentas alcanzadas' },
+        { l: 'Menciones' + etq, v: tFmtNum(menSel), sub: sent ? ((100 * fracS).toFixed(1).replace('.', ',') + '% del total') : 'en redes y medios' },
+        { l: 'Impresiones' + etq, v: abrev(k.impresiones * fracS), sub: sent ? 'estimado por %' : 'veces mostradas' },
+        { l: 'Alcance' + etq, v: abrev(k.alcance * fracS), sub: sent ? 'estimado por %' : 'cuentas alcanzadas' },
         { l: '% menciones positivas', v: String(s.pctPositivas).replace('.', ',') + ' %', sub: 'del total' }
       ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
       destroyTurismoChart('reputacion');
       var c = document.getElementById('chart-turismo-reputacion');
-      if (c) turismoCharts['reputacion'] = new Chart(c, { type: 'doughnut', data: { labels: ['Muy positiva', 'Positiva', 'Neutra', 'Muy negativa'], datasets: [{ data: [s.muyPositiva, s.positiva, s.neutra, s.muyNegativa], backgroundColor: ['#16a34a', '#86efac', '#cbd5e1', '#ef4444'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
+      var keys = ['muyPositiva', 'positiva', 'neutra', 'muyNegativa'];
+      var baseCol = ['#16a34a', '#86efac', '#cbd5e1', '#ef4444'];
+      var dimCol = ['#bbf7d0', '#dcfce7', '#f1f5f9', '#fecaca'];
+      var col = keys.map(function (kk, i) { return (!sent || sent === kk) ? baseCol[i] : dimCol[i]; });
+      if (c) turismoCharts['reputacion'] = new Chart(c, { type: 'doughnut', data: { labels: ['Muy positiva', 'Positiva', 'Neutra', 'Muy negativa'], datasets: [{ data: [s.muyPositiva, s.positiva, s.neutra, s.muyNegativa], backgroundColor: col }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
     };
     if (_sitReputacion) { render(_sitReputacion); return; }
     var url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/sit_reputacion_manual.json') : '/data/TURISMO/sit_reputacion_manual.json';
