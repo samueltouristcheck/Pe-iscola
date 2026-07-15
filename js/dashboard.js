@@ -4671,7 +4671,16 @@
     var pct = function (p) { if (p == null) return ''; return (p >= 0 ? '▲ +' : '▼ ') + String(p).replace('.', ',') + '%'; };
     var render = function (d) {
       if (!d || !d.kpis) return;
-      var k = d.kpis;
+      var serie = d.serieAnual || [{ anio: d.kpis.anio, turistas: d.kpis.turistas, reservas: d.kpis.reservas, turistasVarPct: d.kpis.turistasVarPct, reservasVarPct: d.kpis.reservasVarPct }];
+      // Selector de año (se rellena/liga una sola vez): "Todos" + cada año de la serie
+      var selA = document.getElementById('busq-anio');
+      if (selA && selA.dataset.bound !== '1') {
+        selA.innerHTML = '<option value="">Todos los años</option>' + serie.slice().reverse().map(function (x) { return '<option value="' + x.anio + '">' + x.anio + '</option>'; }).join('');
+        selA.addEventListener('change', function () { render(d); });
+        selA.dataset.bound = '1';
+      }
+      var anioSel = selA ? selA.value : '';
+      var k = anioSel ? (serie.find(function (x) { return String(x.anio) === anioSel; }) || d.kpis) : serie[serie.length - 1];
       var per = document.getElementById('turismo-busquedas-periodo');
       if (per) per.textContent = (d.periodo ? '· ' + d.periodo : '') + (d.actualizado ? ' · actualizado ' + d.actualizado : '');
       var cont = document.getElementById('turismo-busquedas-kpis');
@@ -4682,14 +4691,16 @@
       ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span>' + (it.sub ? '<span class="turismo-mini-kpi-sub">' + it.sub + '</span>' : '') + '</div>'; }).join('');
       destroyTurismoChart('busquedas');
       var c = document.getElementById('chart-turismo-busquedas');
-      var serie = d.serieAnual || [{ anio: k.anio, turistas: k.turistas, reservas: k.reservas }];
+      // Resalta el año seleccionado en el gráfico (los demás atenuados)
+      var barColor = serie.map(function (x) { return (!anioSel || String(x.anio) === anioSel) ? '#2563eb' : '#c7d2fe'; });
+      var ptColor = serie.map(function (x) { return (!anioSel || String(x.anio) === anioSel) ? '#f59e0b' : '#fde68a'; });
       if (c) turismoCharts['busquedas'] = new Chart(c, {
         type: 'bar',
         data: {
           labels: serie.map(function (x) { return x.anio; }),
           datasets: [
-            { type: 'bar', label: 'Turistas', data: serie.map(function (x) { return x.turistas; }), backgroundColor: '#2563eb', yAxisID: 'y', order: 2 },
-            { type: 'line', label: 'Reservas', data: serie.map(function (x) { return x.reservas; }), borderColor: '#f59e0b', backgroundColor: '#f59e0b', tension: 0.3, pointRadius: 4, yAxisID: 'y1', order: 1 }
+            { type: 'bar', label: 'Turistas', data: serie.map(function (x) { return x.turistas; }), backgroundColor: barColor, yAxisID: 'y', order: 2 },
+            { type: 'line', label: 'Reservas', data: serie.map(function (x) { return x.reservas; }), borderColor: '#f59e0b', backgroundColor: '#f59e0b', pointBackgroundColor: ptColor, pointBorderColor: ptColor, tension: 0.3, pointRadius: 5, yAxisID: 'y1', order: 1 }
           ]
         },
         options: {
