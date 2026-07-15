@@ -2665,7 +2665,11 @@
       var selMes = document.getElementById('gp-mes');
       var selEstab = document.getElementById('gp-estab');
       if (!_gpFiltrosInit && selMes && selEstab) {
-        selMes.innerHTML = '<option value="">Todos los meses</option>' + _gpData.meses.slice().reverse().map(function (m) { return '<option value="' + m + '">' + gpMesLbl(m) + '</option>'; }).join('');
+        var gpMesNombre = function (ym) { return MESES[parseInt(String(ym).split('-')[1], 10) - 1] || ym; };
+        var gpMesCuenta = {};
+        _gpData.meses.forEach(function (m) { var n = gpMesNombre(m); gpMesCuenta[n] = (gpMesCuenta[n] || 0) + 1; });
+        var gpMesOpt = function (m) { var n = gpMesNombre(m); return gpMesCuenta[n] > 1 ? n + ' ' + String(m).split('-')[0] : n; };
+        selMes.innerHTML = '<option value="">Todos los meses</option>' + _gpData.meses.slice().reverse().map(function (m) { return '<option value="' + m + '">' + gpMesOpt(m) + '</option>'; }).join('');
         selEstab.innerHTML = '<option value="">Todos los establecimientos</option>' + _gpData.establecimientos.map(function (e) { return '<option value="' + e.replace(/"/g, '&quot;') + '">' + e + '</option>'; }).join('');
         selMes.addEventListener('change', render);
         selEstab.addEventListener('change', render);
