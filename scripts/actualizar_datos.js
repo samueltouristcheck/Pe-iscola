@@ -68,6 +68,11 @@ function resumenFinal() {
     const clave = pes ? Object.keys(pes).find((k) => /mes|periodo/i.test(k)) : null;
     console.log('⚖️  Pesajes:     ' + (pes ? 'ver dashboard (resumen.json)' : '—'));
   } catch (_) {}
+  // Grandes productores (FOBESA)
+  const gp = leerJson('data/RESIDUOS/grandes_productores.json');
+  if (gp && Array.isArray(gp.meses) && gp.meses.length) {
+    console.log('🧾 Grandes prod.: ' + gp.meses[gp.meses.length - 1] + ' (' + gp.establecimientos.length + ' establecimientos)');
+  }
   // Turismo
   const tur = leerJson('data/TURISMO/todos.json');
   const tMes = tur && tur.resumen && tur.resumen.hoteles ? tur.resumen.hoteles.ultimoMes : '—';
@@ -88,6 +93,7 @@ function resumenFinal() {
 
   console.log('\n--- Pendiente de meter A MANO (dejar los ficheros y reejecutar) ---');
   console.log('⚖️  Pesajes:  Excel del mes en  data/RESIDUOS/pesajes/<año>/  ("MM - Pesajes <mes> YY.xlsx")');
+  console.log('🧾 Grandes productores:  Excel FOBESA del mes en  data/RESIDUOS/grandes_productores/<año>/  (SharePoint: Ciudad › Residuos › Grandes Productores › Datos FOBESA <año>)');
   console.log('📷 Cámaras:  CSV export de HikCentral en  data/camaras/Trafico_camaras/CSV/  (LPR)  y  data/camaras/Camaras_Multiobjeto/CSV/<cámara>/  (aforo)');
   console.log('\n--- Fuentes externas (no automatizables desde aquí) ---');
   console.log('🌐 Google Analytics:  reconectar OAuth si marca invalid_grant.');
@@ -109,6 +115,7 @@ function resumenFinal() {
 
   // 2-5. Resto (residuos, cámaras, turismo, viviendas) via el orquestador existente
   run('Residuos (preparar_datos.py)', 'python', ['preparar_datos.py']);
+  run('Grandes productores FOBESA (procesar_grandes_productores.js)', 'node', ['procesar_grandes_productores.js']);
   run('Cámaras (procesar_camaras.js)', 'node', ['procesar_camaras.js']);
   run('Turismo INE (procesar_turismo.js)', 'node', ['procesar_turismo.js']);
   run('Viviendas GVA (procesar_viviendas.js)', 'node', ['procesar_viviendas.js']);

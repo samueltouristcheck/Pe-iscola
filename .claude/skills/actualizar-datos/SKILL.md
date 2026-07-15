@@ -10,6 +10,7 @@ Objetivo: dejar el dashboard al día con el mínimo esfuerzo del usuario. Sigue 
 ## 1. Pregunta por los ficheros manuales (una vez)
 Antes de ejecutar, recuerda al usuario que, si los tiene, deje en su carpeta:
 - **Pesajes** (Excel del mes): `data/RESIDUOS/pesajes/<año>/MM - Pesajes <mes> YY.xlsx`
+- **Grandes productores** (Excel FOBESA por hotel/camping): `data/RESIDUOS/grandes_productores/<año>/`. Se descargan del SharePoint **Centro de Control de Datos Peñíscola › Documentos › Ciudad › Residuos › Grandes Productores › Datos FOBESA <año>** (el usuario abre su sesión de SharePoint; puedes conducir el navegador y bajar los meses nuevos como en la sesión de julio 2026). El procesador tolera columnas desplazadas y nombres de fracción distintos, pero conviene mantener una hoja "Hoja1" con Establecimiento + Envases/Orgánica/Papel.
 - **Cámaras** (CSV export de HikCentral): LPR en `data/camaras/Trafico_camaras/CSV/`, aforo en `data/camaras/Camaras_Multiobjeto/CSV/<cámara>/`
 
 Si no los tiene a mano, sigue igual: se procesará lo que haya y el resto se actualiza solo.
@@ -21,7 +22,7 @@ Lanza el orquestador (es idempotente; tarda unos minutos por el reprocesado):
 npm run actualizar
 ```
 
-Hace: descarga camión (Sigeus, mes anterior + actual parcial) → residuos (`preparar_datos.py`) → cámaras (`procesar_camaras.js`) → turismo INE (`procesar_turismo.js`) → viviendas GVA (`procesar_viviendas.js`), y termina con un RESUMEN de hasta qué mes llega cada fuente.
+Hace: descarga camión (Sigeus, mes anterior + actual parcial) → residuos (`preparar_datos.py`) → grandes productores FOBESA (`procesar_grandes_productores.js`) → cámaras (`procesar_camaras.js`) → turismo INE (`procesar_turismo.js`) → viviendas GVA (`procesar_viviendas.js`), y termina con un RESUMEN de hasta qué mes llega cada fuente.
 
 Córrelo en segundo plano si es largo y lee el log al terminar. Si un paso falla, continúa (el resumen lo marca) y dilo.
 

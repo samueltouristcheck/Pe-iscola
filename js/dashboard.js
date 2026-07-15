@@ -2630,6 +2630,135 @@
     renderTable(hotelesEntries || [], 'tabla-hoteles-container');
   }
 
+  // ====== Grandes productores (FOBESA: pesajes por hotel/camping y fracción) ======
+  var _gpData = null;
+  var _gpCharts = {};
+  var _gpFiltrosInit = false;
+  function gpMesLbl(ym) {
+    var p = String(ym).split('-');
+    return (MESES[parseInt(p[1], 10) - 1] || p[1]) + ' ' + p[0];
+  }
+  function gpFmtKg(n) { return (Math.round(n || 0)).toLocaleString('es-ES') + ' kg'; }
+  function gpDestroy(k) { if (_gpCharts[k]) { _gpCharts[k].destroy(); _gpCharts[k] = null; } }
+  function gpAgg(mes, estab) {
+    // Suma fracciones respetando filtros. mes='' = todos los meses; estab='' = todos.
+    var meses = mes ? [mes] : _gpData.meses;
+    var porEstab = {};
+    var totalFrac = { envases: 0, organica: 0, papel: 0 };
+    meses.forEach(function (m) {
+      var dm = _gpData.datos[m] || {};
+      Object.keys(dm).forEach(function (e) {
+        if (estab && e !== estab) return;
+        var d = dm[e];
+        if (!porEstab[e]) porEstab[e] = { envases: 0, organica: 0, papel: 0, total: 0 };
+        porEstab[e].envases += d.envases; porEstab[e].organica += d.organica; porEstab[e].papel += d.papel; porEstab[e].total += d.total;
+        totalFrac.envases += d.envases; totalFrac.organica += d.organica; totalFrac.papel += d.papel;
+      });
+    });
+    var total = totalFrac.envases + totalFrac.organica + totalFrac.papel;
+    return { porEstab: porEstab, totalFrac: totalFrac, total: total, nMeses: meses.length };
+  }
+  function renderGrandesProductores() {
+    var render = function () {
+      if (!_gpData || !_gpData.meses || !_gpData.meses.length) return;
+      // Selectores (una vez)
+      var selMes = document.getElementById('gp-mes');
+      var selEstab = document.getElementById('gp-estab');
+      if (!_gpFiltrosInit && selMes && selEstab) {
+        selMes.innerHTML = '<option value="">Todos los meses</option>' + _gpData.meses.slice().reverse().map(function (m) { return '<option value="' + m + '">' + gpMesLbl(m) + '</option>'; }).join('');
+        selEstab.innerHTML = '<option value="">Todos los establecimientos</option>' + _gpData.establecimientos.map(function (e) { return '<option value="' + e.replace(/"/g, '&quot;') + '">' + e + '</option>'; }).join('');
+        selMes.addEventListener('change', render);
+        selEstab.addEventListener('change', render);
+        _gpFiltrosInit = true;
+      }
+      var mes = selMes ? selMes.value : '';
+      var estab = selEstab ? selEstab.value : '';
+      var per = document.getElementById('gp-periodo');
+      if (per) per.textContent = (mes ? gpMesLbl(mes) : gpMesLbl(_gpData.meses[0]) + ' – ' + gpMesLbl(_gpData.meses[_gpData.meses.length - 1])) + ' · actualizado ' + (_gpData.actualizado || '');
+      var ag = gpAgg(mes, estab);
+      var entries = Object.entries(ag.porEstab).sort(function (a, b) { return b[1].total - a[1].total; });
+      var pct = function (v) { return ag.total ? (100 * v / ag.total).toFixed(1).replace('.', ',') + ' %' : '0 %'; };
+      // KPIs
+      var cont = document.getElementById('gp-kpis');
+      if (cont) cont.innerHTML = [
+        { l: 'Total recogido', v: gpFmtKg(ag.total), sub: estab || (entries.length + ' establecimientos') },
+        { l: 'Orgánica', v: gpFmtKg(ag.totalFrac.organica), sub: pct(ag.totalFrac.organica) },
+        { l: 'Envases mezclados', v: gpFmtKg(ag.totalFrac.envases), sub: pct(ag.totalFrac.envases) },
+        { l: 'Papel/Cartón', v: gpFmtKg(ag.totalFrac.papel), sub: pct(ag.totalFrac.papel) },
+        { l: mes ? 'Establecimientos' : 'Media mensual', v: mes ? String(entries.length) : gpFmtKg(ag.total / (ag.nMeses || 1)), sub: mes ? 'con datos' : ag.nMeses + ' meses' }
+      ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span><span class="turismo-mini-kpi-sub">' + it.sub + '</span></div>'; }).join('');
+      // Ranking (respeta mes; ignora estab para no dejar una sola barra)
+      var agRank = gpAgg(mes, '');
+      var rank = Object.entries(agRank.porEstab).sort(function (a, b) { return b[1].total - a[1].total; });
+      gpDestroy('ranking');
+      var cR = document.getElementById('chart-gp-ranking');
+      if (cR) _gpCharts['ranking'] = new Chart(cR, {
+        type: 'bar',
+        data: {
+          labels: rank.map(function (e) { return e[0].length > 26 ? e[0].slice(0, 26) + '…' : e[0]; }),
+          datasets: [
+            { label: 'Orgánica', data: rank.map(function (e) { return Math.round(e[1].organica); }), backgroundColor: '#16a34a' },
+            { label: 'Envases', data: rank.map(function (e) { return Math.round(e[1].envases); }), backgroundColor: '#f59e0b' },
+            { label: 'Papel/Cartón', data: rank.map(function (e) { return Math.round(e[1].papel); }), backgroundColor: '#2563eb' }
+          ]
+        },
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, ticks: { callback: function (v) { return (v / 1000) + ' t'; } } }, y: { stacked: true } }, plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + gpFmtKg(c.raw); } } } } }
+      });
+      // Fracción doughnut
+      gpDestroy('fraccion');
+      var cF = document.getElementById('chart-gp-fraccion');
+      if (cF) _gpCharts['fraccion'] = new Chart(cF, {
+        type: 'doughnut',
+        data: { labels: ['Orgánica', 'Envases mezclados', 'Papel/Cartón'], datasets: [{ data: [Math.round(ag.totalFrac.organica), Math.round(ag.totalFrac.envases), Math.round(ag.totalFrac.papel)], backgroundColor: ['#16a34a', '#f59e0b', '#2563eb'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (c) { return c.label + ': ' + gpFmtKg(c.raw); } } } } }
+      });
+      // Evolución mensual (respeta estab; ignora mes)
+      gpDestroy('evolucion');
+      var cE = document.getElementById('chart-gp-evolucion');
+      if (cE) _gpCharts['evolucion'] = new Chart(cE, {
+        type: 'line',
+        data: {
+          labels: _gpData.meses.map(gpMesLbl),
+          datasets: [{ label: 'kg totales' + (estab ? ' · ' + estab : ''), data: _gpData.meses.map(function (m) { return Math.round(gpAgg(m, estab).total); }), borderColor: '#0ea5e9', backgroundColor: 'rgba(14,165,233,0.15)', fill: true, tension: 0.3, pointRadius: 3 }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return gpFmtKg(c.raw); } } } }, scales: { y: { beginAtZero: true, ticks: { callback: function (v) { return (v / 1000) + ' t'; } } } } }
+      });
+      // Tabla
+      var tb = document.getElementById('gp-tabla');
+      if (tb) {
+        var html = '<table class="residuos-data-table"><thead><tr><th>Establecimiento</th><th>Orgánica</th><th>Envases</th><th>Papel/Cartón</th><th>Total</th></tr></thead><tbody>';
+        entries.forEach(function (e) { var d = e[1]; html += '<tr><td>' + e[0].replace(/</g, '&lt;') + '</td><td>' + gpFmtKg(d.organica) + '</td><td>' + gpFmtKg(d.envases) + '</td><td>' + gpFmtKg(d.papel) + '</td><td><strong>' + gpFmtKg(d.total) + '</strong></td></tr>'; });
+        html += '</tbody></table>';
+        tb.innerHTML = html;
+      }
+    };
+    if (_gpData) { render(); return; }
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/RESIDUOS/grandes_productores.json') : '/data/RESIDUOS/grandes_productores.json';
+    fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _gpData = d; render(); }).catch(function () {});
+  }
+
+  /** Tab "Grandes productores" de la vista Tablas: pivote establecimiento × mes (kg). */
+  function renderTablasGrandes(content, esc) {
+    if (!content) return;
+    var pintar = function () {
+      var meses = _gpData.meses;
+      var tot = Object.entries(_gpData.totalesEstab).sort(function (a, b) { return b[1].total - a[1].total; });
+      var kg = function (n) { return (Math.round(n || 0)).toLocaleString('es-ES'); };
+      var html = '<div style="overflow:auto;max-height:70vh;border:1px solid #e2e8f0;border-radius:8px"><table class="residuos-data-table" style="min-width:100%"><thead><tr><th style="position:sticky;left:0;background:#1e293b;color:#fff">Establecimiento</th>' + meses.map(function (m) { return '<th>' + gpMesLbl(m) + '</th>'; }).join('') + '<th>Total</th></tr></thead><tbody>';
+      tot.forEach(function (row) {
+        var e = row[0];
+        html += '<tr><td style="position:sticky;left:0;background:#fff;font-weight:600">' + esc(e) + '</td>' + meses.map(function (m) { var d = (_gpData.datos[m] || {})[e]; return '<td>' + (d ? kg(d.total) : '—') + '</td>'; }).join('') + '<td><strong>' + kg(row[1].total) + '</strong></td></tr>';
+      });
+      html += '<tr style="border-top:2px solid #cbd5e1;font-weight:700"><td style="position:sticky;left:0;background:#f1f5f9">TOTAL</td>' + meses.map(function (m) { return '<td>' + kg((_gpData.totalesMes[m] || {}).total) + '</td>'; }).join('') + '<td>' + kg(tot.reduce(function (s, r) { return s + r[1].total; }, 0)) + '</td></tr>';
+      html += '</tbody></table></div><p class="residuos-tablas-hint" style="margin-top:.5rem">Kg por establecimiento y mes · Fuente: FOBESA (grandes productores) · actualizado ' + (_gpData.actualizado || '') + '</p>';
+      content.innerHTML = html;
+    };
+    if (_gpData) { pintar(); return; }
+    content.innerHTML = '<p class="residuos-section-placeholder">Cargando…</p>';
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/RESIDUOS/grandes_productores.json') : '/data/RESIDUOS/grandes_productores.json';
+    fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _gpData = d; pintar(); }).catch(function () { content.innerHTML = '<p class="residuos-section-placeholder">No se pudieron cargar los datos.</p>'; });
+  }
+
   function invalidatePesajesExcelsList() {
     pesajesExcelsList = null;
     pesajesExcelsLoadPromise = null;
@@ -3207,6 +3336,13 @@
             '<div class="tablas-card-desc">Genera y descarga el informe Word del mes seleccionado</div>' +
           '</div>' +
         '</div>' +
+        '<div class="tablas-card' + (tablasVistaActiva === 'grandes' ? ' active' : '') + '" data-vista="grandes">' +
+          '<div class="tablas-card-icon">🧾</div>' +
+          '<div class="tablas-card-body">' +
+            '<div class="tablas-card-title">Grandes productores</div>' +
+            '<div class="tablas-card-desc">Pesajes FOBESA por hotel/camping y mes (kg)</div>' +
+          '</div>' +
+        '</div>' +
       '</div>' +
       '<div id="tablas-vista-content"></div>';
 
@@ -3224,6 +3360,8 @@
       renderTablasResumen(content, year, mes, esc);
     } else if (tablasVistaActiva === 'informe') {
       renderTablasInforme(content, year, mes, esc);
+    } else if (tablasVistaActiva === 'grandes') {
+      renderTablasGrandes(content, esc);
     } else {
       renderTablasExcel(content, year, mes, esc);
     }
@@ -3662,13 +3800,15 @@
           kpis: 'Residuos - KPIs',
           reciclaje: 'Residuos - Tipos (reciclaje)',
           hoteles: 'Residuos - Hoteles y campings',
+          'grandes-productores': 'Residuos - Grandes productores (FOBESA)',
           mapa: 'Residuos - Mapa de contenedores',
           zonas: 'Residuos - Por zonas',
           'comparacion-tipos': 'Residuos - Comparación por tipo',
           tablas: 'Residuos - Tablas'
         };
         if (h2R && residTitles[el.dataset.section]) h2R.textContent = residTitles[el.dataset.section];
-        setTimeout(function () { updateResiduosKPIs(); }, 100);
+        if (el.dataset.section === 'grandes-productores') setTimeout(renderGrandesProductores, 60);
+        else setTimeout(function () { updateResiduosKPIs(); }, 100);
       });
     });
   }
