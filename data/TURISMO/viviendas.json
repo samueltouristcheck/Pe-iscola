@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-07-14T07:49:33.599Z",
+  "generadoEn": "2026-08-03T08:14:06.511Z",
   "fuente": {
     "organismo": "Generalitat Valenciana - Conselleria de Innovació, Indústria, Comerç i Turisme",
     "dataset": "Datos de turismo sobre viviendas de uso turístico en la Comunitat Valenciana",
@@ -11,13 +11,13 @@
   "municipio": "Peñíscola",
   "codigo_municipio_ine": "12089",
   "resumen": {
-    "viviendas_totales": 3004,
-    "plazas_totales": 13439,
-    "dormitorios_totales": 6908,
-    "superficie_total_m2": 276651,
+    "viviendas_totales": 3017,
+    "plazas_totales": 13489,
+    "dormitorios_totales": 6934,
+    "superficie_total_m2": 277860,
     "plazas_por_vivienda": 4.47,
     "superficie_media_m2": 92,
-    "pct_estudios": 0.6,
+    "pct_estudios": 0.7,
     "pct_rurales": 0
   },
   "altasPorAnyo": {
@@ -26,7 +26,7 @@
     "1995": 14,
     "1996": 7,
     "1997": 8,
-    "1998": 35,
+    "1998": 34,
     "1999": 5,
     "2000": 27,
     "2001": 4,
@@ -49,12 +49,12 @@
     "2018": 283,
     "2019": 114,
     "2020": 119,
-    "2021": 165,
+    "2021": 164,
     "2022": 153,
     "2023": 198,
     "2024": 229,
     "2025": 377,
-    "2026": 195
+    "2026": 210
   },
   "plazasPorAnyo": {
     "1993": 20,
@@ -62,7 +62,7 @@
     "1995": 72,
     "1996": 34,
     "1997": 35,
-    "1998": 137,
+    "1998": 133,
     "1999": 18,
     "2000": 130,
     "2001": 24,
@@ -85,12 +85,12 @@
     "2018": 1342,
     "2019": 476,
     "2020": 541,
-    "2021": 708,
+    "2021": 704,
     "2022": 614,
     "2023": 826,
     "2024": 997,
     "2025": 1629,
-    "2026": 895
+    "2026": 953
   },
   "plazasAcum": {
     "1993": {
@@ -114,133 +114,133 @@
       "plazas": 737
     },
     "1998": {
-      "viviendas": 189,
-      "plazas": 874
+      "viviendas": 188,
+      "plazas": 870
     },
     "1999": {
-      "viviendas": 194,
-      "plazas": 892
+      "viviendas": 193,
+      "plazas": 888
     },
     "2000": {
-      "viviendas": 221,
-      "plazas": 1022
+      "viviendas": 220,
+      "plazas": 1018
     },
     "2001": {
-      "viviendas": 225,
-      "plazas": 1046
+      "viviendas": 224,
+      "plazas": 1042
     },
     "2002": {
-      "viviendas": 252,
-      "plazas": 1185
+      "viviendas": 251,
+      "plazas": 1181
     },
     "2003": {
-      "viviendas": 265,
-      "plazas": 1261
+      "viviendas": 264,
+      "plazas": 1257
     },
     "2004": {
-      "viviendas": 276,
-      "plazas": 1319
+      "viviendas": 275,
+      "plazas": 1315
     },
     "2005": {
-      "viviendas": 302,
-      "plazas": 1423
+      "viviendas": 301,
+      "plazas": 1419
     },
     "2006": {
-      "viviendas": 381,
-      "plazas": 1744
+      "viviendas": 380,
+      "plazas": 1740
     },
     "2007": {
-      "viviendas": 389,
-      "plazas": 1779
+      "viviendas": 388,
+      "plazas": 1775
     },
     "2008": {
-      "viviendas": 403,
-      "plazas": 1831
+      "viviendas": 402,
+      "plazas": 1827
     },
     "2009": {
-      "viviendas": 460,
-      "plazas": 2073
+      "viviendas": 459,
+      "plazas": 2069
     },
     "2010": {
-      "viviendas": 470,
-      "plazas": 2111
+      "viviendas": 469,
+      "plazas": 2107
     },
     "2011": {
-      "viviendas": 475,
-      "plazas": 2129
+      "viviendas": 474,
+      "plazas": 2125
     },
     "2012": {
-      "viviendas": 484,
-      "plazas": 2160
+      "viviendas": 483,
+      "plazas": 2156
     },
     "2013": {
-      "viviendas": 520,
-      "plazas": 2334
+      "viviendas": 519,
+      "plazas": 2330
     },
     "2014": {
-      "viviendas": 557,
-      "plazas": 2495
+      "viviendas": 556,
+      "plazas": 2491
     },
     "2015": {
-      "viviendas": 709,
-      "plazas": 3167
+      "viviendas": 708,
+      "plazas": 3163
     },
     "2016": {
-      "viviendas": 906,
-      "plazas": 4075
+      "viviendas": 905,
+      "plazas": 4071
     },
     "2017": {
-      "viviendas": 1171,
-      "plazas": 5411
+      "viviendas": 1170,
+      "plazas": 5407
     },
     "2018": {
-      "viviendas": 1454,
-      "plazas": 6753
+      "viviendas": 1453,
+      "plazas": 6749
     },
     "2019": {
-      "viviendas": 1568,
-      "plazas": 7229
+      "viviendas": 1567,
+      "plazas": 7225
     },
     "2020": {
-      "viviendas": 1687,
-      "plazas": 7770
+      "viviendas": 1686,
+      "plazas": 7766
     },
     "2021": {
-      "viviendas": 1852,
-      "plazas": 8478
+      "viviendas": 1850,
+      "plazas": 8470
     },
     "2022": {
-      "viviendas": 2005,
-      "plazas": 9092
+      "viviendas": 2003,
+      "plazas": 9084
     },
     "2023": {
-      "viviendas": 2203,
-      "plazas": 9918
+      "viviendas": 2201,
+      "plazas": 9910
     },
     "2024": {
-      "viviendas": 2432,
-      "plazas": 10915
+      "viviendas": 2430,
+      "plazas": 10907
     },
     "2025": {
-      "viviendas": 2809,
-      "plazas": 12544
+      "viviendas": 2807,
+      "plazas": 12536
     },
     "2026": {
-      "viviendas": 3004,
-      "plazas": 13439
+      "viviendas": 3017,
+      "plazas": 13489
     }
   },
   "distribucionTamano": {
-    "1-2": 433,
-    "3-4": 1536,
-    "5-6": 859,
-    "7-8": 140,
+    "1-2": 438,
+    "3-4": 1540,
+    "5-6": 862,
+    "7-8": 141,
     "9+": 36
   },
   "porCp": {
     "12598": {
-      "viviendas": 3003,
-      "plazas": 13431
+      "viviendas": 3016,
+      "plazas": 13481
     },
     "sin CP": {
       "viviendas": 1,
@@ -5948,7 +5948,7 @@
     },
     {
       "signatura": "CV-VUT0033602-CS",
-      "nombre": "Vivienda 33602-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA E 143, 7, Es:2 Pl:01 Pt:01",
       "cp": "12598",
       "ref_catastral": "0449014BE8704N0021FR",
@@ -17595,6 +17595,22 @@
       "fecha_alta": "2026-05-07"
     },
     {
+      "signatura": "CV-VUT0048437-CS",
+      "nombre": null,
+      "direccion": "AV PAPA LUNA, 64, Pl:00 Pt:02",
+      "cp": "12598",
+      "ref_catastral": "9930911BE7793S0002UY",
+      "web": null,
+      "plazas": 6,
+      "dormitorios": 3,
+      "habdoble": 3,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 80,
+      "fecha_alta": "2026-07-23"
+    },
+    {
       "signatura": "CV-VUT0022847-CS",
       "nombre": "Vivienda 22847-CS",
       "direccion": "AV PAPA LUNA, 66 Pl:00 Pt:02",
@@ -19308,7 +19324,7 @@
     },
     {
       "signatura": "CV-VUT0033412-CS",
-      "nombre": "Vivienda 33412-CS",
+      "nombre": null,
       "direccion": "AV VALENCIA, 129, Bloque:6 Es:1 Pl:06 Pt:36",
       "cp": "12598",
       "ref_catastral": "9934304BE7793S0084WK",
@@ -24971,8 +24987,24 @@
       "fecha_alta": "2018-11-28"
     },
     {
+      "signatura": "CV-VUT0048427-CS",
+      "nombre": null,
+      "direccion": "CL DEL LLIRI, 1, Es:1 Pl:01 Pt:B",
+      "cp": "12598",
+      "ref_catastral": "7692503BE7679S0005YY",
+      "web": null,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 79,
+      "fecha_alta": "2026-07-22"
+    },
+    {
       "signatura": "CV-VUT0042245-CS",
-      "nombre": "Vivienda 42245-CS",
+      "nombre": null,
       "direccion": "CL DEL LLIRI, 1, Es:1 Pl:02 Pt:B",
       "cp": "12598",
       "ref_catastral": "7692503BE7679S0007II",
@@ -25113,6 +25145,22 @@
       "rural": false,
       "superficie_m2": 114,
       "fecha_alta": "2025-05-07"
+    },
+    {
+      "signatura": "CV-VUT0048403-CS",
+      "nombre": null,
+      "direccion": "CL DELS VENTS, 4, Pl:04 Pt:B0",
+      "cp": "12598",
+      "ref_catastral": "9113404BE7791S0022BO",
+      "web": null,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 72,
+      "fecha_alta": "2026-07-15"
     },
     {
       "signatura": "CV-VUT0043604-CS",
@@ -25593,6 +25641,22 @@
       "rural": false,
       "superficie_m2": 53,
       "fecha_alta": "2024-01-25"
+    },
+    {
+      "signatura": "CV-VUT0048461-CS",
+      "nombre": "Balcón a Peñíscola",
+      "direccion": "CL GLEZ GRANDA, 14, Es:1 Pl:02 Pt:01",
+      "cp": "12598",
+      "ref_catastral": "9809905BE7790N0004XK",
+      "web": null,
+      "plazas": 2,
+      "dormitorios": 1,
+      "habdoble": 1,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 53,
+      "fecha_alta": "2026-07-31"
     },
     {
       "signatura": "CV-VUT0034484-CS",
@@ -27291,6 +27355,22 @@
       "fecha_alta": "2006-04-04"
     },
     {
+      "signatura": "CV-VUT0048438-CS",
+      "nombre": "ALONDRAS",
+      "direccion": "CL JAMAICA, 27, Es:T Pl:OD Pt:OS",
+      "cp": "12598",
+      "ref_catastral": "8808004BE7780N0001WA",
+      "web": "www.interhome.es",
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 85,
+      "fecha_alta": "2026-07-23"
+    },
+    {
       "signatura": "CV-VUT0046348-CS",
       "nombre": "VILLA  MARAVELLA",
       "direccion": "CL JAMAICA, 28, Es:T Pl:OD Pt:OS",
@@ -27353,6 +27433,22 @@
       "rural": false,
       "superficie_m2": 65,
       "fecha_alta": "2017-03-28"
+    },
+    {
+      "signatura": "CV-VUT0048433-CS",
+      "nombre": "APARTAMENTO JAUME I PEÑISCOLA",
+      "direccion": "CL JAUME I, 13, Pl:02 Pt:02",
+      "cp": "12598",
+      "ref_catastral": "9511707BE7791S0003RL",
+      "web": null,
+      "plazas": 2,
+      "dormitorios": 1,
+      "habdoble": 1,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 43,
+      "fecha_alta": "2026-07-22"
     },
     {
       "signatura": "CV-VUT0036089-CS",
@@ -27689,6 +27785,22 @@
       "rural": false,
       "superficie_m2": 85,
       "fecha_alta": "2025-07-02"
+    },
+    {
+      "signatura": "CV-VUT0048396-CS",
+      "nombre": null,
+      "direccion": "CL LA COVA 29, 4B, Es:B Pl:02 Pt:07",
+      "cp": "12598",
+      "ref_catastral": "8910901BE7781S0005WJ",
+      "web": null,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 84,
+      "fecha_alta": "2026-07-14"
     },
     {
       "signatura": "CV-VUT0045828-CS",
@@ -28201,6 +28313,22 @@
       "rural": false,
       "superficie_m2": 100,
       "fecha_alta": "2025-07-01"
+    },
+    {
+      "signatura": "CV-VUT0048440-CS",
+      "nombre": null,
+      "direccion": "CL MAESTRAT, 15, Es:1 Pl:03 Pt:A",
+      "cp": "12598",
+      "ref_catastral": "9013504BE7791S0013EE",
+      "web": null,
+      "plazas": 5,
+      "dormitorios": 3,
+      "habdoble": 2,
+      "habindi": 1,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 100,
+      "fecha_alta": "2026-07-23"
     },
     {
       "signatura": "CV-VUT0040774-CS",
@@ -32475,6 +32603,22 @@
       "fecha_alta": "2017-09-08"
     },
     {
+      "signatura": "CV-VUT0048449-CS",
+      "nombre": null,
+      "direccion": "CL OSCA, 2, Bloque:C Es:2 Pl:07 Pt:07",
+      "cp": "12598",
+      "ref_catastral": "0139701BE8703N0156HH",
+      "web": null,
+      "plazas": 2,
+      "dormitorios": 0,
+      "habdoble": 0,
+      "habindi": 0,
+      "estudio": true,
+      "rural": false,
+      "superficie_m2": 42,
+      "fecha_alta": "2026-07-28"
+    },
+    {
       "signatura": "CV-VUT0020552-CS",
       "nombre": "Vivienda 20552-CS",
       "direccion": "CL OSCA, 2, Bloque:C Es:2 Pl:07 Pt:10",
@@ -32553,6 +32697,22 @@
       "rural": false,
       "superficie_m2": 42,
       "fecha_alta": "2021-03-16"
+    },
+    {
+      "signatura": "CV-VUT0048448-CS",
+      "nombre": null,
+      "direccion": "CL OSCA, 2, Bloque:C Es:3 Pl:02 Pt:03",
+      "cp": "12598",
+      "ref_catastral": "0139701BE8703N0202EE",
+      "web": null,
+      "plazas": 2,
+      "dormitorios": 0,
+      "habdoble": 0,
+      "habindi": 0,
+      "estudio": true,
+      "rural": false,
+      "superficie_m2": 42,
+      "fecha_alta": "2026-07-28"
     },
     {
       "signatura": "CV-VUT0040823-CS",
@@ -33387,22 +33547,6 @@
       "fecha_alta": "2018-05-23"
     },
     {
-      "signatura": "CV-VUT0038157-CS",
-      "nombre": "Vivienda 38157-CS",
-      "direccion": "CL PARAGUAI, 10, Es:S Pl:UE Pt:LO",
-      "cp": "12598",
-      "ref_catastral": "8907003BE7780N0001EA",
-      "web": null,
-      "plazas": 4,
-      "dormitorios": 2,
-      "habdoble": 2,
-      "habindi": 0,
-      "estudio": false,
-      "rural": false,
-      "superficie_m2": 0,
-      "fecha_alta": "2018-08-03"
-    },
-    {
       "signatura": "CV-VUT0048018-CS",
       "nombre": null,
       "direccion": "CL PARAGUAI, 5, Es:T Pl:OD Pt:OS",
@@ -33513,6 +33657,22 @@
       "rural": false,
       "superficie_m2": 132,
       "fecha_alta": "2025-01-16"
+    },
+    {
+      "signatura": "CV-VUT0038157-CS",
+      "nombre": "Vivienda 38157-CS",
+      "direccion": "CL PARAGUAI, 6, Es:1 Pl:00 Pt:10",
+      "cp": "12598",
+      "ref_catastral": "8907006BE7780N0010DJ",
+      "web": null,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 173,
+      "fecha_alta": "2018-08-03"
     },
     {
       "signatura": "CV-VUT0039258-CS",
@@ -36956,7 +37116,7 @@
     },
     {
       "signatura": "CV-VUT0028978-CS",
-      "nombre": "Vivienda 28978-CS",
+      "nombre": null,
       "direccion": "CL SOGORB -UR FONT NOVA-, 1D, Bloque:II Es:2 Pl:02 Pt:61",
       "cp": "12598",
       "ref_catastral": "6183002BE7668S0059DQ",
@@ -38219,15 +38379,15 @@
       "fecha_alta": "2025-04-11"
     },
     {
-      "signatura": "CV-VUT0030015-CS",
-      "nombre": "Vivienda 30015-CS",
+      "signatura": "CV-VUT0030014-CS",
+      "nombre": "Vivienda 30014-CS",
       "direccion": "CL VG ERMITAÑA, 1, Es:1 Pl:03 Pt:05",
       "cp": "12598",
       "ref_catastral": "9511501BE7791S0009JW",
       "web": null,
-      "plazas": 6,
-      "dormitorios": 3,
-      "habdoble": 3,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
       "habindi": 0,
       "estudio": false,
       "rural": false,
@@ -38235,15 +38395,15 @@
       "fecha_alta": "2015-08-24"
     },
     {
-      "signatura": "CV-VUT0030014-CS",
-      "nombre": "Vivienda 30014-CS",
+      "signatura": "CV-VUT0030015-CS",
+      "nombre": "Vivienda 30015-CS",
       "direccion": "CL VG ERMITAÑA, 1, Es:1 Pl:03 Pt:06",
       "cp": "12598",
       "ref_catastral": "9511501BE7791S0010GM",
       "web": null,
-      "plazas": 4,
-      "dormitorios": 2,
-      "habdoble": 2,
+      "plazas": 6,
+      "dormitorios": 3,
+      "habdoble": 3,
       "habindi": 0,
       "estudio": false,
       "rural": false,
@@ -38921,6 +39081,22 @@
       "rural": false,
       "superficie_m2": 99,
       "fecha_alta": "2025-12-03"
+    },
+    {
+      "signatura": "CV-VUT0048452-CS",
+      "nombre": null,
+      "direccion": "CL XILE, 5, Es:2 Pl:01 Pt:D",
+      "cp": "12598",
+      "ref_catastral": "8906803BE7780N0006SH",
+      "web": null,
+      "plazas": 7,
+      "dormitorios": 5,
+      "habdoble": 2,
+      "habindi": 3,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 68,
+      "fecha_alta": "2026-07-29"
     },
     {
       "signatura": "CV-VUT0038615-CS",
@@ -39629,9 +39805,9 @@
     {
       "signatura": "CV-VUT0031945-CS",
       "nombre": "Vivienda 31945-CS",
-      "direccion": "CM CERVERA, 38, Bloque:B Es:1 Pl:00 Pt:03",
+      "direccion": "CM CERVERA, 38, Bloque:A Es:1 Pl:00 Pt:03",
       "cp": "12598",
-      "ref_catastral": "8728039BE7782N0002HM",
+      "ref_catastral": "8728039BE7782N0001GX",
       "web": null,
       "plazas": 6,
       "dormitorios": 3,
@@ -39639,7 +39815,7 @@
       "habindi": 0,
       "estudio": false,
       "rural": false,
-      "superficie_m2": 116,
+      "superficie_m2": 127,
       "fecha_alta": "2016-06-17"
     },
     {
@@ -41803,22 +41979,6 @@
       "fecha_alta": "2021-09-01"
     },
     {
-      "signatura": "CV-VUT0041028-CS",
-      "nombre": "Vivienda 41028-CS",
-      "direccion": "CR ESTACIO, 53, Es:1 Pl:00 Pt:78",
-      "cp": "12598",
-      "ref_catastral": "8819001BE7781N0078WG",
-      "web": null,
-      "plazas": 4,
-      "dormitorios": 2,
-      "habdoble": 2,
-      "habindi": 0,
-      "estudio": false,
-      "rural": false,
-      "superficie_m2": 122,
-      "fecha_alta": "2021-08-02"
-    },
-    {
       "signatura": "CV-VUT0036346-CS",
       "nombre": "Vivienda 36346-CS",
       "direccion": "CR ESTACIO, 53, Es:1 Pl:00 Pt:84",
@@ -42315,6 +42475,22 @@
       "fecha_alta": "2015-10-16"
     },
     {
+      "signatura": "CV-VUT0048408-CS",
+      "nombre": null,
+      "direccion": "DS POLIGONO 5, 10, Es:T Pl:OD Pt:OS",
+      "cp": "12598",
+      "ref_catastral": "12089A005000100001XQ",
+      "web": null,
+      "plazas": 6,
+      "dormitorios": 4,
+      "habdoble": 2,
+      "habindi": 2,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 278,
+      "fecha_alta": "2026-07-16"
+    },
+    {
       "signatura": "CV-VUT0034543-CS",
       "nombre": "Vivienda 34543-CS",
       "direccion": "DS POLIGONO 5, 164, Es:T Pl:OD Pt:OS",
@@ -42587,22 +42763,6 @@
       "fecha_alta": "2018-07-10"
     },
     {
-      "signatura": "CV-VUT0017603-CS",
-      "nombre": "Vivienda 17603-CS",
-      "direccion": "PG POLIGONO 6F, 363, Bloque:7 Es:G Pl:02 Pt:E0",
-      "cp": "12598",
-      "ref_catastral": "96362C0BE7793N0176XI",
-      "web": null,
-      "plazas": 4,
-      "dormitorios": 2,
-      "habdoble": 2,
-      "habindi": 0,
-      "estudio": false,
-      "rural": false,
-      "superficie_m2": 41,
-      "fecha_alta": "1998-07-14"
-    },
-    {
       "signatura": "CV-VUT0047336-CS",
       "nombre": null,
       "direccion": "PG POLIGONO 6F, 363, Bloque:7 Es:G Pl:03 Pt:E0",
@@ -42617,6 +42777,22 @@
       "rural": false,
       "superficie_m2": 41,
       "fecha_alta": "2025-07-26"
+    },
+    {
+      "signatura": "CV-VUT0048457-CS",
+      "nombre": null,
+      "direccion": "PG POLIGONO 6F, 363, Bloque:7 Es:G Pl:03 Pt:G0",
+      "cp": "12598",
+      "ref_catastral": "96362C0BE7793N0185TF",
+      "web": null,
+      "plazas": 2,
+      "dormitorios": 1,
+      "habdoble": 1,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 40,
+      "fecha_alta": "2026-07-29"
     },
     {
       "signatura": "CV-VUT0027685-CS",
@@ -42793,6 +42969,22 @@
       "rural": false,
       "superficie_m2": 45,
       "fecha_alta": "2016-05-11"
+    },
+    {
+      "signatura": "CV-VUT0048447-CS",
+      "nombre": null,
+      "direccion": "PL POLIGONO 14, 1, Es:6 Pl:00 Pt:44",
+      "cp": "12598",
+      "ref_catastral": "8513011BE7781S0044AZ",
+      "web": null,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 45,
+      "fecha_alta": "2026-07-27"
     },
     {
       "signatura": "CV-VUT0030075-CS",
@@ -46441,6 +46633,22 @@
       "rural": false,
       "superficie_m2": 77,
       "fecha_alta": "2023-03-07"
+    },
+    {
+      "signatura": "CV-VUT0048393-CS",
+      "nombre": null,
+      "direccion": "UR FONT NOVA AP FONT NOVA I, 5, Es:A Pl:00 Pt:16",
+      "cp": "12598",
+      "ref_catastral": "6285002BE7668N0014TY",
+      "web": null,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 77,
+      "fecha_alta": "2026-07-13"
     },
     {
       "signatura": "CV-VUT0042001-CS",
