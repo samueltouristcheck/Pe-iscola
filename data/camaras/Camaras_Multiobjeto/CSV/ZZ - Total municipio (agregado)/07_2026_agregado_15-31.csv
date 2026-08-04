@@ -1,0 +1,33 @@
+Análisis de tipo multiobjetivo	;
+Información básica	;
+Hora de exportación: 2026/08/04 10:14:09	;
+Operador: Touristcheck	;
+Objetivo de estadísticas: Total de cámaras: 17	;
+Exportar contenido:Número de personas,Vehículos a motor,Vehículos sin motor	;
+Hora del informe: 2026/07/01 00:00:00 - 2026/07/31 23:59:59	;
+
+Personas totales	; 	; 	; 	; 	; 	;Total de vehículos a motor	; 	; 	; 	; 	; 	;Total de vehículos sin motor	;
+Avanzar	; 	; 	;Retroceso	; 	; 	;Avanzar	; 	; 	;Retroceso	; 	; 	;Avanzar	; 	; 	;Retroceso	;
+Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;
+1654381	;Aumentar por49.9%	;Aumentar por2.7%	;1663640	;Aumentar por46.9%	;Aumentar por5.1%	;1080972	;Aumentar por40.3%	;Aumentar por4.3%	;1068196	;Aumentar por37.9%	;Aumentar por5.3%	;200278	;Aumentar por39.4%	;Aumentar por6.9%	;194144	;Aumentar por33.1%	;Aumentar por7.5%	;
+
+N.º	;Hora	;Personas	; 	; 	; 	; 	; 	;Vehículos a motor	; 	; 	; 	; 	; 	;Vehículos sin motor	;
+	;	;Avanzar	; 	; 	;Retroceso	; 	; 	;Avanzar	; 	; 	;Retroceso	; 	; 	;Avanzar	; 	; 	;Retroceso	;
+	;	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;Valor	;Tasa de cambio (ciclo tras ciclo)	;Tasa de cambio (año tras año)	;
+15	;(Miércoles)2026/07/15	;49245	;Aumentar por75.5%	;Aumentar por1.6%	;49092	;Aumentar por71.8%	;Aumentar por2.0%	;37338	;Aumentar por51.4%	;Aumentar por17.3%	;34227	;Aumentar por39.7%	;Aumentar por9.8%	;6493	;Aumentar por34.5%	;Aumentar por3.9%	;6054	;Aumentar por24.0%	;Disminuir por2.5%	;
+16	;(Jueves)2026/07/16	;50638	;Aumentar por77.5%	;Disminuir por2.5%	;51118	;Aumentar por74.9%	;Aumentar por2.4%	;34250	;Aumentar por39.1%	;Aumentar por5.3%	;33343	;Aumentar por37.1%	;Aumentar por5.6%	;6607	;Aumentar por42.7%	;Aumentar por1.8%	;6355	;Aumentar por39.0%	;Aumentar por1.3%	;
+17	;(Viernes)2026/07/17	;50440	;Aumentar por67.3%	;Disminuir por4.5%	;51038	;Aumentar por67.2%	;Disminuir por0.6%	;34933	;Aumentar por45.5%	;Aumentar por3.7%	;34304	;Aumentar por44.8%	;Aumentar por5.0%	;6580	;Aumentar por41.8%	;Aumentar por2.5%	;6401	;Aumentar por38.7%	;Aumentar por2.8%	;
+18	;(Sábado)2026/07/18	;63909	;Aumentar por109.3%	;Aumentar por34.2%	;64850	;Aumentar por106.8%	;Aumentar por36.8%	;38264	;Aumentar por50.2%	;Aumentar por7.0%	;38009	;Aumentar por50.3%	;Aumentar por12.7%	;6989	;Aumentar por39.8%	;Aumentar por9.3%	;6750	;Aumentar por36.2%	;Aumentar por10.7%	;
+19	;(Domingo)2026/07/19	;38622	;Aumentar por10.1%	;Disminuir por33.6%	;41037	;Aumentar por17.5%	;Disminuir por29.5%	;29263	;Aumentar por1.4%	;Disminuir por21.1%	;31015	;Aumentar por12.6%	;Disminuir por12.6%	;6105	;Aumentar por20.6%	;Disminuir por8.4%	;5985	;Aumentar por16.8%	;Disminuir por4.4%	;
+20	;(Lunes)2026/07/20	;57253	;Aumentar por2.4%	;Aumentar por8.8%	;57106	;Aumentar por2.7%	;Aumentar por6.3%	;40083	;Aumentar por40.2%	;Aumentar por27.5%	;39868	;Aumentar por44.7%	;Aumentar por21.5%	;6967	;Aumentar por31.3%	;Aumentar por8.5%	;6854	;Aumentar por30.7%	;Aumentar por8.9%	;
+21	;(Martes)2026/07/21	;59142	;Aumentar por39.6%	;Aumentar por15.3%	;58558	;Aumentar por34.8%	;Aumentar por13.1%	;38237	;Aumentar por68.4%	;Disminuir por0.7%	;37675	;Aumentar por54.8%	;Aumentar por0.5%	;6691	;Aumentar por33.5%	;Disminuir por4.6%	;6359	;Aumentar por19.2%	;Disminuir por5.3%	;
+22	;(Miércoles)2026/07/22	;60554	;Aumentar por53.2%	;Aumentar por30.1%	;59803	;Aumentar por48.4%	;Aumentar por28.4%	;35950	;Aumentar por23.8%	;Aumentar por7.1%	;35105	;Aumentar por22.2%	;Aumentar por6.7%	;6909	;Aumentar por31.4%	;Disminuir por0.6%	;6502	;Aumentar por22.8%	;Disminuir por3.0%	;
+23	;(Jueves)2026/07/23	;54822	;Aumentar por30.7%	;Aumentar por7.1%	;53804	;Aumentar por20.9%	;Aumentar por4.3%	;36239	;Aumentar por29.0%	;Aumentar por7.2%	;35609	;Aumentar por30.6%	;Aumentar por7.9%	;7131	;Aumentar por35.4%	;Aumentar por45.7%	;6782	;Aumentar por30.9%	;Aumentar por44.2%	;
+24	;(Viernes)2026/07/24	;55856	;Aumentar por13.3%	;Disminuir por9.5%	;55842	;Aumentar por10.8%	;Disminuir por12.2%	;38952	;Aumentar por62.2%	;Aumentar por2.9%	;37963	;Aumentar por50.7%	;Aumentar por3.0%	;7120	;Aumentar por39.7%	;Aumentar por45.3%	;6789	;Aumentar por26.0%	;Aumentar por38.3%	;
+25	;(Sábado)2026/07/25	;66428	;Aumentar por48.5%	;Aumentar por28.5%	;66987	;Aumentar por47.8%	;Aumentar por26.1%	;41130	;Aumentar por42.7%	;Aumentar por11.7%	;40683	;Aumentar por39.7%	;Aumentar por16.8%	;7317	;Aumentar por37.4%	;Aumentar por11.7%	;6938	;Aumentar por27.3%	;Aumentar por18.8%	;
+26	;(Domingo)2026/07/26	;70746	;Aumentar por55.2%	;Aumentar por9.0%	;71229	;Aumentar por53.9%	;Aumentar por5.4%	;43223	;Aumentar por38.5%	;Aumentar por14.4%	;44670	;Aumentar por46.2%	;Aumentar por19.9%	;6675	;Aumentar por21.6%	;Disminuir por9.2%	;6425	;Aumentar por20.4%	;Disminuir por9.8%	;
+27	;(Lunes)2026/07/27	;61883	;Aumentar por10.9%	;Aumentar por8.4%	;60958	;Aumentar por3.8%	;Aumentar por2.9%	;40919	;Aumentar por30.6%	;Aumentar por31.2%	;40357	;Aumentar por26.7%	;Aumentar por22.8%	;7518	;Aumentar por36.9%	;Aumentar por19.5%	;7276	;Aumentar por32.8%	;Aumentar por15.7%	;
+28	;(Martes)2026/07/28	;63084	;Aumentar por38.3%	;Aumentar por9.6%	;62895	;Aumentar por32.3%	;Aumentar por10.4%	;35696	;Aumentar por41.6%	;Disminuir por0.9%	;35213	;Aumentar por25.0%	;Sin cambios	;7149	;Aumentar por47.6%	;Aumentar por4.1%	;6779	;Aumentar por30.7%	;Aumentar por0.8%	;
+29	;(Miércoles)2026/07/29	;63769	;Aumentar por77.6%	;Aumentar por18.9%	;63565	;Aumentar por73.6%	;Aumentar por18.7%	;35030	;Aumentar por26.4%	;Aumentar por0.8%	;34042	;Aumentar por20.5%	;Aumentar por0.2%	;7287	;Aumentar por32.7%	;Aumentar por10.0%	;7015	;Aumentar por29.2%	;Aumentar por9.6%	;
+30	;(Jueves)2026/07/30	;60704	;Aumentar por70.2%	;Aumentar por0.3%	;60205	;Aumentar por68.3%	;Aumentar por3.1%	;36465	;Aumentar por35.9%	;Aumentar por1.7%	;35891	;Aumentar por32.6%	;Aumentar por1.2%	;7291	;Aumentar por42.3%	;Aumentar por8.5%	;6823	;Aumentar por33.3%	;Aumentar por3.5%	;
+31	;(Viernes)2026/07/31	;57557	; --%	;Aumentar por2.5%	;56807	; --%	;Aumentar por4.2%	;37662	; --%	;Aumentar por8.7%	;36385	; --%	;Aumentar por7.0%	;7335	; --%	;Aumentar por7.9%	;7000	; --%	;Aumentar por6.9%	;

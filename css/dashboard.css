@@ -164,7 +164,7 @@
 .nav {
     flex: 1 1 auto;
     min-height: 0;
-    overflow-y: auto;
+    overflow: hidden;
     padding: 0 12px;
     position: relative;
 }
@@ -191,17 +191,18 @@
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
+    gap: calc(11px * var(--nav-scale, 1));
+    padding: calc(9px * var(--nav-scale, 1)) 13px;
     color: var(--text-secondary);
     text-decoration: none;
     border-radius: var(--radius-md);
-    margin-bottom: 2px;
+    margin-bottom: calc(2px * var(--nav-scale, 1));
     transition: background 150ms ease, color 150ms ease, transform 120ms ease;
     border-left: 3px solid transparent;
-    font-size: var(--font-size-sm);
+    font-size: calc(var(--font-size-sm) * var(--nav-scale, 1));
     font-weight: 500;
     position: relative;
+    white-space: nowrap;
 }
 .nav-item:hover {
     background: var(--bg-hover);
@@ -226,11 +227,12 @@
     background: var(--color-primary);
 }
 .nav-icon {
-    font-size: 1.05rem;
-    width: 22px;
+    font-size: calc(1.05rem * var(--nav-scale, 1));
+    width: calc(22px * var(--nav-scale, 1));
     text-align: center;
     flex-shrink: 0;
 }
+.nav-group-label { font-size: calc(0.7rem * var(--nav-scale, 1)) !important; padding-top: calc(0.35rem * var(--nav-scale, 1)) !important; padding-bottom: calc(0.15rem * var(--nav-scale, 1)) !important; }
 
 .camaras-data-source {
     background: var(--bg-card);

@@ -380,7 +380,7 @@ async function main() {
   const todasCamaras = [...new Set([
     ...Object.keys(lprResult.byCamara || {}),
     ...Object.keys(byCamaraMultiobjeto)
-  ])];
+  ])].filter((n) => !/\(agregado\)/i.test(n));
   const camarasMapa = [];
   todasCamaras.forEach((nombre, i) => {
     const c = coords[nombre] || coords[nombre.replace(/^\d+\s*-\s*/, '')];

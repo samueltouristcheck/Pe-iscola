@@ -644,6 +644,9 @@
   function multiNf(n) { return (typeof tFmtNum === 'function') ? tFmtNum(n) : Math.round(n || 0).toLocaleString('es-ES'); }
   function multiCorta(k) { return k.length > 24 ? k.slice(0, 21) + '…' : k; }
   function multiNombre(c) { return String(c || '').replace(/^\d+\s*-\s*/, ''); }
+  // Filas "(agregado)": totales de julio sin desglose por cámara. Cuentan en KPIs
+  // y evolución mensual, pero se excluyen de mapa/calles/por-cámara.
+  function multiEsAgregado(c) { return /\(agregado\)/i.test(String(c || '')); }
   function mesEtiqueta(ym) { var p = String(ym).split('-'); if (p.length < 2) return ym; var mi = parseInt(p[1], 10) - 1; return (MESES[mi] || p[1]) + ' ' + p[0]; }
   function multiMetricVal(o, m) { if (!o) return 0; if (m === 'vm') return o.vm; if (m === 'vs') return o.vs; if (m === 'tot') return o.p + o.vm + o.vs; return o.p; }
   function multiMetricLabel(m) { return m === 'vm' ? 'vehículos a motor' : m === 'vs' ? 'vehículos sin motor' : m === 'tot' ? 'paso total' : 'personas'; }
@@ -693,9 +696,11 @@
       var mes = r.fecha;
       if (mes) { if (!porMes[mes]) porMes[mes] = { p: 0, vm: 0, vs: 0 }; porMes[mes].p += p; porMes[mes].vm += vm; porMes[mes].vs += vs; }
       var c = r.camara || '—';
-      if (!porCam[c]) porCam[c] = { p: 0, vm: 0, vs: 0, pa: 0, pr: 0, va: 0, vr: 0, sa: 0, sr: 0 };
-      var o = porCam[c]; o.p += p; o.vm += vm; o.vs += vs; o.pa += pa; o.pr += pr; o.va += va; o.vr += vr; o.sa += sa; o.sr += sr;
-      if (mes) { if (!porCamMes[c]) porCamMes[c] = {}; if (!porCamMes[c][mes]) porCamMes[c][mes] = { p: 0, vm: 0, vs: 0 }; var q = porCamMes[c][mes]; q.p += p; q.vm += vm; q.vs += vs; }
+      if (!multiEsAgregado(c)) {
+        if (!porCam[c]) porCam[c] = { p: 0, vm: 0, vs: 0, pa: 0, pr: 0, va: 0, vr: 0, sa: 0, sr: 0 };
+        var o = porCam[c]; o.p += p; o.vm += vm; o.vs += vs; o.pa += pa; o.pr += pr; o.va += va; o.vr += vr; o.sa += sa; o.sr += sr;
+        if (mes) { if (!porCamMes[c]) porCamMes[c] = {}; if (!porCamMes[c][mes]) porCamMes[c][mes] = { p: 0, vm: 0, vs: 0 }; var q = porCamMes[c][mes]; q.p += p; q.vm += vm; q.vs += vs; }
+      }
     });
     return { totP: totP, totM: totM, totS: totS, porMes: porMes, porCam: porCam, porCamMes: porCamMes, meses: Object.keys(porMes).sort(), cams: Object.keys(porCam) };
   }
@@ -725,7 +730,7 @@
     var m = (camarasData && camarasData.multiobjeto) || [];
     var fechas = multiFechas();
     var anios = Object.keys(fechas.reduce(function (a, x) { a[x.slice(0, 4)] = 1; return a; }, {})).sort();
-    var cams = Object.keys(m.reduce(function (a, r) { a[r.camara] = 1; return a; }, {})).sort();
+    var cams = Object.keys(m.reduce(function (a, r) { a[r.camara] = 1; return a; }, {})).filter(function (c) { return !multiEsAgregado(c); }).sort();
     var aSel = document.getElementById('multi-f-anio');
     if (aSel) { var pa = aSel.value; aSel.innerHTML = ''; aSel.appendChild(new Option('Todos los años', '')); anios.forEach(function (a) { aSel.appendChild(new Option(a, a)); }); if (pa) aSel.value = pa; }
     multiPoblarMeses();
@@ -1263,6 +1268,25 @@
     return window.getComputedStyle(el).display !== 'none';
   }
 
+  // Ajusta la escala de la letra/espaciado del nav para que TODOS los ítems quepan sin barra de scroll.
+  function fitNav(navEl) {
+    if (!navEl || navEl.style.display === 'none') return;
+    navEl.style.setProperty('--nav-scale', '1');
+    var scale = 1, guard = 0;
+    while (navEl.scrollHeight > navEl.clientHeight + 1 && scale > 0.45 && guard < 60) {
+      scale = Math.round((scale - 0.03) * 100) / 100;
+      navEl.style.setProperty('--nav-scale', String(scale));
+      guard++;
+    }
+  }
+  var _navResizeBound = false;
+  function bindNavResize() {
+    if (_navResizeBound) return; _navResizeBound = true;
+    window.addEventListener('resize', function () {
+      var nv = document.querySelector('.sidebar .nav[data-active="1"]');
+      if (nv) fitNav(nv);
+    });
+  }
   function setMode(newMode) {
     mode = newMode;
     const mainLanding = document.getElementById('main-landing');
@@ -1335,6 +1359,10 @@
       if (footer) footer.textContent = 'Cámaras de tráfico';
       setTimeout(function () { invalidateMapaCamaras(); }, 120);
     }
+    // Ajusta la letra del nav activo para que quepa sin barra de scroll
+    var activeNav = mode === 'residuos' ? navResiduos : mode === 'turismo' ? navTurismo : mode === 'redes' ? navRedes : mode === 'camaras' ? navCamaras : null;
+    [navResiduos, navTurismo, navRedes, navCamaras].forEach(function (n) { if (n) n.removeAttribute('data-active'); });
+    if (activeNav) { activeNav.setAttribute('data-active', '1'); bindNavResize(); setTimeout(function () { fitNav(activeNav); }, 70); }
   }
 
   function syncDetalleRowsFromSources() {
@@ -3713,6 +3741,415 @@
     });
   }
 
+  /* ============================ INFORMES (por módulo) ============================ */
+  var _infState = {}; // por ámbito: { charts:{}, bound:bool, data:{} }
+  function infSt(amb) { return _infState[amb] || (_infState[amb] = { charts: {}, bound: false, data: null }); }
+  function infIds(amb) { return { anio: 'inf-' + amb + '-anio', mes: 'inf-' + amb + '-mes', generar: 'inf-' + amb + '-generar', imprimir: 'inf-' + amb + '-imprimir', estado: 'inf-' + amb + '-estado', salida: 'inf-' + amb + '-salida' }; }
+  function infMesNombre(m) { return MESES[(+m) - 1] || m; }
+  function infFmt(n) { if (n == null || isNaN(n)) return '—'; return Math.round(n).toLocaleString('es-ES'); }
+  function infEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function infPct(a, b) { if (a == null || b == null || !b) return null; return ((a - b) / b) * 100; }
+  function infPeriodoLabel(anio, mes) { return (mes ? infMesNombre(mes) + ' ' : '') + anio; }
+  function infAmbitoTitulo(a) { return { turismo: 'Informe de Turismo', residuos: 'Informe de Residuos', camaras: 'Informe de Cámaras' }[a] || 'Informe'; }
+
+  function infEnsure(ambito) {
+    if (ambito === 'turismo') return (typeof ensureTurismoLoaded === 'function') ? ensureTurismoLoaded() : Promise.resolve();
+    if (ambito === 'residuos') return (typeof loadAllData === 'function') ? loadAllData().catch(function () {}) : Promise.resolve();
+    if (ambito === 'camaras') {
+      if (camarasData) return Promise.resolve(camarasData);
+      return fetch('/api/camaras/dashboard', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { camarasData = d; return d; });
+    }
+    return Promise.resolve();
+  }
+  function infAnios(ambito) {
+    var set = new Set();
+    if (ambito === 'turismo' && turismoData) ['hoteles', 'apartamentos', 'campings'].forEach(function (cat) { (turismoData.series[cat] || []).forEach(function (s) { (s.data || []).forEach(function (d) { set.add(String(d.anyo)); }); }); });
+    else if (ambito === 'camaras' && camarasData) { var es = (camarasData.lpr && camarasData.lpr.entradasSalidasPorMes) || {}; Object.keys(es).forEach(function (k) { set.add(k.slice(0, 4)); }); }
+    else if (ambito === 'residuos') (dataCamion || []).forEach(function (r) { if (r.fecha) set.add(String(r.fecha).slice(0, 4)); });
+    return Array.from(set).filter(Boolean).sort();
+  }
+  function infMeses(ambito, anio) {
+    var set = new Set();
+    if (ambito === 'turismo' && turismoData) ['hoteles', 'apartamentos', 'campings'].forEach(function (cat) { (turismoData.series[cat] || []).forEach(function (s) { (s.data || []).forEach(function (d) { if (String(d.anyo) === String(anio) && d.mes) set.add(+d.mes); }); }); });
+    else if (ambito === 'camaras' && camarasData) { var es = (camarasData.lpr && camarasData.lpr.entradasSalidasPorMes) || {}; Object.keys(es).forEach(function (k) { if (k.slice(0, 4) === String(anio)) set.add(parseInt(k.slice(5), 10)); }); }
+    else if (ambito === 'residuos') (dataCamion || []).forEach(function (r) { if (r.fecha && String(r.fecha).slice(0, 4) === String(anio)) set.add(parseInt(String(r.fecha).slice(5, 7), 10)); });
+    return Array.from(set).filter(Boolean).sort(function (a, b) { return a - b; });
+  }
+
+  // ---- ensambladores por ámbito ----
+  function infTurSerie(cat, met, anio) { var s = (turismoData.series[cat] || []).find(function (x) { return x.metrica === met; }); var o = {}; if (s) s.data.forEach(function (d) { if (String(d.anyo) === String(anio)) o[+d.mes] = d.valor; }); return o; }
+  function infTurVal(cat, met, anio, mes) { var m = infTurSerie(cat, met, anio); if (mes) return m[+mes] != null ? m[+mes] : null; var v = Object.values(m).filter(function (x) { return x != null; }); if (!v.length) return null; return met === 'grado_ocupacion' ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : v.reduce(function (a, b) { return a + b; }, 0); }
+  function infCompSpec(comp) { return { tipo: 'bar', labels: comp.map(function (c) { return c.label; }), datasets: [{ label: 'Actual', data: comp.map(function (c) { return c.actual; }), color: '#2563eb' }, { label: 'Mes anterior', data: comp.map(function (c) { return c.mesAnterior; }), color: '#93c5fd' }, { label: 'Año anterior', data: comp.map(function (c) { return c.anioAnterior; }), color: '#f59e0b' }] }; }
+  function infTurAnual(cat, met) { var s = (turismoData.series[cat] || []).find(function (x) { return x.metrica === met; }); var by = {}; if (s) s.data.forEach(function (d) { by[d.anyo] = (by[d.anyo] || 0) + (d.valor || 0); }); var years = Object.keys(by).sort().slice(-8); return { years: years, vals: years.map(function (y) { return Math.round(by[y]); }) }; }
+  function infTurProcedencia(anio, mes) {
+    var proc = (turismoData.series.procedencia || []).filter(function (s) { return s.residencia === 'ccaa' && s.nombre !== 'Total Nacional'; });
+    return proc.map(function (s) { var v = (s.data || []).filter(function (d) { return String(d.anyo) === String(anio) && (!mes || +d.mes === +mes); }).reduce(function (a, b) { return a + (b.valor || 0); }, 0); return { n: s.nombre, v: Math.round(v) }; }).filter(function (x) { return x.v > 0; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 8);
+  }
+  function infBuildTurismo(anio, mes) {
+    var prev = String(+anio - 1);
+    var cmp = function (cat, met, label) {
+      var act = infTurVal(cat, met, anio, mes), ma = null, aa = infTurVal(cat, met, prev, mes);
+      if (mes) { var pm = (+mes) - 1; ma = pm >= 1 ? infTurVal(cat, met, anio, pm) : infTurVal(cat, met, prev, 12); }
+      return { label: label, actual: act, mesAnterior: ma, anioAnterior: aa, varMes: infPct(act, ma), varAnio: infPct(act, aa) };
+    };
+    var comp = [cmp('hoteles', 'viajeros', 'Viajeros hoteles'), cmp('hoteles', 'pernoctaciones', 'Pernoctaciones'), cmp('hoteles', 'grado_ocupacion', 'Ocupación %'), cmp('hoteles', 'adr', 'Tarifa media (ADR)')];
+    var graficas = [];
+    var addLine = function (key, titulo, cat, met, color) { var s = infTurSerie(cat, met, anio); var mo = Object.keys(s).map(Number).sort(function (a, b) { return a - b; }); if (mo.length && mo.some(function (m) { return s[m] != null; })) graficas.push({ key: key, titulo: titulo, spec: { tipo: 'line', labels: mo.map(infMesNombre), datasets: [{ label: titulo, data: mo.map(function (m) { return s[m]; }), color: color }] } }); };
+    addLine('viajeros_mes', 'Viajeros en hoteles por mes (' + anio + ')', 'hoteles', 'viajeros', '#2563eb');
+    addLine('pernoctaciones_mes', 'Pernoctaciones en hoteles por mes (' + anio + ')', 'hoteles', 'pernoctaciones', '#7c3aed');
+    addLine('ocupacion_mes', 'Ocupación hotelera por mes % (' + anio + ')', 'hoteles', 'grado_ocupacion', '#0891b2');
+    addLine('adr_mes', 'Tarifa media (ADR) por mes € (' + anio + ')', 'hoteles', 'adr', '#d97706');
+    addLine('revpar_mes', 'RevPAR por mes € (' + anio + ')', 'hoteles', 'revpar', '#db2777');
+    graficas.push({ key: 'comparativa', titulo: 'Comparativa: actual vs mes y año anterior', spec: infCompSpec(comp) });
+    var tipo = [{ n: 'Hoteles', v: infTurVal('hoteles', 'viajeros', anio, mes) }, { n: 'Apartamentos', v: infTurVal('apartamentos', 'viajeros', anio, mes) }, { n: 'Campings', v: infTurVal('campings', 'viajeros', anio, mes) }].filter(function (x) { return x.v != null; });
+    if (tipo.length) graficas.push({ key: 'viajeros_por_tipo', titulo: 'Viajeros por tipo de alojamiento', spec: { tipo: 'bar', labels: tipo.map(function (i) { return i.n; }), datasets: [{ label: 'Viajeros', data: tipo.map(function (i) { return i.v; }), color: '#0ea5e9' }] } });
+    var ocup = [{ n: 'Hoteles', v: infTurVal('hoteles', 'grado_ocupacion', anio, mes) }, { n: 'Apartamentos', v: infTurVal('apartamentos', 'grado_ocupacion', anio, mes) }, { n: 'Campings', v: infTurVal('campings', 'grado_ocupacion', anio, mes) }].filter(function (x) { return x.v != null; });
+    if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%)', spec: { tipo: 'bar', labels: ocup.map(function (i) { return i.n; }), datasets: [{ label: 'Ocupación %', data: ocup.map(function (i) { return Math.round(i.v * 10) / 10; }), color: '#0891b2' }] } });
+    var proc = infTurProcedencia(anio, mes);
+    if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA)', spec: { tipo: 'barH', labels: proc.map(function (i) { return i.n; }), datasets: [{ label: 'Turistas', data: proc.map(function (i) { return i.v; }), color: '#7c3aed' }] } });
+    var an = infTurAnual('hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+    return {
+      kpis: [
+        { label: 'Viajeros hoteles', valor: infTurVal('hoteles', 'viajeros', anio, mes), comp: comp[0] },
+        { label: 'Pernoctaciones hoteles', valor: infTurVal('hoteles', 'pernoctaciones', anio, mes), comp: comp[1] },
+        { label: 'Ocupación hotelera', valor: infTurVal('hoteles', 'grado_ocupacion', anio, mes), unidad: '%', comp: comp[2] },
+        { label: 'Tarifa media (ADR)', valor: infTurVal('hoteles', 'adr', anio, mes), unidad: '€', comp: comp[3] },
+        { label: 'Estancia media', valor: infTurVal('hoteles', 'estancia_media', anio, mes), unidad: 'noches' },
+        { label: 'Viajeros apartamentos', valor: infTurVal('apartamentos', 'viajeros', anio, mes) },
+        { label: 'Viajeros campings', valor: infTurVal('campings', 'viajeros', anio, mes) }
+      ],
+      comparativa: comp,
+      graficas: graficas
+    };
+  }
+  function infResMes(anio, mes) { var pref = mes ? (anio + '-' + String(mes).padStart(2, '0')) : String(anio); var kg = 0, sal = 0, f = false; (dataCamion || []).forEach(function (r) { if (r.fecha && String(r.fecha).indexOf(pref) === 0) { kg += (+r.kg || 0); sal += (+r.salidas || 0); f = true; } }); return f ? { kg: kg, salidas: sal } : null; }
+  function infResAnual() { var by = {}; (dataCamion || []).forEach(function (r) { if (r.fecha) { var y = String(r.fecha).slice(0, 4); by[y] = (by[y] || 0) + (+r.kg || 0); } }); var years = Object.keys(by).sort().slice(-8); return { years: years, vals: years.map(function (y) { return Math.round(by[y]); }) }; }
+  function infBuildResiduos(anio, mes) {
+    var cur = infResMes(anio, mes) || { kg: null, salidas: null }, prev = String(+anio - 1), ma = null;
+    if (mes) { var pm = (+mes) - 1; ma = pm >= 1 ? infResMes(anio, pm) : infResMes(prev, 12); }
+    var aa = infResMes(prev, mes);
+    var serie = {}; (dataCamion || []).forEach(function (r) { if (r.fecha && String(r.fecha).slice(0, 4) === String(anio)) { var m = parseInt(String(r.fecha).slice(5, 7), 10); serie[m] = { kg: (+r.kg || 0), salidas: (+r.salidas || 0) }; } });
+    var mo = Object.keys(serie).map(Number).sort(function (a, b) { return a - b; });
+    var comp = [
+      { label: 'Kg recogidos', actual: cur.kg, mesAnterior: ma ? ma.kg : null, anioAnterior: aa ? aa.kg : null, varMes: infPct(cur.kg, ma && ma.kg), varAnio: infPct(cur.kg, aa && aa.kg) },
+      { label: 'Salidas', actual: cur.salidas, mesAnterior: ma ? ma.salidas : null, anioAnterior: aa ? aa.salidas : null, varMes: infPct(cur.salidas, ma && ma.salidas), varAnio: infPct(cur.salidas, aa && aa.salidas) }
+    ];
+    var graficas = [];
+    if (mo.length) {
+      graficas.push({ key: 'kg_mes', titulo: 'Kg recogidos por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(infMesNombre), datasets: [{ label: 'Kg', data: mo.map(function (m) { return serie[m].kg; }), color: '#2563eb' }] } });
+      graficas.push({ key: 'salidas_mes', titulo: 'Salidas del camión por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(infMesNombre), datasets: [{ label: 'Salidas', data: mo.map(function (m) { return serie[m].salidas; }), color: '#f59e0b' }] } });
+    }
+    graficas.push({ key: 'comparativa', titulo: 'Comparativa: actual vs mes y año anterior', spec: infCompSpec(comp) });
+    var frac = { envases: 0, organica: 0, papel: 0 }, gpTotal = 0, gpItems = [];
+    if (typeof _gpData !== 'undefined' && _gpData && _gpData.datos) {
+      var claves = mes ? [anio + '-' + String(mes).padStart(2, '0')] : (_gpData.meses || []).filter(function (k) { return k.slice(0, 4) === String(anio); });
+      var acc = {}; claves.forEach(function (k) { var dm = _gpData.datos[k] || {}; Object.keys(dm).forEach(function (e) { var d = dm[e]; acc[e] = (acc[e] || 0) + d.total; frac.envases += d.envases || 0; frac.organica += d.organica || 0; frac.papel += d.papel || 0; }); });
+      gpItems = Object.entries(acc).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 8).map(function (x) { return { n: x[0], v: Math.round(x[1]) }; });
+      gpTotal = frac.envases + frac.organica + frac.papel;
+      if (gpItems.length) graficas.push({ key: 'grandes_productores', titulo: 'Grandes productores (kg, top 8)', spec: { tipo: 'barH', labels: gpItems.map(function (i) { return i.n; }), datasets: [{ label: 'Kg', data: gpItems.map(function (i) { return i.v; }), color: '#0ea5e9' }] } });
+      if (gpTotal > 0) graficas.push({ key: 'reparto_fraccion', titulo: 'Reparto por fracción (grandes productores)', spec: { tipo: 'bar', labels: ['Orgánica', 'Envases mezclados', 'Papel/Cartón'], datasets: [{ label: 'Kg', data: [Math.round(frac.organica), Math.round(frac.envases), Math.round(frac.papel)], color: '#16a34a' }] } });
+    }
+    var an = infResAnual(); if (an.years.length > 1) graficas.push({ key: 'kg_anual', titulo: 'Kg recogidos por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Kg', data: an.vals, color: '#16a34a' }] } });
+    var kpis = [{ label: 'Kg recogidos (camión)', valor: cur.kg, unidad: 'kg', comp: comp[0] }, { label: 'Salidas del camión', valor: cur.salidas, comp: comp[1] }];
+    if (gpTotal > 0) { kpis.push({ label: 'Recogida grandes productores', valor: Math.round(gpTotal), unidad: 'kg' }); kpis.push({ label: 'Orgánica (grandes prod.)', valor: gpTotal ? Math.round(1000 * frac.organica / gpTotal) / 10 : 0, unidad: '%' }); }
+    return { kpis: kpis, comparativa: comp, graficas: graficas };
+  }
+  function infCamMes(anio, mes) { var es = (camarasData && camarasData.lpr && camarasData.lpr.entradasSalidasPorMes) || {}; var e = 0, s = 0, f = false; Object.keys(es).forEach(function (k) { var ok = mes ? (k === anio + '-' + String(mes).padStart(2, '0')) : (k.slice(0, 4) === String(anio)); if (ok) { e += es[k].Avance || 0; s += es[k].Retroceso || 0; f = true; } }); return f ? { entradas: e, salidas: s } : null; }
+  function infCamAforo(anio, mes) { var m = (camarasData && camarasData.multiobjeto) || []; var per = 0, vm = 0, vs = 0, f = false; m.forEach(function (r) { var fe = r.fecha || ''; var ok = mes ? (fe.indexOf(anio + '-' + String(mes).padStart(2, '0')) === 0) : (fe.slice(0, 4) === String(anio)); if (ok) { per += (r.personas_avanzar || 0) + (r.personas_retroceso || 0); vm += (r.vehiculos_motor_avanzar || 0) + (r.vehiculos_motor_retroceso || 0); vs += (r.vehiculos_sin_motor_avanzar || 0) + (r.vehiculos_sin_motor_retroceso || 0); f = true; } }); return f ? { personas: per, vehMotor: vm, vehSinMotor: vs } : null; }
+  function infBuildCamaras(anio, mes) {
+    var cur = infCamMes(anio, mes) || { entradas: null, salidas: null }, prev = String(+anio - 1), ma = null;
+    if (mes) { var pm = (+mes) - 1; ma = pm >= 1 ? infCamMes(anio, pm) : infCamMes(prev, 12); }
+    var aa = infCamMes(prev, mes);
+    var es = (camarasData.lpr && camarasData.lpr.entradasSalidasPorMes) || {};
+    var mo = Object.keys(es).filter(function (k) { return k.slice(0, 4) === String(anio); }).sort();
+    var comp = [
+      { label: 'Entradas', actual: cur.entradas, mesAnterior: ma ? ma.entradas : null, anioAnterior: aa ? aa.entradas : null, varMes: infPct(cur.entradas, ma && ma.entradas), varAnio: infPct(cur.entradas, aa && aa.entradas) },
+      { label: 'Salidas', actual: cur.salidas, mesAnterior: ma ? ma.salidas : null, anioAnterior: aa ? aa.salidas : null, varMes: infPct(cur.salidas, ma && ma.salidas), varAnio: infPct(cur.salidas, aa && aa.salidas) }
+    ];
+    var graficas = [];
+    if (mo.length) {
+      graficas.push({ key: 'entradas_salidas_mes', titulo: 'Entradas y salidas por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(function (k) { return infMesNombre(parseInt(k.slice(5), 10)); }), datasets: [{ label: 'Entradas', data: mo.map(function (k) { return es[k].Avance || 0; }), color: '#2563eb' }, { label: 'Salidas', data: mo.map(function (k) { return es[k].Retroceso || 0; }), color: '#f59e0b' }] } });
+      graficas.push({ key: 'saldo_mes', titulo: 'Saldo (entradas − salidas) por mes (' + anio + ')', spec: { tipo: 'bar', labels: mo.map(function (k) { return infMesNombre(parseInt(k.slice(5), 10)); }), datasets: [{ label: 'Saldo', data: mo.map(function (k) { return (es[k].Avance || 0) - (es[k].Retroceso || 0); }), color: '#16a34a' }] } });
+    }
+    graficas.push({ key: 'comparativa', titulo: 'Comparativa: actual vs mes y año anterior', spec: infCompSpec(comp) });
+    var af = infCamAforo(anio, mes);
+    if (af && (af.personas || af.vehMotor || af.vehSinMotor)) graficas.push({ key: 'aforo', titulo: 'Aforo (paso total de personas y vehículos)', spec: { tipo: 'bar', labels: ['Personas', 'Veh. a motor', 'Veh. sin motor'], datasets: [{ label: 'Pasos', data: [af.personas, af.vehMotor, af.vehSinMotor], color: '#7c3aed' }] } });
+    var yby = {}; Object.keys(es).forEach(function (k) { var y = k.slice(0, 4); yby[y] = (yby[y] || 0) + (es[k].Avance || 0); }); var ys = Object.keys(yby).sort();
+    if (ys.length > 1) graficas.push({ key: 'entradas_anual', titulo: 'Entradas por año', spec: { tipo: 'bar', labels: ys, datasets: [{ label: 'Entradas', data: ys.map(function (y) { return yby[y]; }), color: '#0ea5e9' }] } });
+    var kpis = [{ label: 'Entradas de vehículos', valor: cur.entradas, comp: comp[0] }, { label: 'Salidas de vehículos', valor: cur.salidas, comp: comp[1] }, { label: 'Saldo (entradas − salidas)', valor: (cur.entradas != null && cur.salidas != null) ? cur.entradas - cur.salidas : null }];
+    if (af) { kpis.push({ label: 'Personas (aforo)', valor: af.personas }); kpis.push({ label: 'Veh. a motor (aforo)', valor: af.vehMotor }); }
+    return { kpis: kpis, comparativa: comp, graficas: graficas };
+  }
+  function infBuild(ambito, anio, mes) {
+    var b = ambito === 'turismo' ? infBuildTurismo(anio, mes) : ambito === 'residuos' ? infBuildResiduos(anio, mes) : infBuildCamaras(anio, mes);
+    b.periodoLabel = infPeriodoLabel(anio, mes); b.anio = anio; b.mes = mes || null;
+    return b;
+  }
+  function infInsights(data) {
+    var ins = {};
+    var g = data.graficas.find(function (x) { return x.spec.tipo === 'line' && x.spec.datasets.length && x.spec.labels.length > 2; });
+    if (g) {
+      var lab = g.spec.labels, d = g.spec.datasets[0].data, mi = -1, ma = -1;
+      for (var i = 0; i < d.length; i++) { if (d[i] != null) { if (ma < 0 || d[i] > d[ma]) ma = i; if (mi < 0 || d[i] < d[mi]) mi = i; } }
+      if (ma >= 0) { ins.serie = g.titulo; ins.mesPico = { mes: lab[ma], valor: Math.round(d[ma]) }; ins.mesValle = { mes: lab[mi], valor: Math.round(d[mi]) }; }
+    }
+    if (data.comparativa) { var best = null; data.comparativa.forEach(function (c) { if (c.varAnio != null && (best == null || Math.abs(c.varAnio) > Math.abs(best.pct))) best = { metrica: c.label, pct: Math.round(c.varAnio * 10) / 10 }; }); if (best) ins.mayorVariacionInteranual = best; }
+    return ins;
+  }
+  function infMakeChart(canvasId, spec) {
+    var c = document.getElementById(canvasId); if (!c || !spec) return null;
+    var type = spec.tipo === 'line' ? 'line' : 'bar', multi = spec.datasets.length > 1;
+    var ds = spec.datasets.map(function (d) { if (type === 'line') return { label: d.label, data: d.data, borderColor: d.color || '#2563eb', backgroundColor: 'rgba(37,99,235,0.12)', tension: 0.3, pointRadius: 3, fill: !multi }; return { label: d.label, data: d.data, backgroundColor: d.color || '#2563eb', borderRadius: 4 }; });
+    var opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: multi, position: 'bottom' }, tooltip: { callbacks: { label: function (x) { return (x.dataset.label ? x.dataset.label + ': ' : '') + tFmtNum(x.raw); } } } } };
+    if (spec.tipo === 'barH') { opts.indexAxis = 'y'; opts.scales = { x: { ticks: { callback: function (v) { return tFmtNum(v); } } } }; }
+    else { opts.scales = { y: { beginAtZero: true, ticks: { callback: function (v) { return tFmtNum(v); } } } }; }
+    return new Chart(c, { type: type, data: { labels: spec.labels, datasets: ds }, options: opts });
+  }
+  var INF_FUENTES = {
+    turismo: 'INE (EOH/EOAP/EOAC y movilidad turística) y SIT-CV (Invat·tur).',
+    residuos: 'Recogida del camión (Sigeus), báscula municipal y FOBESA (grandes productores).',
+    camaras: 'Cámaras LPR de tráfico y cámaras de aforo multiobjeto del municipio.'
+  };
+  function infKpiVar(k) {
+    if (!k.comp) return '';
+    var v = k.comp.varAnio != null ? k.comp.varAnio : k.comp.varMes;
+    var lbl = k.comp.varAnio != null ? 'interanual' : 'vs mes ant.';
+    if (v == null) return '';
+    var up = v >= 0;
+    return '<span class="informe-kpi-var ' + (up ? 'up' : 'down') + '">' + (up ? '▲ +' : '▼ ') + String(Math.round(v * 10) / 10).replace('.', ',') + '% ' + lbl + '</span>';
+  }
+  function infRenderInforme(amb, data, texto) {
+    var ids = infIds(amb), st = infSt(amb), salida = document.getElementById(ids.salida);
+    Object.keys(st.charts).forEach(function (k) { if (st.charts[k]) st.charts[k].destroy(); }); st.charts = {};
+    var gmap = {}; data.graficas.forEach(function (g) { gmap[g.key] = g; });
+    var used = {};
+    var chartId = function (key) { return 'inf-' + amb + '-chart-' + key; };
+    var grafHtml = function (g) { return '<div class="informe-grafica turismo-chart-card"><h4>' + infEsc(g.titulo) + '</h4><div class="chart-container" style="height:240px"><canvas id="' + chartId(g.key) + '"></canvas></div></div>'; };
+    var inline = function (t) { return infEsc(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>'); };
+    var lines = String(texto || '').split(/\r?\n/), nodes = [], headingIdx = [], inList = false, secNum = 0;
+    var closeList = function () { if (inList) { nodes.push('</ul>'); inList = false; } };
+    lines.forEach(function (ln) {
+      var t = ln.trim();
+      var mg = t.match(/^\[?\s*GRAFICA:\s*([a-z0-9_]+)\s*\]?$/i);
+      if (mg) { closeList(); var key = mg[1]; if (gmap[key] && !used[key]) { used[key] = true; nodes.push(grafHtml(gmap[key])); } return; }
+      if (!t) { closeList(); return; }
+      if (/^###\s+/.test(t)) { closeList(); nodes.push('<h4 class="informe-h">' + inline(t.replace(/^###\s+/, '')) + '</h4>'); }
+      else if (/^##\s+/.test(t)) { closeList(); secNum++; headingIdx.push(nodes.length); nodes.push('<h3 class="informe-h"><span class="informe-h-num">' + secNum + '</span>' + inline(t.replace(/^##\s+/, '')) + '</h3>'); }
+      else if (/^#\s+/.test(t)) { closeList(); nodes.push('<h2 class="informe-h1">' + inline(t.replace(/^#\s+/, '')) + '</h2>'); }
+      else if (/^[-*]\s+/.test(t)) { if (!inList) { nodes.push('<ul>'); inList = true; } nodes.push('<li>' + inline(t.replace(/^[-*]\s+/, '')) + '</li>'); }
+      else { closeList(); nodes.push('<p>' + inline(t) + '</p>'); }
+    });
+    closeList();
+    var restantes = data.graficas.filter(function (g) { return !used[g.key]; });
+    var targets = headingIdx.slice(1);
+    for (var ti = targets.length - 1; ti >= 0 && restantes.length; ti--) { var g = restantes.pop(); used[g.key] = true; nodes.splice(targets[ti], 0, grafHtml(g)); }
+    restantes.forEach(function (g) { used[g.key] = true; nodes.push(grafHtml(g)); });
+    var body = nodes.join('');
+    // Numera las gráficas en orden de aparición: "Gráfico N. Título"
+    var gnum = 0;
+    body = body.replace(/<div class="informe-grafica turismo-chart-card"><h4>/g, function () { gnum++; return '<div class="informe-grafica turismo-chart-card"><h4>Gráfico ' + gnum + '. '; });
+    var kpisHtml = data.kpis.filter(function (k) { return k.valor != null; }).map(function (k) { return '<div class="informe-kpi"><div class="informe-kpi-label">' + infEsc(k.label) + '</div><div class="informe-kpi-value">' + infFmt(k.valor) + (k.unidad === '%' ? ' %' : k.unidad === '€' ? ' €' : k.unidad === 'noches' ? ' noches' : '') + '</div>' + infKpiVar(k) + '</div>'; }).join('');
+    var hoy = new Date().toLocaleDateString('es-ES');
+    var coverHtml = '<div class="informe-portada"><img src="assets/peniscola-portada.jpg" class="informe-portada-img" alt="Peñíscola"><div class="informe-portada-txt"><img src="assets/logo-ajuntament.png" class="informe-portada-logo" alt=""><div class="informe-portada-eyebrow">Ayuntamiento de Peñíscola</div><div class="informe-portada-tipo">' + infEsc(infAmbitoTitulo(amb)) + '</div><div class="informe-portada-periodo">' + infEsc(data.periodoLabel) + '</div><div class="informe-portada-fecha">Emitido el ' + hoy + '</div></div></div>';
+    var flowHtml = '<div class="informe-kpis">' + kpisHtml + '</div>' + '<div class="informe-texto">' + body + '</div>';
+    var footerHtml = '<div class="informe-footer">Informe generado automáticamente a partir de los datos del dashboard municipal. Fuentes: ' + (INF_FUENTES[amb] || '—') + ' · Emitido el ' + hoy + '.</div>';
+    salida.innerHTML = '<div class="turismo-section-card informe-doc">' +
+      '<div class="informe-toolbar"><button type="button" class="reload-btn" id="inf-' + amb + '-print" style="background:#e2e8f0;color:#334155">🖨️ Imprimir</button><button type="button" class="reload-btn" id="inf-' + amb + '-pdf" style="background:#dc2626;color:#fff">⬇️ Descargar PDF</button><button type="button" class="reload-btn" id="inf-' + amb + '-word" style="background:#2563eb;color:#fff">⬇️ Descargar Word</button></div>' +
+      '<div class="informe-pages" id="inf-pages-' + amb + '"></div>' +
+      '</div>';
+    // Reparte el contenido en páginas A4 (portada = página 1)
+    var tmp = document.createElement('div');
+    tmp.className = 'informe-texto'; // para que la maqueta mida igual que dentro de la página
+    tmp.innerHTML = flowHtml;
+    var blocks = [];
+    // aplanamos: el .informe-texto interior lo desglosamos en sus bloques
+    Array.prototype.slice.call(tmp.children).forEach(function (child) {
+      if (child.classList && child.classList.contains('informe-texto')) {
+        while (child.firstElementChild) { blocks.push(child.firstElementChild); child.removeChild(child.firstElementChild); }
+      } else { blocks.push(child); }
+    });
+    infPaginate(amb, coverHtml, blocks, footerHtml);
+    var pbtn = document.getElementById('inf-' + amb + '-print'); if (pbtn) pbtn.onclick = function () { window.print(); };
+    var wbtn = document.getElementById('inf-' + amb + '-word'); if (wbtn) wbtn.onclick = function () { infDownloadWord(amb); };
+    var pdfb = document.getElementById('inf-' + amb + '-pdf'); if (pdfb) pdfb.onclick = function () { infDownloadPdf(amb, pdfb); };
+    data.graficas.forEach(function (g) { if (used[g.key]) st.charts[g.key] = infMakeChart(chartId(g.key), g.spec); });
+  }
+  function infDownloadPdf(amb, btn) {
+    if (typeof window.html2canvas !== 'function' || !window.jspdf || !window.jspdf.jsPDF) { alert('No se pudieron cargar las librerías de PDF (revisa la conexión).'); return; }
+    var pages = document.querySelectorAll('#inf-pages-' + amb + ' .informe-page');
+    if (!pages.length) return;
+    var orig = btn ? btn.textContent : ''; if (btn) { btn.disabled = true; btn.textContent = 'Generando PDF…'; }
+    var jsPDF = window.jspdf.jsPDF;
+    var pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+    var W = 210, H = 297;
+    var i = 0;
+    var next = function () {
+      if (i >= pages.length) {
+        pdf.save('Informe_' + infAmbitoTitulo(amb).replace(/[^a-zA-Z0-9]+/g, '_') + '.pdf');
+        if (btn) { btn.disabled = false; btn.textContent = orig; }
+        return;
+      }
+      window.html2canvas(pages[i], { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false }).then(function (canvas) {
+        var img = canvas.toDataURL('image/jpeg', 0.92);
+        if (i > 0) pdf.addPage();
+        pdf.addImage(img, 'JPEG', 0, 0, W, H, undefined, 'FAST');
+        i++;
+        setTimeout(next, 10);
+      }).catch(function (e) {
+        if (btn) { btn.disabled = false; btn.textContent = orig; }
+        alert('Error al generar el PDF: ' + (e.message || e));
+      });
+    };
+    next();
+  }
+  function infPaginate(amb, coverHtml, blocks, footerHtml) {
+    var wrap = document.getElementById('inf-pages-' + amb); if (!wrap) return;
+    wrap.innerHTML = '';
+    var cover = document.createElement('div'); cover.className = 'informe-page informe-page-cover'; cover.innerHTML = coverHtml; wrap.appendChild(cover);
+    var MAXH = 1128;
+    var mk = function () { var p = document.createElement('div'); p.className = 'informe-page'; var inner = document.createElement('div'); inner.className = 'informe-texto informe-page-body'; p.appendChild(inner); wrap.appendChild(p); return inner; };
+    var esTitulo = function (n) { return n && n.classList && (n.classList.contains('informe-h') || n.classList.contains('informe-h1')); };
+    var cur = mk();
+    blocks.forEach(function (el) {
+      cur.appendChild(el);
+      if (cur.parentNode.scrollHeight > MAXH && cur.children.length > 1) {
+        cur.removeChild(el);
+        // Si justo antes hay un título (o título + 1 párrafo corto), bájalo con el bloque
+        // para que el encabezado no quede huérfano al pie de la página.
+        var prev = cur.lastElementChild;
+        var arrastra = [];
+        if (esTitulo(prev) && cur.children.length > 1) { arrastra.unshift(prev); cur.removeChild(prev); }
+        else if (prev && prev.tagName === 'P' && esTitulo(prev.previousElementSibling) && cur.children.length > 2) { arrastra.unshift(prev); cur.removeChild(prev); var h = cur.lastElementChild; arrastra.unshift(h); cur.removeChild(h); }
+        cur = mk();
+        arrastra.forEach(function (n) { cur.appendChild(n); });
+        cur.appendChild(el);
+      }
+    });
+    var f = document.createElement('div'); f.innerHTML = footerHtml; var fel = f.firstElementChild;
+    if (fel) { cur.appendChild(fel); if (cur.parentNode.scrollHeight > MAXH && cur.children.length > 1) { cur.removeChild(fel); cur = mk(); cur.appendChild(fel); } }
+    var pgs = wrap.children;
+    for (var i = 0; i < pgs.length; i++) { var n = document.createElement('div'); n.className = 'informe-page-num'; n.textContent = (i + 1) + ' / ' + pgs.length; pgs[i].appendChild(n); }
+  }
+  function infDownloadWord(amb) {
+    var salida = document.getElementById(infIds(amb).salida);
+    var doc = salida && salida.querySelector('.informe-doc'); if (!doc) return;
+    var clone = doc.cloneNode(true);
+    var tb = clone.querySelector('.informe-toolbar'); if (tb) tb.parentNode.removeChild(tb);
+    var srcC = doc.querySelectorAll('canvas'), dstC = clone.querySelectorAll('canvas');
+    dstC.forEach(function (c, i) { try { var img = document.createElement('img'); img.src = srcC[i].toDataURL('image/png'); img.setAttribute('width', '560'); c.parentNode.replaceChild(img, c); } catch (e) {} });
+    // Incrusta también fotos/logos (portada + logo) como data URL para que salgan en el Word
+    clone.querySelectorAll('img').forEach(function (im) {
+      if (im.getAttribute('src') && im.getAttribute('src').indexOf('data:') === 0) return;
+      var path = im.getAttribute('src');
+      var s = doc.querySelector('img[src="' + path + '"]');
+      if (s && s.complete && s.naturalWidth) { try { var cv = document.createElement('canvas'); cv.width = s.naturalWidth; cv.height = s.naturalHeight; cv.getContext('2d').drawImage(s, 0, 0); im.setAttribute('src', cv.toDataURL('image/jpeg', 0.85)); if (im.className.indexOf('portada-img') >= 0) im.setAttribute('width', '620'); } catch (e) {} }
+    });
+    // Aplana las páginas A4: en el Word no queremos las cajas; solo el contenido en flujo, con salto tras la portada.
+    var pages = clone.querySelectorAll('.informe-page');
+    if (pages.length) {
+      var flat = document.createElement('div');
+      Array.prototype.forEach.call(pages, function (pg) {
+        var num = pg.querySelector('.informe-page-num'); if (num) num.parentNode.removeChild(num);
+        var cover = pg.querySelector('.informe-portada');
+        var pageBody = pg.querySelector('.informe-page-body');
+        if (cover) {
+          var photo = cover.querySelector('.informe-portada-img');
+          var tipo = cover.querySelector('.informe-portada-tipo');
+          var per = cover.querySelector('.informe-portada-periodo');
+          var cw = document.createElement('div'); cw.setAttribute('align', 'center');
+          if (photo) cw.appendChild(photo.cloneNode(true));
+          var h = document.createElement('div'); h.setAttribute('align', 'center');
+          h.innerHTML = '<div style="font-size:26pt;font-weight:bold;color:#0f172a;margin-top:12pt">' + (tipo ? tipo.textContent : '') + '</div><div style="font-size:16pt;color:#334155">' + (per ? per.textContent : '') + '</div>';
+          cw.appendChild(h);
+          flat.appendChild(cw);
+          var brk = document.createElement('br'); brk.style.pageBreakAfter = 'always'; flat.appendChild(brk);
+        } else if (pageBody) { while (pageBody.firstChild) flat.appendChild(pageBody.firstChild); }
+      });
+      var pagesWrap = clone.querySelector('.informe-pages'); if (pagesWrap) pagesWrap.parentNode.replaceChild(flat, pagesWrap);
+    }
+    var css = [
+      'body{font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#334155;font-size:11pt;line-height:1.5}',
+      'p{text-align:justify;margin:6pt 0}',
+      '.informe-kpis{margin:8pt 0 12pt}',
+      '.informe-kpi{display:inline-block;vertical-align:top;width:150pt;border:1px solid #e6eaf1;border-top:3px solid #2563eb;padding:7pt 9pt;margin:0 6pt 6pt 0}',
+      '.informe-kpi-label{font-size:8pt;text-transform:uppercase;color:#64748b;font-weight:bold;display:block}',
+      '.informe-kpi-value{font-size:15pt;font-weight:bold;color:#0f172a;display:block;margin-top:2pt}',
+      '.informe-kpi-var{font-size:8pt;font-weight:bold}',
+      '.up{color:#166534}.down{color:#991b1b}',
+      '.informe-h1{font-size:16pt;color:#0f172a;font-weight:bold;margin:14pt 0 6pt}',
+      '.informe-h{font-size:14pt;color:#0f172a;font-weight:bold;margin:16pt 0 8pt;border-bottom:2px solid #e2e8f0;padding-bottom:4pt}',
+      '.informe-h-num{background:#2563eb;color:#fff;padding:1pt 6pt;margin-right:6pt;font-size:10pt}',
+      '.informe-grafica{margin:10pt 0;text-align:center}',
+      '.informe-grafica h4{font-size:10pt;color:#475569;font-weight:bold;margin:0 0 4pt}',
+      'ul{margin:6pt 0 6pt 16pt}li{margin:3pt 0;text-align:justify}',
+      'img{margin:6pt auto;max-width:100%}',
+      '.informe-footer{color:#64748b;font-size:8.5pt;border-top:1px solid #e2e8f0;margin-top:14pt;padding-top:8pt}'
+    ].join('');
+    var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Informe</title><style>' + css + '</style></head><body>' + clone.innerHTML + '</body></html>';
+    var blob = new Blob(['﻿' + html], { type: 'application/msword' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'Informe_' + infAmbitoTitulo(amb).replace(/[^a-zA-Z0-9]+/g, '_') + '.doc';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
+  }
+  function infStartProgress(estado) {
+    estado.innerHTML = '<div class="inf-progress-wrap"><div class="inf-progress-track"><div class="inf-progress-fill"></div></div><span class="inf-progress-pct">0%</span><span class="inf-progress-lbl">Redactando el informe…</span></div>';
+    var fill = estado.querySelector('.inf-progress-fill'), pctEl = estado.querySelector('.inf-progress-pct');
+    var pct = 0;
+    var timer = setInterval(function () {
+      if (pct < 90) { pct += Math.max(0.5, (90 - pct) * 0.05); if (pct > 90) pct = 90; if (fill) fill.style.width = pct + '%'; if (pctEl) pctEl.textContent = Math.round(pct) + '%'; }
+    }, 180);
+    var set = function (p) { pct = p; if (fill) fill.style.width = p + '%'; if (pctEl) pctEl.textContent = Math.round(p) + '%'; };
+    return {
+      finish: function (cb) { clearInterval(timer); set(100); setTimeout(function () { if (cb) cb(); }, 450); },
+      stop: function () { clearInterval(timer); }
+    };
+  }
+  function generarInforme(amb) {
+    var ids = infIds(amb);
+    var anio = document.getElementById(ids.anio).value, mes = document.getElementById(ids.mes).value;
+    var estado = document.getElementById(ids.estado), salida = document.getElementById(ids.salida), btn = document.getElementById(ids.generar);
+    if (!anio) { estado.textContent = 'No hay datos para este periodo.'; return; }
+    btn.disabled = true; var orig = btn.textContent; btn.textContent = 'Generando…';
+    salida.innerHTML = '';
+    var prog = infStartProgress(estado);
+    infEnsure(amb).then(function () {
+      var data = infBuild(amb, anio, mes); infSt(amb).data = data;
+      var datos = { kpis: data.kpis.map(function (k) { return { label: k.label, valor: k.valor, unidad: k.unidad || '', varMes: k.comp && k.comp.varMes != null ? Math.round(k.comp.varMes * 10) / 10 : null, varAnio: k.comp && k.comp.varAnio != null ? Math.round(k.comp.varAnio * 10) / 10 : null }; }), comparativa: data.comparativa, insights: infInsights(data), graficas: data.graficas.map(function (g) { return { clave: g.key, titulo: g.titulo, labels: g.spec.labels, series: g.spec.datasets.map(function (d) { return { nombre: d.label, datos: d.data }; }) }; }) };
+      return fetch('/api/informe-ia', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ambito: amb, periodoLabel: data.periodoLabel, datos: datos }) }).then(function (r) { return r.json(); });
+    }).then(function (res) {
+      if (res.error) throw new Error(res.error);
+      prog.finish(function () { infRenderInforme(amb, infSt(amb).data, res.texto); estado.innerHTML = ''; });
+    }).catch(function (e) { prog.stop(); estado.textContent = 'Error: ' + (e.message || e); })
+      .finally(function () { btn.disabled = false; btn.textContent = orig; });
+  }
+  function infPopulateMeses(amb) {
+    var ids = infIds(amb), anio = document.getElementById(ids.anio).value, selM = document.getElementById(ids.mes);
+    var meses = infMeses(amb, anio);
+    selM.innerHTML = '<option value="">Todo el año</option>' + meses.map(function (m) { return '<option value="' + m + '">' + infMesNombre(m) + '</option>'; }).join('');
+  }
+  function infPopulate(amb) {
+    var ids = infIds(amb), selA = document.getElementById(ids.anio), estado = document.getElementById(ids.estado);
+    if (!selA) return Promise.resolve();
+    if (estado) estado.textContent = 'Cargando datos…';
+    return infEnsure(amb).then(function () {
+      var anios = infAnios(amb);
+      selA.innerHTML = anios.map(function (a) { return '<option value="' + a + '">' + a + '</option>'; }).join('');
+      if (anios.length) selA.value = anios[anios.length - 1];
+      infPopulateMeses(amb);
+      if (estado) estado.textContent = anios.length ? '' : 'No hay datos para este ámbito todavía.';
+    }).catch(function () { if (estado) estado.textContent = 'No se pudieron cargar los datos.'; });
+  }
+  function initInformesSection(amb) {
+    var st = infSt(amb), ids = infIds(amb);
+    if (st.bound) return;
+    st.bound = true;
+    var y = document.getElementById(ids.anio); if (y) y.addEventListener('change', function () { infPopulateMeses(amb); });
+    var g = document.getElementById(ids.generar); if (g) g.addEventListener('click', function () { generarInforme(amb); });
+    var p = document.getElementById(ids.imprimir); if (p) p.addEventListener('click', function () { window.print(); });
+    infPopulate(amb);
+  }
+
   function initResiduos() {
     const yearSelect = document.getElementById('residuos-year');
     const mesSelect = document.getElementById('residuos-mes');
@@ -3820,14 +4257,17 @@
           mapa: 'Residuos - Mapa de contenedores',
           zonas: 'Residuos - Por zonas',
           'comparacion-tipos': 'Residuos - Comparación por tipo',
-          tablas: 'Residuos - Tablas'
+          tablas: 'Residuos - Tablas',
+          'residuos-informes': 'Residuos - Informes'
         };
         if (h2R && residTitles[el.dataset.section]) h2R.textContent = residTitles[el.dataset.section];
-        // La barra de filtros global (año/mes/comparar) no aplica a Grandes productores,
-        // que tiene sus propios filtros: se oculta para no confundir.
+        // La barra de filtros global (año/mes/comparar) no aplica a Grandes productores
+        // ni a Informes (tienen sus propios filtros): se oculta para no confundir.
         var barraResiduos = document.getElementById('residuos-filters-bar');
-        if (barraResiduos) barraResiduos.style.display = (el.dataset.section === 'grandes-productores') ? 'none' : '';
+        var resSinBarra = ['grandes-productores', 'residuos-informes'];
+        if (barraResiduos) barraResiduos.style.display = resSinBarra.indexOf(el.dataset.section) >= 0 ? 'none' : '';
         if (el.dataset.section === 'grandes-productores') setTimeout(renderGrandesProductores, 60);
+        else if (el.dataset.section === 'residuos-informes') setTimeout(function () { initInformesSection('residuos'); }, 60);
         else setTimeout(function () { updateResiduosKPIs(); }, 100);
       });
     });
@@ -4993,7 +5433,8 @@
             'turismo-viviendas': 'Turismo - Viviendas turísticas (GVA)',
             'turismo-comparativa': 'Turismo - Comparativa',
             'turismo-tablas': 'Turismo - Tablas INE',
-            'turismo-fuentes': 'Turismo - Fuentes de datos'
+            'turismo-fuentes': 'Turismo - Fuentes de datos',
+            'turismo-informes': 'Turismo - Informes'
           };
           const h2 = header.querySelector('h2');
           if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];
@@ -5002,9 +5443,10 @@
         // datos/periodo y NO dependen de la barra global año/mes/categoría de
         // turismo: se oculta esa barra en ellas para que no parezca que "no filtra".
         const barTur = document.querySelector('#main-turismo .turismo-filters-bar');
-        const sitSecs = ['turismo-gasto', 'turismo-busquedas', 'turismo-reputacion'];
+        const sitSecs = ['turismo-gasto', 'turismo-busquedas', 'turismo-reputacion', 'turismo-informes'];
         if (barTur) barTur.style.display = sitSecs.indexOf(el.dataset.section) >= 0 ? 'none' : '';
-        setTimeout(() => renderTurismoAll(), 80);
+        if (el.dataset.section === 'turismo-informes') setTimeout(function () { initInformesSection('turismo'); }, 60);
+        else setTimeout(() => renderTurismoAll(), 80);
       });
     });
     const btnRefresh = document.getElementById('turismo-refresh');
@@ -5504,9 +5946,10 @@
         if (sname === 'camaras-multiobjeto-detalle') {
           setTimeout(function () { initMultiSelect(); renderMultiDetalle(); }, 60);
         }
+        if (sname === 'camaras-informes') { setTimeout(function () { initInformesSection('camaras'); }, 60); }
         const header = document.getElementById('header-camaras');
         if (header) {
-          const titles = { 'camaras-resumen': 'Accesos — mapa de tráfico (LPR)', 'camaras-evolucion': 'Evolución del tráfico (LPR)', 'camaras-horario': 'Perfil horario (LPR)', 'camaras-procedencia': 'Procedencia de los vehículos (LPR)', 'camaras-colores': 'Vehículos por color (LPR)', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara' };
+          const titles = { 'camaras-resumen': 'Accesos — mapa de tráfico (LPR)', 'camaras-evolucion': 'Evolución del tráfico (LPR)', 'camaras-horario': 'Perfil horario (LPR)', 'camaras-procedencia': 'Procedencia de los vehículos (LPR)', 'camaras-colores': 'Vehículos por color (LPR)', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara', 'camaras-informes': 'Cámaras — Informes' };
           const h2 = header.querySelector('h2');
           if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];
         }

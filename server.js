@@ -696,6 +696,68 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
     }
 });
 
+// Rate limit específico para informes (más pesados que el chat)
+const informeLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 8,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Demasiados informes seguidos. Espera un minuto.' }
+});
+
+// Genera un informe escrito, largo y contextualizado a partir de los datos de un
+// ámbito (turismo/residuos/cámaras) y periodo, comparando con mes y año anteriores.
+app.post('/api/informe-ia', informeLimiter, async (req, res) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const { ambito, periodoLabel, datos } = req.body || {};
+    if (!datos || typeof datos !== 'object') return res.status(400).json({ error: 'Faltan los datos del periodo' });
+
+    const ambitoTxt = {
+        turismo: 'turismo (ocupación hotelera, apartamentos, campings y movilidad turística, fuentes INE y SIT-CV)',
+        residuos: 'gestión de residuos (recogida del camión, pesajes de báscula, reciclaje por zonas, tipos y grandes productores)',
+        camaras: 'movilidad y aforo (cámaras LPR de entradas/salidas y cámaras de aforo de personas y vehículos)'
+    }[ambito] || 'gestión municipal';
+
+    const system = [
+        'Eres un analista del Ayuntamiento de Peñíscola que redacta el informe mensual del área correspondiente en español, siguiendo SIEMPRE la misma plantilla y estilo del Ayuntamiento.',
+        'Escribe un informe EXTENSO y muy DESARROLLADO (no un resumen): cada sección debe tener SUSTANCIA. No listes cifras sueltas: CONTEXTUALIZA e interpreta qué significan, por qué cambian, la estacionalidad, las causas probables, la comparación mensual e interanual y qué implican para la gestión municipal y turística. Tono profesional pero cercano, con proyecciones a futuro cuando proceda. Es preferible pasarse de largo que quedarse corto.',
+        'ESTRUCTURA OBLIGATORIA en Markdown (NO pongas un título con # al principio; empieza directamente por el Resumen general):',
+        '## Resumen general — MÍNIMO 5 párrafos DENSOS (4-6 frases cada uno) que repasen TODOS los indicadores del periodo (todos los KPIs y desgloses que recibas), cada uno con su variación respecto al mes anterior y al año anterior y una interpretación.',
+        '## Frases destacadas del análisis — lista de 8-12 viñetas (con "-"), cada una una frase contundente con el dato clave.',
+        'Después, UNA SECCIÓN ## POR CADA bloque de datos/gráfica que recibas (no agrupes varias métricas en una sola sección: si tienes ocupación, ADR, RevPAR, procedencia, pernoctaciones… haz una sección para cada una). Nómbralas por su tema y SOLO sobre datos presentes en el JSON; NO inventes secciones de temas sin datos ni mezcles ámbitos (turismo no habla de vehículos ni residuos, etc.). Orientación de nombres: turismo → "## Evolución de la ocupación", "## Pernoctaciones y estancia media", "## Perfil y procedencia de los visitantes", "## Evolución del ADR", "## Evolución del RevPAR"; residuos → "## Recogida mensual", "## Residuos por hotel (grandes productores)", "## Reparto por fracción"; cámaras → "## Entradas y salidas de vehículos", "## Saldo mensual", "## Aforo de personas y vehículos". CADA sección temática debe tener MÍNIMO 3 párrafos bien desarrollados de 4-6 frases (220-320 palabras por sección): explica el dato, su evolución mensual e interanual, la estacionalidad, las causas probables y las implicaciones. No resumas; desarrolla en profundidad.',
+        '## Conclusiones y recomendaciones — 2-3 párrafos de cierre + 3-5 recomendaciones accionables en viñetas.',
+        'INDICADORES 🌟/⚠️ (IMPORTANTE, es el sello del informe): justo DESPUÉS de cada variación porcentual escribe el emoji 🌟 si el cambio es FAVORABLE y ⚠️ si es DESFAVORABLE, según el contexto (más turistas/ocupación/ingresos = 🌟; caídas = ⚠️; en residuos, más generación suele ser ⚠️ y más reciclaje 🌟). Ejemplo: "la ocupación cayó un 5,4% ⚠️" o "la estancia media subió a 3,3 días 🌟".',
+        'INSIGHTS: si el JSON trae `insights` (mes pico, mes valle, mayor variación), úsalos para hablar de estacionalidad y del mes máximo/mínimo.',
+        'NOTAS AL PIE: si usas tecnicismos (ADR, RevPAR), añade una línea aclaratoria al final de esa sección, p.ej. "*ADR: ingreso medio por habitación ocupada y noche.".',
+        'GRÁFICAS (OBLIGATORIO): recibirás una lista `graficas` con {clave, titulo}. Cada vez que analices un dato con gráfica, inserta en una LÍNEA PROPIA y aislada, justo tras ese párrafo, el marcador [GRAFICA: clave] con la clave literal. Intercala las gráficas por el cuerpo (NO al final) y usa TODAS las claves, cada una una sola vez. No expliques el marcador.',
+        'LONGITUD (IMPORTANTE): el informe COMPLETO debe rondar 1700-2300 palabras. Es un informe extenso, NO un resumen. Si ves que te quedas corto, AMPLÍA cada sección con más contexto, causas, estacionalidad, comparativas y matices hasta alcanzar esa extensión.',
+        'Reglas: usa EXCLUSIVAMENTE los datos proporcionados (no inventes cifras); si falta un dato, dilo. Números en formato español (1.234, 45.380 kg, -12,5%, 31,9%, 54,10 €). Sin tablas Markdown grandes.'
+    ].join('\n');
+
+    try {
+        const r = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+            body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [
+                    { role: 'system', content: system },
+                    { role: 'user', content: 'Ámbito: ' + ambitoTxt + '.\nPeriodo analizado: ' + (periodoLabel || '—') + '.\nDatos (JSON):\n' + JSON.stringify(datos, null, 2) + '\n\nRedacta el informe completo siguiendo la estructura indicada.' }
+                ],
+                max_tokens: 5200,
+                temperature: 0.6
+            })
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
+        const texto = data.choices?.[0]?.message?.content?.trim() || '';
+        res.json({ texto: texto });
+    } catch (err) {
+        res.status(500).json({ error: err.message || 'Error al generar el informe' });
+    }
+});
+
 const PLANTILLA_PATH = path.join(EJEMPLOS_DIR, 'plantilla_informe.txt');
 
 function generarInformeDesdePlantilla(data) {

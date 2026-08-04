@@ -14,6 +14,84 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    .landing-card-informes .landing-card-icon { filter: none; }
+    .informe-doc { max-width: 940px; margin: 0 auto; }
+    .informe-head { display: flex; align-items: center; gap: 1.1rem; border-bottom: 4px solid #2563eb; padding-bottom: 1.1rem; margin-bottom: .5rem; }
+    .informe-logo { width: 62px; height: 62px; object-fit: contain; }
+    .informe-eyebrow { font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: #64748b; font-weight: 700; }
+    .informe-title { font-size: 1.75rem; font-weight: 800; color: #0f172a; margin-top: .1rem; line-height: 1.15; }
+    .informe-texto { line-height: 1.72; color: #334155; font-size: .95rem; }
+    .informe-texto p { margin: .6rem 0; text-align: justify; }
+    .informe-texto .informe-h1 { font-size: 1.6rem; color: #0f172a; margin: 1.6rem 0 .6rem; }
+    .informe-texto .informe-h { font-size: 1.42rem; font-weight: 800; color: #0f172a; margin: 2.2rem 0 .8rem; padding-bottom: .45rem; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; }
+    .informe-texto .informe-h .informe-h-num { min-width: 1.85rem; height: 1.85rem; font-size: .95rem; }
+    .informe-texto ul { margin: .5rem 0 .8rem 1.1rem; }
+    .informe-texto li { margin: .3rem 0; text-align: justify; }
+    .informe-grafica { max-width: 600px; margin: 1.2rem auto; padding: .8rem 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; }
+    .informe-grafica h4 { margin: 0 0 .5rem; font-size: .92rem; color: #475569; font-weight: 600; text-align: center; }
+    .informe-grafica .chart-container { height: 240px !important; }
+    .informe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+    .inf-progress-wrap { display: flex; align-items: center; gap: .6rem; }
+    .inf-progress-track { flex: 1; max-width: 420px; height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+    .inf-progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #2563eb, #0ea5e9); border-radius: 999px; transition: width .18s linear; }
+    .inf-progress-pct { font-weight: 700; color: #2563eb; min-width: 3ch; text-align: right; font-variant-numeric: tabular-nums; }
+    .inf-progress-lbl { color: #64748b; font-size: .85rem; }
+    .informe-toolbar { display: flex; justify-content: flex-end; gap: .5rem; margin-bottom: .8rem; }
+    .informe-sub { color: #64748b; font-size: .82rem; margin-top: .1rem; }
+    .informe-h .informe-h-num { display: inline-flex; align-items: center; justify-content: center; min-width: 1.5rem; height: 1.5rem; margin-right: .5rem; background: #2563eb; color: #fff; border-radius: 6px; font-size: .82rem; font-weight: 700; }
+    .informe-kpi-var { display: block; font-size: .72rem; font-weight: 600; margin-top: .15rem; }
+    .informe-kpi-var.up { color: #16a34a; }
+    .informe-kpi-var.down { color: #dc2626; }
+    .informe-footer { margin-top: 1.4rem; padding-top: .8rem; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: .78rem; line-height: 1.5; }
+    .informe-portada { position: relative; border-radius: 14px; overflow: hidden; margin-bottom: .3rem; box-shadow: 0 6px 24px rgba(15,23,42,.18); }
+    .informe-portada-img { width: 100%; height: 360px; object-fit: cover; display: block; }
+    .informe-portada-txt { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 1rem; background: linear-gradient(180deg, rgba(15,23,42,.30) 0%, rgba(15,23,42,.20) 45%, rgba(15,23,42,.68) 100%); color: #fff; }
+    .informe-portada-logo { width: 68px; height: 68px; object-fit: contain; margin-bottom: .7rem; filter: drop-shadow(0 3px 8px rgba(0,0,0,.5)); background: rgba(255,255,255,.9); border-radius: 12px; padding: 6px; }
+    .informe-portada-eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: .82rem; font-weight: 600; opacity: .95; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+    .informe-portada-tipo { font-size: 2.6rem; font-weight: 800; margin: .35rem 0 .15rem; text-shadow: 0 2px 14px rgba(0,0,0,.55); line-height: 1.1; }
+    .informe-portada-periodo { font-size: 1.45rem; font-weight: 600; opacity: .97; text-shadow: 0 2px 10px rgba(0,0,0,.5); }
+    .informe-portada-fecha { margin-top: .9rem; font-size: .9rem; opacity: .92; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+    /* Tarjetas KPI elegantes */
+    .informe-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: .7rem; margin: .3rem 0 1.3rem; }
+    .informe-kpi { background: #fff; border: 1px solid #e6eaf1; border-top: 3px solid #2563eb; border-radius: 12px; padding: .85rem .95rem .9rem; box-shadow: 0 1px 4px rgba(15,23,42,.06); }
+    .informe-kpi-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: #64748b; font-weight: 700; }
+    .informe-kpi-value { font-size: 1.55rem; font-weight: 800; color: #0f172a; margin-top: .18rem; line-height: 1.1; }
+    .informe-kpi .informe-kpi-var { display: inline-block; margin-top: .4rem; font-size: .72rem; font-weight: 700; padding: .12rem .5rem; border-radius: 999px; }
+    .informe-kpi .informe-kpi-var.up { color: #166534; background: #dcfce7; }
+    .informe-kpi .informe-kpi-var.down { color: #991b1b; background: #fee2e2; }
+    /* Maquetación en páginas A4 tipo PDF */
+    .informe-doc { background: #e9eef5 !important; padding: 1.2rem !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .informe-pages { display: flex; flex-direction: column; align-items: center; }
+    .informe-page { width: 794px; max-width: 100%; min-height: 1123px; background: #fff; box-shadow: 0 6px 22px rgba(15,23,42,.18); padding: 54px 56px; box-sizing: border-box; position: relative; margin-bottom: 22px; }
+    .informe-page-body { min-height: 1px; }
+    .informe-page-cover { padding: 0; overflow: hidden; }
+    .informe-page-cover .informe-portada { height: 1123px; margin: 0; border-radius: 0; box-shadow: none; }
+    .informe-page-cover .informe-portada-img { height: 1123px; }
+    .informe-page-cover .informe-portada-tipo { font-size: 3.1rem; }
+    .informe-page-num { position: absolute; bottom: 16px; right: 26px; font-size: .72rem; color: #94a3b8; }
+    .informe-page-cover .informe-page-num { color: rgba(255,255,255,.8); }
+    @media print {
+      body * { visibility: hidden !important; }
+      #inf-turismo-salida, #inf-turismo-salida *, #inf-residuos-salida, #inf-residuos-salida *, #inf-camaras-salida, #inf-camaras-salida * { visibility: visible !important; }
+      /* Forzar que se impriman fondos, colores y degradados (si no, el formato se ve "plano" y distinto) */
+      #inf-turismo-salida *, #inf-residuos-salida *, #inf-camaras-salida * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .informe-doc { background: #fff !important; padding: 0 !important; }
+      .informe-toolbar { display: none !important; }
+      .informe-pages { display: block; }
+      .informe-page { box-shadow: none; margin: 0 auto; width: 100%; min-height: auto; padding: 6mm 4mm; page-break-after: always; }
+      .informe-page:last-child { page-break-after: auto; }
+      .informe-page-cover .informe-portada, .informe-page-cover .informe-portada-img { height: 250mm; }
+      .informe-page-num { display: none; }
+      .informe-grafica, .informe-texto ul, .informe-texto li { break-inside: avoid; page-break-inside: avoid; }
+      .informe-texto .informe-h, .informe-texto .informe-h1 { break-after: avoid; page-break-after: avoid; break-inside: avoid; }
+      @page { size: A4; margin: 12mm; }
+    }
+    .informe-grafica { break-inside: avoid; }
+    .informe-texto .informe-h, .informe-texto .informe-h1 { break-after: avoid; }
+  </style>
 </head>
 <body>
   <div class="app">
@@ -34,6 +112,7 @@
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-detalle"><span class="nav-icon">📷</span><span>Por cámara</span></a>
         <div class="nav-group-label" style="padding:.4rem .9rem .2rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:600">Gestión</div>
         <a href="#" class="nav-item" data-section="camaras-repositorio"><span class="nav-icon">📤</span><span>Repositorio (datos brutos)</span></a>
+        <a href="#" class="nav-item" data-section="camaras-informes"><span class="nav-icon">📝</span><span>Informes</span></a>
       </nav>
       <nav class="nav" id="nav-residuos" style="display:none">
         <a href="#" class="nav-item active" data-section="kpis"><span class="nav-icon">📊</span><span>KPIs</span></a>
@@ -45,6 +124,7 @@
         <a href="#" class="nav-item" data-section="comparacion-tipos"><span class="nav-icon">📈</span><span>Comparación tipos</span></a>
         <a href="#" class="nav-item" data-section="tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
         <a href="#" class="nav-item" data-section="residuos-repositorio"><span class="nav-icon">📤</span><span>Repositorio (datos brutos)</span></a>
+        <a href="#" class="nav-item" data-section="residuos-informes"><span class="nav-icon">📝</span><span>Informes</span></a>
       </nav>
       <nav class="nav" id="nav-turismo" style="display:none">
         <a href="#" class="nav-item active" data-section="turismo-resumen"><span class="nav-icon">✨</span><span>Resumen</span></a>
@@ -60,6 +140,7 @@
         <a href="#" class="nav-item" data-section="turismo-comparativa"><span class="nav-icon">📈</span><span>Comparativa</span></a>
         <a href="#" class="nav-item" data-section="turismo-tablas"><span class="nav-icon">📋</span><span>Tablas</span></a>
         <a href="#" class="nav-item" data-section="turismo-fuentes"><span class="nav-icon">📚</span><span>Fuentes</span></a>
+        <a href="#" class="nav-item" data-section="turismo-informes"><span class="nav-icon">📝</span><span>Informes</span></a>
       </nav>
       <nav class="nav" id="nav-redes" style="display:none">
         <a href="#" class="nav-item active" data-section="redes-resumen"><span class="nav-icon">📊</span><span>Resumen</span></a>
@@ -140,6 +221,7 @@
           <button type="button" class="reload-btn turismo-reload-btn" id="redes-refresh">Actualizar</button>
         </div>
       </header>
+
 
       <div id="main-camaras" style="display:none">
       <div class="filters-bar" id="lpr-filtros" style="margin-bottom:1rem;flex-wrap:wrap">
@@ -358,6 +440,20 @@
         </div>
       </section>
 
+      <section id="section-camaras-informes" class="section">
+        <div class="turismo-section-card" style="margin-bottom:1rem">
+          <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>cámaras (LPR + aforo)</strong>, con una gráfica por cada dato analizado.</p>
+          <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
+            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-camaras-anio" class="fuente-select" style="min-width:110px"></select></span>
+            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-camaras-mes" class="fuente-select" style="min-width:150px"></select></span>
+            <button type="button" id="inf-camaras-generar" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600">✨ Generar informe</button>
+            <button type="button" id="inf-camaras-imprimir" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">🖨️ Imprimir / PDF</button>
+          </div>
+          <div id="inf-camaras-estado" style="margin-top:.6rem;font-size:.85rem;color:#64748b"></div>
+        </div>
+        <div id="inf-camaras-salida"></div>
+      </section>
+
       </div>
 
       <div id="main-residuos" style="display:none">
@@ -548,6 +644,20 @@
             <h4>⚖️ Pesajes (Excel) <span id="repo-pesajes-count" style="color:#94a3b8;font-weight:400;font-size:.8rem"></span></h4>
             <div id="repo-pesajes-ficheros" style="margin-top:.6rem"></div>
           </div>
+        </section>
+
+        <section id="section-residuos-informes" class="section">
+          <div class="residuos-section-card" style="margin-bottom:1rem">
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>residuos</strong>, con una gráfica por cada dato analizado.</p>
+            <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-residuos-anio" class="fuente-select" style="min-width:110px"></select></span>
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-residuos-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <button type="button" id="inf-residuos-generar" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600">✨ Generar informe</button>
+              <button type="button" id="inf-residuos-imprimir" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">🖨️ Imprimir / PDF</button>
+            </div>
+            <div id="inf-residuos-estado" style="margin-top:.6rem;font-size:.85rem;color:#64748b"></div>
+          </div>
+          <div id="inf-residuos-salida"></div>
         </section>
       </div>
 
@@ -1178,6 +1288,20 @@
             <div id="turismo-tabla-campings"></div>
           </div>
         </section>
+
+        <section id="section-turismo-informes" class="section">
+          <div class="turismo-section-card" style="margin-bottom:1rem">
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>turismo</strong>, con una gráfica por cada dato analizado.</p>
+            <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-turismo-anio" class="fuente-select" style="min-width:110px"></select></span>
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-turismo-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <button type="button" id="inf-turismo-generar" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600">✨ Generar informe</button>
+              <button type="button" id="inf-turismo-imprimir" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">🖨️ Imprimir / PDF</button>
+            </div>
+            <div id="inf-turismo-estado" style="margin-top:.6rem;font-size:.85rem;color:#64748b"></div>
+          </div>
+          <div id="inf-turismo-salida"></div>
+        </section>
       </div>
 
       <div id="main-redes" style="display:none">
@@ -1388,6 +1512,7 @@
           </div>
         </section>
       </div>
+
     </main>
   </div>
   <!--
@@ -1397,7 +1522,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=101"></script>
+  <script src="js/dashboard.js?v=115"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>
