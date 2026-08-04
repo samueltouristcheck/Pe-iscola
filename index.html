@@ -444,8 +444,11 @@
         <div class="turismo-section-card" style="margin-bottom:1rem">
           <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>cámaras (LPR + aforo)</strong>, con una gráfica por cada dato analizado.</p>
           <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
-            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-camaras-anio" class="fuente-select" style="min-width:110px"></select></span>
-            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-camaras-mes" class="fuente-select" style="min-width:150px"></select></span>
+            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo</label><select id="inf-camaras-modo" class="fuente-select" style="min-width:130px"><option value="mes">Por mes</option><option value="rango">Rango de días</option></select></span>
+            <span id="inf-camaras-anio-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-camaras-anio" class="fuente-select" style="min-width:110px"></select></span>
+            <span id="inf-camaras-mes-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-camaras-mes" class="fuente-select" style="min-width:150px"></select></span>
+            <span id="inf-camaras-desde-wrap" style="display:none;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Desde</label><input type="date" id="inf-camaras-desde" class="fuente-select" style="min-width:150px"></span>
+            <span id="inf-camaras-hasta-wrap" style="display:none;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Hasta</label><input type="date" id="inf-camaras-hasta" class="fuente-select" style="min-width:150px"></span>
             <button type="button" id="inf-camaras-generar" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600">✨ Generar informe</button>
             <button type="button" id="inf-camaras-imprimir" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">🖨️ Imprimir / PDF</button>
           </div>
@@ -1522,7 +1525,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=116"></script>
+  <script src="js/dashboard.js?v=117"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

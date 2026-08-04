@@ -3767,6 +3767,20 @@
   function infEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function infPct(a, b) { if (a == null || b == null || !b) return null; return ((a - b) / b) * 100; }
   function infPeriodoLabel(anio, mes) { return (mes ? infMesNombre(mes) + ' ' : '') + anio; }
+  // ---- rango de días (solo Cámaras: aforo + LPR tienen datos diarios) ----
+  function infParseISO(s) { var p = String(s).split('-'); return new Date(+p[0], (+p[1] || 1) - 1, +p[2] || 1); }
+  function infISO(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function infShiftISO(iso, days) { var d = infParseISO(iso); d.setDate(d.getDate() + days); return infISO(d); }
+  function infShiftAnioISO(iso, yrs) { var d = infParseISO(iso); d.setFullYear(d.getFullYear() + yrs); return infISO(d); }
+  function infDiasEntre(desde, hasta) { return Math.round((infParseISO(hasta) - infParseISO(desde)) / 86400000) + 1; }
+  function infDiaCorto(iso) { var p = String(iso).split('-'); return p[2] + '/' + p[1]; }
+  function infRangoLabel(desde, hasta) {
+    var a = infParseISO(desde), b = infParseISO(hasta);
+    if (desde === hasta) return a.getDate() + ' ' + infMesNombre(a.getMonth() + 1) + ' ' + a.getFullYear();
+    if (a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth()) return a.getDate() + '–' + b.getDate() + ' ' + infMesNombre(b.getMonth() + 1) + ' ' + b.getFullYear();
+    if (a.getFullYear() === b.getFullYear()) return a.getDate() + ' ' + infMesNombre(a.getMonth() + 1) + ' – ' + b.getDate() + ' ' + infMesNombre(b.getMonth() + 1) + ' ' + b.getFullYear();
+    return a.getDate() + ' ' + infMesNombre(a.getMonth() + 1) + ' ' + a.getFullYear() + ' – ' + b.getDate() + ' ' + infMesNombre(b.getMonth() + 1) + ' ' + b.getFullYear();
+  }
   function infAmbitoTitulo(a) { return { turismo: 'Informe de Turismo', residuos: 'Informe de Residuos', camaras: 'Informe de Cámaras' }[a] || 'Informe'; }
 
   function infEnsure(ambito) {
@@ -3897,7 +3911,64 @@
     if (af) { kpis.push({ label: 'Personas (aforo)', valor: af.personas }); kpis.push({ label: 'Veh. a motor (aforo)', valor: af.vehMotor }); }
     return { kpis: kpis, comparativa: comp, graficas: graficas };
   }
-  function infBuild(ambito, anio, mes) {
+  function infCamAforoRango(desde, hasta) {
+    var m = (camarasData && camarasData.multiobjeto) || [];
+    var per = 0, vm = 0, vs = 0, porDia = {}, hay = false;
+    m.forEach(function (r) {
+      var fd = (r.fecha || '') + '-' + String(r.dia || 1).padStart(2, '0');
+      if (fd >= desde && fd <= hasta) {
+        var p = (r.personas_avanzar || 0) + (r.personas_retroceso || 0);
+        var a = (r.vehiculos_motor_avanzar || 0) + (r.vehiculos_motor_retroceso || 0);
+        var s = (r.vehiculos_sin_motor_avanzar || 0) + (r.vehiculos_sin_motor_retroceso || 0);
+        per += p; vm += a; vs += s;
+        if (!porDia[fd]) porDia[fd] = { p: 0, vm: 0, vs: 0 };
+        porDia[fd].p += p; porDia[fd].vm += a; porDia[fd].vs += s; hay = true;
+      }
+    });
+    return hay ? { personas: per, vehMotor: vm, vehSinMotor: vs, porDia: porDia } : null;
+  }
+  function infLprRango(desde, hasta) {
+    var esd = (camarasData && camarasData.lpr && camarasData.lpr.entradasSalidasPorDia) || {};
+    var e = 0, s = 0, porDia = {}, hay = false;
+    Object.keys(esd).forEach(function (k) {
+      if (k >= desde && k <= hasta) { e += esd[k].Avance || 0; s += esd[k].Retroceso || 0; porDia[k] = { e: esd[k].Avance || 0, s: esd[k].Retroceso || 0 }; hay = true; }
+    });
+    return hay ? { entradas: e, salidas: s, porDia: porDia } : null;
+  }
+  function infCompSpecRango(comp) { return { tipo: 'bar', labels: comp.map(function (c) { return c.label; }), datasets: [{ label: 'Actual', data: comp.map(function (c) { return c.actual; }), color: '#2563eb' }, { label: 'Periodo anterior', data: comp.map(function (c) { return c.mesAnterior; }), color: '#93c5fd' }, { label: 'Año anterior', data: comp.map(function (c) { return c.anioAnterior; }), color: '#f59e0b' }] }; }
+  function infBuildCamarasRango(desde, hasta) {
+    var dur = infDiasEntre(desde, hasta);
+    var pD = infShiftISO(desde, -dur), pH = infShiftISO(desde, -1);
+    var yD = infShiftAnioISO(desde, -1), yH = infShiftAnioISO(hasta, -1);
+    var af = infCamAforoRango(desde, hasta), afP = infCamAforoRango(pD, pH), afY = infCamAforoRango(yD, yH);
+    var lp = infLprRango(desde, hasta), lpP = infLprRango(pD, pH), lpY = infLprRango(yD, yH);
+    var graficas = [], kpis = [], comp = [];
+    var mk = function (label, a, pa, aa) { return { label: label, actual: a, mesAnterior: (pa == null ? null : pa), anioAnterior: (aa == null ? null : aa), varMes: infPct(a, pa), varAnio: infPct(a, aa), labelMes: 'vs periodo ant.' }; };
+    if (lp) { comp.push(mk('Entradas', lp.entradas, lpP && lpP.entradas, lpY && lpY.entradas)); comp.push(mk('Salidas', lp.salidas, lpP && lpP.salidas, lpY && lpY.salidas)); }
+    if (af) { comp.push(mk('Personas (aforo)', af.personas, afP && afP.personas, afY && afY.personas)); comp.push(mk('Veh. a motor (aforo)', af.vehMotor, afP && afP.vehMotor, afY && afY.vehMotor)); }
+    if (lp) {
+      var dl = Object.keys(lp.porDia).sort();
+      graficas.push({ key: 'es_dia', titulo: 'Entradas y salidas por día (LPR)', spec: { tipo: 'line', labels: dl.map(infDiaCorto), datasets: [{ label: 'Entradas', data: dl.map(function (d) { return lp.porDia[d].e; }), color: '#2563eb' }, { label: 'Salidas', data: dl.map(function (d) { return lp.porDia[d].s; }), color: '#f59e0b' }] } });
+      graficas.push({ key: 'saldo_dia', titulo: 'Saldo diario (entradas − salidas)', spec: { tipo: 'bar', labels: dl.map(infDiaCorto), datasets: [{ label: 'Saldo', data: dl.map(function (d) { return lp.porDia[d].e - lp.porDia[d].s; }), color: '#16a34a' }] } });
+    }
+    if (af) {
+      var da = Object.keys(af.porDia).sort();
+      graficas.push({ key: 'aforo_personas_dia', titulo: 'Personas por día (aforo)', spec: { tipo: 'line', labels: da.map(infDiaCorto), datasets: [{ label: 'Personas', data: da.map(function (d) { return af.porDia[d].p; }), color: '#7c3aed' }] } });
+      graficas.push({ key: 'aforo_veh_dia', titulo: 'Vehículos por día (aforo)', spec: { tipo: 'line', labels: da.map(infDiaCorto), datasets: [{ label: 'A motor', data: da.map(function (d) { return af.porDia[d].vm; }), color: '#0891b2' }, { label: 'Sin motor', data: da.map(function (d) { return af.porDia[d].vs; }), color: '#f59e0b' }] } });
+      graficas.push({ key: 'aforo_reparto', titulo: 'Aforo: reparto por tipo', spec: { tipo: 'bar', labels: ['Personas', 'Veh. a motor', 'Veh. sin motor'], datasets: [{ label: 'Pasos', data: [af.personas, af.vehMotor, af.vehSinMotor], color: '#7c3aed' }] } });
+    }
+    if (comp.length) graficas.push({ key: 'comparativa', titulo: 'Comparativa: periodo vs anterior y año anterior', spec: infCompSpecRango(comp) });
+    if (lp) { kpis.push({ label: 'Entradas de vehículos', valor: lp.entradas, comp: comp[0] }); kpis.push({ label: 'Salidas de vehículos', valor: lp.salidas, comp: comp[1] }); kpis.push({ label: 'Saldo (entradas − salidas)', valor: lp.entradas - lp.salidas }); }
+    if (af) { kpis.push({ label: 'Personas (aforo)', valor: af.personas, comp: comp[lp ? 2 : 0] }); kpis.push({ label: 'Veh. a motor (aforo)', valor: af.vehMotor, comp: comp[lp ? 3 : 1] }); kpis.push({ label: 'Veh. sin motor (aforo)', valor: af.vehSinMotor }); }
+    kpis.push({ label: 'Días del periodo', valor: dur });
+    return { kpis: kpis, comparativa: comp, graficas: graficas };
+  }
+  function infBuild(ambito, anio, mes, rango) {
+    if (ambito === 'camaras' && rango && rango.desde && rango.hasta) {
+      var br = infBuildCamarasRango(rango.desde, rango.hasta);
+      br.periodoLabel = infRangoLabel(rango.desde, rango.hasta); br.rango = rango; br.anio = null; br.mes = null;
+      return br;
+    }
     var b = ambito === 'turismo' ? infBuildTurismo(anio, mes) : ambito === 'residuos' ? infBuildResiduos(anio, mes) : infBuildCamaras(anio, mes);
     b.periodoLabel = infPeriodoLabel(anio, mes); b.anio = anio; b.mes = mes || null;
     return b;
@@ -3930,7 +4001,7 @@
   function infKpiVar(k) {
     if (!k.comp) return '';
     var v = k.comp.varAnio != null ? k.comp.varAnio : k.comp.varMes;
-    var lbl = k.comp.varAnio != null ? 'interanual' : 'vs mes ant.';
+    var lbl = k.comp.varAnio != null ? 'interanual' : (k.comp.labelMes || 'vs mes ant.');
     if (v == null) return '';
     var up = v >= 0;
     return '<span class="informe-kpi-var ' + (up ? 'up' : 'down') + '">' + (up ? '▲ +' : '▼ ') + String(Math.round(v * 10) / 10).replace('.', ',') + '% ' + lbl + '</span>';
@@ -4124,14 +4195,23 @@
   }
   function generarInforme(amb) {
     var ids = infIds(amb);
-    var anio = document.getElementById(ids.anio).value, mes = document.getElementById(ids.mes).value;
+    var modoEl = document.getElementById('inf-' + amb + '-modo');
+    var esRango = (amb === 'camaras' && modoEl && modoEl.value === 'rango');
+    var anio = document.getElementById(ids.anio).value, mes = document.getElementById(ids.mes).value, rango = null;
     var estado = document.getElementById(ids.estado), salida = document.getElementById(ids.salida), btn = document.getElementById(ids.generar);
-    if (!anio) { estado.textContent = 'No hay datos para este periodo.'; return; }
+    if (esRango) {
+      var desde = (document.getElementById('inf-' + amb + '-desde') || {}).value || '';
+      var hasta = (document.getElementById('inf-' + amb + '-hasta') || {}).value || '';
+      if (!desde || !hasta) { estado.textContent = 'Elige las fechas de inicio y fin.'; return; }
+      if (desde > hasta) { estado.textContent = 'La fecha "Desde" no puede ser posterior a "Hasta".'; return; }
+      rango = { desde: desde, hasta: hasta };
+    } else if (!anio) { estado.textContent = 'No hay datos para este periodo.'; return; }
     btn.disabled = true; var orig = btn.textContent; btn.textContent = 'Generando…';
     salida.innerHTML = '';
     var prog = infStartProgress(estado);
     infEnsure(amb).then(function () {
-      var data = infBuild(amb, anio, mes); infSt(amb).data = data;
+      var data = infBuild(amb, anio, mes, rango); infSt(amb).data = data;
+      if (!data.kpis || !data.kpis.length) throw new Error(esRango ? 'No hay datos de cámaras en ese rango de fechas.' : 'No hay datos para este periodo.');
       var datos = { kpis: data.kpis.map(function (k) { return { label: k.label, valor: k.valor, unidad: k.unidad || '', varMes: k.comp && k.comp.varMes != null ? Math.round(k.comp.varMes * 10) / 10 : null, varAnio: k.comp && k.comp.varAnio != null ? Math.round(k.comp.varAnio * 10) / 10 : null }; }), comparativa: data.comparativa, insights: infInsights(data), graficas: data.graficas.map(function (g) { return { clave: g.key, titulo: g.titulo, labels: g.spec.labels, series: g.spec.datasets.map(function (d) { return { nombre: d.label, datos: d.data }; }) }; }) };
       return fetch('/api/informe-ia', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ambito: amb, periodoLabel: data.periodoLabel, datos: datos }) }).then(function (r) { return r.json(); });
     }).then(function (res) {
@@ -4164,6 +4244,27 @@
     var y = document.getElementById(ids.anio); if (y) y.addEventListener('change', function () { infPopulateMeses(amb); });
     var g = document.getElementById(ids.generar); if (g) g.addEventListener('click', function () { generarInforme(amb); });
     var p = document.getElementById(ids.imprimir); if (p) p.addEventListener('click', function () { window.print(); });
+    var modo = document.getElementById('inf-' + amb + '-modo');
+    if (modo) {
+      var wrap = function (k) { return document.getElementById('inf-' + amb + '-' + k + '-wrap'); };
+      var toggle = function () {
+        var r = modo.value === 'rango';
+        ['anio', 'mes'].forEach(function (k) { var e = wrap(k); if (e) e.style.display = r ? 'none' : 'inline-flex'; });
+        ['desde', 'hasta'].forEach(function (k) { var e = wrap(k); if (e) e.style.display = r ? 'inline-flex' : 'none'; });
+      };
+      modo.addEventListener('change', toggle);
+      infEnsure(amb).then(function () {
+        var m = (camarasData && camarasData.multiobjeto) || [];
+        var fechas = m.map(function (r) { return (r.fecha || '') + '-' + String(r.dia || 1).padStart(2, '0'); }).filter(Boolean).sort();
+        if (fechas.length) {
+          var min = fechas[0], max = fechas[fechas.length - 1];
+          ['desde', 'hasta'].forEach(function (k) { var e = document.getElementById('inf-' + amb + '-' + k); if (e) { e.min = min; e.max = max; } });
+          var dh = document.getElementById('inf-' + amb + '-hasta'); if (dh && !dh.value) dh.value = max;
+          var dd = document.getElementById('inf-' + amb + '-desde'); if (dd && !dd.value) dd.value = infShiftISO(max, -6);
+        }
+        toggle();
+      });
+    }
     infPopulate(amb);
   }
 
