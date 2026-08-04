@@ -756,21 +756,27 @@
   function renderCamarasMultiobjeto() {
     var agg = multiAgg();
     var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
-    if (!agg.cams.length) {
+    if (!agg.meses.length) {
       ['personas', 'motor', 'sinmotor', 'camaras', 'rango'].forEach(function (k) { set('multi-kpi-' + k, '—'); });
       return;
     }
     set('multi-kpi-personas', multiNf(agg.totP));
     set('multi-kpi-motor', multiNf(agg.totM));
     set('multi-kpi-sinmotor', multiNf(agg.totS));
-    set('multi-kpi-camaras', agg.cams.length);
+    set('multi-kpi-camaras', agg.cams.length || '—');
     set('multi-kpi-rango', agg.meses.length ? (mesEtiqueta(agg.meses[0]) + ' – ' + mesEtiqueta(agg.meses[agg.meses.length - 1])) : '—');
     updateMultiMapa(agg);
   }
 
   function updateMultiMapa(agg) {
     agg = agg || multiAgg();
-    if (!agg.cams.length) return;
+    if (!agg.cams.length) {
+      if (mapaMultiobjeto) { try { mapaMultiobjeto.remove(); } catch (_) {} mapaMultiobjeto = null; }
+      var cont = document.getElementById('mapa-multiobjeto');
+      if (cont) cont.innerHTML = '<p style="padding:2rem;color:#64748b;text-align:center">Este periodo va como <b>total municipal</b> (sin desglose por cámara).</p>';
+      var ol = document.getElementById('multi-top-calles'); if (ol) ol.innerHTML = '';
+      return;
+    }
     drawMapaMultiobjeto(agg);
     renderMultiTopList(agg);
   }
@@ -822,7 +828,13 @@
 
   // Vista 2: calles más concurridas (ranking + evolución + tabla)
   function renderMultiCalles() {
-    var agg = multiAgg(); if (!agg.cams.length) return;
+    var agg = multiAgg();
+    if (!agg.cams.length) {
+      ['camP', 'camV', 'evol'].forEach(multiDestroy);
+      var t0 = document.getElementById('multi-tabla');
+      if (t0) t0.innerHTML = '<tbody><tr><td style="padding:1rem;color:#64748b">Este periodo va como total municipal (sin desglose por cámara).</td></tr></tbody>';
+      return;
+    }
     var opts = chartCartesianOptions();
     var entP = agg.cams.map(function (c) { return [c, agg.porCam[c].p]; }).sort(function (a, b) { return b[1] - a[1]; });
     multiDestroy('camP');
@@ -866,7 +878,12 @@
   function renderMultiDetalle() {
     var agg = multiAgg();
     var sel = document.getElementById('multi-cam-select');
-    if (!sel || !agg.cams.length) return;
+    if (!sel) return;
+    if (!agg.cams.length) {
+      ['detEvol', 'detRep', 'detSen'].forEach(multiDestroy);
+      ['personas', 'motor', 'sinmotor'].forEach(function (k) { var e = document.getElementById('multi-det-' + k); if (e) e.textContent = '—'; });
+      return;
+    }
     var c = sel.value || agg.cams[0];
     var o = agg.porCam[c]; if (!o) return;
     var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
