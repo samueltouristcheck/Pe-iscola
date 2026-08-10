@@ -101,12 +101,98 @@ function mesesCamaras(cam) {
   return Array.from(set).sort();
 }
 
+/* ===================== RESIDUOS ===================== */
+// El camión crudo no trae "salidas": se agrega por mes (kg=suma, salidas=nº de recogidas).
+function camionResumen(camionRaw) {
+  const by = {};
+  camionRaw.forEach((r) => { const f = String(r.fecha || ''); if (!/^\d{4}-\d{2}/.test(f)) return; const ym = f.slice(0, 7); if (!by[ym]) by[ym] = { fecha: ym, kg: 0, salidas: 0 }; by[ym].kg += (+r.kg || +r.weight || 0); by[ym].salidas += 1; });
+  return Object.values(by);
+}
+function resMes(dataCamion, anio, mes) { const pref = mes ? (anio + '-' + pad2(mes)) : String(anio); let kg = 0, sal = 0, f = false; dataCamion.forEach((r) => { if (r.fecha && String(r.fecha).indexOf(pref) === 0) { kg += (+r.kg || 0); sal += (+r.salidas || 0); f = true; } }); return f ? { kg, salidas: sal } : null; }
+function resAnual(dataCamion) { const by = {}; dataCamion.forEach((r) => { if (r.fecha) { const y = String(r.fecha).slice(0, 4); by[y] = (by[y] || 0) + (+r.kg || 0); } }); const years = Object.keys(by).sort().slice(-8); return { years, vals: years.map((y) => Math.round(by[y])) }; }
+function buildResiduos(dataCamion, gp, anio, mes) {
+  const cur = resMes(dataCamion, anio, mes) || { kg: null, salidas: null }, prev = String(+anio - 1); let ma = null;
+  if (mes) { const pm = (+mes) - 1; ma = pm >= 1 ? resMes(dataCamion, anio, pm) : resMes(dataCamion, prev, 12); }
+  const aa = resMes(dataCamion, prev, mes);
+  const serie = {}; dataCamion.forEach((r) => { if (r.fecha && String(r.fecha).slice(0, 4) === String(anio)) { const m = parseInt(String(r.fecha).slice(5, 7), 10); serie[m] = { kg: (+r.kg || 0), salidas: (+r.salidas || 0) }; } });
+  const mo = Object.keys(serie).map(Number).sort((a, b) => a - b);
+  const comp = [
+    { label: 'Kg recogidos', actual: cur.kg, mesAnterior: ma ? ma.kg : null, anioAnterior: aa ? aa.kg : null, varMes: pct(cur.kg, ma && ma.kg), varAnio: pct(cur.kg, aa && aa.kg) },
+    { label: 'Salidas', actual: cur.salidas, mesAnterior: ma ? ma.salidas : null, anioAnterior: aa ? aa.salidas : null, varMes: pct(cur.salidas, ma && ma.salidas), varAnio: pct(cur.salidas, aa && aa.salidas) }
+  ];
+  const graficas = [];
+  if (mo.length) {
+    graficas.push({ key: 'kg_mes', titulo: 'Kg recogidos por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(mesNombre), datasets: [{ label: 'Kg', data: mo.map((m) => serie[m].kg), color: '#2563eb' }] } });
+    graficas.push({ key: 'salidas_mes', titulo: 'Salidas del camión por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(mesNombre), datasets: [{ label: 'Salidas', data: mo.map((m) => serie[m].salidas), color: '#f59e0b' }] } });
+  }
+  graficas.push({ key: 'comparativa', titulo: 'Comparativa: actual vs mes y año anterior', spec: compSpec(comp) });
+  const frac = { envases: 0, organica: 0, papel: 0 }; let gpTotal = 0, gpItems = [];
+  if (gp && gp.datos) {
+    const claves = mes ? [anio + '-' + pad2(mes)] : (gp.meses || []).filter((k) => k.slice(0, 4) === String(anio));
+    const acc = {}; claves.forEach((k) => { const dm = gp.datos[k] || {}; Object.keys(dm).forEach((e) => { const d = dm[e]; acc[e] = (acc[e] || 0) + d.total; frac.envases += d.envases || 0; frac.organica += d.organica || 0; frac.papel += d.papel || 0; }); });
+    gpItems = Object.entries(acc).sort((a, b) => b[1] - a[1]).slice(0, 8).map((x) => ({ n: x[0], v: Math.round(x[1]) }));
+    gpTotal = frac.envases + frac.organica + frac.papel;
+    if (gpItems.length) graficas.push({ key: 'grandes_productores', titulo: 'Grandes productores (kg, top 8)', spec: { tipo: 'barH', labels: gpItems.map((i) => i.n), datasets: [{ label: 'Kg', data: gpItems.map((i) => i.v), color: '#0ea5e9' }] } });
+    if (gpTotal > 0) graficas.push({ key: 'reparto_fraccion', titulo: 'Reparto por fracción (grandes productores)', spec: { tipo: 'bar', labels: ['Orgánica', 'Envases mezclados', 'Papel/Cartón'], datasets: [{ label: 'Kg', data: [Math.round(frac.organica), Math.round(frac.envases), Math.round(frac.papel)], color: '#16a34a' }] } });
+  }
+  const an = resAnual(dataCamion); if (an.years.length > 1) graficas.push({ key: 'kg_anual', titulo: 'Kg recogidos por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Kg', data: an.vals, color: '#16a34a' }] } });
+  const kpis = [{ label: 'Kg recogidos (camión)', valor: cur.kg, unidad: 'kg', comp: comp[0] }, { label: 'Salidas del camión', valor: cur.salidas, comp: comp[1] }];
+  if (gpTotal > 0) { kpis.push({ label: 'Recogida grandes productores', valor: Math.round(gpTotal), unidad: 'kg' }); kpis.push({ label: 'Orgánica (grandes prod.)', valor: gpTotal ? Math.round(1000 * frac.organica / gpTotal) / 10 : 0, unidad: '%' }); }
+  return { kpis, comparativa: comp, graficas };
+}
+
+/* ===================== TURISMO ===================== */
+function turSerie(tur, cat, met, anio) { const s = (tur.series[cat] || []).find((x) => x.metrica === met); const o = {}; if (s) s.data.forEach((d) => { if (String(d.anyo) === String(anio)) o[+d.mes] = d.valor; }); return o; }
+function turVal(tur, cat, met, anio, mes) { const m = turSerie(tur, cat, met, anio); if (mes) return m[+mes] != null ? m[+mes] : null; const v = Object.values(m).filter((x) => x != null); if (!v.length) return null; return met === 'grado_ocupacion' ? v.reduce((a, b) => a + b, 0) / v.length : v.reduce((a, b) => a + b, 0); }
+function turAnual(tur, cat, met) { const s = (tur.series[cat] || []).find((x) => x.metrica === met); const by = {}; if (s) s.data.forEach((d) => { by[d.anyo] = (by[d.anyo] || 0) + (d.valor || 0); }); const years = Object.keys(by).sort().slice(-8); return { years, vals: years.map((y) => Math.round(by[y])) }; }
+function turProcedencia(tur, anio, mes) { const proc = (tur.series.procedencia || []).filter((s) => s.residencia === 'ccaa' && s.nombre !== 'Total Nacional'); return proc.map((s) => { const v = (s.data || []).filter((d) => String(d.anyo) === String(anio) && (!mes || +d.mes === +mes)).reduce((a, b) => a + (b.valor || 0), 0); return { n: s.nombre, v: Math.round(v) }; }).filter((x) => x.v > 0).sort((a, b) => b.v - a.v).slice(0, 8); }
+function buildTurismo(tur, anio, mes) {
+  const prev = String(+anio - 1);
+  const cmp = (cat, met, label) => { const act = turVal(tur, cat, met, anio, mes); let ma = null; const aa = turVal(tur, cat, met, prev, mes); if (mes) { const pm = (+mes) - 1; ma = pm >= 1 ? turVal(tur, cat, met, anio, pm) : turVal(tur, cat, met, prev, 12); } return { label, actual: act, mesAnterior: ma, anioAnterior: aa, varMes: pct(act, ma), varAnio: pct(act, aa) }; };
+  const comp = [cmp('hoteles', 'viajeros', 'Viajeros hoteles'), cmp('hoteles', 'pernoctaciones', 'Pernoctaciones'), cmp('hoteles', 'grado_ocupacion', 'Ocupación %'), cmp('hoteles', 'adr', 'Tarifa media (ADR)')];
+  const graficas = [];
+  const addLine = (key, titulo, cat, met, color) => { const s = turSerie(tur, cat, met, anio); const mo = Object.keys(s).map(Number).sort((a, b) => a - b); if (mo.length && mo.some((m) => s[m] != null)) graficas.push({ key, titulo, spec: { tipo: 'line', labels: mo.map(mesNombre), datasets: [{ label: titulo, data: mo.map((m) => s[m]), color }] } }); };
+  addLine('viajeros_mes', 'Viajeros en hoteles por mes (' + anio + ')', 'hoteles', 'viajeros', '#2563eb');
+  addLine('pernoctaciones_mes', 'Pernoctaciones en hoteles por mes (' + anio + ')', 'hoteles', 'pernoctaciones', '#7c3aed');
+  addLine('ocupacion_mes', 'Ocupación hotelera por mes % (' + anio + ')', 'hoteles', 'grado_ocupacion', '#0891b2');
+  addLine('adr_mes', 'Tarifa media (ADR) por mes € (' + anio + ')', 'hoteles', 'adr', '#d97706');
+  addLine('revpar_mes', 'RevPAR por mes € (' + anio + ')', 'hoteles', 'revpar', '#db2777');
+  graficas.push({ key: 'comparativa', titulo: 'Comparativa: actual vs mes y año anterior', spec: compSpec(comp) });
+  const tipo = [{ n: 'Hoteles', v: turVal(tur, 'hoteles', 'viajeros', anio, mes) }, { n: 'Apartamentos', v: turVal(tur, 'apartamentos', 'viajeros', anio, mes) }, { n: 'Campings', v: turVal(tur, 'campings', 'viajeros', anio, mes) }].filter((x) => x.v != null);
+  if (tipo.length) graficas.push({ key: 'viajeros_por_tipo', titulo: 'Viajeros por tipo de alojamiento', spec: { tipo: 'bar', labels: tipo.map((i) => i.n), datasets: [{ label: 'Viajeros', data: tipo.map((i) => i.v), color: '#0ea5e9' }] } });
+  const ocup = [{ n: 'Hoteles', v: turVal(tur, 'hoteles', 'grado_ocupacion', anio, mes) }, { n: 'Apartamentos', v: turVal(tur, 'apartamentos', 'grado_ocupacion', anio, mes) }, { n: 'Campings', v: turVal(tur, 'campings', 'grado_ocupacion', anio, mes) }].filter((x) => x.v != null);
+  if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%)', spec: { tipo: 'bar', labels: ocup.map((i) => i.n), datasets: [{ label: 'Ocupación %', data: ocup.map((i) => Math.round(i.v * 10) / 10), color: '#0891b2' }] } });
+  const proc = turProcedencia(tur, anio, mes);
+  if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA)', spec: { tipo: 'barH', labels: proc.map((i) => i.n), datasets: [{ label: 'Turistas', data: proc.map((i) => i.v), color: '#7c3aed' }] } });
+  const an = turAnual(tur, 'hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+  const kpis = [
+    { label: 'Viajeros hoteles', valor: turVal(tur, 'hoteles', 'viajeros', anio, mes), comp: comp[0] },
+    { label: 'Pernoctaciones hoteles', valor: turVal(tur, 'hoteles', 'pernoctaciones', anio, mes), comp: comp[1] },
+    { label: 'Ocupación hotelera', valor: turVal(tur, 'hoteles', 'grado_ocupacion', anio, mes), unidad: '%', comp: comp[2] },
+    { label: 'Tarifa media (ADR)', valor: turVal(tur, 'hoteles', 'adr', anio, mes), unidad: '€', comp: comp[3] },
+    { label: 'Estancia media', valor: turVal(tur, 'hoteles', 'estancia_media', anio, mes), unidad: 'noches' },
+    { label: 'Viajeros apartamentos', valor: turVal(tur, 'apartamentos', 'viajeros', anio, mes) },
+    { label: 'Viajeros campings', valor: turVal(tur, 'campings', 'viajeros', anio, mes) }
+  ];
+  return { kpis, comparativa: comp, graficas };
+}
+
 /* ===================== runner ===================== */
 const AMBITOS = {
   camaras: {
     load: () => readJson('data/camaras/todos.json'),
     meses: (d) => mesesCamaras(d),
     build: (d, anio, mes) => buildCamaras(d, anio, mes)
+  },
+  residuos: {
+    load: () => ({ camion: camionResumen(readJson('data/RESIDUOS/camion/todos.json')), gp: (() => { try { return readJson('data/RESIDUOS/grandes_productores.json'); } catch (e) { return null; } })() }),
+    meses: (d) => Array.from(new Set(d.camion.map((r) => r.fecha).filter((f) => /^\d{4}-\d{2}$/.test(f) && f >= '2024-01'))).sort(),
+    build: (d, anio, mes) => buildResiduos(d.camion, d.gp, anio, mes)
+  },
+  turismo: {
+    load: () => readJson('data/TURISMO/todos.json'),
+    meses: (d) => { const s = new Set(); ['hoteles', 'apartamentos', 'campings'].forEach((cat) => { (d.series[cat] || []).forEach((serie) => { (serie.data || []).forEach((r) => { if (r.anyo && r.mes && +r.anyo >= 2024) s.add(String(r.anyo) + '-' + pad2(r.mes)); }); }); }); return Array.from(s).sort(); },
+    build: (d, anio, mes) => buildTurismo(d, anio, mes)
   }
 };
 

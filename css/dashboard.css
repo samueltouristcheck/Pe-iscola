@@ -172,6 +172,18 @@
 .nav::-webkit-scrollbar { width: 7px; }
 .nav::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5); border-radius: 4px; }
 .nav::-webkit-scrollbar-track { background: transparent; }
+
+/* ===== Archivo / registro de informes ===== */
+.inf-arch-year { margin-bottom: 1.15rem; }
+.inf-arch-year-head { display: flex; align-items: center; gap: .45rem; font-weight: 700; color: #1e293b; font-size: .95rem; margin-bottom: .65rem; padding-bottom: .4rem; border-bottom: 1px solid #e2e8f0; }
+.inf-arch-year-badge { margin-left: auto; font-weight: 600; font-size: .72rem; color: #475569; background: #f1f5f9; border-radius: 999px; padding: .14rem .6rem; }
+.inf-arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(116px, 1fr)); gap: .65rem; }
+.inf-arch-card { position: relative; display: flex; flex-direction: column; align-items: center; gap: .2rem; padding: .95rem .5rem .75rem; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; overflow: hidden; font-family: inherit; }
+.inf-arch-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--arch-accent, #6366f1); }
+.inf-arch-card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(15, 23, 42, .13); border-color: var(--arch-accent, #6366f1); }
+.inf-arch-card-ico { font-size: 1.6rem; line-height: 1; margin-top: .1rem; }
+.inf-arch-card-mes { font-weight: 700; color: #1e293b; font-size: .9rem; }
+.inf-arch-card-anio { font-size: .72rem; color: #94a3b8; }
 /* Bloques inferiores (footer / switcher) — siempre anclados abajo */
 .sidebar-footer,
 .mode-switcher {

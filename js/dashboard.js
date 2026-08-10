@@ -4242,8 +4242,14 @@
       .then(function (m) { _infManifest = m || {}; return _infManifest; })
       .catch(function () { _infManifest = {}; return _infManifest; });
   }
+  var INF_ARCH_ESTILO = {
+    camaras: { accent: '#6366f1', ico: '📷' },
+    residuos: { accent: '#16a34a', ico: '♻️' },
+    turismo: { accent: '#0ea5e9', ico: '✨' }
+  };
   function infArchivoRender(amb) {
     var cont = document.getElementById('inf-' + amb + '-archivo'); if (!cont) return;
+    var est = INF_ARCH_ESTILO[amb] || { accent: '#6366f1', ico: '📄' };
     infArchivoManifest().then(function (m) {
       var items = (m && m[amb]) || [];
       if (!items.length) { cont.innerHTML = '<span style="color:#94a3b8;font-size:.85rem">Aún no hay informes archivados para este módulo.</span>'; return; }
@@ -4251,12 +4257,16 @@
       items.forEach(function (it) { (byYear[it.anio] = byYear[it.anio] || []).push(it); });
       var years = Object.keys(byYear).sort(function (a, b) { return b - a; });
       cont.innerHTML = years.map(function (y) {
-        var chips = byYear[y].slice().sort(function (a, b) { return a.mes - b.mes; }).map(function (it) {
-          return '<button type="button" class="reload-btn inf-arch-chip" data-amb="' + amb + '" data-ym="' + it.ym + '" style="background:#eef2ff;color:#3730a3;font-weight:600;padding:.3rem .6rem;font-size:.82rem">' + (MESES[it.mes - 1] || it.mes) + '</button>';
+        var cards = byYear[y].slice().sort(function (a, b) { return a.mes - b.mes; }).map(function (it) {
+          return '<button type="button" class="inf-arch-card" style="--arch-accent:' + est.accent + '" data-amb="' + amb + '" data-ym="' + it.ym + '">' +
+            '<span class="inf-arch-card-ico">' + est.ico + '</span>' +
+            '<span class="inf-arch-card-mes">' + (MESES[it.mes - 1] || it.mes) + '</span>' +
+            '<span class="inf-arch-card-anio">' + y + '</span></button>';
         }).join('');
-        return '<div style="margin-bottom:.7rem"><div style="font-weight:700;color:#334155;margin-bottom:.35rem">📁 ' + y + ' <span style="color:#94a3b8;font-weight:400;font-size:.8rem">(' + byYear[y].length + ' informes)</span></div><div style="display:flex;flex-wrap:wrap;gap:.4rem">' + chips + '</div></div>';
+        var n = byYear[y].length;
+        return '<div class="inf-arch-year"><div class="inf-arch-year-head">📂 ' + y + '<span class="inf-arch-year-badge">' + n + ' informe' + (n > 1 ? 's' : '') + '</span></div><div class="inf-arch-grid">' + cards + '</div></div>';
       }).join('');
-      cont.querySelectorAll('.inf-arch-chip').forEach(function (b) { b.addEventListener('click', function () { infArchivoAbrir(b.getAttribute('data-amb'), b.getAttribute('data-ym')); }); });
+      cont.querySelectorAll('.inf-arch-card').forEach(function (b) { b.addEventListener('click', function () { infArchivoAbrir(b.getAttribute('data-amb'), b.getAttribute('data-ym')); }); });
     });
   }
   function infArchivoAbrir(amb, ym) {

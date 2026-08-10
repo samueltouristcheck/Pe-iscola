@@ -112,5 +112,443 @@
    "periodoLabel": "Julio 2026",
    "generadoEl": "2026-08-10T11:54:45.308Z"
   }
+ ],
+ "residuos": [
+  {
+   "anio": 2024,
+   "mes": 1,
+   "ym": "2024-01",
+   "periodoLabel": "Enero 2024",
+   "generadoEl": "2026-08-10T12:01:26.797Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 2,
+   "ym": "2024-02",
+   "periodoLabel": "Febrero 2024",
+   "generadoEl": "2026-08-10T12:01:58.825Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 3,
+   "ym": "2024-03",
+   "periodoLabel": "Marzo 2024",
+   "generadoEl": "2026-08-10T12:02:53.840Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 4,
+   "ym": "2024-04",
+   "periodoLabel": "Abril 2024",
+   "generadoEl": "2026-08-10T12:03:28.478Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 5,
+   "ym": "2024-05",
+   "periodoLabel": "Mayo 2024",
+   "generadoEl": "2026-08-10T12:04:04.458Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 6,
+   "ym": "2024-06",
+   "periodoLabel": "Junio 2024",
+   "generadoEl": "2026-08-10T12:04:42.343Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 7,
+   "ym": "2024-07",
+   "periodoLabel": "Julio 2024",
+   "generadoEl": "2026-08-10T12:05:13.899Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 8,
+   "ym": "2024-08",
+   "periodoLabel": "Agosto 2024",
+   "generadoEl": "2026-08-10T12:05:47.666Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 9,
+   "ym": "2024-09",
+   "periodoLabel": "Septiembre 2024",
+   "generadoEl": "2026-08-10T12:06:14.864Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 10,
+   "ym": "2024-10",
+   "periodoLabel": "Octubre 2024",
+   "generadoEl": "2026-08-10T12:06:41.780Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 11,
+   "ym": "2024-11",
+   "periodoLabel": "Noviembre 2024",
+   "generadoEl": "2026-08-10T12:07:08.709Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 12,
+   "ym": "2024-12",
+   "periodoLabel": "Diciembre 2024",
+   "generadoEl": "2026-08-10T12:07:20.173Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 1,
+   "ym": "2025-01",
+   "periodoLabel": "Enero 2025",
+   "generadoEl": "2026-08-10T12:07:30.808Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 2,
+   "ym": "2025-02",
+   "periodoLabel": "Febrero 2025",
+   "generadoEl": "2026-08-10T12:07:42.450Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 3,
+   "ym": "2025-03",
+   "periodoLabel": "Marzo 2025",
+   "generadoEl": "2026-08-10T12:07:54.238Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 4,
+   "ym": "2025-04",
+   "periodoLabel": "Abril 2025",
+   "generadoEl": "2026-08-10T12:08:06.523Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 5,
+   "ym": "2025-05",
+   "periodoLabel": "Mayo 2025",
+   "generadoEl": "2026-08-10T12:08:19.051Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 6,
+   "ym": "2025-06",
+   "periodoLabel": "Junio 2025",
+   "generadoEl": "2026-08-10T12:08:30.282Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 7,
+   "ym": "2025-07",
+   "periodoLabel": "Julio 2025",
+   "generadoEl": "2026-08-10T12:08:43.387Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 8,
+   "ym": "2025-08",
+   "periodoLabel": "Agosto 2025",
+   "generadoEl": "2026-08-10T12:08:56.472Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 9,
+   "ym": "2025-09",
+   "periodoLabel": "Septiembre 2025",
+   "generadoEl": "2026-08-10T12:09:10.207Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 10,
+   "ym": "2025-10",
+   "periodoLabel": "Octubre 2025",
+   "generadoEl": "2026-08-10T12:09:25.493Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 11,
+   "ym": "2025-11",
+   "periodoLabel": "Noviembre 2025",
+   "generadoEl": "2026-08-10T12:09:40.759Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 12,
+   "ym": "2025-12",
+   "periodoLabel": "Diciembre 2025",
+   "generadoEl": "2026-08-10T12:09:55.812Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 1,
+   "ym": "2026-01",
+   "periodoLabel": "Enero 2026",
+   "generadoEl": "2026-08-10T12:10:10.701Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 2,
+   "ym": "2026-02",
+   "periodoLabel": "Febrero 2026",
+   "generadoEl": "2026-08-10T12:10:30.211Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 3,
+   "ym": "2026-03",
+   "periodoLabel": "Marzo 2026",
+   "generadoEl": "2026-08-10T12:10:52.413Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 4,
+   "ym": "2026-04",
+   "periodoLabel": "Abril 2026",
+   "generadoEl": "2026-08-10T12:11:16.716Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 5,
+   "ym": "2026-05",
+   "periodoLabel": "Mayo 2026",
+   "generadoEl": "2026-08-10T12:11:39.791Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 6,
+   "ym": "2026-06",
+   "periodoLabel": "Junio 2026",
+   "generadoEl": "2026-08-10T12:12:10.384Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 7,
+   "ym": "2026-07",
+   "periodoLabel": "Julio 2026",
+   "generadoEl": "2026-08-10T12:12:39.619Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 8,
+   "ym": "2026-08",
+   "periodoLabel": "Agosto 2026",
+   "generadoEl": "2026-08-10T12:13:08.978Z"
+  }
+ ],
+ "turismo": [
+  {
+   "anio": 2024,
+   "mes": 1,
+   "ym": "2024-01",
+   "periodoLabel": "Enero 2024",
+   "generadoEl": "2026-08-10T12:13:28.986Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 2,
+   "ym": "2024-02",
+   "periodoLabel": "Febrero 2024",
+   "generadoEl": "2026-08-10T12:13:52.212Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 3,
+   "ym": "2024-03",
+   "periodoLabel": "Marzo 2024",
+   "generadoEl": "2026-08-10T12:14:17.488Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 4,
+   "ym": "2024-04",
+   "periodoLabel": "Abril 2024",
+   "generadoEl": "2026-08-10T12:14:43.464Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 5,
+   "ym": "2024-05",
+   "periodoLabel": "Mayo 2024",
+   "generadoEl": "2026-08-10T12:15:13.168Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 6,
+   "ym": "2024-06",
+   "periodoLabel": "Junio 2024",
+   "generadoEl": "2026-08-10T12:15:41.846Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 7,
+   "ym": "2024-07",
+   "periodoLabel": "Julio 2024",
+   "generadoEl": "2026-08-10T12:16:02.980Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 8,
+   "ym": "2024-08",
+   "periodoLabel": "Agosto 2024",
+   "generadoEl": "2026-08-10T12:16:28.908Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 9,
+   "ym": "2024-09",
+   "periodoLabel": "Septiembre 2024",
+   "generadoEl": "2026-08-10T12:16:51.724Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 10,
+   "ym": "2024-10",
+   "periodoLabel": "Octubre 2024",
+   "generadoEl": "2026-08-10T12:17:13.007Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 11,
+   "ym": "2024-11",
+   "periodoLabel": "Noviembre 2024",
+   "generadoEl": "2026-08-10T12:17:35.057Z"
+  },
+  {
+   "anio": 2024,
+   "mes": 12,
+   "ym": "2024-12",
+   "periodoLabel": "Diciembre 2024",
+   "generadoEl": "2026-08-10T12:17:57.063Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 1,
+   "ym": "2025-01",
+   "periodoLabel": "Enero 2025",
+   "generadoEl": "2026-08-10T12:18:17.386Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 2,
+   "ym": "2025-02",
+   "periodoLabel": "Febrero 2025",
+   "generadoEl": "2026-08-10T12:18:36.925Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 3,
+   "ym": "2025-03",
+   "periodoLabel": "Marzo 2025",
+   "generadoEl": "2026-08-10T12:18:58.514Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 4,
+   "ym": "2025-04",
+   "periodoLabel": "Abril 2025",
+   "generadoEl": "2026-08-10T12:19:16.618Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 5,
+   "ym": "2025-05",
+   "periodoLabel": "Mayo 2025",
+   "generadoEl": "2026-08-10T12:19:37.668Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 6,
+   "ym": "2025-06",
+   "periodoLabel": "Junio 2025",
+   "generadoEl": "2026-08-10T12:20:00.985Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 7,
+   "ym": "2025-07",
+   "periodoLabel": "Julio 2025",
+   "generadoEl": "2026-08-10T12:20:24.816Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 8,
+   "ym": "2025-08",
+   "periodoLabel": "Agosto 2025",
+   "generadoEl": "2026-08-10T12:20:46.431Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 9,
+   "ym": "2025-09",
+   "periodoLabel": "Septiembre 2025",
+   "generadoEl": "2026-08-10T12:21:07.831Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 10,
+   "ym": "2025-10",
+   "periodoLabel": "Octubre 2025",
+   "generadoEl": "2026-08-10T12:21:29.343Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 11,
+   "ym": "2025-11",
+   "periodoLabel": "Noviembre 2025",
+   "generadoEl": "2026-08-10T12:21:56.053Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 12,
+   "ym": "2025-12",
+   "periodoLabel": "Diciembre 2025",
+   "generadoEl": "2026-08-10T12:22:23.663Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 1,
+   "ym": "2026-01",
+   "periodoLabel": "Enero 2026",
+   "generadoEl": "2026-08-10T12:22:41.762Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 2,
+   "ym": "2026-02",
+   "periodoLabel": "Febrero 2026",
+   "generadoEl": "2026-08-10T12:23:05.837Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 3,
+   "ym": "2026-03",
+   "periodoLabel": "Marzo 2026",
+   "generadoEl": "2026-08-10T12:23:28.039Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 4,
+   "ym": "2026-04",
+   "periodoLabel": "Abril 2026",
+   "generadoEl": "2026-08-10T12:23:53.276Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 5,
+   "ym": "2026-05",
+   "periodoLabel": "Mayo 2026",
+   "generadoEl": "2026-08-10T12:24:17.436Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 6,
+   "ym": "2026-06",
+   "periodoLabel": "Junio 2026",
+   "generadoEl": "2026-08-10T12:24:38.682Z"
+  }
  ]
 }
