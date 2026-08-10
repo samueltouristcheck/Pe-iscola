@@ -184,6 +184,45 @@
 .inf-arch-card-ico { font-size: 1.6rem; line-height: 1; margin-top: .1rem; }
 .inf-arch-card-mes { font-weight: 700; color: #1e293b; font-size: .9rem; }
 .inf-arch-card-anio { font-size: .72rem; color: #94a3b8; }
+
+/* ===== Informe SIT de cámaras (por horas) ===== */
+.sit-portada { background: linear-gradient(120deg, #1d4ed8, #0ea5e9); color: #fff; border-radius: 16px; padding: 22px 26px; margin-bottom: 14px; box-shadow: 0 8px 24px rgba(37, 99, 235, .18); }
+.sit-portada-tit { font-size: .95rem; opacity: .92; font-weight: 600; }
+.sit-portada-mes { font-size: 1.8rem; font-weight: 800; margin-top: 2px; }
+.sit-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .7rem; margin-bottom: 14px; }
+.sit-kpi { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: .85rem 1rem; }
+.sit-kpi-val { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+.sit-kpi-lbl { font-size: .82rem; color: #334155; font-weight: 600; margin-top: 2px; }
+.sit-kpi-sub { font-size: .72rem; color: #94a3b8; margin-top: 1px; }
+.sit-opinion { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #2563eb; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; }
+.sit-opinion-tit { font-weight: 700; color: #1e293b; margin-bottom: 8px; font-size: 1.02rem; }
+.sit-opinion p { margin: 0 0 9px; text-align: justify; color: #334155; line-height: 1.6; font-size: .92rem; }
+.sit-puntos { display: grid; gap: .8rem; }
+.sit-card { position: relative; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 18px 16px 46px; }
+.sit-num { position: absolute; left: 14px; top: 16px; width: 24px; height: 24px; border-radius: 50%; background: #2563eb; color: #fff; font-size: .8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.sit-card h3 { font-size: 1.02rem; margin: 0 0 10px; color: #0f172a; }
+.sit-tag { font-size: .68rem; font-weight: 600; padding: .12rem .5rem; border-radius: 999px; vertical-align: middle; margin-left: 6px; }
+.sit-tag.lpr { background: #eff6ff; color: #1d4ed8; }
+.sit-tag.aforo { background: #ecfeff; color: #0e7490; }
+.sit-mini { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: .55rem; margin-bottom: 12px; }
+.sit-mini .sit-kpi { background: #f8fafc; border-color: #eef2f7; padding: .6rem .7rem; }
+.sit-mini .sit-kpi-val { font-size: 1.12rem; }
+.sit-sub { font-weight: 600; color: #475569; font-size: .85rem; margin: 6px 0; }
+.sit-proc-bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: #eef2f7; }
+.sit-proc-bar span { display: block; height: 100%; }
+.sit-proc-leg { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; font-size: .82rem; color: #475569; }
+.sit-proc-leg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: middle; }
+.sit-tabla { border-collapse: collapse; width: 100%; font-size: .86rem; }
+.sit-tabla th { background: #f1f5f9; color: #334155; text-align: left; padding: 7px 10px; border-bottom: 1px solid #e2e8f0; }
+.sit-tabla td { padding: 6px 10px; border-bottom: 1px solid #f1f5f9; }
+.sit-tabla td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.sit-fr-bar { position: relative; min-width: 120px; height: 20px; display: flex; align-items: center; justify-content: flex-end; background: #f1f5f9; border-radius: 5px; overflow: hidden; }
+.sit-fr-bar span { position: absolute; left: 0; top: 0; bottom: 0; background: #bfdbfe; border-radius: 5px; }
+.sit-fr-bar b { position: relative; padding: 0 8px; font-weight: 600; color: #1e293b; }
+.sit-pend { background: #fffbeb; border-color: #fde68a; }
+.sit-pend .sit-num { background: #d97706; }
+.sit-pend-txt { color: #92400e; font-size: .88rem; margin: 0; }
+.sit-foot { margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 10px; color: #64748b; font-size: .8rem; }
 /* Bloques inferiores (footer / switcher) — siempre anclados abajo */
 .sidebar-footer,
 .mode-switcher {

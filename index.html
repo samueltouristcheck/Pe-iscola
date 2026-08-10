@@ -113,6 +113,7 @@
         <div class="nav-group-label" style="padding:.4rem .9rem .2rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:600">Gestión</div>
         <a href="#" class="nav-item" data-section="camaras-repositorio"><span class="nav-icon">📤</span><span>Repositorio (datos brutos)</span></a>
         <a href="#" class="nav-item" data-section="camaras-informes"><span class="nav-icon">📝</span><span>Informes</span></a>
+        <a href="#" class="nav-item" data-section="camaras-sit"><span class="nav-icon">🏛️</span><span>Informe SIT (por horas)</span></a>
       </nav>
       <nav class="nav" id="nav-residuos" style="display:none">
         <a href="#" class="nav-item active" data-section="kpis"><span class="nav-icon">📊</span><span>KPIs</span></a>
@@ -460,6 +461,16 @@
           <div id="inf-camaras-archivo"><span style="color:#94a3b8;font-size:.85rem">Cargando archivo…</span></div>
         </div>
         <div id="inf-camaras-salida"></div>
+      </section>
+
+      <section id="section-camaras-sit" class="section">
+        <div class="turismo-section-card" style="margin-bottom:1rem">
+          <p class="turismo-chart-hint" style="margin-bottom:.8rem">Informe para el <strong>Sistema de Inteligencia Turística (SIT)</strong> con la información de las cámaras de tráfico y aforo <strong>punto de control por punto de control</strong> y <strong>por franja horaria</strong>, tal como lo solicita el Ayuntamiento de Peñíscola.</p>
+          <div class="filters-bar" style="gap:.7rem;align-items:end">
+            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="sit-mes" class="fuente-select" style="min-width:170px"></select></span>
+          </div>
+        </div>
+        <div id="sit-salida"></div>
       </section>
 
       </div>
@@ -1540,7 +1551,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=121"></script>
+  <script src="js/dashboard.js?v=122"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

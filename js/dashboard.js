@@ -4313,6 +4313,91 @@
     infPopulate(amb);
   }
 
+  /* ===================== INFORME SIT DE CÁMARAS (por horas) ===================== */
+  var _sitData = null, _sitBound = false;
+  function sitFmt(n) { return (n == null || isNaN(n)) ? '—' : Math.round(n).toLocaleString('es-ES'); }
+  function sitEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function sitLoad() {
+    if (_sitData) return Promise.resolve(_sitData);
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/camaras/sit_camaras.json') : '/data/camaras/sit_camaras.json';
+    return fetch(url, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) { _sitData = d; return d; }).catch(function () { return null; });
+  }
+  function sitKpi(valor, label, sub, color) {
+    return '<div class="sit-kpi"><div class="sit-kpi-val" style="color:' + color + '">' + valor + '</div><div class="sit-kpi-lbl">' + label + '</div>' + (sub ? '<div class="sit-kpi-sub">' + sub + '</div>' : '') + '</div>';
+  }
+  function sitBarProc(p) {
+    return '<div class="sit-proc"><div class="sit-proc-bar"><span style="width:' + p.pctNac + '%;background:#16a34a"></span><span style="width:' + p.pctExt + '%;background:#2563eb"></span></div>' +
+      '<div class="sit-proc-leg"><span><i style="background:#16a34a"></i> Nacional ' + sitFmt(p.nacional) + ' (' + String(p.pctNac).replace('.', ',') + '%)</span>' +
+      '<span><i style="background:#2563eb"></i> Extranjero ' + sitFmt(p.extranjero) + ' (' + String(p.pctExt).replace('.', ',') + '%)</span></div></div>';
+  }
+  function sitTablaFranjas(fr) {
+    var max = Math.max.apply(null, fr.map(function (f) { return f.entrada + f.salida; })) || 1;
+    var filas = fr.map(function (f) {
+      var t = f.entrada + f.salida, pct = Math.round(100 * t / max);
+      return '<tr><td>' + f.etq + '</td><td class="n">' + sitFmt(f.entrada) + '</td><td class="n">' + sitFmt(f.salida) + '</td>' +
+        '<td class="n"><div class="sit-fr-bar"><span style="width:' + pct + '%"></span><b>' + sitFmt(t) + '</b></div></td></tr>';
+    }).join('');
+    return '<table class="sit-tabla"><thead><tr><th>Franja horaria</th><th>Entrada</th><th>Salida</th><th>Total</th></tr></thead><tbody>' + filas + '</tbody></table>';
+  }
+  function sitPuntoHtml(p) {
+    var badge = '<span class="sit-num">' + p.n + '</span>';
+    if (p.tipo === 'pendiente') return '<div class="sit-card sit-pend">' + badge + '<h3>' + sitEsc(p.titulo) + '</h3><p class="sit-pend-txt">⏳ Pendiente — ' + sitEsc(p.motivo) + '</p></div>';
+    if (p.estado === 'sin_datos') return '<div class="sit-card">' + badge + '<h3>' + sitEsc(p.titulo) + '</h3><p class="sit-pend-txt">Sin datos para este mes.</p></div>';
+    if (p.tipo === 'lpr') {
+      return '<div class="sit-card">' + badge + '<h3>' + sitEsc(p.titulo) + ' <span class="sit-tag lpr">Tráfico · LPR</span></h3>' +
+        '<div class="sit-mini">' +
+          sitKpi(sitFmt(p.entradas), 'Sentido ' + sitEsc(p.sentEnt), '', '#2563eb') +
+          sitKpi(sitFmt(p.salidas), 'Sentido ' + sitEsc(p.sentSal), '', '#f59e0b') +
+          sitKpi((p.balance >= 0 ? '+' : '') + sitFmt(p.balance), 'Balance del periodo', '', p.balance >= 0 ? '#16a34a' : '#ef4444') +
+          sitKpi(p.pico, 'Franja horaria pico', '', '#7c3aed') +
+        '</div>' +
+        '<div class="sit-sub">Procedencia de los vehículos</div>' + sitBarProc(p.proc) + '</div>';
+    }
+    return '<div class="sit-card">' + badge + '<h3>' + sitEsc(p.titulo) + ' <span class="sit-tag aforo">Aforo · peatones</span></h3>' +
+      '<div class="sit-mini">' +
+        sitKpi(sitFmt(p.entrada), 'Peatones ' + sitEsc(p.entLbl), '', '#0ea5e9') +
+        sitKpi(sitFmt(p.salida), 'Peatones ' + sitEsc(p.salLbl), '', '#f59e0b') +
+        sitKpi(p.pico, 'Franja horaria pico', '', '#7c3aed') +
+      '</div>' +
+      '<div class="sit-sub">Desglose por franjas horarias</div>' + sitTablaFranjas(p.franjas) + '</div>';
+  }
+  function sitRenderMes(mes) {
+    var salida = document.getElementById('sit-salida'); if (!salida || !_sitData) return;
+    var d = _sitData.datos[mes]; if (!d) { salida.innerHTML = '<p style="color:#64748b">No hay datos para este mes.</p>'; return; }
+    var k = d.kpis;
+    var head = '<div class="sit-portada"><div class="sit-portada-tit">Informe de cámaras para el Sistema de Inteligencia Turística · Peñíscola</div>' +
+      '<div class="sit-portada-mes">' + sitEsc(d.periodoLabel) + '</div></div>' +
+      '<div class="sit-kpis">' +
+        sitKpi(sitFmt(k.vehEntradas), 'Vehículos de entrada', 'cámaras de tráfico (LPR)', '#2563eb') +
+        sitKpi(sitFmt(k.vehSalidas), 'Vehículos de salida', 'cámaras de tráfico (LPR)', '#f59e0b') +
+        sitKpi(sitFmt(k.peatones), 'Peatones (aforo)', 'paso total en accesos', '#0ea5e9') +
+        sitKpi(k.puntosOk + ' / 9', 'Puntos de control con datos', k.puntosPend + ' pendientes de instalación', '#16a34a') +
+      '</div>';
+    var op = d.opinion ? '<div class="sit-opinion"><div class="sit-opinion-tit">🧭 Opinión profesional del periodo</div>' +
+      d.opinion.split(/\n+/).filter(function (x) { return x.trim(); }).map(function (pp) { return '<p>' + sitEsc(pp.trim()) + '</p>'; }).join('') + '</div>' : '';
+    var puntos = '<div class="sit-puntos">' + d.puntos.map(sitPuntoHtml).join('') + '</div>';
+    var foot = '<div class="sit-foot">Fuente: cámaras LPR de tráfico y cámaras de aforo multiobjetivo (HikCentral). ' +
+      (d.hayLPR ? '' : 'Este mes aún no dispone de datos de matrículas (LPR); los puntos de tráfico se completarán al subirse al sistema. ') +
+      'Los puntos marcados «pendiente» requieren dar de alta o configurar cámaras por parte de la instalación.</div>';
+    salida.innerHTML = head + op + puntos + foot;
+  }
+  function initSitCamaras() {
+    var sel = document.getElementById('sit-mes'); if (!sel) return;
+    var out = document.getElementById('sit-salida');
+    if (out && !_sitData) out.innerHTML = '<p style="color:#94a3b8">Cargando informe SIT…</p>';
+    sitLoad().then(function (d) {
+      if (!d || !d.meses || !d.meses.length) { if (out) out.innerHTML = '<p style="color:#64748b">No se pudo cargar el informe SIT.</p>'; return; }
+      if (!_sitBound) {
+        var meses = d.meses.slice().sort().reverse();
+        sel.innerHTML = meses.map(function (m) { return '<option value="' + m + '">' + (d.datos[m] ? d.datos[m].periodoLabel : m) + '</option>'; }).join('');
+        sel.addEventListener('change', function () { sitRenderMes(sel.value); });
+        _sitBound = true;
+      }
+      if (!sel.value) sel.value = d.meses.slice().sort().reverse()[0];
+      sitRenderMes(sel.value);
+    });
+  }
+
   function initResiduos() {
     const yearSelect = document.getElementById('residuos-year');
     const mesSelect = document.getElementById('residuos-mes');
@@ -6110,9 +6195,10 @@
           setTimeout(function () { initMultiSelect(); renderMultiDetalle(); }, 60);
         }
         if (sname === 'camaras-informes') { setTimeout(function () { initInformesSection('camaras'); }, 60); }
+        if (sname === 'camaras-sit') { setTimeout(function () { initSitCamaras(); }, 60); }
         const header = document.getElementById('header-camaras');
         if (header) {
-          const titles = { 'camaras-resumen': 'Accesos — mapa de tráfico (LPR)', 'camaras-evolucion': 'Evolución del tráfico (LPR)', 'camaras-horario': 'Perfil horario (LPR)', 'camaras-procedencia': 'Procedencia de los vehículos (LPR)', 'camaras-colores': 'Vehículos por color (LPR)', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara', 'camaras-informes': 'Cámaras — Informes' };
+          const titles = { 'camaras-resumen': 'Accesos — mapa de tráfico (LPR)', 'camaras-evolucion': 'Evolución del tráfico (LPR)', 'camaras-horario': 'Perfil horario (LPR)', 'camaras-procedencia': 'Procedencia de los vehículos (LPR)', 'camaras-colores': 'Vehículos por color (LPR)', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara', 'camaras-informes': 'Cámaras — Informes', 'camaras-sit': 'Informe SIT — cámaras por horas' };
           const h2 = header.querySelector('h2');
           if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];
         }
