@@ -759,6 +759,42 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
     }
 });
 
+// Opinión / análisis profesional para el informe SIT de cámaras (movilidad).
+app.post('/api/sit-opinion', informeLimiter, async (req, res) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const { periodoLabel, datos } = req.body || {};
+    if (!datos) return res.status(400).json({ error: 'Faltan los datos del periodo' });
+    const system = [
+        'Eres un analista de movilidad y turismo del Ayuntamiento de Peñíscola. Redactas la OPINIÓN PROFESIONAL que acompaña al informe mensual de cámaras para el Sistema de Inteligencia Turística (SIT).',
+        'Escribes en español, tono técnico pero claro y cercano, en PROSA (sin listas ni tablas, sin markdown de encabezados grandes). Puedes usar 4-6 párrafos.',
+        'Analizas los datos que recibes (tráfico de entrada/salida por cámara LPR, balance, franja horaria pico, procedencia nacional/extranjera; y aforo de PEATONES por franjas horarias en Avda. de la Mar y Ayuntamiento).',
+        'INTERPRETA, no repitas cifras sin más: qué indica el balance entrada/salida, qué revela la franja horaria pico sobre los hábitos del visitante (llegadas, paseo nocturno, horas punta), qué implica el % de matrícula extranjera para el perfil del destino, y cómo la afluencia peatonal por franjas ayuda a la gestión (refuerzo de servicios, limpieza, seguridad, comercio).',
+        'Menciona con naturalidad que algunos puntos (parking disuasorio, Portal Fosc, Portal de Sant Pere) están pendientes de instalación/configuración y qué aportarían cuando estén.',
+        'Cierra con 3-4 recomendaciones accionables para la gestión municipal y turística. Longitud: 400-600 palabras. No inventes cifras que no estén en los datos.'
+    ].join('\n');
+    try {
+        const r = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+            body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [
+                    { role: 'system', content: system },
+                    { role: 'user', content: 'Periodo: ' + (periodoLabel || '—') + '.\nDatos SIT de cámaras (JSON):\n' + JSON.stringify(datos, null, 1) + '\n\nRedacta la opinión profesional.' }
+                ],
+                max_tokens: 1500,
+                temperature: 0.6
+            })
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
+        res.json({ texto: (data.choices?.[0]?.message?.content || '').trim() });
+    } catch (err) {
+        res.status(500).json({ error: err.message || 'Error al generar la opinión' });
+    }
+});
+
 const PLANTILLA_PATH = path.join(EJEMPLOS_DIR, 'plantilla_informe.txt');
 
 function generarInformeDesdePlantilla(data) {
