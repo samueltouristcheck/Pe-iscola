@@ -27,6 +27,7 @@ const periodoLabel = (anio, mes) => (mes ? mesNombre(mes) + ' ' : '') + anio;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function readJson(rel) { return JSON.parse(fs.readFileSync(path.join(__dirname, rel), 'utf8')); }
+const SIT_DATA = (function () { try { return readJson('data/camaras/sit_camaras.json'); } catch (e) { return null; } })();
 
 function compSpec(comp) {
   return { tipo: 'bar', labels: comp.map((c) => c.label), datasets: [
@@ -92,6 +93,19 @@ function buildCamaras(cam, anio, mes) {
     { label: 'Saldo (entradas − salidas)', valor: (cur.entradas != null && cur.salidas != null) ? cur.entradas - cur.salidas : null }
   ];
   if (af) { kpis.push({ label: 'Personas (aforo)', valor: af.personas }); kpis.push({ label: 'Veh. a motor (aforo)', valor: af.vehMotor }); }
+  const sitMes = (SIT_DATA && SIT_DATA.datos) ? SIT_DATA.datos[anio + '-' + pad2(mes)] : null;
+  if (mes && sitMes) {
+    const franjasSet = {}, franjasOrden = [];
+    (sitMes.puntos || []).forEach((pt) => { if (pt.tipo === 'aforo' && pt.franjas) pt.franjas.forEach((f) => { if (!(f.etq in franjasSet)) franjasOrden.push(f.etq); franjasSet[f.etq] = (franjasSet[f.etq] || 0) + f.entrada + f.salida; }); });
+    if (franjasOrden.length) graficas.push({ key: 'peatones_franja', titulo: 'Peatones por franja horaria (aforo, ' + sitMes.periodoLabel + ')', spec: { tipo: 'bar', labels: franjasOrden.map((e) => e.replace(' h', '').replace(':00', 'h')), datasets: [{ label: 'Peatones (paso total)', data: franjasOrden.map((k) => franjasSet[k]), color: '#0ea5e9' }] } });
+    const lprPts = (sitMes.puntos || []).filter((pt) => pt.tipo === 'lpr' && pt.proc);
+    if (lprPts.length) {
+      graficas.push({ key: 'procedencia_camara', titulo: 'Procedencia por cámara de tráfico (matrículas)', spec: { tipo: 'bar', labels: lprPts.map((pt) => pt.titulo.replace('Cámara ', '').replace('Rotonda ', '')), datasets: [{ label: 'Nacional', data: lprPts.map((pt) => pt.proc.nacional), color: '#16a34a' }, { label: 'Extranjero', data: lprPts.map((pt) => pt.proc.extranjero), color: '#2563eb' }] } });
+      const totNac = lprPts.reduce((a, pt) => a + pt.proc.nacional, 0), totExt = lprPts.reduce((a, pt) => a + pt.proc.extranjero, 0);
+      if (totNac + totExt) kpis.push({ label: 'Matrícula extranjera', valor: Math.round(1000 * totExt / (totNac + totExt)) / 10, unidad: '%' });
+    }
+    if (sitMes.kpis && sitMes.kpis.peatones) kpis.push({ label: 'Peatones (aforo por franjas)', valor: sitMes.kpis.peatones });
+  }
   return { kpis, comparativa: comp, graficas };
 }
 function mesesCamaras(cam) {

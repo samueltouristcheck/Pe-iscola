@@ -3782,8 +3782,8 @@
     if (ambito === 'turismo') return (typeof ensureTurismoLoaded === 'function') ? ensureTurismoLoaded() : Promise.resolve();
     if (ambito === 'residuos') return (typeof loadAllData === 'function') ? loadAllData().catch(function () {}) : Promise.resolve();
     if (ambito === 'camaras') {
-      if (camarasData) return Promise.resolve(camarasData);
-      return fetch('/api/camaras/dashboard', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { camarasData = d; return d; });
+      var pc = camarasData ? Promise.resolve(camarasData) : fetch('/api/camaras/dashboard', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { camarasData = d; return d; });
+      return Promise.all([pc, (typeof sitLoad === 'function') ? sitLoad() : Promise.resolve()]).then(function (a) { return a[0]; });
     }
     return Promise.resolve();
   }
@@ -3904,6 +3904,20 @@
     if (ys.length > 1) graficas.push({ key: 'entradas_anual', titulo: 'Entradas por año', spec: { tipo: 'bar', labels: ys, datasets: [{ label: 'Entradas', data: ys.map(function (y) { return yby[y]; }), color: '#0ea5e9' }] } });
     var kpis = [{ label: 'Entradas de vehículos', valor: cur.entradas, comp: comp[0] }, { label: 'Salidas de vehículos', valor: cur.salidas, comp: comp[1] }, { label: 'Saldo (entradas − salidas)', valor: (cur.entradas != null && cur.salidas != null) ? cur.entradas - cur.salidas : null }];
     if (af) { kpis.push({ label: 'Personas (aforo)', valor: af.personas }); kpis.push({ label: 'Veh. a motor (aforo)', valor: af.vehMotor }); }
+    // --- Integración SIT: franjas horarias de peatones + procedencia por cámara (meses con datos horarios) ---
+    var sitMes = (typeof _sitData !== 'undefined' && _sitData && _sitData.datos) ? _sitData.datos[anio + '-' + String(mes).padStart(2, '0')] : null;
+    if (mes && sitMes) {
+      var franjasSet = {}, franjasOrden = [];
+      (sitMes.puntos || []).forEach(function (pt) { if (pt.tipo === 'aforo' && pt.franjas) pt.franjas.forEach(function (f) { if (!(f.etq in franjasSet)) franjasOrden.push(f.etq); franjasSet[f.etq] = (franjasSet[f.etq] || 0) + f.entrada + f.salida; }); });
+      if (franjasOrden.length) graficas.push({ key: 'peatones_franja', titulo: 'Peatones por franja horaria (aforo, ' + sitMes.periodoLabel + ')', spec: { tipo: 'bar', labels: franjasOrden.map(function (e) { return e.replace(' h', '').replace(':00', 'h'); }), datasets: [{ label: 'Peatones (paso total)', data: franjasOrden.map(function (k) { return franjasSet[k]; }), color: '#0ea5e9' }] } });
+      var lprPts = (sitMes.puntos || []).filter(function (pt) { return pt.tipo === 'lpr' && pt.proc; });
+      if (lprPts.length) {
+        graficas.push({ key: 'procedencia_camara', titulo: 'Procedencia por cámara de tráfico (matrículas)', spec: { tipo: 'bar', labels: lprPts.map(function (pt) { return pt.titulo.replace('Cámara ', '').replace('Rotonda ', ''); }), datasets: [{ label: 'Nacional', data: lprPts.map(function (pt) { return pt.proc.nacional; }), color: '#16a34a' }, { label: 'Extranjero', data: lprPts.map(function (pt) { return pt.proc.extranjero; }), color: '#2563eb' }] } });
+        var totNac = lprPts.reduce(function (a, pt) { return a + pt.proc.nacional; }, 0), totExt = lprPts.reduce(function (a, pt) { return a + pt.proc.extranjero; }, 0);
+        if (totNac + totExt) kpis.push({ label: 'Matrícula extranjera', valor: Math.round(1000 * totExt / (totNac + totExt)) / 10, unidad: '%' });
+      }
+      if (sitMes.kpis && sitMes.kpis.peatones) kpis.push({ label: 'Peatones (aforo por franjas)', valor: sitMes.kpis.peatones });
+    }
     return { kpis: kpis, comparativa: comp, graficas: graficas };
   }
   function infCamAforoRango(desde, hasta) {
@@ -4313,8 +4327,8 @@
     infPopulate(amb);
   }
 
-  /* ===================== INFORME SIT DE CÁMARAS (por horas) ===================== */
-  var _sitData = null, _sitBound = false;
+  /* ===================== CÁMARAS — PERFIL POR HORAS ===================== */
+  var _sitData = null, _phBound = false, _phChart = null;
   function sitFmt(n) { return (n == null || isNaN(n)) ? '—' : Math.round(n).toLocaleString('es-ES'); }
   function sitEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function sitLoad() {
@@ -4381,20 +4395,77 @@
       'Los puntos marcados «pendiente» requieren dar de alta o configurar cámaras por parte de la instalación.</div>';
     salida.innerHTML = head + op + puntos + foot;
   }
+  function phKpi(valor, label, color) {
+    return '<div class="sit-kpi"><div class="sit-kpi-val" style="color:' + color + '">' + valor + '</div><div class="sit-kpi-lbl">' + label + '</div></div>';
+  }
+  function phCamaras() {
+    var set = {}, orden = [];
+    (_sitData.meses || []).forEach(function (m) {
+      (_sitData.datos[m].puntos || []).forEach(function (p) {
+        if (p.porHora && (p.tipo === 'aforo' || p.tipo === 'lpr') && !set[p.titulo]) { set[p.titulo] = { titulo: p.titulo, tipo: p.tipo }; orden.push(set[p.titulo]); }
+      });
+    });
+    return orden;
+  }
+  function phPunto(mes, titulo) {
+    var d = _sitData.datos[mes]; if (!d) return null;
+    return (d.puntos || []).find(function (p) { return p.titulo === titulo && p.porHora; }) || null;
+  }
+  function phRender() {
+    var out = document.getElementById('ph-salida'); if (!out || !_sitData) return;
+    var titulo = (document.getElementById('ph-cam') || {}).value;
+    var mes = (document.getElementById('ph-mes') || {}).value;
+    var p = phPunto(mes, titulo);
+    if (_phChart) { try { _phChart.destroy(); } catch (_) {} _phChart = null; }
+    if (!p) {
+      out.innerHTML = '<div class="sit-card" style="padding:16px 18px"><p class="sit-pend-txt" style="color:#64748b">Sin datos horarios para <b>' + sitEsc(titulo) + '</b> en este mes.' + (/LPR|Est|Irta|Abellers/i.test(titulo) ? ' (las matrículas solo están disponibles hasta junio 2026).' : '') + '</p></div>';
+      return;
+    }
+    var labels = []; for (var h = 0; h < 24; h++) labels.push((h < 10 ? '0' + h : h) + 'h');
+    var esAforo = (p.tipo === 'aforo'), datasets, total;
+    if (esAforo) {
+      var ent = p.porHora.map(function (x) { return x.entrada; }), sal = p.porHora.map(function (x) { return x.salida; });
+      total = ent.concat(sal).reduce(function (a, b) { return a + b; }, 0);
+      datasets = [{ label: 'Entrada / subida', data: ent, backgroundColor: '#0ea5e9', borderRadius: 3 },
+        { label: 'Salida / bajada', data: sal, backgroundColor: '#f59e0b', borderRadius: 3 }];
+    } else {
+      var tot = p.porHora.map(function (x) { return x.total; });
+      total = tot.reduce(function (a, b) { return a + b; }, 0);
+      datasets = [{ label: 'Vehículos', data: tot, backgroundColor: '#2563eb', borderRadius: 3 }];
+    }
+    var picoH = 0, picoV = -1;
+    p.porHora.forEach(function (x, i) { var v = esAforo ? (x.entrada + x.salida) : x.total; if (v > picoV) { picoV = v; picoH = i; } });
+    var kpis = '<div class="sit-kpis" style="margin-bottom:12px">' +
+      phKpi(sitFmt(total), esAforo ? 'Peatones (paso total)' : 'Vehículos (paso total)', esAforo ? '#0ea5e9' : '#2563eb') +
+      phKpi((picoH < 10 ? '0' + picoH : picoH) + ':00 h', 'Hora punta', '#7c3aed') +
+      phKpi(sitFmt(picoV), 'Máximo en 1 hora', '#16a34a') + '</div>';
+    out.innerHTML = kpis + '<div class="turismo-section-card"><h4 style="margin:0 0 .5rem;color:#475569;font-size:.95rem">' + sitEsc(titulo) + ' — perfil por horas (' + sitEsc(_sitData.datos[mes].periodoLabel) + ')</h4><div style="height:300px"><canvas id="ph-canvas"></canvas></div></div>';
+    var ctx = document.getElementById('ph-canvas');
+    if (ctx && typeof Chart !== 'undefined') {
+      _phChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: datasets },
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: esAforo, position: 'bottom' }, tooltip: { callbacks: { label: function (x) { return (x.dataset.label ? x.dataset.label + ': ' : '') + (typeof tFmtNum === 'function' ? tFmtNum(x.raw) : x.raw); } } } },
+          scales: { x: { stacked: esAforo, ticks: { maxRotation: 0, autoSkip: true } }, y: { stacked: esAforo, beginAtZero: true, ticks: { callback: function (v) { return typeof tFmtNum === 'function' ? tFmtNum(v) : v; } } } } } });
+    }
+  }
   function initSitCamaras() {
-    var sel = document.getElementById('sit-mes'); if (!sel) return;
-    var out = document.getElementById('sit-salida');
-    if (out && !_sitData) out.innerHTML = '<p style="color:#94a3b8">Cargando informe SIT…</p>';
+    var selC = document.getElementById('ph-cam'), selM = document.getElementById('ph-mes'), out = document.getElementById('ph-salida');
+    if (!selC || !selM) return;
+    if (out && !_sitData) out.innerHTML = '<p style="color:#94a3b8">Cargando…</p>';
     sitLoad().then(function (d) {
-      if (!d || !d.meses || !d.meses.length) { if (out) out.innerHTML = '<p style="color:#64748b">No se pudo cargar el informe SIT.</p>'; return; }
-      if (!_sitBound) {
+      if (!d || !d.meses || !d.meses.length) { if (out) out.innerHTML = '<p style="color:#64748b">No se pudieron cargar los datos por horas.</p>'; return; }
+      if (!_phBound) {
+        var cams = phCamaras();
+        selC.innerHTML = cams.map(function (c) { return '<option value="' + sitEsc(c.titulo) + '">' + sitEsc(c.titulo) + (c.tipo === 'aforo' ? ' (peatones)' : ' (tráfico)') + '</option>'; }).join('');
         var meses = d.meses.slice().sort().reverse();
-        sel.innerHTML = meses.map(function (m) { return '<option value="' + m + '">' + (d.datos[m] ? d.datos[m].periodoLabel : m) + '</option>'; }).join('');
-        sel.addEventListener('change', function () { sitRenderMes(sel.value); });
-        _sitBound = true;
+        selM.innerHTML = meses.map(function (m) { return '<option value="' + m + '">' + (d.datos[m] ? d.datos[m].periodoLabel : m) + '</option>'; }).join('');
+        selC.addEventListener('change', phRender); selM.addEventListener('change', phRender);
+        var firstAforo = cams.filter(function (c) { return c.tipo === 'aforo'; })[0];
+        if (firstAforo) selC.value = firstAforo.titulo;
+        _phBound = true;
       }
-      if (!sel.value) sel.value = d.meses.slice().sort().reverse()[0];
-      sitRenderMes(sel.value);
+      if (!selM.value) selM.value = d.meses.slice().sort().reverse()[0];
+      phRender();
     });
   }
 
