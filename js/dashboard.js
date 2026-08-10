@@ -1287,14 +1287,9 @@
 
   // Ajusta la escala de la letra/espaciado del nav para que TODOS los ítems quepan sin barra de scroll.
   function fitNav(navEl) {
-    if (!navEl || navEl.style.display === 'none') return;
+    // Nombres a tamaño estándar siempre; si el menú es largo, hace scroll (CSS).
+    if (!navEl) return;
     navEl.style.setProperty('--nav-scale', '1');
-    var scale = 1, guard = 0;
-    while (navEl.scrollHeight > navEl.clientHeight + 1 && scale > 0.45 && guard < 60) {
-      scale = Math.round((scale - 0.03) * 100) / 100;
-      navEl.style.setProperty('--nav-scale', String(scale));
-      guard++;
-    }
   }
   var _navResizeBound = false;
   function bindNavResize() {

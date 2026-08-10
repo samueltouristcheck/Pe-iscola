@@ -164,10 +164,14 @@
 .nav {
     flex: 1 1 auto;
     min-height: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0 12px;
     position: relative;
 }
+.nav::-webkit-scrollbar { width: 7px; }
+.nav::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5); border-radius: 4px; }
+.nav::-webkit-scrollbar-track { background: transparent; }
 /* Bloques inferiores (footer / switcher) — siempre anclados abajo */
 .sidebar-footer,
 .mode-switcher {
