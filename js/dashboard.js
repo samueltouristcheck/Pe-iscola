@@ -3917,6 +3917,14 @@
         if (totNac + totExt) kpis.push({ label: 'Matrícula extranjera', valor: Math.round(1000 * totExt / (totNac + totExt)) / 10, unidad: '%' });
       }
       if (sitMes.kpis && sitMes.kpis.peatones) kpis.push({ label: 'Peatones (aforo por franjas)', valor: sitMes.kpis.peatones });
+      // Estudio por horas (perfil 24h) — peatones por cámara de aforo + vehículos LPR
+      var labels24 = []; for (var _h = 0; _h < 24; _h++) labels24.push((_h < 10 ? '0' + _h : _h) + 'h');
+      (sitMes.puntos || []).forEach(function (pt) {
+        if (pt.tipo === 'aforo' && pt.porHora) graficas.push({ key: 'ph_' + pt.n, titulo: 'Peatones por hora — ' + pt.titulo.replace('Cámara ', '') + ' (' + sitMes.periodoLabel + ')', spec: { tipo: 'line', labels: labels24, datasets: [{ label: 'Entrada/subida', data: pt.porHora.map(function (x) { return x.entrada; }), color: '#0ea5e9' }, { label: 'Salida/bajada', data: pt.porHora.map(function (x) { return x.salida; }), color: '#f59e0b' }] } });
+      });
+      var lprHora = {};
+      (sitMes.puntos || []).forEach(function (pt) { if (pt.tipo === 'lpr' && pt.porHora) pt.porHora.forEach(function (x) { lprHora[x.h] = (lprHora[x.h] || 0) + x.total; }); });
+      if (Object.keys(lprHora).length) graficas.push({ key: 'veh_hora', titulo: 'Vehículos por hora (tráfico LPR, ' + sitMes.periodoLabel + ')', spec: { tipo: 'line', labels: labels24, datasets: [{ label: 'Vehículos', data: labels24.map(function (_l, i) { return lprHora[i] || 0; }), color: '#2563eb' }] } });
     }
     return { kpis: kpis, comparativa: comp, graficas: graficas };
   }

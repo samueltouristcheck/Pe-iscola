@@ -105,6 +105,13 @@ function buildCamaras(cam, anio, mes) {
       if (totNac + totExt) kpis.push({ label: 'Matrícula extranjera', valor: Math.round(1000 * totExt / (totNac + totExt)) / 10, unidad: '%' });
     }
     if (sitMes.kpis && sitMes.kpis.peatones) kpis.push({ label: 'Peatones (aforo por franjas)', valor: sitMes.kpis.peatones });
+    const labels24 = []; for (let _h = 0; _h < 24; _h++) labels24.push((_h < 10 ? '0' + _h : _h) + 'h');
+    (sitMes.puntos || []).forEach((pt) => {
+      if (pt.tipo === 'aforo' && pt.porHora) graficas.push({ key: 'ph_' + pt.n, titulo: 'Peatones por hora — ' + pt.titulo.replace('Cámara ', '') + ' (' + sitMes.periodoLabel + ')', spec: { tipo: 'line', labels: labels24, datasets: [{ label: 'Entrada/subida', data: pt.porHora.map((x) => x.entrada), color: '#0ea5e9' }, { label: 'Salida/bajada', data: pt.porHora.map((x) => x.salida), color: '#f59e0b' }] } });
+    });
+    const lprHora = {};
+    (sitMes.puntos || []).forEach((pt) => { if (pt.tipo === 'lpr' && pt.porHora) pt.porHora.forEach((x) => { lprHora[x.h] = (lprHora[x.h] || 0) + x.total; }); });
+    if (Object.keys(lprHora).length) graficas.push({ key: 'veh_hora', titulo: 'Vehículos por hora (tráfico LPR, ' + sitMes.periodoLabel + ')', spec: { tipo: 'line', labels: labels24, datasets: [{ label: 'Vehículos', data: labels24.map((_l, i) => lprHora[i] || 0), color: '#2563eb' }] } });
   }
   return { kpis, comparativa: comp, graficas };
 }
