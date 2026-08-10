@@ -4232,10 +4232,50 @@
       if (estado) estado.textContent = anios.length ? '' : 'No hay datos para este ámbito todavía.';
     }).catch(function () { if (estado) estado.textContent = 'No se pudieron cargar los datos.'; });
   }
+  // ---- Archivo / registro de informes (ficheros pregenerados en data/informes_archivo) ----
+  var _infManifest = null;
+  function infArchivoUrl(rel) { return (typeof dataUrl === 'function') ? dataUrl(rel) : '/' + rel; }
+  function infArchivoManifest() {
+    if (_infManifest) return Promise.resolve(_infManifest);
+    return fetch(infArchivoUrl('data/informes_archivo/manifest.json'), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (m) { _infManifest = m || {}; return _infManifest; })
+      .catch(function () { _infManifest = {}; return _infManifest; });
+  }
+  function infArchivoRender(amb) {
+    var cont = document.getElementById('inf-' + amb + '-archivo'); if (!cont) return;
+    infArchivoManifest().then(function (m) {
+      var items = (m && m[amb]) || [];
+      if (!items.length) { cont.innerHTML = '<span style="color:#94a3b8;font-size:.85rem">Aún no hay informes archivados para este módulo.</span>'; return; }
+      var byYear = {};
+      items.forEach(function (it) { (byYear[it.anio] = byYear[it.anio] || []).push(it); });
+      var years = Object.keys(byYear).sort(function (a, b) { return b - a; });
+      cont.innerHTML = years.map(function (y) {
+        var chips = byYear[y].slice().sort(function (a, b) { return a.mes - b.mes; }).map(function (it) {
+          return '<button type="button" class="reload-btn inf-arch-chip" data-amb="' + amb + '" data-ym="' + it.ym + '" style="background:#eef2ff;color:#3730a3;font-weight:600;padding:.3rem .6rem;font-size:.82rem">' + (MESES[it.mes - 1] || it.mes) + '</button>';
+        }).join('');
+        return '<div style="margin-bottom:.7rem"><div style="font-weight:700;color:#334155;margin-bottom:.35rem">📁 ' + y + ' <span style="color:#94a3b8;font-weight:400;font-size:.8rem">(' + byYear[y].length + ' informes)</span></div><div style="display:flex;flex-wrap:wrap;gap:.4rem">' + chips + '</div></div>';
+      }).join('');
+      cont.querySelectorAll('.inf-arch-chip').forEach(function (b) { b.addEventListener('click', function () { infArchivoAbrir(b.getAttribute('data-amb'), b.getAttribute('data-ym')); }); });
+    });
+  }
+  function infArchivoAbrir(amb, ym) {
+    var estado = document.getElementById('inf-' + amb + '-estado'); if (estado) estado.textContent = 'Abriendo informe archivado…';
+    fetch(infArchivoUrl('data/informes_archivo/' + amb + '/' + ym + '.json'), { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (reg) {
+        infSt(amb).data = reg.data;
+        infRenderInforme(amb, reg.data, reg.texto);
+        if (estado) estado.textContent = '';
+        var sal = document.getElementById('inf-' + amb + '-salida'); if (sal) sal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      })
+      .catch(function () { if (estado) estado.textContent = 'No se pudo abrir el informe archivado.'; });
+  }
   function initInformesSection(amb) {
     var st = infSt(amb), ids = infIds(amb);
     if (st.bound) return;
     st.bound = true;
+    infArchivoRender(amb);
     var y = document.getElementById(ids.anio); if (y) y.addEventListener('change', function () { infPopulateMeses(amb); });
     var g = document.getElementById(ids.generar); if (g) g.addEventListener('click', function () { generarInforme(amb); });
     var p = document.getElementById(ids.imprimir); if (p) p.addEventListener('click', function () { window.print(); });

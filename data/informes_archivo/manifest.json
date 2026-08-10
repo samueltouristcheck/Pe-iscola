@@ -1,0 +1,116 @@
+{
+ "camaras": [
+  {
+   "anio": 2025,
+   "mes": 4,
+   "ym": "2025-04",
+   "periodoLabel": "Abril 2025",
+   "generadoEl": "2026-08-10T11:49:09.574Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 5,
+   "ym": "2025-05",
+   "periodoLabel": "Mayo 2025",
+   "generadoEl": "2026-08-10T11:49:32.461Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 6,
+   "ym": "2025-06",
+   "periodoLabel": "Junio 2025",
+   "generadoEl": "2026-08-10T11:50:00.853Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 7,
+   "ym": "2025-07",
+   "periodoLabel": "Julio 2025",
+   "generadoEl": "2026-08-10T11:50:25.198Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 8,
+   "ym": "2025-08",
+   "periodoLabel": "Agosto 2025",
+   "generadoEl": "2026-08-10T11:50:47.696Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 9,
+   "ym": "2025-09",
+   "periodoLabel": "Septiembre 2025",
+   "generadoEl": "2026-08-10T11:51:05.884Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 10,
+   "ym": "2025-10",
+   "periodoLabel": "Octubre 2025",
+   "generadoEl": "2026-08-10T11:51:25.667Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 11,
+   "ym": "2025-11",
+   "periodoLabel": "Noviembre 2025",
+   "generadoEl": "2026-08-10T11:51:45.356Z"
+  },
+  {
+   "anio": 2025,
+   "mes": 12,
+   "ym": "2025-12",
+   "periodoLabel": "Diciembre 2025",
+   "generadoEl": "2026-08-10T11:52:04.048Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 1,
+   "ym": "2026-01",
+   "periodoLabel": "Enero 2026",
+   "generadoEl": "2026-08-10T11:52:26.685Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 2,
+   "ym": "2026-02",
+   "periodoLabel": "Febrero 2026",
+   "generadoEl": "2026-08-10T11:52:47.903Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 3,
+   "ym": "2026-03",
+   "periodoLabel": "Marzo 2026",
+   "generadoEl": "2026-08-10T11:53:07.954Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 4,
+   "ym": "2026-04",
+   "periodoLabel": "Abril 2026",
+   "generadoEl": "2026-08-10T11:53:39.148Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 5,
+   "ym": "2026-05",
+   "periodoLabel": "Mayo 2026",
+   "generadoEl": "2026-08-10T11:54:05.009Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 6,
+   "ym": "2026-06",
+   "periodoLabel": "Junio 2026",
+   "generadoEl": "2026-08-10T11:54:27.213Z"
+  },
+  {
+   "anio": 2026,
+   "mes": 7,
+   "ym": "2026-07",
+   "periodoLabel": "Julio 2026",
+   "generadoEl": "2026-08-10T11:54:45.308Z"
+  }
+ ]
+}
