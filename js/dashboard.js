@@ -4464,12 +4464,12 @@
       var informes = (m && m.informes) || [];
       if (!informes.length) { sel.innerHTML = '<option value="">—</option>'; if (btn) btn.disabled = true; return; }
       sel.innerHTML = informes.map(function (i) { return '<option value="' + i.archivo + '">' + sitEsc(i.label) + '</option>'; }).join('');
+      function urlDe(v) { return 'data/informes_sit/' + v + '?t=' + Date.now(); }
       function apply() {
-        var url = 'data/informes_sit/' + sel.value;
-        if (dl) { dl.href = url; dl.setAttribute('download', sel.value); }
+        if (dl && sel.value) { dl.href = urlDe(sel.value); dl.setAttribute('download', sel.value); }
       }
       sel.addEventListener('change', apply); apply();
-      if (btn) btn.addEventListener('click', function () { if (sel.value) window.open('data/informes_sit/' + sel.value, '_blank'); });
+      if (btn) btn.addEventListener('click', function () { if (sel.value) window.open(urlDe(sel.value), '_blank'); });
       _sitProBound = true;
     }).catch(function () {});
   }
