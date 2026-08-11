@@ -464,6 +464,19 @@
       </section>
 
       <section id="section-camaras-sit" class="section">
+        <div class="turismo-section-card" style="margin-bottom:1rem;border-left:4px solid #1d4ed8">
+          <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between">
+            <div style="flex:1;min-width:260px">
+              <h3 style="margin:0 0 .3rem;font-size:1.05rem;color:#0f172a">Informe profesional SIT de cámaras</h3>
+              <p class="turismo-chart-hint" style="margin:0">Documento institucional completo: ficha por punto de control (diario + franjas horarias + franja punta + procedencia + laborable/fin de semana), mapa de calor, metodología, nota RGPD y análisis redactado.</p>
+            </div>
+            <div class="filters-bar" style="gap:.6rem;align-items:end;margin:0">
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo</label><select id="sitpro-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <button id="sitpro-ver" class="btn-generar" style="white-space:nowrap">Ver informe</button>
+              <a id="sitpro-dl" class="btn-generar" style="white-space:nowrap;text-decoration:none;background:#334155" download>Descargar</a>
+            </div>
+          </div>
+        </div>
         <div class="turismo-section-card" style="margin-bottom:1rem">
           <p class="turismo-chart-hint" style="margin-bottom:.8rem">Perfil <strong>por horas</strong> del paso de personas y vehículos en las cámaras con datos horarios. Elige la cámara y el mes.</p>
           <div class="filters-bar" style="gap:.7rem;align-items:end">
@@ -1552,7 +1565,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=124"></script>
+  <script src="js/dashboard.js?v=125"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

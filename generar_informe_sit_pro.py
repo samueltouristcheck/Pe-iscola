@@ -311,6 +311,16 @@ def generar(mes):
     out = os.path.join(outdir, 'sit_pro_%s.html' % mes)
     open(out, 'w', encoding='utf-8').write(html)
     print('OK ->', out, '(%d KB)' % (os.path.getsize(out)//1024))
+    # manifiesto de informes disponibles (para el selector del dashboard)
+    man_path = os.path.join(outdir, 'manifest.json')
+    man = {}
+    if os.path.exists(man_path):
+        try: man = {r['mes']: r for r in json.load(open(man_path, encoding='utf-8')).get('informes', [])}
+        except Exception: man = {}
+    man[mes] = {'mes': mes, 'label': d['periodoLabel'], 'archivo': 'sit_pro_%s.html' % mes}
+    informes = [man[k] for k in sorted(man, reverse=True)]
+    open(man_path, 'w', encoding='utf-8').write(json.dumps({'informes': informes}, ensure_ascii=False))
+    print('Manifiesto actualizado:', len(informes), 'informe(s)')
 
 if __name__ == '__main__':
     generar(sys.argv[1] if len(sys.argv) > 1 else '2026-06')

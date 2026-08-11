@@ -4456,7 +4456,26 @@
           scales: { x: { stacked: esAforo, ticks: { maxRotation: 0, autoSkip: true } }, y: { stacked: esAforo, beginAtZero: true, ticks: { callback: function (v) { return typeof tFmtNum === 'function' ? tFmtNum(v) : v; } } } } } });
     }
   }
+  var _sitProBound = false;
+  function initSitProInforme() {
+    var sel = document.getElementById('sitpro-mes'), btn = document.getElementById('sitpro-ver'), dl = document.getElementById('sitpro-dl');
+    if (!sel || _sitProBound) return;
+    fetch('data/informes_sit/manifest.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (m) {
+      var informes = (m && m.informes) || [];
+      if (!informes.length) { sel.innerHTML = '<option value="">—</option>'; if (btn) btn.disabled = true; return; }
+      sel.innerHTML = informes.map(function (i) { return '<option value="' + i.archivo + '">' + sitEsc(i.label) + '</option>'; }).join('');
+      function apply() {
+        var url = 'data/informes_sit/' + sel.value;
+        if (dl) { dl.href = url; dl.setAttribute('download', sel.value); }
+      }
+      sel.addEventListener('change', apply); apply();
+      if (btn) btn.addEventListener('click', function () { if (sel.value) window.open('data/informes_sit/' + sel.value, '_blank'); });
+      _sitProBound = true;
+    }).catch(function () {});
+  }
+
   function initSitCamaras() {
+    initSitProInforme();
     var selC = document.getElementById('ph-cam'), selM = document.getElementById('ph-mes'), out = document.getElementById('ph-salida');
     if (!selC || !selM) return;
     if (out && !_sitData) out.innerHTML = '<p style="color:#94a3b8">Cargando…</p>';
