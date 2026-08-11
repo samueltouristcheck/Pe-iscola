@@ -113,6 +113,8 @@ def datos_mes(mes):
     afdir = os.path.join(BASE, 'data', 'camaras', 'Aforo_Horario')
     af_mar = aforo_franjas(os.path.join(afdir, 'AvdaDelMar_jun-ago2026_horario.csv'), mes)
     af_ayto = aforo_franjas(os.path.join(afdir, 'Ayuntamiento_jun-ago2026_horario.csv'), mes)
+    af_fosc = aforo_franjas(os.path.join(afdir, 'CMayorBaluarte_jun-ago2026_horario.csv'), mes)
+    af_santpere = aforo_franjas(os.path.join(afdir, 'SaizDeCarlos_jun-ago2026_horario.csv'), mes)
 
     def pl(n, titulo, key, sent_ent, sent_sal):
         d = lpr[key]
@@ -145,10 +147,10 @@ def datos_mes(mes):
         pl(3, 'Rotonda Abellers', 'abellers', 'entrada', 'salida'),
         pp(4, 'Parking Disuasorio — Cámaras de vehículos (turismos)', 'La cámara aún no está dada de alta en el sistema, y falta el emparejado individual entrada/salida por matrícula.'),
         pp(5, 'Parking Disuasorio — Cámaras de autobuses', 'Cámara no disponible y sin dato de tiempo de permanencia por vehículo.'),
-        pp(6, 'Cámara Portal Fosc', 'Cámara no dada de alta como aforo; además requiere desplazar la línea virtual de conteo (configuración física).'),
+        pa(6, 'Cámara Portal Fosc (C Mayor – Baluarte del Príncipe)', af_fosc, 'entrada', 'salida'),
         pa(7, 'Cámara Avenida de la Mar', af_mar, 'entrada', 'salida'),
         pa(8, 'Cámara Ayuntamiento', af_ayto, 'subida', 'bajada'),
-        pp(9, 'Cámara Portal de Sant Pere', 'Cámara no dada de alta en el sistema.'),
+        pa(9, 'Cámara Portal de Sant Pere (C. Saiz de Carlos)', af_santpere, 'entrada', 'salida'),
     ]
     # totales de cabecera
     tot_veh_ent = sum(p['entradas'] for p in puntos if p.get('tipo') == 'lpr' and p['estado'] == 'ok')
