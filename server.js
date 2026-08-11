@@ -795,6 +795,43 @@ app.post('/api/sit-opinion', informeLimiter, async (req, res) => {
     }
 });
 
+// Análisis redactado (secciones) para el informe SIT profesional de cámaras.
+app.post('/api/sit-analisis', informeLimiter, async (req, res) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const { periodoLabel, resumenDatos } = req.body || {};
+    if (!resumenDatos) return res.status(400).json({ error: 'Faltan los datos' });
+    const system = [
+        'Eres un analista de movilidad y turismo del Ayuntamiento de Peñíscola. Redactas el análisis escrito de un informe INSTITUCIONAL de cámaras para el Sistema de Inteligencia Turística (SIT).',
+        'Escribes en español, tono técnico-institucional, claro y accionable, en PROSA. Sin emojis, sin markdown de títulos, sin adornos.',
+        'REGLAS DE RIGOR (obligatorias): (1) usa SOLO las cifras que recibes; no inventes. (2) Los datos de aforo son "pasos" (cruces de línea), NO visitantes únicos: dilo cuando hables de peatones. (3) El balance entrada−salida por cámara es un indicador de cobertura/sentido del sensor, NO población: si es negativo NO lo interpretes como pérdida de vehículos ni como "los turistas duermen fuera"; adviértelo. (4) No menciones la pandemia ni 2019 (no hay datos). (5) Las recomendaciones deben salir del dato y ser concretas (qué, dónde, a qué hora).',
+        'Devuelve EXACTAMENTE estas secciones, cada una precedida por su marcador en una línea propia:',
+        '[[RESUMEN]] — resumen ejecutivo de 3-4 párrafos: volumen de tráfico y aforo del periodo, franjas punta más relevantes, contraste laborable/fin de semana, procedencia, y qué implica para la gestión.',
+        '[[TRANSVERSAL]] — 2 párrafos sobre el patrón horario y de día de la semana (cuándo se concentran los flujos, diferencias laborable/finde) y cómo usarlo (refuerzo de servicios, limpieza, seguridad, movilidad).',
+        '[[CONCLUSIONES]] — 4-5 conclusiones accionables en frases separadas por saltos de línea, cada una con el dato que la sostiene y una acción concreta.',
+        'Y para CADA cámara que aparezca en los datos, un marcador [[CAM:clave]] seguido de UN párrafo (3-4 frases) interpretando esa cámara concreta (entradas/salidas o peatones, su franja punta, laborable/finde y procedencia si es LPR).'
+    ].join('\n');
+    try {
+        const r = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+            body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [
+                    { role: 'system', content: system },
+                    { role: 'user', content: 'Periodo: ' + (periodoLabel || '—') + '.\nDatos por cámara (JSON):\n' + JSON.stringify(resumenDatos, null, 1) + '\n\nRedacta el análisis con los marcadores indicados.' }
+                ],
+                max_tokens: 3200, temperature: 0.55
+            })
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
+        res.json({ texto: (data.choices?.[0]?.message?.content || '').trim() });
+    } catch (err) {
+        res.status(500).json({ error: err.message || 'Error al generar el análisis' });
+    }
+});
+
 const PLANTILLA_PATH = path.join(EJEMPLOS_DIR, 'plantilla_informe.txt');
 
 function generarInformeDesdePlantilla(data) {
