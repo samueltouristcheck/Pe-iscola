@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="assets/logo-ajuntament.png">
   <link rel="apple-touch-icon" href="assets/logo-ajuntament.png">
   <link rel="stylesheet" href="css/globals.css">
-  <link rel="stylesheet" href="css/dashboard.css?v=5">
+  <link rel="stylesheet" href="css/dashboard.css?v=6">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -445,9 +445,10 @@
         <div class="turismo-section-card" style="margin-bottom:1rem">
           <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>cámaras (LPR + aforo)</strong>, con una gráfica por cada dato analizado.</p>
           <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
-            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo</label><select id="inf-camaras-modo" class="fuente-select" style="min-width:130px"><option value="mes">Por mes</option><option value="rango">Rango de días</option></select></span>
+            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo</label><select id="inf-camaras-modo" class="fuente-select" style="min-width:130px"><option value="mes">Por mes</option><option value="trimestre">Por trimestre</option><option value="rango">Rango de días</option></select></span>
             <span id="inf-camaras-anio-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-camaras-anio" class="fuente-select" style="min-width:110px"></select></span>
             <span id="inf-camaras-mes-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-camaras-mes" class="fuente-select" style="min-width:150px"></select></span>
+            <span id="inf-camaras-trim-wrap" style="display:none;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Trimestre</label><select id="inf-camaras-trim" class="fuente-select" style="min-width:160px"><option value="1">T1 · ene–mar</option><option value="2">T2 · abr–jun</option><option value="3">T3 · jul–sep</option><option value="4">T4 · oct–dic</option></select></span>
             <span id="inf-camaras-desde-wrap" style="display:none;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Desde</label><input type="date" id="inf-camaras-desde" class="fuente-select" style="min-width:150px"></span>
             <span id="inf-camaras-hasta-wrap" style="display:none;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Hasta</label><input type="date" id="inf-camaras-hasta" class="fuente-select" style="min-width:150px"></span>
             <button type="button" id="inf-camaras-generar" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600">✨ Generar informe</button>
@@ -683,8 +684,10 @@
           <div class="residuos-section-card" style="margin-bottom:1rem">
             <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>residuos</strong>, con una gráfica por cada dato analizado.</p>
             <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
-              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-residuos-anio" class="fuente-select" style="min-width:110px"></select></span>
-              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-residuos-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo</label><select id="inf-residuos-modo" class="fuente-select" style="min-width:130px"><option value="mes">Por mes</option><option value="trimestre">Por trimestre</option></select></span>
+              <span id="inf-residuos-anio-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-residuos-anio" class="fuente-select" style="min-width:110px"></select></span>
+              <span id="inf-residuos-mes-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-residuos-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <span id="inf-residuos-trim-wrap" style="display:none;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Trimestre</label><select id="inf-residuos-trim" class="fuente-select" style="min-width:160px"><option value="1">T1 · ene–mar</option><option value="2">T2 · abr–jun</option><option value="3">T3 · jul–sep</option><option value="4">T4 · oct–dic</option></select></span>
               <button type="button" id="inf-residuos-generar" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600">✨ Generar informe</button>
               <button type="button" id="inf-residuos-imprimir" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">🖨️ Imprimir / PDF</button>
             </div>
@@ -1331,8 +1334,10 @@
           <div class="turismo-section-card" style="margin-bottom:1rem">
             <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>turismo</strong>, con una gráfica por cada dato analizado.</p>
             <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
-              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-turismo-anio" class="fuente-select" style="min-width:110px"></select></span>
-              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-turismo-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo</label><select id="inf-turismo-modo" class="fuente-select" style="min-width:130px"><option value="mes">Por mes</option><option value="trimestre">Por trimestre</option></select></span>
+              <span id="inf-turismo-anio-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="inf-turismo-anio" class="fuente-select" style="min-width:110px"></select></span>
+              <span id="inf-turismo-mes-wrap" style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-turismo-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <span id="inf-turismo-trim-wrap" style="display:none;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Trimestre</label><select id="inf-turismo-trim" class="fuente-select" style="min-width:160px"><option value="1">T1 · ene–mar</option><option value="2">T2 · abr–jun</option><option value="3">T3 · jul–sep</option><option value="4">T4 · oct–dic</option></select></span>
               <button type="button" id="inf-turismo-generar" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600">✨ Generar informe</button>
               <button type="button" id="inf-turismo-imprimir" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">🖨️ Imprimir / PDF</button>
             </div>
@@ -1565,7 +1570,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=127"></script>
+  <script src="js/dashboard.js?v=128"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

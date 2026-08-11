@@ -3990,6 +3990,119 @@
     b.periodoLabel = infPeriodoLabel(anio, mes); b.anio = anio; b.mes = mes || null;
     return b;
   }
+  // ---- construcción TRIMESTRAL (cliente) ----
+  var INF_TRIMS = { 1: [1, 2, 3], 2: [4, 5, 6], 3: [7, 8, 9], 4: [10, 11, 12] };
+  var INF_TRIM_LARGO = { 1: 'enero–marzo', 2: 'abril–junio', 3: 'julio–septiembre', 4: 'octubre–diciembre' };
+  var INF_TRIM_ORD = { 1: 'Primer', 2: 'Segundo', 3: 'Tercer', 4: 'Cuarto' };
+  function infTrimLabel(anio, q) { return INF_TRIM_ORD[q] + ' trimestre ' + anio + ' (' + INF_TRIM_LARGO[q] + ')'; }
+  function infPrevTrim(anio, q) { return q > 1 ? { anio: anio, q: q - 1 } : { anio: anio - 1, q: 4 }; }
+  function infCompSpecTrim(comp) { return { tipo: 'bar', labels: comp.map(function (c) { return c.label; }), datasets: [{ label: 'Trimestre actual', data: comp.map(function (c) { return c.actual; }), color: '#2563eb' }, { label: 'Trimestre anterior', data: comp.map(function (c) { return c.mesAnterior; }), color: '#93c5fd' }, { label: 'Mismo trim. año ant.', data: comp.map(function (c) { return c.anioAnterior; }), color: '#f59e0b' }] }; }
+  var INF_NZ = function (v) { return v ? v : null; };
+  function infBuildCamarasTrim(anio, q) {
+    var sumQ = function (yr, qq, key) { return INF_TRIMS[qq].reduce(function (a, m) { var x = infCamMes(yr, m); return a + ((x && x[key]) || 0); }, 0); };
+    var curE = sumQ(anio, q, 'entradas'), curS = sumQ(anio, q, 'salidas');
+    var pq = infPrevTrim(anio, q);
+    var paE = sumQ(pq.anio, pq.q, 'entradas'), paS = sumQ(pq.anio, pq.q, 'salidas');
+    var aaE = sumQ(anio - 1, q, 'entradas'), aaS = sumQ(anio - 1, q, 'salidas');
+    var comp = [
+      { label: 'Entradas', actual: INF_NZ(curE), mesAnterior: INF_NZ(paE), anioAnterior: INF_NZ(aaE), varMes: infPct(curE, paE), varAnio: infPct(curE, aaE) },
+      { label: 'Salidas', actual: INF_NZ(curS), mesAnterior: INF_NZ(paS), anioAnterior: INF_NZ(aaS), varMes: infPct(curS, paS), varAnio: infPct(curS, aaS) }
+    ];
+    var graficas = [];
+    var es = (camarasData && camarasData.lpr && camarasData.lpr.entradasSalidasPorMes) || {};
+    var mo = Object.keys(es).filter(function (k) { return k.slice(0, 4) === String(anio); }).sort();
+    if (mo.length) {
+      graficas.push({ key: 'entradas_salidas_mes', titulo: 'Entradas y salidas por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(function (k) { return infMesNombre(parseInt(k.slice(5), 10)); }), datasets: [{ label: 'Entradas', data: mo.map(function (k) { return es[k].Avance || 0; }), color: '#2563eb' }, { label: 'Salidas', data: mo.map(function (k) { return es[k].Retroceso || 0; }), color: '#f59e0b' }] } });
+      graficas.push({ key: 'saldo_mes', titulo: 'Saldo (entradas − salidas) por mes (' + anio + ')', spec: { tipo: 'bar', labels: mo.map(function (k) { return infMesNombre(parseInt(k.slice(5), 10)); }), datasets: [{ label: 'Saldo', data: mo.map(function (k) { return (es[k].Avance || 0) - (es[k].Retroceso || 0); }), color: '#16a34a' }] } });
+    }
+    graficas.push({ key: 'comparativa', titulo: 'Comparativa: trimestre actual vs trimestre anterior y año anterior', spec: infCompSpecTrim(comp) });
+    var per = 0, vm = 0, vs = 0; INF_TRIMS[q].forEach(function (m) { var a = infCamAforo(anio, m); if (a) { per += a.personas; vm += a.vehMotor; vs += a.vehSinMotor; } });
+    if (per || vm || vs) graficas.push({ key: 'aforo', titulo: 'Aforo del trimestre (paso total de personas y vehículos)', spec: { tipo: 'bar', labels: ['Personas', 'Veh. a motor', 'Veh. sin motor'], datasets: [{ label: 'Pasos', data: [per, vm, vs], color: '#7c3aed' }] } });
+    var kpis = [
+      { label: 'Entradas de vehículos', valor: INF_NZ(curE), comp: comp[0] },
+      { label: 'Salidas de vehículos', valor: INF_NZ(curS), comp: comp[1] },
+      { label: 'Saldo (entradas − salidas)', valor: (curE || curS) ? (curE - curS) : null }
+    ];
+    if (per || vm || vs) { kpis.push({ label: 'Personas (aforo)', valor: per }); kpis.push({ label: 'Veh. a motor (aforo)', valor: vm }); }
+    return { kpis: kpis, comparativa: comp, graficas: graficas };
+  }
+  function infBuildResiduosTrim(anio, q) {
+    var sumQ = function (yr, qq, key) { return INF_TRIMS[qq].reduce(function (a, m) { var x = infResMes(yr, m); return a + ((x && x[key]) || 0); }, 0); };
+    var curK = sumQ(anio, q, 'kg'), curS = sumQ(anio, q, 'salidas');
+    var pq = infPrevTrim(anio, q);
+    var paK = sumQ(pq.anio, pq.q, 'kg'), paS = sumQ(pq.anio, pq.q, 'salidas');
+    var aaK = sumQ(anio - 1, q, 'kg'), aaS = sumQ(anio - 1, q, 'salidas');
+    var comp = [
+      { label: 'Kg recogidos', actual: INF_NZ(curK), mesAnterior: INF_NZ(paK), anioAnterior: INF_NZ(aaK), varMes: infPct(curK, paK), varAnio: infPct(curK, aaK) },
+      { label: 'Salidas', actual: INF_NZ(curS), mesAnterior: INF_NZ(paS), anioAnterior: INF_NZ(aaS), varMes: infPct(curS, paS), varAnio: infPct(curS, aaS) }
+    ];
+    var graficas = [];
+    var serie = {}; (dataCamion || []).forEach(function (r) { if (r.fecha && String(r.fecha).slice(0, 4) === String(anio)) { var m = parseInt(String(r.fecha).slice(5, 7), 10); serie[m] = { kg: (+r.kg || 0), salidas: (+r.salidas || 0) }; } });
+    var mo = Object.keys(serie).map(Number).sort(function (a, b) { return a - b; });
+    if (mo.length) {
+      graficas.push({ key: 'kg_mes', titulo: 'Kg recogidos por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(infMesNombre), datasets: [{ label: 'Kg', data: mo.map(function (m) { return serie[m].kg; }), color: '#2563eb' }] } });
+      graficas.push({ key: 'salidas_mes', titulo: 'Salidas del camión por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(infMesNombre), datasets: [{ label: 'Salidas', data: mo.map(function (m) { return serie[m].salidas; }), color: '#f59e0b' }] } });
+    }
+    graficas.push({ key: 'comparativa', titulo: 'Comparativa: trimestre actual vs trimestre anterior y año anterior', spec: infCompSpecTrim(comp) });
+    var frac = { envases: 0, organica: 0, papel: 0 }, gpTotal = 0, gpItems = [];
+    if (typeof _gpData !== 'undefined' && _gpData && _gpData.datos) {
+      var claves = INF_TRIMS[q].map(function (m) { return anio + '-' + String(m).padStart(2, '0'); });
+      var acc = {}; claves.forEach(function (k) { var dm = _gpData.datos[k] || {}; Object.keys(dm).forEach(function (e) { var d = dm[e]; acc[e] = (acc[e] || 0) + d.total; frac.envases += d.envases || 0; frac.organica += d.organica || 0; frac.papel += d.papel || 0; }); });
+      gpItems = Object.entries(acc).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 8).map(function (x) { return { n: x[0], v: Math.round(x[1]) }; });
+      gpTotal = frac.envases + frac.organica + frac.papel;
+      if (gpItems.length) graficas.push({ key: 'grandes_productores', titulo: 'Grandes productores del trimestre (kg, top 8)', spec: { tipo: 'barH', labels: gpItems.map(function (i) { return i.n; }), datasets: [{ label: 'Kg', data: gpItems.map(function (i) { return i.v; }), color: '#0ea5e9' }] } });
+      if (gpTotal > 0) graficas.push({ key: 'reparto_fraccion', titulo: 'Reparto por fracción (grandes productores)', spec: { tipo: 'bar', labels: ['Orgánica', 'Envases mezclados', 'Papel/Cartón'], datasets: [{ label: 'Kg', data: [Math.round(frac.organica), Math.round(frac.envases), Math.round(frac.papel)], color: '#16a34a' }] } });
+    }
+    var an = infResAnual(); if (an.years.length > 1) graficas.push({ key: 'kg_anual', titulo: 'Kg recogidos por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Kg', data: an.vals, color: '#16a34a' }] } });
+    var kpis = [{ label: 'Kg recogidos (camión)', valor: INF_NZ(curK), unidad: 'kg', comp: comp[0] }, { label: 'Salidas del camión', valor: INF_NZ(curS), comp: comp[1] }];
+    if (gpTotal > 0) { kpis.push({ label: 'Recogida grandes productores', valor: Math.round(gpTotal), unidad: 'kg' }); kpis.push({ label: 'Orgánica (grandes prod.)', valor: gpTotal ? Math.round(1000 * frac.organica / gpTotal) / 10 : 0, unidad: '%' }); }
+    return { kpis: kpis, comparativa: comp, graficas: graficas };
+  }
+  function infTurValTrim(cat, met, anio, q) {
+    var vals = INF_TRIMS[q].map(function (m) { return infTurVal(cat, met, anio, m); }).filter(function (x) { return x != null; });
+    if (!vals.length) return null;
+    var isRate = ['grado_ocupacion', 'adr', 'revpar', 'estancia_media'].indexOf(met) >= 0;
+    return isRate ? vals.reduce(function (a, b) { return a + b; }, 0) / vals.length : vals.reduce(function (a, b) { return a + b; }, 0);
+  }
+  function infTurProcedenciaTrim(anio, q) {
+    var proc = (turismoData.series.procedencia || []).filter(function (s) { return s.residencia === 'ccaa' && s.nombre !== 'Total Nacional'; });
+    return proc.map(function (s) { var v = (s.data || []).filter(function (d) { return String(d.anyo) === String(anio) && INF_TRIMS[q].indexOf(+d.mes) >= 0; }).reduce(function (a, b) { return a + (b.valor || 0); }, 0); return { n: s.nombre, v: Math.round(v) }; }).filter(function (x) { return x.v > 0; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 8);
+  }
+  function infBuildTurismoTrim(anio, q) {
+    var pq = infPrevTrim(anio, q);
+    var cmp = function (cat, met, label) { var act = infTurValTrim(cat, met, anio, q); var pa = infTurValTrim(cat, met, pq.anio, pq.q); var aa = infTurValTrim(cat, met, anio - 1, q); return { label: label, actual: act, mesAnterior: pa, anioAnterior: aa, varMes: infPct(act, pa), varAnio: infPct(act, aa) }; };
+    var comp = [cmp('hoteles', 'viajeros', 'Viajeros hoteles'), cmp('hoteles', 'pernoctaciones', 'Pernoctaciones'), cmp('hoteles', 'grado_ocupacion', 'Ocupación %'), cmp('hoteles', 'adr', 'Tarifa media (ADR)')];
+    var graficas = [];
+    var addLine = function (key, titulo, cat, met, color) { var s = infTurSerie(cat, met, anio); var mo = Object.keys(s).map(Number).sort(function (a, b) { return a - b; }); if (mo.length && mo.some(function (m) { return s[m] != null; })) graficas.push({ key: key, titulo: titulo, spec: { tipo: 'line', labels: mo.map(infMesNombre), datasets: [{ label: titulo, data: mo.map(function (m) { return s[m]; }), color: color }] } }); };
+    addLine('viajeros_mes', 'Viajeros en hoteles por mes (' + anio + ')', 'hoteles', 'viajeros', '#2563eb');
+    addLine('pernoctaciones_mes', 'Pernoctaciones en hoteles por mes (' + anio + ')', 'hoteles', 'pernoctaciones', '#7c3aed');
+    addLine('ocupacion_mes', 'Ocupación hotelera por mes % (' + anio + ')', 'hoteles', 'grado_ocupacion', '#0891b2');
+    addLine('adr_mes', 'Tarifa media (ADR) por mes € (' + anio + ')', 'hoteles', 'adr', '#d97706');
+    addLine('revpar_mes', 'RevPAR por mes € (' + anio + ')', 'hoteles', 'revpar', '#db2777');
+    graficas.push({ key: 'comparativa', titulo: 'Comparativa: trimestre actual vs trimestre anterior y año anterior', spec: infCompSpecTrim(comp) });
+    var tipo = [{ n: 'Hoteles', v: infTurValTrim('hoteles', 'viajeros', anio, q) }, { n: 'Apartamentos', v: infTurValTrim('apartamentos', 'viajeros', anio, q) }, { n: 'Campings', v: infTurValTrim('campings', 'viajeros', anio, q) }].filter(function (x) { return x.v != null; });
+    if (tipo.length) graficas.push({ key: 'viajeros_por_tipo', titulo: 'Viajeros por tipo de alojamiento (trimestre)', spec: { tipo: 'bar', labels: tipo.map(function (i) { return i.n; }), datasets: [{ label: 'Viajeros', data: tipo.map(function (i) { return i.v; }), color: '#0ea5e9' }] } });
+    var ocup = [{ n: 'Hoteles', v: infTurValTrim('hoteles', 'grado_ocupacion', anio, q) }, { n: 'Apartamentos', v: infTurValTrim('apartamentos', 'grado_ocupacion', anio, q) }, { n: 'Campings', v: infTurValTrim('campings', 'grado_ocupacion', anio, q) }].filter(function (x) { return x.v != null; });
+    if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%) — media del trimestre', spec: { tipo: 'bar', labels: ocup.map(function (i) { return i.n; }), datasets: [{ label: 'Ocupación %', data: ocup.map(function (i) { return Math.round(i.v * 10) / 10; }), color: '#0891b2' }] } });
+    var proc = infTurProcedenciaTrim(anio, q);
+    if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA, trimestre)', spec: { tipo: 'barH', labels: proc.map(function (i) { return i.n; }), datasets: [{ label: 'Turistas', data: proc.map(function (i) { return i.v; }), color: '#7c3aed' }] } });
+    var an = infTurAnual('hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+    var kpis = [
+      { label: 'Viajeros hoteles', valor: infTurValTrim('hoteles', 'viajeros', anio, q), comp: comp[0] },
+      { label: 'Pernoctaciones hoteles', valor: infTurValTrim('hoteles', 'pernoctaciones', anio, q), comp: comp[1] },
+      { label: 'Ocupación hotelera (media)', valor: infTurValTrim('hoteles', 'grado_ocupacion', anio, q), unidad: '%', comp: comp[2] },
+      { label: 'Tarifa media ADR (media)', valor: infTurValTrim('hoteles', 'adr', anio, q), unidad: '€', comp: comp[3] },
+      { label: 'Estancia media', valor: infTurValTrim('hoteles', 'estancia_media', anio, q), unidad: 'noches' },
+      { label: 'Viajeros apartamentos', valor: infTurValTrim('apartamentos', 'viajeros', anio, q) },
+      { label: 'Viajeros campings', valor: infTurValTrim('campings', 'viajeros', anio, q) }
+    ];
+    return { kpis: kpis, comparativa: comp, graficas: graficas };
+  }
+  function infBuildTrimestre(amb, anio, q) {
+    var b = amb === 'turismo' ? infBuildTurismoTrim(anio, q) : amb === 'residuos' ? infBuildResiduosTrim(anio, q) : infBuildCamarasTrim(anio, q);
+    b.periodoLabel = infTrimLabel(anio, q); b.anio = anio; b.mes = null; b.trimestre = q;
+    return b;
+  }
   function infInsights(data) {
     var ins = {};
     var g = data.graficas.find(function (x) { return x.spec.tipo === 'line' && x.spec.datasets.length && x.spec.labels.length > 2; });
@@ -4244,8 +4357,10 @@
   function generarInforme(amb) {
     var ids = infIds(amb);
     var modoEl = document.getElementById('inf-' + amb + '-modo');
-    var esRango = (amb === 'camaras' && modoEl && modoEl.value === 'rango');
-    var anio = document.getElementById(ids.anio).value, mes = document.getElementById(ids.mes).value, rango = null;
+    var modo = modoEl ? modoEl.value : 'mes';
+    var esRango = (amb === 'camaras' && modo === 'rango');
+    var esTrim = (modo === 'trimestre');
+    var anio = document.getElementById(ids.anio).value, mes = document.getElementById(ids.mes).value, rango = null, trim = null;
     var estado = document.getElementById(ids.estado), salida = document.getElementById(ids.salida), btn = document.getElementById(ids.generar);
     if (esRango) {
       var desde = (document.getElementById('inf-' + amb + '-desde') || {}).value || '';
@@ -4253,13 +4368,16 @@
       if (!desde || !hasta) { estado.textContent = 'Elige las fechas de inicio y fin.'; return; }
       if (desde > hasta) { estado.textContent = 'La fecha "Desde" no puede ser posterior a "Hasta".'; return; }
       rango = { desde: desde, hasta: hasta };
+    } else if (esTrim) {
+      trim = +((document.getElementById('inf-' + amb + '-trim') || {}).value) || 0;
+      if (!anio || !trim) { estado.textContent = 'Elige el año y el trimestre.'; return; }
     } else if (!anio) { estado.textContent = 'No hay datos para este periodo.'; return; }
     btn.disabled = true; var orig = btn.textContent; btn.textContent = 'Generando…';
     salida.innerHTML = '';
     var prog = infStartProgress(estado);
     infEnsure(amb).then(function () {
-      var data = infBuild(amb, anio, mes, rango); infSt(amb).data = data;
-      if (!data.kpis || !data.kpis.length) throw new Error(esRango ? 'No hay datos de cámaras en ese rango de fechas.' : 'No hay datos para este periodo.');
+      var data = esTrim ? infBuildTrimestre(amb, +anio, trim) : infBuild(amb, anio, mes, rango); infSt(amb).data = data;
+      if (!data.kpis || !data.kpis.length || (esTrim && !data.kpis.some(function (k) { return k.valor != null; }))) throw new Error(esRango ? 'No hay datos de cámaras en ese rango de fechas.' : esTrim ? 'No hay datos para ese trimestre.' : 'No hay datos para este periodo.');
       var datos = { kpis: data.kpis.map(function (k) { return { label: k.label, valor: k.valor, unidad: k.unidad || '', varMes: k.comp && k.comp.varMes != null ? Math.round(k.comp.varMes * 10) / 10 : null, varAnio: k.comp && k.comp.varAnio != null ? Math.round(k.comp.varAnio * 10) / 10 : null }; }), comparativa: data.comparativa, insights: infInsights(data), graficas: data.graficas.map(function (g) { return { clave: g.key, titulo: g.titulo, labels: g.spec.labels, series: g.spec.datasets.map(function (d) { return { nombre: d.label, datos: d.data }; }) }; }) };
       return fetch('/api/informe-ia', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ambito: amb, periodoLabel: data.periodoLabel, datos: datos }) }).then(function (r) { return r.json(); });
     }).then(function (res) {
@@ -4300,9 +4418,23 @@
     residuos: { accent: '#16a34a', ico: '♻️' },
     turismo: { accent: '#0ea5e9', ico: '✨' }
   };
+  var INF_TRIM_TXT = { 1: 'ene–mar', 2: 'abr–jun', 3: 'jul–sep', 4: 'oct–dic' };
+  function infTrimDe(mes) { return Math.floor((mes - 1) / 3) + 1; }
   function infArchivoRender(amb) {
     var cont = document.getElementById('inf-' + amb + '-archivo'); if (!cont) return;
     var est = INF_ARCH_ESTILO[amb] || { accent: '#6366f1', ico: '📄' };
+    var cardMes = function (it) {
+      return '<button type="button" class="inf-arch-card" style="--arch-accent:' + est.accent + '" data-amb="' + amb + '" data-ym="' + it.ym + '">' +
+        '<span class="inf-arch-card-ico">' + est.ico + '</span>' +
+        '<span class="inf-arch-card-mes">' + (MESES[it.mes - 1] || it.mes) + '</span>' +
+        '<span class="inf-arch-card-anio">' + it.anio + '</span></button>';
+    };
+    var cardTrim = function (it) {
+      return '<button type="button" class="inf-arch-card inf-arch-card-trim" style="--arch-accent:' + est.accent + '" data-amb="' + amb + '" data-ym="' + it.ym + '">' +
+        '<span class="inf-arch-card-ico">📘</span>' +
+        '<span class="inf-arch-card-mes">T' + it.trimestre + '</span>' +
+        '<span class="inf-arch-card-anio">Trimestral</span></button>';
+    };
     infArchivoManifest().then(function (m) {
       var items = (m && m[amb]) || [];
       if (!items.length) { cont.innerHTML = '<span style="color:#94a3b8;font-size:.85rem">Aún no hay informes archivados para este módulo.</span>'; return; }
@@ -4310,14 +4442,22 @@
       items.forEach(function (it) { (byYear[it.anio] = byYear[it.anio] || []).push(it); });
       var years = Object.keys(byYear).sort(function (a, b) { return b - a; });
       cont.innerHTML = years.map(function (y) {
-        var cards = byYear[y].slice().sort(function (a, b) { return a.mes - b.mes; }).map(function (it) {
-          return '<button type="button" class="inf-arch-card" style="--arch-accent:' + est.accent + '" data-amb="' + amb + '" data-ym="' + it.ym + '">' +
-            '<span class="inf-arch-card-ico">' + est.ico + '</span>' +
-            '<span class="inf-arch-card-mes">' + (MESES[it.mes - 1] || it.mes) + '</span>' +
-            '<span class="inf-arch-card-anio">' + y + '</span></button>';
+        var list = byYear[y];
+        var quarterlies = {}, monByTrim = { 1: [], 2: [], 3: [], 4: [] };
+        list.forEach(function (it) {
+          if (it.trimestre) quarterlies[it.trimestre] = it;
+          else if (it.mes) monByTrim[infTrimDe(it.mes)].push(it);
+        });
+        var trimBlocks = [1, 2, 3, 4].map(function (q) {
+          var qmon = monByTrim[q].slice().sort(function (a, b) { return a.mes - b.mes; });
+          var qrep = quarterlies[q];
+          if (!qmon.length && !qrep) return '';
+          var cards = (qrep ? cardTrim(qrep) : '') + qmon.map(cardMes).join('');
+          var tag = qrep ? '<span class="inf-arch-trim-tag">informe trimestral ✓</span>' : '<span class="inf-arch-trim-pend">trimestral pendiente</span>';
+          return '<div class="inf-arch-trim"><div class="inf-arch-trim-head">Trimestre ' + q + ' <span class="inf-arch-trim-sub">' + INF_TRIM_TXT[q] + '</span>' + tag + '</div><div class="inf-arch-grid">' + cards + '</div></div>';
         }).join('');
-        var n = byYear[y].length;
-        return '<div class="inf-arch-year"><div class="inf-arch-year-head">📂 ' + y + '<span class="inf-arch-year-badge">' + n + ' informe' + (n > 1 ? 's' : '') + '</span></div><div class="inf-arch-grid">' + cards + '</div></div>';
+        var n = list.length;
+        return '<div class="inf-arch-year"><div class="inf-arch-year-head">📂 ' + y + '<span class="inf-arch-year-badge">' + n + ' informe' + (n > 1 ? 's' : '') + '</span></div>' + trimBlocks + '</div>';
       }).join('');
       cont.querySelectorAll('.inf-arch-card').forEach(function (b) { b.addEventListener('click', function () { infArchivoAbrir(b.getAttribute('data-amb'), b.getAttribute('data-ym')); }); });
     });
@@ -4346,9 +4486,13 @@
     if (modo) {
       var wrap = function (k) { return document.getElementById('inf-' + amb + '-' + k + '-wrap'); };
       var toggle = function () {
-        var r = modo.value === 'rango';
-        ['anio', 'mes'].forEach(function (k) { var e = wrap(k); if (e) e.style.display = r ? 'none' : 'inline-flex'; });
-        ['desde', 'hasta'].forEach(function (k) { var e = wrap(k); if (e) e.style.display = r ? 'inline-flex' : 'none'; });
+        var v = modo.value;
+        var show = function (k, on) { var e = wrap(k); if (e) e.style.display = on ? 'inline-flex' : 'none'; };
+        show('anio', v !== 'rango');
+        show('mes', v === 'mes');
+        show('trim', v === 'trimestre');
+        show('desde', v === 'rango');
+        show('hasta', v === 'rango');
       };
       modo.addEventListener('change', toggle);
       infEnsure(amb).then(function () {
