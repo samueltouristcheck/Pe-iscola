@@ -198,6 +198,142 @@ function buildTurismo(tur, anio, mes) {
   return { kpis, comparativa: comp, graficas };
 }
 
+/* ===================== TRIMESTRES ===================== */
+const TRIM = { 1: [1, 2, 3], 2: [4, 5, 6], 3: [7, 8, 9], 4: [10, 11, 12] };
+const TRIM_TXT = { 1: 'enero–marzo', 2: 'abril–junio', 3: 'julio–septiembre', 4: 'octubre–diciembre' };
+const TRIM_ORD = { 1: 'Primer', 2: 'Segundo', 3: 'Tercer', 4: 'Cuarto' };
+const trimLabel = (anio, q) => `${TRIM_ORD[q]} trimestre ${anio} (${TRIM_TXT[q]})`;
+const prevTrim = (anio, q) => (q > 1 ? { anio: anio, q: q - 1 } : { anio: anio - 1, q: 4 });
+const compSpecTrim = (comp) => ({ tipo: 'bar', labels: comp.map((c) => c.label), datasets: [
+  { label: 'Trimestre actual', data: comp.map((c) => c.actual), color: '#2563eb' },
+  { label: 'Trimestre anterior', data: comp.map((c) => c.mesAnterior), color: '#93c5fd' },
+  { label: 'Mismo trimestre año anterior', data: comp.map((c) => c.anioAnterior), color: '#f59e0b' }
+] });
+const nz = (v) => (v ? v : null);
+
+function buildCamarasTrim(cam, anio, q) {
+  const sumQ = (yr, qq, key) => TRIM[qq].reduce((a, m) => a + ((camMes(cam, yr, m) || {})[key] || 0), 0);
+  const curE = sumQ(anio, q, 'entradas'), curS = sumQ(anio, q, 'salidas');
+  const pq = prevTrim(anio, q);
+  const paE = sumQ(pq.anio, pq.q, 'entradas'), paS = sumQ(pq.anio, pq.q, 'salidas');
+  const aaE = sumQ(anio - 1, q, 'entradas'), aaS = sumQ(anio - 1, q, 'salidas');
+  const comp = [
+    { label: 'Entradas', actual: nz(curE), mesAnterior: nz(paE), anioAnterior: nz(aaE), varMes: pct(curE, paE), varAnio: pct(curE, aaE) },
+    { label: 'Salidas', actual: nz(curS), mesAnterior: nz(paS), anioAnterior: nz(aaS), varMes: pct(curS, paS), varAnio: pct(curS, aaS) }
+  ];
+  const graficas = [];
+  const es = (cam.lpr && cam.lpr.entradasSalidasPorMes) || {};
+  const mo = Object.keys(es).filter((k) => k.slice(0, 4) === String(anio)).sort();
+  if (mo.length) {
+    graficas.push({ key: 'entradas_salidas_mes', titulo: 'Entradas y salidas por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map((k) => mesNombre(parseInt(k.slice(5), 10))), datasets: [{ label: 'Entradas', data: mo.map((k) => es[k].Avance || 0), color: '#2563eb' }, { label: 'Salidas', data: mo.map((k) => es[k].Retroceso || 0), color: '#f59e0b' }] } });
+    graficas.push({ key: 'saldo_mes', titulo: 'Saldo (entradas − salidas) por mes (' + anio + ')', spec: { tipo: 'bar', labels: mo.map((k) => mesNombre(parseInt(k.slice(5), 10))), datasets: [{ label: 'Saldo', data: mo.map((k) => (es[k].Avance || 0) - (es[k].Retroceso || 0)), color: '#16a34a' }] } });
+  }
+  graficas.push({ key: 'comparativa', titulo: 'Comparativa: trimestre actual vs trimestre anterior y año anterior', spec: compSpecTrim(comp) });
+  let per = 0, vm = 0, vs = 0; TRIM[q].forEach((m) => { const a = camAforo(cam, anio, m); if (a) { per += a.personas; vm += a.vehMotor; vs += a.vehSinMotor; } });
+  if (per || vm || vs) graficas.push({ key: 'aforo', titulo: 'Aforo del trimestre (paso total de personas y vehículos)', spec: { tipo: 'bar', labels: ['Personas', 'Veh. a motor', 'Veh. sin motor'], datasets: [{ label: 'Pasos', data: [per, vm, vs], color: '#7c3aed' }] } });
+  const kpis = [
+    { label: 'Entradas de vehículos', valor: nz(curE), comp: comp[0] },
+    { label: 'Salidas de vehículos', valor: nz(curS), comp: comp[1] },
+    { label: 'Saldo (entradas − salidas)', valor: (curE || curS) ? (curE - curS) : null }
+  ];
+  if (per || vm || vs) { kpis.push({ label: 'Personas (aforo)', valor: per }); kpis.push({ label: 'Veh. a motor (aforo)', valor: vm }); }
+  return { kpis, comparativa: comp, graficas, _hayDatos: !!(curE || curS || per) };
+}
+
+function buildResiduosTrim(dataCamion, gp, anio, q) {
+  const sumQ = (yr, qq, key) => TRIM[qq].reduce((a, m) => a + ((resMes(dataCamion, yr, m) || {})[key] || 0), 0);
+  const curK = sumQ(anio, q, 'kg'), curS = sumQ(anio, q, 'salidas');
+  const pq = prevTrim(anio, q);
+  const paK = sumQ(pq.anio, pq.q, 'kg'), paS = sumQ(pq.anio, pq.q, 'salidas');
+  const aaK = sumQ(anio - 1, q, 'kg'), aaS = sumQ(anio - 1, q, 'salidas');
+  const comp = [
+    { label: 'Kg recogidos', actual: nz(curK), mesAnterior: nz(paK), anioAnterior: nz(aaK), varMes: pct(curK, paK), varAnio: pct(curK, aaK) },
+    { label: 'Salidas', actual: nz(curS), mesAnterior: nz(paS), anioAnterior: nz(aaS), varMes: pct(curS, paS), varAnio: pct(curS, aaS) }
+  ];
+  const graficas = [];
+  const serie = {}; dataCamion.forEach((r) => { if (r.fecha && String(r.fecha).slice(0, 4) === String(anio)) { const m = parseInt(String(r.fecha).slice(5, 7), 10); serie[m] = { kg: (+r.kg || 0), salidas: (+r.salidas || 0) }; } });
+  const mo = Object.keys(serie).map(Number).sort((a, b) => a - b);
+  if (mo.length) {
+    graficas.push({ key: 'kg_mes', titulo: 'Kg recogidos por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(mesNombre), datasets: [{ label: 'Kg', data: mo.map((m) => serie[m].kg), color: '#2563eb' }] } });
+    graficas.push({ key: 'salidas_mes', titulo: 'Salidas del camión por mes (' + anio + ')', spec: { tipo: 'line', labels: mo.map(mesNombre), datasets: [{ label: 'Salidas', data: mo.map((m) => serie[m].salidas), color: '#f59e0b' }] } });
+  }
+  graficas.push({ key: 'comparativa', titulo: 'Comparativa: trimestre actual vs trimestre anterior y año anterior', spec: compSpecTrim(comp) });
+  const frac = { envases: 0, organica: 0, papel: 0 }; let gpTotal = 0, gpItems = [];
+  if (gp && gp.datos) {
+    const claves = TRIM[q].map((m) => anio + '-' + pad2(m));
+    const acc = {}; claves.forEach((k) => { const dm = gp.datos[k] || {}; Object.keys(dm).forEach((e) => { const d = dm[e]; acc[e] = (acc[e] || 0) + d.total; frac.envases += d.envases || 0; frac.organica += d.organica || 0; frac.papel += d.papel || 0; }); });
+    gpItems = Object.entries(acc).sort((a, b) => b[1] - a[1]).slice(0, 8).map((x) => ({ n: x[0], v: Math.round(x[1]) }));
+    gpTotal = frac.envases + frac.organica + frac.papel;
+    if (gpItems.length) graficas.push({ key: 'grandes_productores', titulo: 'Grandes productores del trimestre (kg, top 8)', spec: { tipo: 'barH', labels: gpItems.map((i) => i.n), datasets: [{ label: 'Kg', data: gpItems.map((i) => i.v), color: '#0ea5e9' }] } });
+    if (gpTotal > 0) graficas.push({ key: 'reparto_fraccion', titulo: 'Reparto por fracción (grandes productores)', spec: { tipo: 'bar', labels: ['Orgánica', 'Envases mezclados', 'Papel/Cartón'], datasets: [{ label: 'Kg', data: [Math.round(frac.organica), Math.round(frac.envases), Math.round(frac.papel)], color: '#16a34a' }] } });
+  }
+  const an = resAnual(dataCamion); if (an.years.length > 1) graficas.push({ key: 'kg_anual', titulo: 'Kg recogidos por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Kg', data: an.vals, color: '#16a34a' }] } });
+  const kpis = [{ label: 'Kg recogidos (camión)', valor: nz(curK), unidad: 'kg', comp: comp[0] }, { label: 'Salidas del camión', valor: nz(curS), comp: comp[1] }];
+  if (gpTotal > 0) { kpis.push({ label: 'Recogida grandes productores', valor: Math.round(gpTotal), unidad: 'kg' }); kpis.push({ label: 'Orgánica (grandes prod.)', valor: gpTotal ? Math.round(1000 * frac.organica / gpTotal) / 10 : 0, unidad: '%' }); }
+  return { kpis, comparativa: comp, graficas, _hayDatos: !!(curK || curS) };
+}
+
+function turValTrim(tur, cat, met, anio, q) {
+  const vals = TRIM[q].map((m) => turVal(tur, cat, met, anio, m)).filter((x) => x != null);
+  if (!vals.length) return null;
+  const isRate = ['grado_ocupacion', 'adr', 'revpar', 'estancia_media'].includes(met);
+  return isRate ? vals.reduce((a, b) => a + b, 0) / vals.length : vals.reduce((a, b) => a + b, 0);
+}
+function turProcedenciaTrim(tur, anio, q) {
+  const proc = (tur.series.procedencia || []).filter((s) => s.residencia === 'ccaa' && s.nombre !== 'Total Nacional');
+  return proc.map((s) => { const v = (s.data || []).filter((d) => String(d.anyo) === String(anio) && TRIM[q].includes(+d.mes)).reduce((a, b) => a + (b.valor || 0), 0); return { n: s.nombre, v: Math.round(v) }; }).filter((x) => x.v > 0).sort((a, b) => b.v - a.v).slice(0, 8);
+}
+function buildTurismoTrim(tur, anio, q) {
+  const pq = prevTrim(anio, q);
+  const cmp = (cat, met, label) => { const act = turValTrim(tur, cat, met, anio, q); const pa = turValTrim(tur, cat, met, pq.anio, pq.q); const aa = turValTrim(tur, cat, met, anio - 1, q); return { label, actual: act, mesAnterior: pa, anioAnterior: aa, varMes: pct(act, pa), varAnio: pct(act, aa) }; };
+  const comp = [cmp('hoteles', 'viajeros', 'Viajeros hoteles'), cmp('hoteles', 'pernoctaciones', 'Pernoctaciones'), cmp('hoteles', 'grado_ocupacion', 'Ocupación %'), cmp('hoteles', 'adr', 'Tarifa media (ADR)')];
+  const graficas = [];
+  const addLine = (key, titulo, cat, met, color) => { const s = turSerie(tur, cat, met, anio); const mo = Object.keys(s).map(Number).sort((a, b) => a - b); if (mo.length && mo.some((m) => s[m] != null)) graficas.push({ key, titulo, spec: { tipo: 'line', labels: mo.map(mesNombre), datasets: [{ label: titulo, data: mo.map((m) => s[m]), color }] } }); };
+  addLine('viajeros_mes', 'Viajeros en hoteles por mes (' + anio + ')', 'hoteles', 'viajeros', '#2563eb');
+  addLine('pernoctaciones_mes', 'Pernoctaciones en hoteles por mes (' + anio + ')', 'hoteles', 'pernoctaciones', '#7c3aed');
+  addLine('ocupacion_mes', 'Ocupación hotelera por mes % (' + anio + ')', 'hoteles', 'grado_ocupacion', '#0891b2');
+  addLine('adr_mes', 'Tarifa media (ADR) por mes € (' + anio + ')', 'hoteles', 'adr', '#d97706');
+  addLine('revpar_mes', 'RevPAR por mes € (' + anio + ')', 'hoteles', 'revpar', '#db2777');
+  graficas.push({ key: 'comparativa', titulo: 'Comparativa: trimestre actual vs trimestre anterior y año anterior', spec: compSpecTrim(comp) });
+  const tipo = [{ n: 'Hoteles', v: turValTrim(tur, 'hoteles', 'viajeros', anio, q) }, { n: 'Apartamentos', v: turValTrim(tur, 'apartamentos', 'viajeros', anio, q) }, { n: 'Campings', v: turValTrim(tur, 'campings', 'viajeros', anio, q) }].filter((x) => x.v != null);
+  if (tipo.length) graficas.push({ key: 'viajeros_por_tipo', titulo: 'Viajeros por tipo de alojamiento (trimestre)', spec: { tipo: 'bar', labels: tipo.map((i) => i.n), datasets: [{ label: 'Viajeros', data: tipo.map((i) => i.v), color: '#0ea5e9' }] } });
+  const ocup = [{ n: 'Hoteles', v: turValTrim(tur, 'hoteles', 'grado_ocupacion', anio, q) }, { n: 'Apartamentos', v: turValTrim(tur, 'apartamentos', 'grado_ocupacion', anio, q) }, { n: 'Campings', v: turValTrim(tur, 'campings', 'grado_ocupacion', anio, q) }].filter((x) => x.v != null);
+  if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%) — media del trimestre', spec: { tipo: 'bar', labels: ocup.map((i) => i.n), datasets: [{ label: 'Ocupación %', data: ocup.map((i) => Math.round(i.v * 10) / 10), color: '#0891b2' }] } });
+  const proc = turProcedenciaTrim(tur, anio, q);
+  if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA, trimestre)', spec: { tipo: 'barH', labels: proc.map((i) => i.n), datasets: [{ label: 'Turistas', data: proc.map((i) => i.v), color: '#7c3aed' }] } });
+  const an = turAnual(tur, 'hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+  const kpis = [
+    { label: 'Viajeros hoteles', valor: turValTrim(tur, 'hoteles', 'viajeros', anio, q), comp: comp[0] },
+    { label: 'Pernoctaciones hoteles', valor: turValTrim(tur, 'hoteles', 'pernoctaciones', anio, q), comp: comp[1] },
+    { label: 'Ocupación hotelera (media)', valor: turValTrim(tur, 'hoteles', 'grado_ocupacion', anio, q), unidad: '%', comp: comp[2] },
+    { label: 'Tarifa media ADR (media)', valor: turValTrim(tur, 'hoteles', 'adr', anio, q), unidad: '€', comp: comp[3] },
+    { label: 'Estancia media', valor: turValTrim(tur, 'hoteles', 'estancia_media', anio, q), unidad: 'noches' },
+    { label: 'Viajeros apartamentos', valor: turValTrim(tur, 'apartamentos', 'viajeros', anio, q) },
+    { label: 'Viajeros campings', valor: turValTrim(tur, 'campings', 'viajeros', anio, q) }
+  ];
+  return { kpis, comparativa: comp, graficas, _hayDatos: kpis.some((k) => k.valor != null) };
+}
+
+const TRIM_BUILD = { camaras: (d, a, q) => buildCamarasTrim(d, a, q), residuos: (d, a, q) => buildResiduosTrim(d.camion, d.gp, a, q), turismo: (d, a, q) => buildTurismoTrim(d, a, q) };
+
+async function generarTrimestre(ambito, anio, q, dataset) {
+  const build = TRIM_BUILD[ambito];
+  const data = build(dataset, anio, q);
+  if (!data._hayDatos) { return { skip: true }; }
+  const datos = toDatos(data);
+  const label = trimLabel(anio, q);
+  const r = await fetch(`${PROD}/api/informe-ia`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ambito, periodoLabel: label, datos }) });
+  if (!r.ok) { const t = await r.text(); throw new Error(`HTTP ${r.status}: ${t.slice(0, 160)}`); }
+  const res = await r.json();
+  if (res.error) throw new Error(res.error);
+  const dir = path.join(OUT_BASE, ambito); fs.mkdirSync(dir, { recursive: true });
+  const ym = `${anio}-Q${q}`;
+  const dataFull = Object.assign({}, data, { periodoLabel: label, anio, mes: null, trimestre: q });
+  const registro = { ambito, anio, mes: null, trimestre: q, ym, periodoLabel: label, texto: res.texto, data: dataFull, generadoEl: new Date().toISOString() };
+  fs.writeFileSync(path.join(dir, `${ym}.json`), JSON.stringify(registro));
+  return { palabras: (res.texto || '').split(/\s+/).length, graficas: data.graficas.length, kpis: data.kpis.length };
+}
+
 /* ===================== runner ===================== */
 const AMBITOS = {
   camaras: {
@@ -246,9 +382,9 @@ function construirManifest() {
     for (const amb of fs.readdirSync(OUT_BASE)) {
       const dir = path.join(OUT_BASE, amb);
       if (!fs.statSync(dir).isDirectory()) continue;
-      const items = fs.readdirSync(dir).filter((f) => /^\d{4}-\d{2}\.json$/.test(f)).map((f) => {
+      const items = fs.readdirSync(dir).filter((f) => /^\d{4}-(\d{2}|Q[1-4])\.json$/.test(f)).map((f) => {
         const j = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
-        return { anio: j.anio, mes: j.mes, ym: f.replace('.json', ''), periodoLabel: j.periodoLabel, generadoEl: j.generadoEl };
+        return { anio: j.anio, mes: j.mes, trimestre: j.trimestre || null, ym: f.replace('.json', ''), periodoLabel: j.periodoLabel, generadoEl: j.generadoEl };
       }).sort((a, b) => a.ym.localeCompare(b.ym));
       manifest[amb] = items;
     }
@@ -263,9 +399,46 @@ async function main() {
   const ambito = process.argv[2];
   const soloMes = process.argv[3];
   if (ambito === 'manifest') { construirManifest(); return; }
+
+  // Modo trimestres: node generar_archivo_informes.js trimestres 2026 [ambito]
+  if (ambito === 'trimestres') {
+    const anio = parseInt(process.argv[3], 10);
+    if (!anio) { console.error('Uso: node generar_archivo_informes.js trimestres <anio> [ambito]'); process.exit(1); }
+    const soloAmb = process.argv[4];
+    const ambitos = soloAmb ? [soloAmb] : ['camaras', 'residuos', 'turismo'];
+    let ok = 0, skip = 0, fail = 0;
+    for (const amb of ambitos) {
+      const dataset = AMBITOS[amb].load();
+      for (let q = 1; q <= 4; q++) {
+        try {
+          const info = await generarTrimestre(amb, anio, q, dataset);
+          if (info.skip) { skip++; console.log(`  ⏭️  ${amb} ${anio}-Q${q} — sin datos, omitido`); continue; }
+          ok++; console.log(`  ✅ ${amb} ${anio}-Q${q} — ${info.palabras} palabras, ${info.graficas} gráficas, ${info.kpis} KPIs`);
+        } catch (e) { fail++; console.error(`  ❌ ${amb} ${anio}-Q${q} — ${e.message}`); }
+        await sleep(1500);
+      }
+    }
+    construirManifest();
+    console.log(`\nTrimestres ${anio}: ${ok} ok, ${skip} omitidos, ${fail} fallos.`);
+    return;
+  }
+
   if (!AMBITOS[ambito]) { console.error('Ámbito no implementado:', ambito, '(disponible:', Object.keys(AMBITOS).join(', ') + ')'); process.exit(1); }
   const spec = AMBITOS[ambito];
   const dataset = spec.load();
+
+  // Un trimestre suelto: node generar_archivo_informes.js camaras 2026-Q2
+  const mq = soloMes && soloMes.match(/^(\d{4})-Q([1-4])$/);
+  if (mq) {
+    try {
+      const info = await generarTrimestre(ambito, parseInt(mq[1], 10), parseInt(mq[2], 10), dataset);
+      if (info.skip) console.log(`  ⏭️  ${ambito} ${soloMes} — sin datos`);
+      else console.log(`  ✅ ${ambito} ${soloMes} — ${info.palabras} palabras, ${info.graficas} gráficas, ${info.kpis} KPIs`);
+    } catch (e) { console.error(`  ❌ ${ambito} ${soloMes} — ${e.message}`); }
+    construirManifest();
+    return;
+  }
+
   let meses = spec.meses(dataset);
   if (soloMes) meses = meses.filter((m) => m === soloMes);
   console.log(`🗂️  ${ambito}: ${meses.length} meses a generar → ${PROD}`);
