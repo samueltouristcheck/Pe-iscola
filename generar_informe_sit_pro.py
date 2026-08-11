@@ -15,6 +15,18 @@ PROD = os.environ.get('SIT_API', 'https://pe-iscola.onrender.com')
 AZUL, AMBAR, GRIS = '#1d4ed8', '#b45309', '#64748b'
 DIAS = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
 
+# Configuración de los 9 puntos de control según la especificación del Ayuntamiento
+# (nombre exacto + etiquetas de sentido propias de cada cámara).
+PUNTOS = {
+    'estibaliz': {'n': 1, 'nombre': 'Rotonda Estíbaliz', 'ent': 'Entrada al municipio', 'sal': 'Salida del municipio'},
+    'irta':      {'n': 2, 'nombre': 'Cámara Calle Irta', 'ent': 'Sentido Pueblo', 'sal': 'Sentido Parque'},
+    'abellers':  {'n': 3, 'nombre': 'Rotonda Abellers', 'ent': 'Entrada', 'sal': 'Salida'},
+    'fosc':      {'n': 6, 'nombre': 'Cámara Portal Fosc (Rampa Felipe II – Plaza de Bous – acceso a Santa María)', 'ent': 'Peatones entrada', 'sal': 'Peatones salida'},
+    'mar':       {'n': 7, 'nombre': 'Cámara Avenida de la Mar', 'ent': 'Peatones entrada', 'sal': 'Peatones salida'},
+    'ayto':      {'n': 8, 'nombre': 'Cámara Ayuntamiento', 'ent': 'Peatones subida', 'sal': 'Peatones bajada'},
+    'santpere':  {'n': 9, 'nombre': 'Cámara Portal de Sant Pere', 'ent': 'Peatones entrada', 'sal': 'Peatones salida'},
+}
+
 def fmt(n):
     try: return format(int(round(n)), ',').replace(',', '.')
     except Exception: return str(n)
@@ -74,55 +86,67 @@ def kpi(v, lbl, sub=''):
     return '<div class="kpi"><div class="kpi-v">%s</div><div class="kpi-l">%s</div>%s</div>' % (v, lbl, ('<div class="kpi-s">%s</div>' % sub) if sub else '')
 
 # --- fichas ---
-def ficha_lpr(n, c):
+def ficha_lpr(cfg, c):
+    n, nombre, le, ls = cfg['n'], cfg['nombre'], cfg['ent'], cfg['sal']
     return ('<div class="ficha"><div class="ficha-h"><span class="pnum">%d</span><h3>%s '
-            '<span class="tag">Tráfico · LPR</span></h3></div>'
+            '<span class="tag">Tráfico · LPR (matrículas)</span></h3></div>'
             '<div class="kpis mini">%s%s%s%s</div>'
-            '<div class="sub">Entradas y salidas por día</div>%s'
-            '<div class="sub">Distribución por franjas horarias (azul entrada · ámbar salida)</div>%s'
-            '<div class="punta">Franja punta — <b>entrada</b>: %s (%s veh.) · <b>salida</b>: %s (%s veh.)</div>'
-            '<div class="sub">Procedencia de la matrícula</div>%s'
-            '<div class="lf">Laborable: <b>%s</b> ent / <b>%s</b> sal · Fin de semana: <b>%s</b> ent / <b>%s</b> sal</div></div>'
-            % (n, esc(c['nombre']),
-               kpi(fmt(c['totalEnt']), 'Entradas'), kpi(fmt(c['totalSal']), 'Salidas'),
-               kpi(('+' if c['balance'] >= 0 else '') + fmt(c['balance']), 'Balance'),
-               kpi(str(c['proc']['pctExt']).replace('.', ',') + '%', 'Extranjera'),
-               sparkline(c['diario'], 'ent', 'sal'), barras_franjas(c['franjas']),
-               c['picoEnt']['franja'], fmt(c['picoEnt']['val']), c['picoSal']['franja'], fmt(c['picoSal']['val']),
+            '<div class="sub">Vehículos por día (%s en azul · %s en ámbar)</div>%s'
+            '<div class="sub">Distribución por franjas horarias</div>%s'
+            '<div class="punta">Franja horaria de mayor intensidad — <b>%s</b>: %s (%s veh.) · <b>%s</b>: %s (%s veh.)</div>'
+            '<div class="sub">Procedencia de la matrícula (nacional / extranjera)</div>%s'
+            '<div class="lf">Laborable: <b>%s</b> / <b>%s</b> · Fin de semana: <b>%s</b> / <b>%s</b> (%s / %s)</div></div>'
+            % (n, esc(nombre),
+               kpi(fmt(c['totalEnt']), le), kpi(fmt(c['totalSal']), ls),
+               kpi(('+' if c['balance'] >= 0 else '') + fmt(c['balance']), 'Balance del periodo'),
+               kpi(str(c['proc']['pctExt']).replace('.', ',') + '%', 'Matrícula extranjera'),
+               esc(le), esc(ls), sparkline(c['diario'], 'ent', 'sal'), barras_franjas(c['franjas']),
+               esc(le), c['picoEnt']['franja'], fmt(c['picoEnt']['val']), esc(ls), c['picoSal']['franja'], fmt(c['picoSal']['val']),
                barra_proc(c['proc']),
-               fmt(c['lab']['ent']), fmt(c['lab']['sal']), fmt(c['fin']['ent']), fmt(c['fin']['sal'])))
+               fmt(c['lab']['ent']), fmt(c['lab']['sal']), fmt(c['fin']['ent']), fmt(c['fin']['sal']), esc(le), esc(ls)))
 
-def ficha_aforo(n, c):
+def ficha_aforo(cfg, c):
+    n, nombre, le, ls = cfg['n'], cfg['nombre'], cfg['ent'], cfg['sal']
     return ('<div class="ficha"><div class="ficha-h"><span class="pnum">%d</span><h3>%s '
             '<span class="tag aforo">Aforo · peatones y vehículos</span></h3></div>'
             '<div class="kpis mini">%s%s%s%s</div>'
-            '<div class="sub">Peatones por día (entrada azul · salida ámbar)</div>%s'
-            '<div class="sub">Peatones por franjas horarias</div>%s'
-            '<div class="punta">Franja punta peatonal — <b>entrada</b>: %s (%s) · <b>salida</b>: %s (%s)</div>'
-            '<div class="lf">Laborable: <b>%s</b> ent / <b>%s</b> sal · Fin de semana: <b>%s</b> ent / <b>%s</b> sal</div></div>'
-            % (n, esc(c['nombre']),
-               kpi(fmt(c['totalEnt']), 'Peatones entrada'), kpi(fmt(c['totalSal']), 'Peatones salida'),
+            '<div class="sub">Peatones por día (%s en azul · %s en ámbar)</div>%s'
+            '<div class="sub">Peatones desglosados por franjas horarias</div>%s'
+            '<div class="punta">Franja horaria de mayor concentración — <b>%s</b>: %s (%s) · <b>%s</b>: %s (%s)</div>'
+            '<div class="lf">Laborable: <b>%s</b> / <b>%s</b> · Fin de semana: <b>%s</b> / <b>%s</b> (%s / %s)</div></div>'
+            % (n, esc(nombre),
+               kpi(fmt(c['totalEnt']), le), kpi(fmt(c['totalSal']), ls),
                kpi(fmt(c['vehEnt']), 'Vehículos entrada'), kpi(fmt(c['vehSal']), 'Vehículos salida'),
-               sparkline(c['diario'], 'ent', 'sal'), barras_franjas(c['franjas']),
-               c['picoEnt']['franja'], fmt(c['picoEnt']['val']), c['picoSal']['franja'], fmt(c['picoSal']['val']),
-               fmt(c['lab']['ent']), fmt(c['lab']['sal']), fmt(c['fin']['ent']), fmt(c['fin']['sal'])))
+               esc(le), esc(ls), sparkline(c['diario'], 'ent', 'sal'), barras_franjas(c['franjas']),
+               esc(le), c['picoEnt']['franja'], fmt(c['picoEnt']['val']), esc(ls), c['picoSal']['franja'], fmt(c['picoSal']['val']),
+               fmt(c['lab']['ent']), fmt(c['lab']['sal']), fmt(c['fin']['ent']), fmt(c['fin']['sal']), esc(le), esc(ls)))
 
-def ficha_pend(n, titulo, motivo):
-    return '<div class="ficha pend"><div class="ficha-h"><span class="pnum">%d</span><h3>%s</h3></div><p class="pend-t">Pendiente de instalación/configuración. %s</p></div>' % (n, esc(titulo), esc(motivo))
+def ficha_pend(n, titulo, requeridos):
+    lis = ''.join('<li>' + esc(r) + '</li>' for r in requeridos)
+    return ('<div class="ficha pend"><div class="ficha-h"><span class="pnum">%d</span><h3>%s</h3></div>'
+            '<p class="pend-t">Punto pendiente: la cámara aún no está dada de alta/configurada en el sistema. '
+            'Cuando esté operativa, este apartado incorporará la información requerida por la especificación:</p>'
+            '<ul class="pend-req">%s</ul></div>' % (n, esc(titulo), lis))
 
 # --- análisis redactado por IA (producción) ---
 def resumen_datos(lpr, af):
     cams = []
     for k, c in lpr.items():
         if c:
-            cams.append({'clave': k, 'nombre': c['nombre'], 'tipo': 'LPR', 'entradas': c['totalEnt'], 'salidas': c['totalSal'],
-                         'balance': c['balance'], 'picoEntrada': c['picoEnt'], 'picoSalida': c['picoSal'],
+            p = PUNTOS.get(k, {})
+            cams.append({'clave': k, 'nombre': p.get('nombre', c['nombre']), 'tipo': 'LPR',
+                         'sentidoA': p.get('ent', 'entrada'), 'sentidoB': p.get('sal', 'salida'),
+                         'vehiculosSentidoA': c['totalEnt'], 'vehiculosSentidoB': c['totalSal'],
+                         'balance': c['balance'], 'picoSentidoA': c['picoEnt'], 'picoSentidoB': c['picoSal'],
                          'pctExtranjera': c['proc']['pctExt'], 'laborable': c['lab'], 'finde': c['fin']})
     for k, c in af.items():
         if c:
-            cams.append({'clave': k, 'nombre': c['nombre'], 'tipo': 'aforo', 'peatonesEntrada': c['totalEnt'], 'peatonesSalida': c['totalSal'],
-                         'vehiculosEntrada': c['vehEnt'], 'vehiculosSalida': c['vehSal'], 'picoPeatonEntrada': c['picoEnt'],
-                         'picoPeatonSalida': c['picoSal'], 'laborable': c['lab'], 'finde': c['fin']})
+            p = PUNTOS.get(k, {})
+            cams.append({'clave': k, 'nombre': p.get('nombre', c['nombre']), 'tipo': 'aforo',
+                         'sentidoA': p.get('ent', 'peatones entrada'), 'sentidoB': p.get('sal', 'peatones salida'),
+                         'peatonesSentidoA': c['totalEnt'], 'peatonesSentidoB': c['totalSal'],
+                         'vehiculosEntrada': c['vehEnt'], 'vehiculosSalida': c['vehSal'], 'picoPeatonA': c['picoEnt'],
+                         'picoPeatonB': c['picoSal'], 'laborable': c['lab'], 'finde': c['fin']})
     return cams
 
 def parse_secciones(txt):
@@ -179,25 +203,40 @@ def generar(mes):
     tot_ext = sum(c['proc']['ext'] for c in lpr.values() if c)
     pct_ext = round(100*tot_ext/(tot_nac+tot_ext), 1) if (tot_nac+tot_ext) else 0
 
-    orden = [('lpr', 1, 'estibaliz', 'Rotonda Estíbaliz'), ('lpr', 2, 'irta', 'Cámara Calle Irta'),
-             ('lpr', 3, 'abellers', 'Rotonda Abellers'),
-             ('pend', 4, None, 'Parking Disuasorio — turismos'), ('pend', 5, None, 'Parking Disuasorio — autobuses'),
-             ('af', 6, 'fosc', None), ('af', 7, 'mar', None), ('af', 8, 'ayto', None), ('af', 9, 'santpere', None)]
+    orden = [('lpr', 'estibaliz'), ('lpr', 'irta'), ('lpr', 'abellers'),
+             ('pend4', None), ('pend5', None),
+             ('af', 'fosc'), ('af', 'mar'), ('af', 'ayto'), ('af', 'santpere')]
+    PEND = {
+        4: ('Parking Disuasorio — Cámaras de vehículos (turismos)',
+            ['Número diario de vehículos que acceden al parking.',
+             'Número diario de vehículos que abandonan el parking.',
+             'Identificación individual de entradas y salidas de cada vehículo (hora de acceso y de salida).',
+             'Franja horaria con mayor número de entradas.',
+             'Franja horaria con mayor número de salidas.']),
+        5: ('Parking Disuasorio — Cámaras de autobuses',
+            ['Número diario de autobuses que acceden al parking.',
+             'Número diario de autobuses que abandonan el parking.',
+             'Tiempo de permanencia de cada autobús dentro del recinto (filtrado por tipo «autobús»).']),
+    }
     def con_nota(html, key):
         nota = an['cam'].get(key, '')
         if not nota: return html
         idx = html.rfind('</div>')
         return html[:idx] + '<div class="cam-nota">' + esc(nota) + '</div>' + html[idx:]
+    def ficha_sindatos(cfg):
+        return ('<div class="ficha pend"><div class="ficha-h"><span class="pnum">%d</span><h3>%s</h3></div>'
+                '<p class="pend-t">Sin datos disponibles para este periodo. Las lecturas de matrícula (LPR) '
+                'solo están disponibles hasta junio de 2026.</p></div>' % (cfg['n'], esc(cfg['nombre'])))
     fichas = ''
-    for tipo, num_p, key, tit in orden:
-        if tipo == 'lpr' and lpr.get(key):
-            fichas += con_nota(ficha_lpr(num_p, lpr[key]), key)
-        elif tipo == 'af' and af.get(key):
-            fichas += con_nota(ficha_aforo(num_p, af[key]), key)
-        elif tipo == 'pend':
-            fichas += ficha_pend(num_p, tit, 'La cámara aún no está dada de alta en el sistema (parking disuasorio de turismos y autobuses).')
-        else:
-            fichas += ficha_pend(num_p, tit or key, 'Sin datos disponibles para este mes.')
+    for tipo, key in orden:
+        if tipo == 'pend4':
+            fichas += ficha_pend(4, PEND[4][0], PEND[4][1])
+        elif tipo == 'pend5':
+            fichas += ficha_pend(5, PEND[5][0], PEND[5][1])
+        elif tipo == 'lpr':
+            fichas += con_nota(ficha_lpr(PUNTOS[key], lpr[key]), key) if lpr.get(key) else ficha_sindatos(PUNTOS[key])
+        elif tipo == 'af':
+            fichas += con_nota(ficha_aforo(PUNTOS[key], af[key]), key) if af.get(key) else ficha_sindatos(PUNTOS[key])
 
     css = """
     body{font-family:'Segoe UI',Arial,sans-serif;color:#1e293b;max-width:840px;margin:0 auto;padding:26px;line-height:1.5}
@@ -224,6 +263,8 @@ def generar(mes):
     .proc-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle}
     .ficha.pend{background:#fffbeb;border-color:#fde68a}.pend .pnum{background:#d97706}
     .pend-t{color:#92400e;font-size:.85rem;margin:0}
+    .pend-req{margin:8px 0 0 0;padding:0 0 0 18px;color:#92400e;font-size:.82rem}
+    .pend-req li{margin:3px 0}
     .box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;font-size:.85rem}
     .box ul{margin:6px 0 0 16px;padding:0}.box li{margin:3px 0}
     .warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:8px;padding:10px 12px;font-size:.82rem;margin:10px 0}
@@ -243,6 +284,13 @@ def generar(mes):
             '<div class="meta">Sistema de Inteligencia Turística (SIT) · Ayuntamiento de Peñíscola · <b>%s</b> · v1</div>'
             % (esc(d['periodoLabel']), css, esc(d['periodoLabel'])))
 
+    # Objeto del informe (según especificación del Ayuntamiento)
+    html += ('<div class="box" style="margin-bottom:6px"><b>Objeto.</b> Este informe incorpora al Sistema de Inteligencia Turística (SIT) '
+             'de Peñíscola la información obtenida de las cámaras de control de tráfico y aforo del municipio, con el fin de analizar la '
+             'movilidad, los flujos de visitantes y el comportamiento de los usuarios del destino. Se estructura en los <b>9 puntos de control</b> '
+             'definidos por el Ayuntamiento, detallando para cada uno los datos requeridos (volúmenes por sentido, balance, franjas horarias de '
+             'mayor intensidad, procedencia de la matrícula y flujos peatonales).</div>')
+
     # Resumen ejecutivo
     html += ('<h2>1. Resumen ejecutivo</h2><div class="kpis">'
              + kpi(fmt(veh_ent), 'Vehículos de entrada', 'suma de cámaras LPR')
@@ -260,9 +308,9 @@ def generar(mes):
     # Metodología
     filas_cam = ''
     for k, c in list(lpr.items()):
-        filas_cam += '<tr><td>%s</td><td>LPR (matrículas)</td></tr>' % esc(c['nombre']) if c else ''
+        filas_cam += '<tr><td>%s</td><td>LPR (matrículas)</td></tr>' % esc(PUNTOS.get(k, {}).get('nombre', c['nombre'])) if c else ''
     for k, c in list(af.items()):
-        filas_cam += '<tr><td>%s</td><td>Aforo multiobjeto (personas + vehículos)</td></tr>' % esc(c['nombre']) if c else ''
+        filas_cam += '<tr><td>%s</td><td>Aforo multiobjeto (personas + vehículos)</td></tr>' % esc(PUNTOS.get(k, {}).get('nombre', c['nombre'])) if c else ''
     html += ('<h2>2. Metodología y calidad del dato</h2><div class="box">'
              '<p><b>Cámaras con dato este periodo:</b></p><table class="def">%s</table>'
              '<p style="margin-top:10px"><b>Definiciones:</b></p><table class="def">'
