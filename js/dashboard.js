@@ -4078,6 +4078,37 @@
     var wbtn = document.getElementById('inf-' + amb + '-word'); if (wbtn) wbtn.onclick = function () { infDownloadWord(amb); };
     var pdfb = document.getElementById('inf-' + amb + '-pdf'); if (pdfb) pdfb.onclick = function () { infDownloadPdf(amb, pdfb); };
     data.graficas.forEach(function (g) { if (used[g.key]) st.charts[g.key] = infMakeChart(chartId(g.key), g.spec); });
+    infAppendSitPro(amb, data);
+  }
+  // Combina el informe profesional SIT (HTML estático por punto de control) dentro del informe de Cámaras
+  function infAppendSitPro(amb, data) {
+    if (amb !== 'camaras') return;
+    var doc = document.querySelector('#inf-' + amb + '-salida .informe-doc'); if (!doc) return;
+    var prev = doc.querySelector('.inf-sitpro'); if (prev) prev.remove();
+    fetch('data/informes_sit/manifest.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (m) {
+      var items = (m && m.informes) || [];
+      var it = null;
+      for (var i = 0; i < items.length; i++) { if (items[i].label === data.periodoLabel) { it = items[i]; break; } }
+      if (!it) return;
+      var url = 'data/informes_sit/' + it.archivo + '?t=' + Date.now();
+      var sec = document.createElement('div'); sec.className = 'inf-sitpro';
+      sec.innerHTML =
+        '<div class="inf-sitpro-head">' +
+        '<div><div class="inf-sitpro-eyebrow">Continúa el informe</div>' +
+        '<h3 class="inf-sitpro-title">Informe profesional por punto de control (SIT)</h3>' +
+        '<p class="inf-sitpro-desc">Ficha detallada de cada una de las 9 cámaras según la especificación del Ayuntamiento: series diarias, franjas horarias, franja punta, procedencia y laborable/fin de semana.</p></div>' +
+        '<div class="inf-sitpro-actions"><button type="button" class="reload-btn inf-sitpro-open" style="background:#1d4ed8;color:#fff">Abrir a pantalla completa</button>' +
+        '<a class="reload-btn inf-sitpro-dl" style="background:#334155;color:#fff;text-decoration:none" download="' + it.archivo + '">Descargar</a></div></div>' +
+        '<iframe class="inf-sitpro-frame" title="Informe profesional SIT" loading="lazy"></iframe>';
+      doc.appendChild(sec);
+      var frame = sec.querySelector('.inf-sitpro-frame');
+      var openBtn = sec.querySelector('.inf-sitpro-open'), dl = sec.querySelector('.inf-sitpro-dl');
+      if (openBtn) openBtn.onclick = function () { window.open(url, '_blank'); };
+      if (dl) dl.href = url;
+      var ajusta = function () { try { var h = frame.contentDocument.body.scrollHeight; if (h) frame.style.height = (h + 30) + 'px'; } catch (e) { } };
+      frame.onload = function () { ajusta(); setTimeout(ajusta, 500); setTimeout(ajusta, 1500); };
+      frame.src = url;
+    }).catch(function () { });
   }
   function infDownloadPdf(amb, btn) {
     if (typeof window.html2canvas !== 'function' || !window.jspdf || !window.jspdf.jsPDF) { alert('No se pudieron cargar las librerías de PDF (revisa la conexión).'); return; }
