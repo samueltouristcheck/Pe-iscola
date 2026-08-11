@@ -174,25 +174,31 @@
 .nav::-webkit-scrollbar-track { background: transparent; }
 
 /* ===== Archivo / registro de informes ===== */
-.inf-arch-year { margin-bottom: 1.15rem; }
-.inf-arch-year-head { display: flex; align-items: center; gap: .45rem; font-weight: 700; color: #1e293b; font-size: .95rem; margin-bottom: .65rem; padding-bottom: .4rem; border-bottom: 1px solid #e2e8f0; }
-.inf-arch-year-badge { margin-left: auto; font-weight: 600; font-size: .72rem; color: #475569; background: #f1f5f9; border-radius: 999px; padding: .14rem .6rem; }
-.inf-arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(116px, 1fr)); gap: .65rem; }
-.inf-arch-card { position: relative; display: flex; flex-direction: column; align-items: center; gap: .2rem; padding: .95rem .5rem .75rem; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; overflow: hidden; font-family: inherit; }
-.inf-arch-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--arch-accent, #6366f1); }
-.inf-arch-card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(15, 23, 42, .13); border-color: var(--arch-accent, #6366f1); }
-.inf-arch-card-ico { font-size: 1.6rem; line-height: 1; margin-top: .1rem; }
-.inf-arch-card-mes { font-weight: 700; color: #1e293b; font-size: .9rem; }
-.inf-arch-card-anio { font-size: .72rem; color: #94a3b8; }
+.inf-arch-year { margin-bottom: 1.8rem; }
+.inf-arch-year-head { display: flex; align-items: center; gap: .55rem; font-weight: 800; color: #0f172a; font-size: 1.2rem; margin-bottom: .95rem; padding-bottom: .6rem; border-bottom: 2px solid #e2e8f0; }
+.inf-arch-year-badge { margin-left: auto; font-weight: 600; font-size: .76rem; color: #475569; background: #f1f5f9; border-radius: 999px; padding: .22rem .75rem; }
+.inf-arch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .95rem; }
+.inf-arch-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem; min-height: 142px; padding: 1.25rem .8rem 1.05rem; border: 1px solid #e2e8f0; border-radius: 18px; background: #fff; background: linear-gradient(158deg, #fff 42%, color-mix(in srgb, var(--arch-accent, #6366f1) 11%, #fff)); cursor: pointer; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; overflow: hidden; font-family: inherit; }
+.inf-arch-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--arch-accent, #6366f1); }
+.inf-arch-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(15, 23, 42, .17); border-color: var(--arch-accent, #6366f1); }
+.inf-arch-card-ico { font-size: 1.7rem; line-height: 1; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: color-mix(in srgb, var(--arch-accent, #6366f1) 15%, #fff); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--arch-accent, #6366f1) 24%, #fff); }
+.inf-arch-card-mes { font-weight: 800; color: #0f172a; font-size: 1.15rem; }
+.inf-arch-card-anio { font-size: .77rem; color: #94a3b8; font-weight: 600; }
+.inf-arch-card::after { content: 'Abrir →'; font-size: .72rem; font-weight: 700; color: var(--arch-accent, #6366f1); opacity: 0; transform: translateY(5px); transition: opacity .16s ease, transform .16s ease; }
+.inf-arch-card:hover::after { opacity: 1; transform: translateY(0); }
 /* Subcarpetas por trimestre dentro de cada año */
-.inf-arch-trim { margin: .6rem 0 1rem; padding-left: .7rem; border-left: 2px dashed #e2e8f0; }
-.inf-arch-trim-head { display: flex; align-items: center; gap: .5rem; font-weight: 600; color: #334155; font-size: .84rem; margin-bottom: .5rem; }
+.inf-arch-trim { margin: .85rem 0 1.4rem; padding-left: .95rem; border-left: 3px solid #eef2f7; }
+.inf-arch-trim-head { display: flex; align-items: center; gap: .55rem; font-weight: 700; color: #334155; font-size: .98rem; margin-bottom: .75rem; }
 .inf-arch-trim-sub { color: #94a3b8; font-weight: 500; }
-.inf-arch-trim-tag { font-size: .68rem; font-weight: 600; color: #15803d; background: #dcfce7; border-radius: 999px; padding: .1rem .55rem; }
-.inf-arch-trim-pend { font-size: .68rem; font-weight: 600; color: #b45309; background: #fef3c7; border-radius: 999px; padding: .1rem .55rem; }
-.inf-arch-card-trim::before { height: 6px; background: linear-gradient(90deg, var(--arch-accent, #6366f1), #0ea5e9); }
-.inf-arch-card-trim { background: #f8fafc; border-color: var(--arch-accent, #6366f1); }
-.inf-arch-card-trim .inf-arch-card-mes { color: var(--arch-accent, #1d4ed8); }
+.inf-arch-trim-tag { font-size: .72rem; font-weight: 700; color: #15803d; background: #dcfce7; border-radius: 999px; padding: .16rem .7rem; }
+.inf-arch-trim-pend { font-size: .72rem; font-weight: 700; color: #b45309; background: #fef3c7; border-radius: 999px; padding: .16rem .7rem; }
+/* Tarjeta de informe trimestral: destacada, fondo con el color del módulo */
+.inf-arch-card-trim { color: #fff; border: none; background: var(--arch-accent, #6366f1); background: linear-gradient(150deg, var(--arch-accent, #6366f1), color-mix(in srgb, var(--arch-accent, #6366f1) 55%, #0ea5e9)); }
+.inf-arch-card-trim::before { height: 0; }
+.inf-arch-card-trim .inf-arch-card-ico { background: rgba(255, 255, 255, .22); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .38); }
+.inf-arch-card-trim .inf-arch-card-mes { color: #fff; font-size: 1.4rem; }
+.inf-arch-card-trim .inf-arch-card-anio { color: rgba(255, 255, 255, .88); text-transform: uppercase; letter-spacing: .08em; font-size: .68rem; }
+.inf-arch-card-trim::after { content: 'Ver informe →'; color: #fff; }
 /* Informe profesional SIT incrustado dentro del informe de Cámaras */
 .inf-sitpro { margin-top: 1.4rem; border-top: 3px solid #1d4ed8; padding-top: 1.1rem; }
 .inf-sitpro-head { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; justify-content: space-between; margin-bottom: .9rem; }
