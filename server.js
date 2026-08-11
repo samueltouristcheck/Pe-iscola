@@ -719,6 +719,7 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
         camaras: 'movilidad y aforo (cámaras LPR de entradas/salidas y cámaras de aforo de personas y vehículos)'
     }[ambito] || 'gestión municipal';
 
+    const esCamaras = ambito === 'camaras';
     const system = [
         'Eres un analista del Ayuntamiento de Peñíscola que redacta el informe mensual del área correspondiente en español, siguiendo SIEMPRE la misma plantilla y estilo del Ayuntamiento.',
         'PERIODO: el "Periodo analizado" puede ser un mes completo o un RANGO DE DÍAS (p.ej. "15–22 Julio 2026"). Si es un rango de días: NO lo llames "mes", habla del "periodo"; las variaciones etiquetadas como mensuales/"vs periodo ant." son frente al "periodo anterior de igual duración", y "año anterior" es el mismo rango del año pasado; comenta la evolución DÍA A DÍA usando las gráficas diarias. Si en el rango no hay datos LPR (entradas/salidas), céntrate en el aforo y adviértelo.',
@@ -728,13 +729,25 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
         '## Frases destacadas del análisis — lista de 8-12 viñetas (con "-"), cada una una frase contundente con el dato clave.',
         'Después, UNA SECCIÓN ## POR CADA bloque de datos/gráfica que recibas (no agrupes varias métricas en una sola sección: si tienes ocupación, ADR, RevPAR, procedencia, pernoctaciones… haz una sección para cada una). Nómbralas por su tema y SOLO sobre datos presentes en el JSON; NO inventes secciones de temas sin datos ni mezcles ámbitos (turismo no habla de vehículos ni residuos, etc.). Orientación de nombres: turismo → "## Evolución de la ocupación", "## Pernoctaciones y estancia media", "## Perfil y procedencia de los visitantes", "## Evolución del ADR", "## Evolución del RevPAR"; residuos → "## Recogida mensual", "## Residuos por hotel (grandes productores)", "## Reparto por fracción"; cámaras → "## Entradas y salidas de vehículos", "## Saldo mensual", "## Aforo de personas y vehículos". CADA sección temática debe tener MÍNIMO 3 párrafos bien desarrollados de 4-6 frases (220-320 palabras por sección): explica el dato, su evolución mensual e interanual, la estacionalidad, las causas probables y las implicaciones. No resumas; desarrolla en profundidad.',
         '## Conclusiones y recomendaciones — 2-3 párrafos de cierre + 3-5 recomendaciones accionables en viñetas.',
-        'INDICADORES 🌟/⚠️ (IMPORTANTE, es el sello del informe): justo DESPUÉS de cada variación porcentual escribe el emoji 🌟 si el cambio es FAVORABLE y ⚠️ si es DESFAVORABLE, según el contexto (más turistas/ocupación/ingresos = 🌟; caídas = ⚠️; en residuos, más generación suele ser ⚠️ y más reciclaje 🌟). Ejemplo: "la ocupación cayó un 5,4% ⚠️" o "la estancia media subió a 3,3 días 🌟".',
+        esCamaras
+            ? 'ESTILO SOBRIO (obligatorio): NO uses NINGÚN emoji ni símbolo decorativo (nada de 🌟, ⚠️, ☀️, etc.). Es un informe institucional. Marca si una variación es favorable o desfavorable SOLO con palabras cuando aporte ("favorable"/"desfavorable"), sin iconos.'
+            : 'INDICADORES 🌟/⚠️ (IMPORTANTE, es el sello del informe): justo DESPUÉS de cada variación porcentual escribe el emoji 🌟 si el cambio es FAVORABLE y ⚠️ si es DESFAVORABLE, según el contexto (más turistas/ocupación/ingresos = 🌟; caídas = ⚠️; en residuos, más generación suele ser ⚠️ y más reciclaje 🌟). Ejemplo: "la ocupación cayó un 5,4% ⚠️" o "la estancia media subió a 3,3 días 🌟".',
         'INSIGHTS: si el JSON trae `insights` (mes pico, mes valle, mayor variación), úsalos para hablar de estacionalidad y del mes máximo/mínimo.',
         'NOTAS AL PIE: si usas tecnicismos (ADR, RevPAR), añade una línea aclaratoria al final de esa sección, p.ej. "*ADR: ingreso medio por habitación ocupada y noche.".',
         'GRÁFICAS (OBLIGATORIO): recibirás una lista `graficas` con {clave, titulo}. Cada vez que analices un dato con gráfica, inserta en una LÍNEA PROPIA y aislada, justo tras ese párrafo, el marcador [GRAFICA: clave] con la clave literal. Intercala las gráficas por el cuerpo (NO al final) y usa TODAS las claves, cada una una sola vez. No expliques el marcador.',
         'LONGITUD (IMPORTANTE): el informe COMPLETO debe rondar 1700-2300 palabras. Es un informe extenso, NO un resumen. Si ves que te quedas corto, AMPLÍA cada sección con más contexto, causas, estacionalidad, comparativas y matices hasta alcanzar esa extensión.',
-        'Reglas: usa EXCLUSIVAMENTE los datos proporcionados (no inventes cifras); si falta un dato, dilo. Números en formato español (1.234, 45.380 kg, -12,5%, 31,9%, 54,10 €). Sin tablas Markdown grandes.'
-    ].join('\n');
+        'Reglas: usa EXCLUSIVAMENTE los datos proporcionados (no inventes cifras); si falta un dato, dilo. Números en formato español (1.234, 45.380 kg, -12,5%, 31,9%, 54,10 €). Sin tablas Markdown grandes.',
+        esCamaras
+            ? [
+                'RIGOR ESPECÍFICO DE CÁMARAS (obligatorio, prevalece sobre lo anterior):',
+                '- NUNCA menciones la pandemia, la COVID, el año 2019 ni "niveles prepandemia" ni "recuperación": no existen datos de cámaras anteriores a 2025, así que cualquier afirmación de ese tipo sería inventada. Prohibido.',
+                '- Las cámaras (LPR y aforo) se instalaron en 2025, por lo que la serie interanual NO es homogénea. NO presentes las variaciones "vs año anterior" como una comparación fiable: si el periodo del año pasado no está completo o no consta, adviértelo ("no se dispone todavía de una serie interanual homogénea") y evita sacar conclusiones de esa comparación. Céntrate en la evolución dentro del periodo y frente al mes anterior.',
+                '- Los datos de aforo son "pasos" (cruces de la línea de conteo), NO visitantes únicos: indícalo al hablar de personas; una misma persona puede cruzar varias veces, así que no equipares pasos con número de turistas.',
+                '- El saldo entradas−salidas es un indicador de la cobertura y el sentido del sensor, NO de la población: un saldo negativo NO significa pérdida de vehículos ni que los visitantes se marchen; adviértelo y no lo interpretes como un fenómeno turístico.',
+                '- Tono técnico y sobrio, sin relleno especulativo.'
+            ].join('\n')
+            : ''
+    ].filter(Boolean).join('\n');
 
     try {
         const r = await fetch('https://api.openai.com/v1/chat/completions', {
