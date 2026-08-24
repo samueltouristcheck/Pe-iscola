@@ -1,7 +1,7 @@
 {
   "fuente": "FOBESA · Pesajes de grandes productores (hoteles, campings y aparthoteles) · Ayuntamiento de Peñíscola",
   "nota": "kg de residuo recogido por establecimiento y fracción (Envases mezclados, Orgánica, Papel/Cartón), un fichero por mes. Origen: SharePoint Ciudad › Residuos › Grandes Productores.",
-  "actualizado": "2026-08-03",
+  "actualizado": "2026-08-24",
   "fracciones": [
     "envases",
     "organica",
