@@ -129,7 +129,7 @@ app.use((req, res, next) => {
     res.status(401).send('Autenticación requerida');
 });
 
-// Rate limit en /api/chat para proteger la cuota de OpenAI
+// Rate limit en /api/chat para proteger la cuota de la API de Claude
 const chatLimiter = rateLimit({
     windowMs: 60 * 1000,
     max: 20,
@@ -656,10 +656,27 @@ app.get('/data/zonas_peniscola.geojson', (req, res) => {
 // Archivos estáticos (css, js, data, etc.)
 app.use(express.static(path.join(__dirname)));
 
+// Llama a la API de Claude (Anthropic Messages) y devuelve el texto de la respuesta.
+// `system` es el prompt de sistema; `messages` la lista [{role:'user'|'assistant', content}].
+async function anthropicChat(apiKey, { system, messages, maxTokens = 4096, model = 'claude-opus-5' }) {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({ model, max_tokens: maxTokens, system, messages, output_config: { effort: 'low' } })
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
+    return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+}
+
 app.post('/api/chat', chatLimiter, async (req, res) => {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
-        return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+        return res.status(500).json({ error: 'ANTHROPIC_API_KEY no configurada en .env' });
     }
     const { message, history, context } = req.body || {};
     if (!message || typeof message !== 'string') {
@@ -667,32 +684,16 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
     }
     const systemPrompt = `Eres un asistente del dashboard de residuos de Peñíscola (España). Responde en español de forma breve y útil. Usa estos datos del dashboard para responder:\n\n${context || 'Sin contexto'}`;
     const messages = [
-        { role: 'system', content: systemPrompt },
         ...(history || []).slice(-10).map(m => ({ role: m.isBot ? 'assistant' : 'user', content: m.text })),
         { role: 'user', content: message }
     ];
+    // La API de Claude exige que el primer mensaje sea 'user'.
+    while (messages.length && messages[0].role === 'assistant') messages.shift();
     try {
-        const r = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + apiKey
-            },
-            body: JSON.stringify({
-                model: 'gpt-4o-mini',
-                messages,
-                max_tokens: 500,
-                temperature: 0.7
-            })
-        });
-        const data = await r.json();
-        if (!r.ok) {
-            throw new Error(data.error?.message || r.statusText || 'Error API');
-        }
-        const text = data.choices?.[0]?.message?.content?.trim() || 'No hubo respuesta.';
+        const text = (await anthropicChat(apiKey, { system: systemPrompt, messages, maxTokens: 1024 })) || 'No hubo respuesta.';
         res.json({ reply: text });
     } catch (err) {
-        res.status(500).json({ error: err.message || 'Error al conectar con OpenAI' });
+        res.status(500).json({ error: err.message || 'Error al conectar con Claude' });
     }
 });
 
@@ -708,8 +709,8 @@ const informeLimiter = rateLimit({
 // Genera un informe escrito, largo y contextualizado a partir de los datos de un
 // ámbito (turismo/residuos/cámaras) y periodo, comparando con mes y año anteriores.
 app.post('/api/informe-ia', informeLimiter, async (req, res) => {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY no configurada en .env' });
     const { ambito, periodoLabel, datos } = req.body || {};
     if (!datos || typeof datos !== 'object') return res.status(400).json({ error: 'Faltan los datos del periodo' });
 
@@ -751,22 +752,11 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
     ].filter(Boolean).join('\n');
 
     try {
-        const r = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-            body: JSON.stringify({
-                model: 'gpt-4o',
-                messages: [
-                    { role: 'system', content: system },
-                    { role: 'user', content: 'Ámbito: ' + ambitoTxt + '.\nPeriodo analizado: ' + (periodoLabel || '—') + '.\nDatos (JSON):\n' + JSON.stringify(datos, null, 2) + '\n\nRedacta el informe completo siguiendo la estructura indicada.' }
-                ],
-                max_tokens: 5200,
-                temperature: 0.6
-            })
+        const texto = await anthropicChat(apiKey, {
+            system,
+            messages: [{ role: 'user', content: 'Ámbito: ' + ambitoTxt + '.\nPeriodo analizado: ' + (periodoLabel || '—') + '.\nDatos (JSON):\n' + JSON.stringify(datos, null, 2) + '\n\nRedacta el informe completo siguiendo la estructura indicada.' }],
+            maxTokens: 8000
         });
-        const data = await r.json();
-        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
-        const texto = data.choices?.[0]?.message?.content?.trim() || '';
         res.json({ texto: texto });
     } catch (err) {
         res.status(500).json({ error: err.message || 'Error al generar el informe' });
@@ -775,8 +765,8 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
 
 // Opinión / análisis profesional para el informe SIT de cámaras (movilidad).
 app.post('/api/sit-opinion', informeLimiter, async (req, res) => {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY no configurada en .env' });
     const { periodoLabel, datos } = req.body || {};
     if (!datos) return res.status(400).json({ error: 'Faltan los datos del periodo' });
     const system = [
@@ -788,22 +778,12 @@ app.post('/api/sit-opinion', informeLimiter, async (req, res) => {
         'Cierra con 3-4 recomendaciones accionables para la gestión municipal y turística. Longitud: 400-600 palabras. No inventes cifras que no estén en los datos.'
     ].join('\n');
     try {
-        const r = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-            body: JSON.stringify({
-                model: 'gpt-4o',
-                messages: [
-                    { role: 'system', content: system },
-                    { role: 'user', content: 'Periodo: ' + (periodoLabel || '—') + '.\nDatos SIT de cámaras (JSON):\n' + JSON.stringify(datos, null, 1) + '\n\nRedacta la opinión profesional.' }
-                ],
-                max_tokens: 1500,
-                temperature: 0.6
-            })
+        const texto = await anthropicChat(apiKey, {
+            system,
+            messages: [{ role: 'user', content: 'Periodo: ' + (periodoLabel || '—') + '.\nDatos SIT de cámaras (JSON):\n' + JSON.stringify(datos, null, 1) + '\n\nRedacta la opinión profesional.' }],
+            maxTokens: 2500
         });
-        const data = await r.json();
-        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
-        res.json({ texto: (data.choices?.[0]?.message?.content || '').trim() });
+        res.json({ texto: texto });
     } catch (err) {
         res.status(500).json({ error: err.message || 'Error al generar la opinión' });
     }
@@ -811,8 +791,8 @@ app.post('/api/sit-opinion', informeLimiter, async (req, res) => {
 
 // Análisis redactado (secciones) para el informe SIT profesional de cámaras.
 app.post('/api/sit-analisis', informeLimiter, async (req, res) => {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY no configurada en .env' });
     const { periodoLabel, resumenDatos } = req.body || {};
     if (!resumenDatos) return res.status(400).json({ error: 'Faltan los datos' });
     const system = [
@@ -826,21 +806,12 @@ app.post('/api/sit-analisis', informeLimiter, async (req, res) => {
         'Y para CADA cámara que aparezca en los datos, un marcador [[CAM:clave]] seguido de UN párrafo (3-4 frases) interpretando esa cámara concreta (entradas/salidas o peatones, su franja punta, laborable/finde y procedencia si es LPR).'
     ].join('\n');
     try {
-        const r = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-            body: JSON.stringify({
-                model: 'gpt-4o',
-                messages: [
-                    { role: 'system', content: system },
-                    { role: 'user', content: 'Periodo: ' + (periodoLabel || '—') + '.\nDatos por cámara (JSON):\n' + JSON.stringify(resumenDatos, null, 1) + '\n\nRedacta el análisis con los marcadores indicados.' }
-                ],
-                max_tokens: 3200, temperature: 0.55
-            })
+        const texto = await anthropicChat(apiKey, {
+            system,
+            messages: [{ role: 'user', content: 'Periodo: ' + (periodoLabel || '—') + '.\nDatos por cámara (JSON):\n' + JSON.stringify(resumenDatos, null, 1) + '\n\nRedacta el análisis con los marcadores indicados.' }],
+            maxTokens: 5000
         });
-        const data = await r.json();
-        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
-        res.json({ texto: (data.choices?.[0]?.message?.content || '').trim() });
+        res.json({ texto: texto });
     } catch (err) {
         res.status(500).json({ error: err.message || 'Error al generar el análisis' });
     }
@@ -884,25 +855,11 @@ function generarInformeDesdePlantilla(data) {
 }
 
 async function analizarConChatGPT(apiKey, data) {
-    const r = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-        body: JSON.stringify({
-            model: 'gpt-4o-mini',
-            messages: [{
-                role: 'system',
-                content: 'Eres un analista de residuos para el Ayuntamiento de Peñíscola. Analiza los datos y escribe un informe en español: compara con mes anterior y año anterior, destaca tendencias, principales generadores, zonas con más residuos. Usa ÚNICAMENTE los datos proporcionados. Formato: párrafos claros, números con formato español (455.380 kg, -49,01%). Máximo 600 palabras.'
-            }, {
-                role: 'user',
-                content: `Analiza estos datos de residuos y escribe un informe comparativo:\n${JSON.stringify(data, null, 2)}`
-            }],
-            max_tokens: 1500,
-            temperature: 0.5
-        })
+    return anthropicChat(apiKey, {
+        system: 'Eres un analista de residuos para el Ayuntamiento de Peñíscola. Analiza los datos y escribe un informe en español: compara con mes anterior y año anterior, destaca tendencias, principales generadores, zonas con más residuos. Usa ÚNICAMENTE los datos proporcionados. Formato: párrafos claros, números con formato español (455.380 kg, -49,01%). Máximo 600 palabras.',
+        messages: [{ role: 'user', content: `Analiza estos datos de residuos y escribe un informe comparativo:\n${JSON.stringify(data, null, 2)}` }],
+        maxTokens: 2500
     });
-    const resp = await r.json();
-    if (!r.ok) throw new Error(resp.error?.message || r.statusText);
-    return resp.choices?.[0]?.message?.content?.trim() || '';
 }
 
 function generarHTMLInforme(data, analisisChatGPT) {
@@ -1018,7 +975,7 @@ app.post('/api/export-word', async (req, res) => {
 });
 
 app.post('/api/generate-report', async (req, res) => {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     const { periodo, periodoLabel, data } = req.body || {};
     if (!data || typeof data !== 'object') {
         return res.status(400).json({ error: 'Faltan los datos del informe' });
