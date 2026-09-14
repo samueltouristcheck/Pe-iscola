@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-08-24T09:08:18.781Z",
+  "generadoEn": "2026-09-14T08:28:43.548Z",
   "fuente": {
     "organismo": "Generalitat Valenciana - Conselleria de Innovació, Indústria, Comerç i Turisme",
     "dataset": "Datos de turismo sobre viviendas de uso turístico en la Comunitat Valenciana",
@@ -11,10 +11,10 @@
   "municipio": "Peñíscola",
   "codigo_municipio_ine": "12089",
   "resumen": {
-    "viviendas_totales": 3016,
+    "viviendas_totales": 3017,
     "plazas_totales": 13489,
     "dormitorios_totales": 6933,
-    "superficie_total_m2": 277810,
+    "superficie_total_m2": 277860,
     "plazas_por_vivienda": 4.47,
     "superficie_media_m2": 92,
     "pct_estudios": 0.7,
@@ -53,8 +53,8 @@
     "2022": 152,
     "2023": 198,
     "2024": 229,
-    "2025": 376,
-    "2026": 216
+    "2025": 375,
+    "2026": 218
   },
   "plazasPorAnyo": {
     "1993": 20,
@@ -89,8 +89,8 @@
     "2022": 610,
     "2023": 826,
     "2024": 997,
-    "2025": 1627,
-    "2026": 985
+    "2025": 1621,
+    "2026": 991
   },
   "plazasAcum": {
     "1993": {
@@ -222,24 +222,24 @@
       "plazas": 10877
     },
     "2025": {
-      "viviendas": 2800,
-      "plazas": 12504
+      "viviendas": 2799,
+      "plazas": 12498
     },
     "2026": {
-      "viviendas": 3016,
+      "viviendas": 3017,
       "plazas": 13489
     }
   },
   "distribucionTamano": {
-    "1-2": 438,
-    "3-4": 1540,
-    "5-6": 860,
+    "1-2": 439,
+    "3-4": 1541,
+    "5-6": 859,
     "7-8": 142,
     "9+": 36
   },
   "porCp": {
     "12598": {
-      "viviendas": 3015,
+      "viviendas": 3016,
       "plazas": 13481
     },
     "sin CP": {
@@ -6651,6 +6651,22 @@
       "fecha_alta": "2023-08-14"
     },
     {
+      "signatura": "CV-VUT0048504-CS",
+      "nombre": null,
+      "direccion": "AV PAPA LUNA E 85, 72, Es:T Pl:OD Pt:OS",
+      "cp": "12598",
+      "ref_catastral": "9842013BE7794S0001KX",
+      "web": null,
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 80,
+      "fecha_alta": "2026-09-09"
+    },
+    {
       "signatura": "CV-VUT0047735-CS",
       "nombre": null,
       "direccion": "AV PAPA LUNA E 85, 74, Es:T Pl:OD Pt:OS",
@@ -9772,7 +9788,7 @@
     },
     {
       "signatura": "CV-VUT0041206-CS",
-      "nombre": "Vivienda 41206-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:01 Pt:M",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0216LH",
@@ -9900,7 +9916,7 @@
     },
     {
       "signatura": "CV-VUT0037124-CS",
-      "nombre": "Vivienda 37124-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0A",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0144SO",
@@ -9916,7 +9932,7 @@
     },
     {
       "signatura": "CV-VUT0036774-CS",
-      "nombre": "Vivienda 36774-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0B",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0145DP",
@@ -9932,7 +9948,7 @@
     },
     {
       "signatura": "CV-VUT0041197-CS",
-      "nombre": "Vivienda 41197-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0C",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0146FA",
@@ -9948,7 +9964,7 @@
     },
     {
       "signatura": "CV-VUT0041198-CS",
-      "nombre": "Vivienda 41198-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0D",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0147GS",
@@ -9964,7 +9980,7 @@
     },
     {
       "signatura": "CV-VUT0041199-CS",
-      "nombre": "Vivienda 41199-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0E",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0148HD",
@@ -9980,7 +9996,7 @@
     },
     {
       "signatura": "CV-VUT0037126-CS",
-      "nombre": "Vivienda 37126-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0F",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0149JF",
@@ -9996,7 +10012,7 @@
     },
     {
       "signatura": "CV-VUT0041200-CS",
-      "nombre": "Vivienda 41200-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0G",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0150GS",
@@ -10012,7 +10028,7 @@
     },
     {
       "signatura": "CV-VUT0041201-CS",
-      "nombre": "Vivienda 41201-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0H",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0151HD",
@@ -10028,7 +10044,7 @@
     },
     {
       "signatura": "CV-VUT0041202-CS",
-      "nombre": "Vivienda 41202-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0I",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0152JF",
@@ -10044,7 +10060,7 @@
     },
     {
       "signatura": "CV-VUT0041203-CS",
-      "nombre": "Vivienda 41203-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0J",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0153KG",
@@ -10060,7 +10076,7 @@
     },
     {
       "signatura": "CV-VUT0041204-CS",
-      "nombre": "Vivienda 41204-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0K",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0154LH",
@@ -10076,7 +10092,7 @@
     },
     {
       "signatura": "CV-VUT0041205-CS",
-      "nombre": "Vivienda 41205-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0L",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0155BJ",
@@ -10092,7 +10108,7 @@
     },
     {
       "signatura": "CV-VUT0037125-CS",
-      "nombre": "Vivienda 37125-CS",
+      "nombre": null,
       "direccion": "AV PAPA LUNA, 116, Es:1 Pl:05 Pt:0M",
       "cp": "12598",
       "ref_catastral": "0244136BE8704S0156ZK",
@@ -10697,22 +10713,6 @@
       "rural": false,
       "superficie_m2": 55,
       "fecha_alta": "2018-07-10"
-    },
-    {
-      "signatura": "CV-VUT0048353-CS",
-      "nombre": null,
-      "direccion": "AV PAPA LUNA, 12, Es:1 Pl:09 Pt:03",
-      "cp": "12598",
-      "ref_catastral": "9518307BE7791N0097ZO",
-      "web": null,
-      "plazas": 4,
-      "dormitorios": 2,
-      "habdoble": 2,
-      "habindi": 0,
-      "estudio": false,
-      "rural": false,
-      "superficie_m2": 82,
-      "fecha_alta": "2026-06-30"
     },
     {
       "signatura": "CV-VUT0042446-CS",
@@ -22123,6 +22123,22 @@
       "fecha_alta": "2006-04-05"
     },
     {
+      "signatura": "CV-VUT0048490-CS",
+      "nombre": null,
+      "direccion": "CL BENICARLO UR FONT NOVA, 4, Es:A Pl:01 Pt:09",
+      "cp": "12598",
+      "ref_catastral": "6285001BE7668N0009JR",
+      "web": null,
+      "plazas": 2,
+      "dormitorios": 1,
+      "habdoble": 1,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 43,
+      "fecha_alta": "2026-08-24"
+    },
+    {
       "signatura": "CV-VUT0017299-CS",
       "nombre": null,
       "direccion": "CL BENICARLO UR FONT NOVA, 4, Es:A Pl:01 Pt:11",
@@ -28713,6 +28729,22 @@
       "rural": false,
       "superficie_m2": 98,
       "fecha_alta": "2025-02-07"
+    },
+    {
+      "signatura": "CV-VUT0048494-CS",
+      "nombre": "SOLYMAR",
+      "direccion": "CL MARRET, 3, Es:4 Pl:00 Pt:02",
+      "cp": "12598",
+      "ref_catastral": "9116304BE7791N0152OW",
+      "web": "www.interhome.es",
+      "plazas": 4,
+      "dormitorios": 2,
+      "habdoble": 2,
+      "habindi": 0,
+      "estudio": false,
+      "rural": false,
+      "superficie_m2": 110,
+      "fecha_alta": "2026-08-28"
     },
     {
       "signatura": "CV-VUT0046766-CS",
@@ -38089,22 +38121,6 @@
       "rural": false,
       "superficie_m2": 82,
       "fecha_alta": "2022-06-01"
-    },
-    {
-      "signatura": "CV-VUT0046733-CS",
-      "nombre": "PEÑISMAR BARREDA",
-      "direccion": "CL TERUEL, 28, Pl:00 Pt:12",
-      "cp": "12598",
-      "ref_catastral": "02441F7BE8704S0012MY",
-      "web": "www.interhome.es",
-      "plazas": 6,
-      "dormitorios": 3,
-      "habdoble": 3,
-      "habindi": 0,
-      "estudio": false,
-      "rural": false,
-      "superficie_m2": 101,
-      "fecha_alta": "2025-04-30"
     },
     {
       "signatura": "CV-VUT0044487-CS",
