@@ -1097,8 +1097,15 @@ function asegurarDatosTurismo() {
     }
 }
 
-app.listen(PORT, () => {
-    console.log(`Dashboard: http://localhost:${PORT}`);
-    asegurarDatosCamaras();
-    asegurarDatosTurismo();
-});
+// En local levantamos el servidor y hacemos las tareas de arranque.
+// En Vercel la app corre como función serverless (VERCEL=1): no se hace listen
+// ni descargas de arranque; se exporta la app para que Vercel la use de handler.
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Dashboard: http://localhost:${PORT}`);
+        asegurarDatosCamaras();
+        asegurarDatosTurismo();
+    });
+}
+
+module.exports = app;

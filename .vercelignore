@@ -1,0 +1,7 @@
+# Datos fuente que solo usa el procesado local (Python). La web sirve los JSON ya procesados.
+data/camaras/Trafico_camaras/CSV
+data/camaras/Aforo_Horario
+data/RESIDUOS/camion/JSON
+# Guías y notas internas
+GUIA_ACTUALIZACION.md
+MANUAL_ACTUALIZACION.md
