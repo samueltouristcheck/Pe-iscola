@@ -28,6 +28,39 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function readJson(rel) { return JSON.parse(fs.readFileSync(path.join(__dirname, rel), 'utf8')); }
 const SIT_DATA = (function () { try { return readJson('data/camaras/sit_camaras.json'); } catch (e) { return null; } })();
+const VIVIENDAS = (function () { try { return readJson('data/TURISMO/viviendas.json'); } catch (e) { return null; } })();
+
+// Viajeros por año ACUMULADO A FECHA (mismos meses en todos los años, para comparar de forma justa
+// en vez de mezclar años completos con el año en curso parcial).
+function turAnualYTD(tur, cat, met) {
+  const s = (tur.series[cat] || []).find((x) => x.metrica === met);
+  if (!s) return { years: [], vals: [], refMes: null };
+  const by = {};
+  s.data.forEach((d) => { if (d.anyo && d.mes) { (by[d.anyo] = by[d.anyo] || {})[+d.mes] = d.valor || 0; } });
+  const years = Object.keys(by).sort();
+  if (!years.length) return { years: [], vals: [], refMes: null };
+  const refMes = Math.max(...Object.keys(by[years[years.length - 1]]).map(Number));
+  const sel = years.slice(-8);
+  return {
+    years: sel,
+    vals: sel.map((y) => Math.round(Object.entries(by[y]).filter(([m]) => +m <= refMes).reduce((a, [, v]) => a + (v || 0), 0))),
+    refMes
+  };
+}
+// KPIs y gráfica de Viviendas de Uso Turístico (VUT) a partir de data/TURISMO/viviendas.json
+function vutExtra() {
+  if (!VIVIENDAS || !VIVIENDAS.resumen) return { kpis: [], grafica: null };
+  const r = VIVIENDAS.resumen;
+  const kpis = [
+    { label: 'Viviendas de uso turístico (VUT)', valor: r.viviendas_totales },
+    { label: 'Plazas en VUT', valor: r.plazas_totales }
+  ];
+  let grafica = null;
+  const acum = VIVIENDAS.plazasAcum || {};
+  const ys = Object.keys(acum).sort().slice(-8);
+  if (ys.length > 1) grafica = { key: 'vut_plazas_anual', titulo: 'Plazas en viviendas de uso turístico (VUT) por año (registro acumulado)', spec: { tipo: 'bar', labels: ys, datasets: [{ label: 'Plazas VUT', data: ys.map((y) => (acum[y] && acum[y].plazas) || 0), color: '#0ea5e9' }] } };
+  return { kpis, grafica };
+}
 
 function compSpec(comp) {
   return { tipo: 'bar', labels: comp.map((c) => c.label), datasets: [
@@ -185,7 +218,8 @@ function buildTurismo(tur, anio, mes) {
   if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%)', spec: { tipo: 'bar', labels: ocup.map((i) => i.n), datasets: [{ label: 'Ocupación %', data: ocup.map((i) => Math.round(i.v * 10) / 10), color: '#0891b2' }] } });
   const proc = turProcedencia(tur, anio, mes);
   if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA)', spec: { tipo: 'barH', labels: proc.map((i) => i.n), datasets: [{ label: 'Turistas', data: proc.map((i) => i.v), color: '#7c3aed' }] } });
-  const an = turAnual(tur, 'hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+  const an = turAnualYTD(tur, 'hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año (acumulado enero–' + (mesNombre(an.refMes) || '') + ', comparable)', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros (ene–' + (mesNombre(an.refMes) || '') + ')', data: an.vals, color: '#16a34a' }] } });
+  const vut = vutExtra(); if (vut.grafica) graficas.push(vut.grafica);
   const kpis = [
     { label: 'Viajeros hoteles', valor: turVal(tur, 'hoteles', 'viajeros', anio, mes), comp: comp[0] },
     { label: 'Pernoctaciones hoteles', valor: turVal(tur, 'hoteles', 'pernoctaciones', anio, mes), comp: comp[1] },
@@ -193,7 +227,8 @@ function buildTurismo(tur, anio, mes) {
     { label: 'Tarifa media (ADR)', valor: turVal(tur, 'hoteles', 'adr', anio, mes), unidad: '€', comp: comp[3] },
     { label: 'Estancia media', valor: turVal(tur, 'hoteles', 'estancia_media', anio, mes), unidad: 'noches' },
     { label: 'Viajeros apartamentos', valor: turVal(tur, 'apartamentos', 'viajeros', anio, mes) },
-    { label: 'Viajeros campings', valor: turVal(tur, 'campings', 'viajeros', anio, mes) }
+    { label: 'Viajeros campings', valor: turVal(tur, 'campings', 'viajeros', anio, mes) },
+    ...vut.kpis
   ];
   return { kpis, comparativa: comp, graficas };
 }
@@ -301,7 +336,8 @@ function buildTurismoTrim(tur, anio, q) {
   if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%) — media del trimestre', spec: { tipo: 'bar', labels: ocup.map((i) => i.n), datasets: [{ label: 'Ocupación %', data: ocup.map((i) => Math.round(i.v * 10) / 10), color: '#0891b2' }] } });
   const proc = turProcedenciaTrim(tur, anio, q);
   if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA, trimestre)', spec: { tipo: 'barH', labels: proc.map((i) => i.n), datasets: [{ label: 'Turistas', data: proc.map((i) => i.v), color: '#7c3aed' }] } });
-  const an = turAnual(tur, 'hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+  const an = turAnualYTD(tur, 'hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año (acumulado enero–' + (mesNombre(an.refMes) || '') + ', comparable)', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros (ene–' + (mesNombre(an.refMes) || '') + ')', data: an.vals, color: '#16a34a' }] } });
+  const vut = vutExtra(); if (vut.grafica) graficas.push(vut.grafica);
   const kpis = [
     { label: 'Viajeros hoteles', valor: turValTrim(tur, 'hoteles', 'viajeros', anio, q), comp: comp[0] },
     { label: 'Pernoctaciones hoteles', valor: turValTrim(tur, 'hoteles', 'pernoctaciones', anio, q), comp: comp[1] },
@@ -309,7 +345,8 @@ function buildTurismoTrim(tur, anio, q) {
     { label: 'Tarifa media ADR (media)', valor: turValTrim(tur, 'hoteles', 'adr', anio, q), unidad: '€', comp: comp[3] },
     { label: 'Estancia media', valor: turValTrim(tur, 'hoteles', 'estancia_media', anio, q), unidad: 'noches' },
     { label: 'Viajeros apartamentos', valor: turValTrim(tur, 'apartamentos', 'viajeros', anio, q) },
-    { label: 'Viajeros campings', valor: turValTrim(tur, 'campings', 'viajeros', anio, q) }
+    { label: 'Viajeros campings', valor: turValTrim(tur, 'campings', 'viajeros', anio, q) },
+    ...vut.kpis
   ];
   return { kpis, comparativa: comp, graficas, _hayDatos: kpis.some((k) => k.valor != null) };
 }

@@ -3779,7 +3779,10 @@
   function infAmbitoTitulo(a) { return { turismo: 'Informe de Turismo', residuos: 'Informe de Residuos', camaras: 'Informe de Cámaras' }[a] || 'Informe'; }
 
   function infEnsure(ambito) {
-    if (ambito === 'turismo') return (typeof ensureTurismoLoaded === 'function') ? ensureTurismoLoaded() : Promise.resolve();
+    if (ambito === 'turismo') return Promise.all([
+      (typeof ensureTurismoLoaded === 'function') ? ensureTurismoLoaded() : Promise.resolve(),
+      (typeof ensureViviendasLoaded === 'function') ? ensureViviendasLoaded() : Promise.resolve()
+    ]);
     if (ambito === 'residuos') return (typeof loadAllData === 'function') ? loadAllData().catch(function () {}) : Promise.resolve();
     if (ambito === 'camaras') {
       var pc = camarasData ? Promise.resolve(camarasData) : fetch('/api/camaras/dashboard', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { camarasData = d; return d; });
@@ -3807,6 +3810,27 @@
   function infTurVal(cat, met, anio, mes) { var m = infTurSerie(cat, met, anio); if (mes) return m[+mes] != null ? m[+mes] : null; var v = Object.values(m).filter(function (x) { return x != null; }); if (!v.length) return null; return met === 'grado_ocupacion' ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : v.reduce(function (a, b) { return a + b; }, 0); }
   function infCompSpec(comp) { return { tipo: 'bar', labels: comp.map(function (c) { return c.label; }), datasets: [{ label: 'Actual', data: comp.map(function (c) { return c.actual; }), color: '#2563eb' }, { label: 'Mes anterior', data: comp.map(function (c) { return c.mesAnterior; }), color: '#93c5fd' }, { label: 'Año anterior', data: comp.map(function (c) { return c.anioAnterior; }), color: '#f59e0b' }] }; }
   function infTurAnual(cat, met) { var s = (turismoData.series[cat] || []).find(function (x) { return x.metrica === met; }); var by = {}; if (s) s.data.forEach(function (d) { by[d.anyo] = (by[d.anyo] || 0) + (d.valor || 0); }); var years = Object.keys(by).sort().slice(-8); return { years: years, vals: years.map(function (y) { return Math.round(by[y]); }) }; }
+  // Viajeros por año ACUMULADO A FECHA (mismos meses en todos los años, para comparar de forma justa)
+  function infTurAnualYTD(cat, met) {
+    var s = (turismoData.series[cat] || []).find(function (x) { return x.metrica === met; });
+    if (!s) return { years: [], vals: [], refMes: null };
+    var by = {}; s.data.forEach(function (d) { if (d.anyo && d.mes) { (by[d.anyo] = by[d.anyo] || {})[+d.mes] = d.valor || 0; } });
+    var years = Object.keys(by).sort();
+    if (!years.length) return { years: [], vals: [], refMes: null };
+    var refMes = Math.max.apply(null, Object.keys(by[years[years.length - 1]]).map(Number));
+    var sel = years.slice(-8);
+    return { years: sel, refMes: refMes, vals: sel.map(function (y) { return Math.round(Object.keys(by[y]).filter(function (m) { return +m <= refMes; }).reduce(function (a, m) { return a + (by[y][m] || 0); }, 0)); }) };
+  }
+  // KPIs + gráfica de Viviendas de Uso Turístico (VUT) desde viviendasData
+  function infVutExtra() {
+    if (typeof viviendasData === 'undefined' || !viviendasData || !viviendasData.resumen) return { kpis: [], grafica: null };
+    var r = viviendasData.resumen;
+    var kpis = [{ label: 'Viviendas de uso turístico (VUT)', valor: r.viviendas_totales }, { label: 'Plazas en VUT', valor: r.plazas_totales }];
+    var grafica = null, acum = viviendasData.plazasAcum || {};
+    var ys = Object.keys(acum).sort().slice(-8);
+    if (ys.length > 1) grafica = { key: 'vut_plazas_anual', titulo: 'Plazas en viviendas de uso turístico (VUT) por año (registro acumulado)', spec: { tipo: 'bar', labels: ys, datasets: [{ label: 'Plazas VUT', data: ys.map(function (y) { return (acum[y] && acum[y].plazas) || 0; }), color: '#0ea5e9' }] } };
+    return { kpis: kpis, grafica: grafica };
+  }
   function infTurProcedencia(anio, mes) {
     var proc = (turismoData.series.procedencia || []).filter(function (s) { return s.residencia === 'ccaa' && s.nombre !== 'Total Nacional'; });
     return proc.map(function (s) { var v = (s.data || []).filter(function (d) { return String(d.anyo) === String(anio) && (!mes || +d.mes === +mes); }).reduce(function (a, b) { return a + (b.valor || 0); }, 0); return { n: s.nombre, v: Math.round(v) }; }).filter(function (x) { return x.v > 0; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 8);
@@ -3833,7 +3857,8 @@
     if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%)', spec: { tipo: 'bar', labels: ocup.map(function (i) { return i.n; }), datasets: [{ label: 'Ocupación %', data: ocup.map(function (i) { return Math.round(i.v * 10) / 10; }), color: '#0891b2' }] } });
     var proc = infTurProcedencia(anio, mes);
     if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA)', spec: { tipo: 'barH', labels: proc.map(function (i) { return i.n; }), datasets: [{ label: 'Turistas', data: proc.map(function (i) { return i.v; }), color: '#7c3aed' }] } });
-    var an = infTurAnual('hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+    var an = infTurAnualYTD('hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año (acumulado enero–' + (infMesNombre(an.refMes) || '') + ', comparable)', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros (ene–' + (infMesNombre(an.refMes) || '') + ')', data: an.vals, color: '#16a34a' }] } });
+    var vut = infVutExtra(); if (vut.grafica) graficas.push(vut.grafica);
     return {
       kpis: [
         { label: 'Viajeros hoteles', valor: infTurVal('hoteles', 'viajeros', anio, mes), comp: comp[0] },
@@ -3843,7 +3868,7 @@
         { label: 'Estancia media', valor: infTurVal('hoteles', 'estancia_media', anio, mes), unidad: 'noches' },
         { label: 'Viajeros apartamentos', valor: infTurVal('apartamentos', 'viajeros', anio, mes) },
         { label: 'Viajeros campings', valor: infTurVal('campings', 'viajeros', anio, mes) }
-      ],
+      ].concat(vut.kpis),
       comparativa: comp,
       graficas: graficas
     };
@@ -4086,7 +4111,8 @@
     if (ocup.length) graficas.push({ key: 'ocupacion_por_tipo', titulo: 'Grado de ocupación por tipo (%) — media del trimestre', spec: { tipo: 'bar', labels: ocup.map(function (i) { return i.n; }), datasets: [{ label: 'Ocupación %', data: ocup.map(function (i) { return Math.round(i.v * 10) / 10; }), color: '#0891b2' }] } });
     var proc = infTurProcedenciaTrim(anio, q);
     if (proc.length) graficas.push({ key: 'procedencia_ccaa', titulo: 'Procedencia nacional de los turistas (top CCAA, trimestre)', spec: { tipo: 'barH', labels: proc.map(function (i) { return i.n; }), datasets: [{ label: 'Turistas', data: proc.map(function (i) { return i.v; }), color: '#7c3aed' }] } });
-    var an = infTurAnual('hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros', data: an.vals, color: '#16a34a' }] } });
+    var an = infTurAnualYTD('hoteles', 'viajeros'); if (an.years.length > 1) graficas.push({ key: 'viajeros_anual', titulo: 'Viajeros en hoteles por año (acumulado enero–' + (infMesNombre(an.refMes) || '') + ', comparable)', spec: { tipo: 'bar', labels: an.years, datasets: [{ label: 'Viajeros (ene–' + (infMesNombre(an.refMes) || '') + ')', data: an.vals, color: '#16a34a' }] } });
+    var vut = infVutExtra(); if (vut.grafica) graficas.push(vut.grafica);
     var kpis = [
       { label: 'Viajeros hoteles', valor: infTurValTrim('hoteles', 'viajeros', anio, q), comp: comp[0] },
       { label: 'Pernoctaciones hoteles', valor: infTurValTrim('hoteles', 'pernoctaciones', anio, q), comp: comp[1] },
@@ -4095,7 +4121,7 @@
       { label: 'Estancia media', valor: infTurValTrim('hoteles', 'estancia_media', anio, q), unidad: 'noches' },
       { label: 'Viajeros apartamentos', valor: infTurValTrim('apartamentos', 'viajeros', anio, q) },
       { label: 'Viajeros campings', valor: infTurValTrim('campings', 'viajeros', anio, q) }
-    ];
+    ].concat(vut.kpis);
     return { kpis: kpis, comparativa: comp, graficas: graficas };
   }
   function infBuildTrimestre(amb, anio, q) {
@@ -4379,7 +4405,8 @@
       var data = esTrim ? infBuildTrimestre(amb, +anio, trim) : infBuild(amb, anio, mes, rango); infSt(amb).data = data;
       if (!data.kpis || !data.kpis.length || (esTrim && !data.kpis.some(function (k) { return k.valor != null; }))) throw new Error(esRango ? 'No hay datos de cámaras en ese rango de fechas.' : esTrim ? 'No hay datos para ese trimestre.' : 'No hay datos para este periodo.');
       var datos = { kpis: data.kpis.map(function (k) { return { label: k.label, valor: k.valor, unidad: k.unidad || '', varMes: k.comp && k.comp.varMes != null ? Math.round(k.comp.varMes * 10) / 10 : null, varAnio: k.comp && k.comp.varAnio != null ? Math.round(k.comp.varAnio * 10) / 10 : null }; }), comparativa: data.comparativa, insights: infInsights(data), graficas: data.graficas.map(function (g) { return { clave: g.key, titulo: g.titulo, labels: g.spec.labels, series: g.spec.datasets.map(function (d) { return { nombre: d.label, datos: d.data }; }) }; }) };
-      return fetch('/api/informe-ia', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ambito: amb, periodoLabel: data.periodoLabel, datos: datos }) }).then(function (r) { return r.json(); });
+      var perfil = (document.getElementById('inf-' + amb + '-perfil') || {}).value || '';
+      return fetch('/api/informe-ia', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ambito: amb, periodoLabel: data.periodoLabel, datos: datos, perfil: perfil }) }).then(function (r) { return r.json(); });
     }).then(function (res) {
       if (res.error) throw new Error(res.error);
       prog.finish(function () { infRenderInforme(amb, infSt(amb).data, res.texto); estado.innerHTML = ''; });

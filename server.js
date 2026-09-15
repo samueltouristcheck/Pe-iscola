@@ -710,8 +710,18 @@ const informeLimiter = rateLimit({
 app.post('/api/informe-ia', informeLimiter, async (req, res) => {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
-    const { ambito, periodoLabel, datos } = req.body || {};
+    const { ambito, periodoLabel, datos, perfil } = req.body || {};
     if (!datos || typeof datos !== 'object') return res.status(400).json({ error: 'Faltan los datos del periodo' });
+
+    const esCamaras = ambito === 'camaras';
+    const esTurismo = ambito === 'turismo';
+    // Enfoque del informe según el PERFIL / audiencia (adapta el tono y el énfasis, NO los datos)
+    const PERFILES = {
+        empresarial: 'PERFIL EMPRESARIAL (obligatorio): el informe se dirige al SECTOR EMPRESARIAL y turístico (hoteleros, campings, hostelería, comercio). Enfócate en lo que afecta al NEGOCIO: ocupación, ingresos (ADR/RevPAR), demanda y su procedencia, estacionalidad, competitividad y oportunidades comerciales. Traduce cada dato a implicaciones prácticas para los empresarios (dónde hay margen, qué reforzar, cómo captar más demanda). Evita la jerga administrativa.',
+        institucional: 'PERFIL POLÍTICO / INSTITUCIONAL (obligatorio): el informe se dirige a RESPONSABLES POLÍTICOS e institucionales. Enfócate en la visión de conjunto y el impacto en la CIUDAD y la ciudadanía: evolución del destino, presión turística, servicios públicos, planificación, sostenibilidad y mensajes claros para la toma de decisiones y la comunicación pública. Prioriza titulares claros y conclusiones accionables sobre el detalle técnico; explica los tecnicismos en lenguaje sencillo.',
+        tecnico: 'PERFIL TÉCNICO / GESTIÓN (obligatorio): el informe se dirige a personal TÉCNICO y de gestión. Máximo rigor y detalle: matices metodológicos, calidad y cobertura del dato, comparabilidad de las series, y precisión en cada cifra y variación. Señala limitaciones y cautelas cuando corresponda.'
+    };
+    const perfilTxt = PERFILES[perfil] || '';
 
     const ambitoTxt = {
         turismo: 'turismo (ocupación hotelera, apartamentos, campings y movilidad turística, fuentes INE y SIT-CV)',
@@ -719,9 +729,9 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
         camaras: 'movilidad y aforo (cámaras LPR de entradas/salidas y cámaras de aforo de personas y vehículos)'
     }[ambito] || 'gestión municipal';
 
-    const esCamaras = ambito === 'camaras';
     const system = [
         'Eres un analista del Ayuntamiento de Peñíscola que redacta el informe mensual del área correspondiente en español, siguiendo SIEMPRE la misma plantilla y estilo del Ayuntamiento.',
+        perfilTxt,
         'PERIODO: el "Periodo analizado" puede ser un mes completo, un TRIMESTRE o un RANGO DE DÍAS (p.ej. "15–22 Julio 2026"). Si es un rango de días: NO lo llames "mes", habla del "periodo"; las variaciones etiquetadas como mensuales/"vs periodo ant." son frente al "periodo anterior de igual duración", y "año anterior" es el mismo rango del año pasado; comenta la evolución DÍA A DÍA usando las gráficas diarias. Si en el rango no hay datos LPR (entradas/salidas), céntrate en el aforo y adviértelo.',
         'PERIODO TRIMESTRAL: si el "Periodo analizado" es un trimestre (p.ej. "Segundo trimestre 2026 (abril–junio)"): trátalo como un TRIMESTRE, no como un mes. Las variaciones etiquetadas como "vs mes anterior" son en realidad frente al TRIMESTRE ANTERIOR, y "vs año anterior" es el MISMO TRIMESTRE del año pasado (dilo así). Comenta la evolución MES A MES dentro del trimestre apoyándote en las gráficas mensuales, e identifica el mes más fuerte y el más flojo del trimestre.',
         'Escribe un informe EXTENSO y muy DESARROLLADO (no un resumen): cada sección debe tener SUSTANCIA. No listes cifras sueltas: CONTEXTUALIZA e interpreta qué significan, por qué cambian, la estacionalidad, las causas probables, la comparación mensual e interanual y qué implican para la gestión municipal y turística. Tono profesional pero cercano, con proyecciones a futuro cuando proceda. Es preferible pasarse de largo que quedarse corto.',
@@ -746,6 +756,17 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
                 '- Los datos de aforo son "pasos" (cruces de la línea de conteo), NO visitantes únicos: indícalo al hablar de personas; una misma persona puede cruzar varias veces, así que no equipares pasos con número de turistas.',
                 '- El saldo entradas−salidas es un indicador de la cobertura y el sentido del sensor, NO de la población: un saldo negativo NO significa pérdida de vehículos ni que los visitantes se marchen; adviértelo y no lo interpretes como un fenómeno turístico.',
                 '- Tono técnico y sobrio, sin relleno especulativo.'
+            ].join('\n')
+            : '',
+        esTurismo
+            ? [
+                'RIGOR ESPECÍFICO DE TURISMO (obligatorio, prevalece sobre lo anterior):',
+                '- NO menciones la pandemia, la COVID, el año 2019 ni "recuperación post-pandemia" ni "niveles prepandemia": la pandemia ya queda lejos y no aporta; analiza el periodo por sí mismo y frente al año anterior.',
+                '- COMPARABILIDAD DE TRIMESTRES: los trimestres NO son comparables entre sí por la fuerte estacionalidad (un trimestre de invierno frente a uno de otoño no se comparan). NO uses la variación "vs trimestre anterior" como si midiera evolución real; menciónala solo como contexto estacional. La comparación válida es la INTERANUAL (mismo trimestre del año anterior): apóyate en ella.',
+                '- EFECTO SEMANA SANTA: la Semana Santa cae unas veces en marzo (1.er trimestre) y otras en abril (2.º trimestre). Ese desplazamiento distorsiona la comparación interanual de marzo/abril y de los trimestres 1 y 2. Si el periodo abarca marzo o abril, ADVIÉRTELO explícitamente al interpretar las variaciones interanuales.',
+                '- ALOJAMIENTO: no hables "solo de camping". Cubre de forma equilibrada hoteles, campings y, si aparecen en los datos, las VIVIENDAS DE USO TURÍSTICO (VUT). Si los apartamentos INE no traen datos, dilo, pero apóyate en las VUT como oferta de apartamento privado reglado.',
+                '- Si en los datos hay VIVIENDAS DE USO TURÍSTICO (VUT) o su serie por año, dedícales su comentario (parque de viviendas, plazas y crecimiento del registro).',
+                '- GRÁFICO DE VIAJEROS POR AÑO: si aparece, deja claro que el año en curso es un ACUMULADO PARCIAL comparado en el MISMO periodo (mismos meses) de años anteriores; no lo presentes como total anual cerrado.'
             ].join('\n')
             : ''
     ].filter(Boolean).join('\n');
