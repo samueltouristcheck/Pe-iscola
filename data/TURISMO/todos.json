@@ -1,5 +1,5 @@
 {
-  "generadoEn": "2026-09-14T08:28:42.131Z",
+  "generadoEn": "2026-09-28T10:08:39.630Z",
   "fuente": "INE - Instituto Nacional de Estadística (https://www.ine.es)",
   "municipio": "Peñíscola",
   "codigoMunicipio": "12089",
@@ -8,21 +8,21 @@
   "errores": [],
   "resumen": {
     "hoteles": {
-      "ultimoMes": "2026-07",
-      "viajerosUltimo": 58768,
-      "pernoctacionesUltimo": 237633,
-      "totalViajerosAnyo": 247228,
-      "totalPernoctacionesAnyo": 898310,
+      "ultimoMes": "2026-08",
+      "viajerosUltimo": 66225,
+      "pernoctacionesUltimo": 276923,
+      "totalViajerosAnyo": 313453,
+      "totalPernoctacionesAnyo": 1175233,
       "totalViajerosAnyoAnterior": 389219,
       "totalPernoctacionesAnyoAnterior": 1487237,
-      "ultimoGradoOcupacion": 69.15,
-      "ultimasPlazas": 9662,
-      "ultimosEstablecimientos": 61,
-      "ultimoAdr": 161.88,
-      "ultimoAdrMes": "2026-07",
-      "ultimoRevpar": 122.44,
-      "ultimoRevparMes": "2026-07",
-      "ultimoPersonal": 1136
+      "ultimoGradoOcupacion": 78.63,
+      "ultimasPlazas": 10078,
+      "ultimosEstablecimientos": 62,
+      "ultimoAdr": 187.86,
+      "ultimoAdrMes": "2026-08",
+      "ultimoRevpar": 152.62,
+      "ultimoRevparMes": "2026-08",
+      "ultimoPersonal": 1303
     },
     "apartamentos": {
       "ultimoMes": null,
@@ -1610,6 +1610,13 @@
             "mes": 7,
             "valor": 51727,
             "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 57340,
+            "secreto": false
           }
         ]
       },
@@ -3115,6 +3122,13 @@
             "anyo": 2026,
             "mes": 7,
             "valor": 7041,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 8885,
             "secreto": false
           }
         ]
@@ -4622,6 +4636,13 @@
             "mes": 7,
             "valor": 218202,
             "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 245116,
+            "secreto": false
           }
         ]
       },
@@ -6127,6 +6148,13 @@
             "anyo": 2026,
             "mes": 7,
             "valor": 19431,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 31807,
             "secreto": false
           }
         ]
@@ -7634,6 +7662,13 @@
             "mes": 7,
             "valor": 4.04,
             "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 4.18,
+            "secreto": false
           }
         ]
       },
@@ -9140,6 +9175,13 @@
             "mes": 7,
             "valor": 9662,
             "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 10078,
+            "secreto": false
           }
         ]
       },
@@ -10645,6 +10687,13 @@
             "anyo": 2026,
             "mes": 7,
             "valor": 61,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 62,
             "secreto": false
           }
         ]
@@ -12159,6 +12208,13 @@
             "mes": 7,
             "valor": 69.15,
             "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 78.63,
+            "secreto": false
           }
         ]
       },
@@ -13665,6 +13721,13 @@
             "mes": 7,
             "valor": 1136,
             "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 1303,
+            "secreto": false
           }
         ]
       },
@@ -14056,7 +14119,7 @@
             "fecha": "2025-08",
             "anyo": 2025,
             "mes": 8,
-            "valor": 152.61,
+            "valor": 152.34,
             "secreto": false
           },
           {
@@ -14134,6 +14197,13 @@
             "anyo": 2026,
             "mes": 7,
             "valor": 161.88,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 187.86,
             "secreto": false
           }
         ]
@@ -14526,7 +14596,7 @@
             "fecha": "2025-08",
             "anyo": 2025,
             "mes": 8,
-            "valor": 124.72,
+            "valor": 125.05,
             "secreto": false
           },
           {
@@ -14604,6 +14674,13 @@
             "anyo": 2026,
             "mes": 7,
             "valor": 122.44,
+            "secreto": false
+          },
+          {
+            "fecha": "2026-08",
+            "anyo": 2026,
+            "mes": 8,
+            "valor": 152.62,
             "secreto": false
           }
         ]
