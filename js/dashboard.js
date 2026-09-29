@@ -5015,7 +5015,7 @@
 
   function renderTurismoResumenCharts() {
     if (!turismoData) return;
-    const cats = ['hoteles', 'apartamentos', 'campings'];
+    const cats = ['hoteles', 'campings'];
     const year = getTurismoYear();
     const mes = getTurismoMes();
     const labelsSet = new Set();
@@ -5044,14 +5044,32 @@
         options: { ...turismoChartDefaults(), scales: { ...turismoChartDefaults().scales, x: { ...turismoChartDefaults().scales.x, stacked: true }, y: { ...turismoChartDefaults().scales.y, stacked: true } } }
       });
     }
-    const totals = cats.map((cat) => Object.values(porCatPern[cat]).reduce((a, b) => a + b, 0));
+    // Reparto por tipo de alojamiento: por PLAZAS (oferta), incluyendo Vivienda Turística (VUT).
+    // Cargar viviendas (VUT) una vez si aún no están, y re-renderizar.
+    if (typeof ensureViviendasLoaded === 'function' && !window.__vutTried && (typeof viviendasData === 'undefined' || !viviendasData)) {
+      window.__vutTried = true;
+      ensureViviendasLoaded().then(function () { renderTurismoResumenCharts(); });
+    }
+    const plazasUlt = (cat) => {
+      const s = (turismoData.series[cat] || []).find((x) => x.metrica === 'plazas');
+      if (!s || !s.data || !s.data.length) return 0;
+      const rows = year ? s.data.filter((d) => String(d.anyo) === String(year)) : s.data;
+      const arr = rows.length ? rows : s.data;
+      return (arr[arr.length - 1].valor) || 0;
+    };
+    const plazasVUT = (typeof viviendasData !== 'undefined' && viviendasData && viviendasData.resumen) ? (viviendasData.resumen.plazas_totales || 0) : 0;
+    const repartoTipo = [
+      { n: 'Hoteles', v: plazasUlt('hoteles'), c: TURISMO_COLORS.hoteles },
+      { n: 'Campings', v: plazasUlt('campings'), c: TURISMO_COLORS.campings },
+      { n: 'Vivienda turística', v: plazasVUT, c: '#0ea5e9' }
+    ].filter((x) => x.v > 0);
     destroyTurismoChart('resumen-tipo');
     const ctxB = document.getElementById('chart-turismo-resumen-tipo');
     if (ctxB) {
       turismoCharts['resumen-tipo'] = new Chart(ctxB, {
         type: 'doughnut',
-        data: { labels: ['Hoteles', 'Apartamentos', 'Campings'], datasets: [{ data: totals, backgroundColor: cats.map((c) => TURISMO_COLORS[c]), borderColor: '#ffffff', borderWidth: 2 }] },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f172a' } } } }
+        data: { labels: repartoTipo.map((x) => x.n), datasets: [{ data: repartoTipo.map((x) => x.v), backgroundColor: repartoTipo.map((x) => x.c), borderColor: '#ffffff', borderWidth: 2 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f172a' } }, tooltip: { callbacks: { label: (x) => x.label + ': ' + tFmtNum(x.raw) + ' plazas' } } } }
       });
     }
     let totEsp = 0, totExt = 0;
@@ -5072,6 +5090,8 @@
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#0f172a' } } } }
       });
     }
+    // Estacionalidad: si hay un año en el filtro, muestra ESE año (pernoctaciones por mes);
+    // si no, la media de todos los años disponibles.
     const sumByMonth = Array(12).fill(0);
     const countByMonth = Array(12).fill(0);
     cats.forEach((cat) => {
@@ -5079,18 +5099,20 @@
         if (s.metrica !== 'pernoctaciones') return;
         (s.data || []).forEach((d) => {
           if (!d.mes) return;
+          if (year && String(d.anyo) !== String(year)) return;
           sumByMonth[d.mes - 1] += d.valor;
           countByMonth[d.mes - 1] += 1;
         });
       });
     });
-    const avgByMonth = sumByMonth.map((s, i) => countByMonth[i] ? s / countByMonth[i] : 0);
+    const estData = year ? sumByMonth : sumByMonth.map((s, i) => countByMonth[i] ? s / countByMonth[i] : 0);
+    const estLabel = year ? ('Pernoctaciones ' + year) : 'Pernoctaciones medias (todos los años)';
     destroyTurismoChart('estacionalidad');
     const ctxD = document.getElementById('chart-turismo-estacionalidad');
     if (ctxD) {
       turismoCharts['estacionalidad'] = new Chart(ctxD, {
         type: 'line',
-        data: { labels: MESES_CORTOS, datasets: [{ label: 'Pernoctaciones medias', data: avgByMonth, borderColor: TURISMO_COLORS.hoteles, backgroundColor: 'rgba(37, 99, 235, 0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: TURISMO_COLORS.hoteles }] },
+        data: { labels: MESES_CORTOS, datasets: [{ label: estLabel, data: estData, borderColor: TURISMO_COLORS.hoteles, backgroundColor: 'rgba(37, 99, 235, 0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: TURISMO_COLORS.hoteles }] },
         options: turismoChartDefaults()
       });
     }
