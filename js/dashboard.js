@@ -4973,7 +4973,7 @@
     const heroMes = document.getElementById('turismo-hero-mes');
     const heroUpd = document.getElementById('turismo-hero-update');
     if (titulo) titulo.textContent = 'Turismo en Peñíscola';
-    if (sub) sub.textContent = 'Hoteles, apartamentos y campings · datos oficiales del INE';
+    if (sub) sub.textContent = 'Hoteles, campings y viviendas turísticas · INE y GVA';
     if (heroMes) heroMes.textContent = ultimo ? fechaLabelTurismo(ultimo) : '—';
     if (heroUpd) heroUpd.textContent = 'Actualizado: ' + new Date(turismoData.generadoEn || Date.now()).toLocaleString('es-ES');
   }
@@ -4983,7 +4983,6 @@
     const r = turismoData.resumen || {};
     const cats = [
       { key: 'hoteles', viaj: 'turismo-kpi-hoteles-viajeros', viajSub: 'turismo-kpi-hoteles-viajeros-sub', pern: 'turismo-kpi-hoteles-pern', pernSub: 'turismo-kpi-hoteles-pern-sub' },
-      { key: 'apartamentos', viaj: 'turismo-kpi-apart-viajeros', viajSub: 'turismo-kpi-apart-viajeros-sub', pern: 'turismo-kpi-apart-pern', pernSub: 'turismo-kpi-apart-pern-sub', anyo: 'turismo-kpi-apart-anyo', anyoSub: 'turismo-kpi-apart-anyo-sub' },
       { key: 'campings', viaj: 'turismo-kpi-camp-viajeros', viajSub: 'turismo-kpi-camp-viajeros-sub', pern: 'turismo-kpi-camp-pern', pernSub: 'turismo-kpi-camp-pern-sub', anyo: 'turismo-kpi-camp-anyo', anyoSub: 'turismo-kpi-camp-anyo-sub' }
     ];
     cats.forEach((c) => {
@@ -5010,6 +5009,26 @@
       const data = est?.data || [];
       const last = data[data.length - 1];
       elEst.textContent = last ? tFmtDec(last.valor, 2) : '—';
+    }
+    // Vivienda turística (VUT) — desde viviendasData (registro GVA)
+    const setT = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+    if (typeof viviendasData !== 'undefined' && viviendasData && viviendasData.resumen) {
+      const vr = viviendasData.resumen;
+      setT('turismo-kpi-vut-viviendas', tFmtNum(vr.viviendas_totales));
+      setT('turismo-kpi-vut-plazas', tFmtNum(vr.plazas_totales));
+      setT('turismo-kpi-vut-plazas-sub', tFmtDec(vr.plazas_por_vivienda, 2) + ' plazas/vivienda');
+      const altas = viviendasData.altasPorAnyo || {};
+      const ys = Object.keys(altas).sort();
+      const cur = ys[ys.length - 1], prev = ys[ys.length - 2];
+      setT('turismo-kpi-vut-altas', tFmtNum(altas[cur] || 0));
+      const subA = document.getElementById('turismo-kpi-vut-altas-sub');
+      if (subA) {
+        subA.classList.remove('up', 'down');
+        subA.textContent = 'nuevas en ' + cur + ' (año en curso) · ' + (prev ? tFmtNum(altas[prev] || 0) + ' en ' + prev : '');
+      }
+    } else if (typeof ensureViviendasLoaded === 'function' && !window.__vutKpiTried) {
+      window.__vutKpiTried = true;
+      ensureViviendasLoaded().then(() => renderTurismoKPIs());
     }
   }
 
@@ -5450,13 +5469,29 @@
     if (r.presionTuristica && r.presionTuristica.habitantes) {
       const pct = (r.presionTuristica.turistas / r.presionTuristica.habitantes) * 100;
       setText('turismo-ctx-presion', pct.toFixed(1).replace('.', ',') + '%');
+      const mesP = r.presionTuristica.mes || (r.movilidad && r.movilidad.ultimoMes);
+      if (mesP) setText('turismo-ctx-presion-sub', 'Turistas extranjeros ÷ habitantes · último dato: ' + fechaLabelTurismo(mesP));
     }
-    // Plazas turísticas: plazas hoteleras + plazas de camping (capacidad total estimada)
-    const plazasHotel = (r.hoteles && r.hoteles.ultimasPlazas) || 0;
-    const plazasCamp = (r.campings && r.campings.ultimasPlazas) || 0;
-    if (plazasHotel || plazasCamp) {
-      setText('turismo-ctx-plazas', tFmtNum(plazasHotel + plazasCamp));
-      setText('turismo-ctx-plazas-sub', tFmtNum(plazasHotel) + ' hotel · ' + tFmtNum(plazasCamp) + ' camping');
+    // Plazas turísticas: usar el ÚLTIMO MES con dato de AMBOS (hoteles y campings) para que sea coherente.
+    const plazasSerie = (cat) => {
+      const s = (turismoData.series[cat] || []).find((x) => x.metrica === 'plazas');
+      const m = {};
+      if (s) (s.data || []).forEach((d) => { if (d.anyo && d.mes) m[d.anyo + '-' + String(d.mes).padStart(2, '0')] = d.valor; });
+      return m;
+    };
+    const ph = plazasSerie('hoteles'), pc = plazasSerie('campings');
+    const comunes = Object.keys(ph).filter((k) => k in pc).sort();
+    const ultComun = comunes[comunes.length - 1];
+    if (ultComun) {
+      setText('turismo-ctx-plazas', tFmtNum((ph[ultComun] || 0) + (pc[ultComun] || 0)));
+      setText('turismo-ctx-plazas-sub', tFmtNum(ph[ultComun]) + ' hotel · ' + tFmtNum(pc[ultComun]) + ' camping · último dato común: ' + fechaLabelTurismo(ultComun));
+    } else {
+      const plazasHotel = (r.hoteles && r.hoteles.ultimasPlazas) || 0;
+      const plazasCamp = (r.campings && r.campings.ultimasPlazas) || 0;
+      if (plazasHotel || plazasCamp) {
+        setText('turismo-ctx-plazas', tFmtNum(plazasHotel + plazasCamp));
+        setText('turismo-ctx-plazas-sub', tFmtNum(plazasHotel) + ' hotel · ' + tFmtNum(plazasCamp) + ' camping');
+      }
     }
   }
 

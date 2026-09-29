@@ -741,7 +741,7 @@
             <div>
               <span class="turismo-context-label">Presión turística</span>
               <span class="turismo-context-value" id="turismo-ctx-presion">—</span>
-              <span class="turismo-context-sub">turistas extranjeros del mes ÷ habitantes × 100</span>
+              <span class="turismo-context-sub" id="turismo-ctx-presion-sub">turistas extranjeros del mes ÷ habitantes × 100</span>
             </div>
           </div>
           <div class="turismo-context-card" title="Capacidad turística estimada = plazas hoteleras estimadas + plazas de camping (último mes publicado por el INE). Las plazas hoteleras varían por temporada (hoteles abiertos cada mes).">
@@ -809,23 +809,23 @@
                 </div>
               </div>
             </div>
-            <div class="turismo-kpi-card turismo-kpi-apartamentos">
-              <div class="turismo-kpi-head"><span class="turismo-kpi-icon">🏢</span><span class="turismo-kpi-title">Apartamentos</span></div>
+            <div class="turismo-kpi-card turismo-kpi-vut">
+              <div class="turismo-kpi-head"><span class="turismo-kpi-icon">🏡</span><span class="turismo-kpi-title">Vivienda turística (VUT)</span></div>
               <div class="turismo-kpi-row">
                 <div class="turismo-kpi-block">
-                  <span class="turismo-kpi-label">Viajeros (último mes)</span>
-                  <span class="turismo-kpi-value" id="turismo-kpi-apart-viajeros">—</span>
-                  <span class="turismo-kpi-sub" id="turismo-kpi-apart-viajeros-sub">—</span>
+                  <span class="turismo-kpi-label">Viviendas registradas</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-vut-viviendas">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-vut-viviendas-sub">Registro GVA</span>
                 </div>
                 <div class="turismo-kpi-block">
-                  <span class="turismo-kpi-label">Pernoctaciones</span>
-                  <span class="turismo-kpi-value" id="turismo-kpi-apart-pern">—</span>
-                  <span class="turismo-kpi-sub" id="turismo-kpi-apart-pern-sub">—</span>
+                  <span class="turismo-kpi-label">Plazas</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-vut-plazas">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-vut-plazas-sub">—</span>
                 </div>
                 <div class="turismo-kpi-block">
-                  <span class="turismo-kpi-label">Año actual</span>
-                  <span class="turismo-kpi-value" id="turismo-kpi-apart-anyo">—</span>
-                  <span class="turismo-kpi-sub" id="turismo-kpi-apart-anyo-sub">vs año anterior: —</span>
+                  <span class="turismo-kpi-label">Altas este año</span>
+                  <span class="turismo-kpi-value" id="turismo-kpi-vut-altas">—</span>
+                  <span class="turismo-kpi-sub" id="turismo-kpi-vut-altas-sub">vs año anterior: —</span>
                 </div>
               </div>
             </div>
@@ -1574,7 +1574,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=130"></script>
+  <script src="js/dashboard.js?v=131"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>
