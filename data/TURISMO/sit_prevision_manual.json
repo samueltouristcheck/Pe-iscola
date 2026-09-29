@@ -1,0 +1,10 @@
+{
+  "fuente": "Invattur Smart Tourism CV · Previsión de visitantes (Flux Vision)",
+  "destino": "Peñíscola Municipio",
+  "actualizado": "2026-09-29",
+  "nota": "Visitantes promedio diarios. Extraído manualmente del cuadro de mando SIT-CV.",
+  "origen": {
+    "pasado": { "periodo": "2025", "nacionales_pct": 87.74, "extranjeros_pct": 12.26 },
+    "futuro": { "periodo": "2026", "nacionales_pct": 88.19, "extranjeros_pct": 11.81 }
+  }
+}

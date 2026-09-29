@@ -1,0 +1,661 @@
+{
+  "fuente": "Invattur Smart Tourism CV - Prevision de visitantes (Flux Vision)",
+  "destino": "Peniscola Municipio",
+  "actualizado": "2026-09-29",
+  "disponibilidad": {
+    "descriptivo": "2024-01-01/2026-05-31",
+    "predictivo": "2025-01-01/2026-12-31"
+  },
+  "nota": "Datos que el INE no ofrece: tipologia de visitante, origen nacional/extranjero, pais y provincia de origen, y prevision. Extraido del cuadro de mando SIT-CV (exportar datos resumidos).",
+  "origen_pct": {
+    "pasado": {
+      "periodo": "2025",
+      "nacionales_pct": 87.74,
+      "extranjeros_pct": 12.26
+    },
+    "futuro": {
+      "periodo": "2026",
+      "nacionales_pct": 88.19,
+      "extranjeros_pct": 11.81
+    }
+  },
+  "tipologia_semana": {
+    "periodo": "2025",
+    "fuente_fichero": "prevision_visitantes_dia_semana_pasado_2025.xlsx",
+    "por_dia": {
+      "Lunes": {
+        "Excursionista": 5525.6,
+        "Habitualmente presente": 2395.8,
+        "Residente": 15990.8,
+        "Turista": 9710.5
+      },
+      "Martes": {
+        "Excursionista": 5357.5,
+        "Habitualmente presente": 1705.4,
+        "Residente": 15901.7,
+        "Turista": 9750.2
+      },
+      "Miércoles": {
+        "Excursionista": 5104.5,
+        "Habitualmente presente": 1725.9,
+        "Residente": 15782.3,
+        "Turista": 9462.2
+      },
+      "Jueves": {
+        "Excursionista": 5298.7,
+        "Habitualmente presente": 1973.2,
+        "Residente": 15953.2,
+        "Turista": 9694.3
+      },
+      "Viernes": {
+        "Excursionista": 5988.5,
+        "Habitualmente presente": 3455.6,
+        "Residente": 16531.3,
+        "Turista": 10072.1
+      },
+      "Sábado": {
+        "Excursionista": 8032.8,
+        "Habitualmente presente": 3644.3,
+        "Residente": 16190.4,
+        "Turista": 12020.4
+      },
+      "Domingo": {
+        "Excursionista": 7478.8,
+        "Habitualmente presente": 2551.4,
+        "Residente": 15283.4,
+        "Turista": 12278.8
+      }
+    }
+  },
+  "serie_origen": {
+    "periodo": "2025",
+    "fuente_fichero": "receptor_evolucion_diaria_descriptivo_origen.xlsx",
+    "mensual": {
+      "2025-01": {
+        "Extranjeros": 55571,
+        "Nacionales": 564711
+      },
+      "2025-02": {
+        "Extranjeros": 62151,
+        "Nacionales": 536761
+      },
+      "2025-03": {
+        "Extranjeros": 79046,
+        "Nacionales": 627084
+      },
+      "2025-04": {
+        "Extranjeros": 115097,
+        "Nacionales": 1024724
+      },
+      "2025-05": {
+        "Extranjeros": 123166,
+        "Nacionales": 882001
+      },
+      "2025-06": {
+        "Extranjeros": 134505,
+        "Nacionales": 1139554
+      },
+      "2025-07": {
+        "Extranjeros": 220535,
+        "Nacionales": 1617321
+      },
+      "2025-08": {
+        "Extranjeros": 288116,
+        "Nacionales": 1932976
+      },
+      "2025-09": {
+        "Extranjeros": 185683,
+        "Nacionales": 1096669
+      },
+      "2025-10": {
+        "Extranjeros": 124439,
+        "Nacionales": 675246
+      },
+      "2025-11": {
+        "Extranjeros": 84918,
+        "Nacionales": 552120
+      },
+      "2025-12": {
+        "Extranjeros": 91893,
+        "Nacionales": 550493
+      }
+    }
+  },
+  "serie_pais_predictivo": {
+    "periodo": "2026",
+    "fuente_fichero": "receptor_evolucion_mensual_predictivo_pais.xlsx",
+    "mensual": {
+      "2026-01": {
+        "Alemania": 2772,
+        "Francia": 11004,
+        "Italia": 351,
+        "Países Bajos": 2292,
+        "Reino Unido": 1733
+      },
+      "2026-02": {
+        "Alemania": 3647,
+        "Francia": 11977,
+        "Italia": 279,
+        "Países Bajos": 2033,
+        "Reino Unido": 2025
+      },
+      "2026-03": {
+        "Alemania": 5152,
+        "Francia": 16078,
+        "Italia": 296,
+        "Países Bajos": 2272,
+        "Reino Unido": 1882
+      },
+      "2026-04": {
+        "Alemania": 5722,
+        "Francia": 25977,
+        "Italia": 525,
+        "Países Bajos": 3133,
+        "Reino Unido": 3819
+      },
+      "2026-05": {
+        "Alemania": 4716,
+        "Francia": 31320,
+        "Italia": 501,
+        "Países Bajos": 3761,
+        "Reino Unido": 4061
+      },
+      "2026-06": {
+        "Alemania": 5592,
+        "Francia": 30690,
+        "Italia": 533,
+        "Países Bajos": 3246,
+        "Reino Unido": 3445
+      },
+      "2026-07": {
+        "Alemania": 6250,
+        "Francia": 59500,
+        "Italia": 1475,
+        "Países Bajos": 3616,
+        "Reino Unido": 3885
+      },
+      "2026-08": {
+        "Alemania": 7900,
+        "Francia": 96579,
+        "Italia": 3070,
+        "Países Bajos": 4487,
+        "Reino Unido": 5992
+      },
+      "2026-09": {
+        "Alemania": 7838,
+        "Francia": 45641,
+        "Italia": 947,
+        "Países Bajos": 5800,
+        "Reino Unido": 4657
+      },
+      "2026-10": {
+        "Alemania": 5110,
+        "Francia": 27900,
+        "Italia": 658,
+        "Países Bajos": 3640,
+        "Reino Unido": 3528
+      },
+      "2026-11": {
+        "Alemania": 2427,
+        "Francia": 11207,
+        "Italia": 415,
+        "Países Bajos": 1333,
+        "Reino Unido": 1468
+      },
+      "2026-12": {
+        "Alemania": 2334,
+        "Francia": 7703,
+        "Italia": 310,
+        "Países Bajos": 1140,
+        "Reino Unido": 1695
+      }
+    }
+  },
+  "serie_provincia_predictivo": {
+    "periodo": "2026",
+    "fuente_fichero": "interno_evolucion_diaria_predictivo_provincia.xlsx",
+    "mensual": {
+      "2026-01": {
+        "Alicante/Alacant": 4838,
+        "Bizkaia": 3413,
+        "Madrid": 25274,
+        "Valencia/València": 25651
+      },
+      "2026-02": {
+        "Alicante/Alacant": 9372,
+        "Bizkaia": 4101,
+        "Madrid": 28051,
+        "Valencia/València": 22858
+      },
+      "2026-03": {
+        "Alicante/Alacant": 13459,
+        "Bizkaia": 7568,
+        "Madrid": 42833,
+        "Valencia/València": 33233
+      },
+      "2026-04": {
+        "Alicante/Alacant": 16751,
+        "Bizkaia": 21061,
+        "Madrid": 87184,
+        "Valencia/València": 51479
+      },
+      "2026-05": {
+        "Alicante/Alacant": 12672,
+        "Bizkaia": 18707,
+        "Madrid": 67329,
+        "Valencia/València": 49634
+      },
+      "2026-06": {
+        "Alicante/Alacant": 11831,
+        "Bizkaia": 30940,
+        "Madrid": 96660,
+        "Valencia/València": 52281
+      },
+      "2026-07": {
+        "Alicante/Alacant": 14883,
+        "Bizkaia": 52830,
+        "Madrid": 235554,
+        "Valencia/València": 75491
+      },
+      "2026-08": {
+        "Alicante/Alacant": 20176,
+        "Bizkaia": 68943,
+        "Madrid": 306449,
+        "Valencia/València": 101931
+      },
+      "2026-09": {
+        "Alicante/Alacant": 12659,
+        "Bizkaia": 25493,
+        "Madrid": 91351,
+        "Valencia/València": 49067
+      },
+      "2026-10": {
+        "Alicante/Alacant": 28628,
+        "Bizkaia": 10643,
+        "Madrid": 38514,
+        "Valencia/València": 44769
+      },
+      "2026-11": {
+        "Alicante/Alacant": 47422,
+        "Bizkaia": 5916,
+        "Madrid": 18927,
+        "Valencia/València": 43849
+      },
+      "2026-12": {
+        "Alicante/Alacant": 54246,
+        "Bizkaia": 5395,
+        "Madrid": 18209,
+        "Valencia/València": 56037
+      }
+    }
+  },
+  "alquiler_vacacional": {
+    "fuente": "Lighthouse Intelligence (OTA: Airbnb/Booking/Vrbo) via Invattur",
+    "destino": "Peñíscola Municipio",
+    "periodo": "2025 vs 2024",
+    "disponibilidad": "ene-2019 / nov-2026",
+    "kpi_2025": {
+      "turistas": 102923,
+      "reservas": 29449,
+      "noches_reservadas": 128394,
+      "adr_eur": 159.5,
+      "revpar_eur": 68.3,
+      "revenue_eur": 20483788.4,
+      "ocupacion_pct": 39.5,
+      "estancia_media_noches": 6.8,
+      "antelacion_dias": 56.4
+    },
+    "mensual": {
+      "turistas": {
+        "01": {
+          "v2025": 3058.0,
+          "v2024": 2475.0
+        },
+        "02": {
+          "v2025": 2635.0,
+          "v2024": 1816.0
+        },
+        "03": {
+          "v2025": 3246.0,
+          "v2024": 5457.0
+        },
+        "04": {
+          "v2025": 8295.0,
+          "v2024": 5247.0
+        },
+        "05": {
+          "v2025": 7508.0,
+          "v2024": 8835.0
+        },
+        "06": {
+          "v2025": 13308.0,
+          "v2024": 11424.0
+        },
+        "07": {
+          "v2025": 16846.0,
+          "v2024": 16804.0
+        },
+        "08": {
+          "v2025": 18873.0,
+          "v2024": 19552.0
+        },
+        "09": {
+          "v2025": 12052.0,
+          "v2024": 10822.0
+        },
+        "10": {
+          "v2025": 6410.0,
+          "v2024": 6063.0
+        },
+        "11": {
+          "v2025": 4109.0,
+          "v2024": 3262.0
+        },
+        "12": {
+          "v2025": 6583.0,
+          "v2024": 5860.0
+        }
+      },
+      "adr": {
+        "01": {
+          "v2025": 151.5908,
+          "v2024": 137.5719
+        },
+        "02": {
+          "v2025": 144.5301,
+          "v2024": 130.6593
+        },
+        "03": {
+          "v2025": 122.9355,
+          "v2024": 148.5468
+        },
+        "04": {
+          "v2025": 135.1504,
+          "v2024": 138.397
+        },
+        "05": {
+          "v2025": 121.9697,
+          "v2024": 136.6416
+        },
+        "06": {
+          "v2025": 138.4529,
+          "v2024": 164.0441
+        },
+        "07": {
+          "v2025": 178.2832,
+          "v2024": 206.3383
+        },
+        "08": {
+          "v2025": 201.3226,
+          "v2024": 225.1706
+        },
+        "09": {
+          "v2025": 136.4975,
+          "v2024": 154.4255
+        },
+        "10": {
+          "v2025": 124.1398,
+          "v2024": 133.4321
+        },
+        "11": {
+          "v2025": 140.0547,
+          "v2024": 151.3376
+        },
+        "12": {
+          "v2025": 146.1177,
+          "v2024": 157.7287
+        }
+      },
+      "revpar": {
+        "01": {
+          "v2025": 12.58,
+          "v2024": 12.24
+        },
+        "02": {
+          "v2025": 12.43,
+          "v2024": 9.15
+        },
+        "03": {
+          "v2025": 11.19,
+          "v2024": 22.58
+        },
+        "04": {
+          "v2025": 25.81,
+          "v2024": 18.82
+        },
+        "05": {
+          "v2025": 21.1,
+          "v2024": 23.64
+        },
+        "06": {
+          "v2025": 47.21,
+          "v2024": 44.62
+        },
+        "07": {
+          "v2025": 96.81,
+          "v2024": 99.04
+        },
+        "08": {
+          "v2025": 130.46,
+          "v2024": 132.63
+        },
+        "09": {
+          "v2025": 48.46,
+          "v2024": 47.1
+        },
+        "10": {
+          "v2025": 21.35,
+          "v2024": 21.08
+        },
+        "11": {
+          "v2025": 12.88,
+          "v2024": 13.01
+        },
+        "12": {
+          "v2025": 20.89,
+          "v2024": 19.09
+        }
+      },
+      "revenue": {
+        "01": {
+          "v2025": 474782.45,
+          "v2024": 393317.98
+        },
+        "02": {
+          "v2025": 425496.71,
+          "v2024": 284184.02
+        },
+        "03": {
+          "v2025": 445272.2,
+          "v2024": 837209.5
+        },
+        "04": {
+          "v2025": 1038495.79,
+          "v2024": 726999.41
+        },
+        "05": {
+          "v2025": 928677.24,
+          "v2024": 1065531.17
+        },
+        "06": {
+          "v2025": 2197247.57,
+          "v2024": 2219187.99
+        },
+        "07": {
+          "v2025": 4701507.01,
+          "v2024": 5248626.24
+        },
+        "08": {
+          "v2025": 6057194.51,
+          "v2024": 6919268.52
+        },
+        "09": {
+          "v2025": 2204981.04,
+          "v2024": 2341091.12
+        },
+        "10": {
+          "v2025": 848619.76,
+          "v2024": 945366.41
+        },
+        "11": {
+          "v2025": 441592.38,
+          "v2024": 496992.58
+        },
+        "12": {
+          "v2025": 719921.74,
+          "v2024": 734069.54
+        }
+      },
+      "ocupacion": {
+        "01": {
+          "v2025": 0.083,
+          "v2024": 0.089
+        },
+        "02": {
+          "v2025": 0.086,
+          "v2024": 0.07
+        },
+        "03": {
+          "v2025": 0.091,
+          "v2024": 0.152
+        },
+        "04": {
+          "v2025": 0.191,
+          "v2024": 0.136
+        },
+        "05": {
+          "v2025": 0.173,
+          "v2024": 0.173
+        },
+        "06": {
+          "v2025": 0.341,
+          "v2024": 0.272
+        },
+        "07": {
+          "v2025": 0.543,
+          "v2024": 0.48
+        },
+        "08": {
+          "v2025": 0.648,
+          "v2024": 0.589
+        },
+        "09": {
+          "v2025": 0.355,
+          "v2024": 0.305
+        },
+        "10": {
+          "v2025": 0.172,
+          "v2024": 0.158
+        },
+        "11": {
+          "v2025": 0.092,
+          "v2024": 0.086
+        },
+        "12": {
+          "v2025": 0.143,
+          "v2024": 0.121
+        }
+      },
+      "oferta_apartamentos": {
+        "01": {
+          "v2025": 2058.0,
+          "v2024": 1873.0
+        },
+        "02": {
+          "v2025": 2137.0,
+          "v2024": 1953.0
+        },
+        "03": {
+          "v2025": 2225.0,
+          "v2024": 2095.0
+        },
+        "04": {
+          "v2025": 2314.0,
+          "v2024": 2213.0
+        },
+        "05": {
+          "v2025": 2392.0,
+          "v2024": 2353.0
+        },
+        "06": {
+          "v2025": 2437.0,
+          "v2024": 2355.0
+        },
+        "07": {
+          "v2025": 2459.0,
+          "v2024": 2432.0
+        },
+        "08": {
+          "v2025": 2263.0,
+          "v2024": 2414.0
+        },
+        "09": {
+          "v2025": 2256.0,
+          "v2024": 2360.0
+        },
+        "10": {
+          "v2025": 2160.0,
+          "v2024": 2253.0
+        },
+        "11": {
+          "v2025": 1879.0,
+          "v2024": 2049.0
+        },
+        "12": {
+          "v2025": 1711.0,
+          "v2024": 1999.0
+        }
+      },
+      "oferta_plazas": {
+        "01": {
+          "v2025": 10696.0,
+          "v2024": 9633.0
+        },
+        "02": {
+          "v2025": 11051.0,
+          "v2024": 10120.0
+        },
+        "03": {
+          "v2025": 11481.0,
+          "v2024": 10823.0
+        },
+        "04": {
+          "v2025": 11948.0,
+          "v2024": 11450.0
+        },
+        "05": {
+          "v2025": 12329.0,
+          "v2024": 12209.0
+        },
+        "06": {
+          "v2025": 12484.0,
+          "v2024": 12222.0
+        },
+        "07": {
+          "v2025": 12508.0,
+          "v2024": 12649.0
+        },
+        "08": {
+          "v2025": 11450.0,
+          "v2024": 12543.0
+        },
+        "09": {
+          "v2025": 11467.0,
+          "v2024": 12241.0
+        },
+        "10": {
+          "v2025": 10957.0,
+          "v2024": 11638.0
+        },
+        "11": {
+          "v2025": 9588.0,
+          "v2024": 10597.0
+        },
+        "12": {
+          "v2025": 8709.0,
+          "v2024": 10356.0
+        }
+      }
+    }
+  }
+}

@@ -997,8 +997,38 @@
                 <div class="chart-container" style="height:320px"><canvas id="chart-turismo-busquedas"></canvas></div>
               </div>
               <div class="turismo-chart-card">
-                <h4>Cómo se integra</h4>
-                <p class="turismo-chart-hint" style="line-height:1.5">Datos del <strong>Power BI del SIT-CV</strong> (sin API pública): se leen y actualizan <strong>manualmente</strong> cada mes. Para el detalle completo (evolución mensual, origen del turista, comparativa de destinos) lo idóneo es solicitar un <strong>feed/API a Invat·tur</strong>.</p>
+                <h4>Rentabilidad y oferta (2025)</h4>
+                <p class="turismo-chart-hint" style="line-height:1.5">Indicadores clave del alquiler vacacional en Peñíscola, leídos del SIT-CV (Lighthouse).</p>
+                <div class="turismo-mini-kpis" id="turismo-sitcv-kpis"></div>
+              </div>
+            </div>
+            <div class="turismo-section-head" style="margin-top:1.2rem">
+              <h3 class="section-title" style="font-size:1.05rem">📅 Detalle mensual 2025 vs 2024</h3>
+              <span class="turismo-section-tag">Nuevo · exportado del SIT-CV</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Detalle mensual real exportado del Power BI del SIT-CV (comparación con el mismo mes del año anterior). Fuente: Lighthouse Intelligence.</p>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Turistas por mes</h4>
+                <p class="turismo-chart-hint">2025 vs 2024</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-sitcv-turistas-mes"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Ocupación media por mes</h4>
+                <p class="turismo-chart-hint">% de ocupación · 2025 vs 2024</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-sitcv-ocupacion-mes"></canvas></div>
+              </div>
+            </div>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Precio medio (ADR) y RevPar por mes</h4>
+                <p class="turismo-chart-hint">€ · 2025 (analizado)</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-sitcv-adr-mes"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Oferta: apartamentos y plazas por mes</h4>
+                <p class="turismo-chart-hint">Nº activos · 2025 vs 2024</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-sitcv-oferta-mes"></canvas></div>
               </div>
             </div>
           </div>
@@ -1574,7 +1604,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=131"></script>
+  <script src="js/dashboard.js?v=132"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

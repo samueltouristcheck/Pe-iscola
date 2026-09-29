@@ -5,3 +5,6 @@ data/RESIDUOS/camion/JSON
 # Guías y notas internas
 GUIA_ACTUALIZACION.md
 MANUAL_ACTUALIZACION.md
+# SIT-CV: la web solo necesita sit_cv.json; los .xlsx crudos y el README interno no se publican
+data/TURISMO/SIT_CV/exports
+data/TURISMO/SIT_CV/README.md
