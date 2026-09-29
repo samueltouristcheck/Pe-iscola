@@ -137,42 +137,51 @@ def serie_provincia():
 
 
 def alquiler_vacacional():
-    """Lee exports/alquiler_vacacional/*.xlsx (Lighthouse, Peñíscola) -> mensual 2025 vs 2024.
-    Estructura de cada fichero: (Mes, P.analizado[2025], P.comparativo[2024], variacion)
-    salvo ocupacion, que trae (Mes, VariacionPP, P.analizado, P.comparativo)."""
+    """Lee exports/alquiler_vacacional/*.xlsx (Lighthouse, Peñíscola) -> mensual multi-año.
+    Cada fichero es un par de años (P.analizado vs P.comparativo). Combinamos varios pares
+    (2025-vs-2024 y 2026-vs-2025) en una serie por mes con un valor por año:
+        mensual[metrica][mes] = { '2024': v, '2025': v, '2026': v }
+    Estructura de cada fichero: (Mes, P.analizado, P.comparativo, variacion) salvo
+    ocupacion/oferta, que traen (Mes, variacion, P.analizado, P.comparativo)."""
     carpeta = os.path.join(EXP, 'alquiler_vacacional')
     if not os.path.isdir(carpeta):
         return None
+    # metrica -> lista de (anio_P1, anio_P2, fichero)
     ficheros = {
-        'turistas': 'demanda_turistas_mensual_2025_vs_2024.xlsx',
-        'adr': 'rentabilidad_adr_mensual_2025_vs_2024.xlsx',
-        'revpar': 'rentabilidad_revpar_mensual_2025_vs_2024.xlsx',
-        'revenue': 'rentabilidad_revenue_mensual_2025_vs_2024.xlsx',
-        'ocupacion': 'rentabilidad_ocupacion_mensual_2025_vs_2024.xlsx',
-        'oferta_apartamentos': 'oferta_apartamentos_mensual_2025_vs_2024.xlsx',
-        'oferta_plazas': 'oferta_plazas_mensual_2025_vs_2024.xlsx',
+        'turistas': [('2025', '2024', 'demanda_turistas_mensual_2025_vs_2024.xlsx'),
+                     ('2026', '2025', 'demanda_turistas_mensual_2026_vs_2025.xlsx')],
+        'adr': [('2025', '2024', 'rentabilidad_adr_mensual_2025_vs_2024.xlsx'),
+                ('2026', '2025', 'rentabilidad_adr_mensual_2026_vs_2025.xlsx')],
+        'ocupacion': [('2025', '2024', 'rentabilidad_ocupacion_mensual_2025_vs_2024.xlsx'),
+                      ('2026', '2025', 'rentabilidad_ocupacion_mensual_2026_vs_2025.xlsx')],
+        'revpar': [('2025', '2024', 'rentabilidad_revpar_mensual_2025_vs_2024.xlsx')],
+        'revenue': [('2025', '2024', 'rentabilidad_revenue_mensual_2025_vs_2024.xlsx')],
+        'oferta_apartamentos': [('2025', '2024', 'oferta_apartamentos_mensual_2025_vs_2024.xlsx')],
+        'oferta_plazas': [('2025', '2024', 'oferta_plazas_mensual_2025_vs_2024.xlsx')],
     }
     # metricas cuya tabla es (Mes, variacion, P.analizado, P.comparativo)
     var_primero = {'ocupacion', 'oferta_apartamentos', 'oferta_plazas'}
     out = {}
-    for metrica, fn in ficheros.items():
-        ruta = os.path.join(carpeta, fn)
-        if not os.path.exists(ruta):
-            continue
-        _, datos = _rows(ruta)
-        serie = {}
-        for r in datos:
-            if not r or r[0] not in MES:
+    for metrica, pares in ficheros.items():
+        serie = {}  # mes -> {anio: valor}
+        for (ya, yb, fn) in pares:
+            ruta = os.path.join(carpeta, fn)
+            if not os.path.exists(ruta):
                 continue
-            ym = MES[r[0]]
-            if metrica in var_primero:
-                # (Mes, variacion, P.analizado, P.comparativo)
-                p25, p24 = r[2], r[3]
-            else:
-                # (Mes, P.analizado, P.comparativo, %var)
-                p25, p24 = r[1], r[2]
-            serie[ym] = {'v2025': round(float(p25), 4) if p25 is not None else None,
-                         'v2024': round(float(p24), 4) if p24 is not None else None}
+            _, datos = _rows(ruta)
+            for r in datos:
+                if not r or r[0] not in MES:
+                    continue
+                ym = MES[r[0]]
+                if metrica in var_primero:
+                    p1, p2 = r[2], r[3]
+                else:
+                    p1, p2 = r[1], r[2]
+                serie.setdefault(ym, {})
+                if p1 is not None:
+                    serie[ym][ya] = round(float(p1), 4)
+                if p2 is not None:
+                    serie[ym][yb] = round(float(p2), 4)
         if serie:
             out[metrica] = serie
     if not out:
@@ -180,8 +189,20 @@ def alquiler_vacacional():
     return {
         'fuente': 'Lighthouse Intelligence (OTA: Airbnb/Booking/Vrbo) via Invattur',
         'destino': 'Peñíscola Municipio',
-        'periodo': '2025 vs 2024',
+        'periodo': '2024-2026 (2026 parcial: on the books, año en curso)',
         'disponibilidad': 'ene-2019 / nov-2026',
+        'anios': ['2024', '2025', '2026'],
+        'kpi': {
+            '2025': {'turistas': 102923, 'reservas': 29449, 'noches_reservadas': 128394,
+                     'adr_eur': 159.5, 'revpar_eur': 68.3, 'revenue_eur': 20483788.4,
+                     'ocupacion_pct': 39.5, 'estancia_media_noches': 6.8, 'antelacion_dias': 56.4,
+                     'parcial': False},
+            '2026': {'turistas': 62861, 'reservas': 17551,
+                     'adr_eur': 176.4, 'revpar_eur': 71.5, 'revenue_eur': 11533577.1,
+                     'ocupacion_pct': 37.4, 'estancia_media_noches': 5.1, 'antelacion_dias': 49.0,
+                     'parcial': True},
+        },
+        # compat: se mantiene kpi_2025 para no romper nada que lo use
         'kpi_2025': {'turistas': 102923, 'reservas': 29449, 'noches_reservadas': 128394,
                      'adr_eur': 159.5, 'revpar_eur': 68.3, 'revenue_eur': 20483788.4,
                      'ocupacion_pct': 39.5, 'estancia_media_noches': 6.8, 'antelacion_dias': 56.4},

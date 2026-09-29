@@ -1003,10 +1003,10 @@
               </div>
             </div>
             <div class="turismo-section-head" style="margin-top:1.2rem">
-              <h3 class="section-title" style="font-size:1.05rem">📅 Detalle mensual 2025 vs 2024</h3>
-              <span class="turismo-section-tag">Nuevo · exportado del SIT-CV</span>
+              <h3 class="section-title" style="font-size:1.05rem">📅 Detalle mensual <span id="sitcv-titulo-anios">2025 vs 2024</span></h3>
+              <span style="display:inline-flex;align-items:center;gap:.35rem"><label style="font-size:.78rem;color:#64748b">Año</label><select id="sitcv-anio" class="fuente-select" style="min-width:110px"></select></span>
             </div>
-            <p class="turismo-chart-hint" style="margin-bottom:1rem">Detalle mensual real exportado del Power BI del SIT-CV (comparación con el mismo mes del año anterior). Fuente: Lighthouse Intelligence.</p>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Detalle mensual real exportado del Power BI del SIT-CV (cada mes comparado con el mismo mes del año anterior). Fuente: Lighthouse Intelligence. <span id="sitcv-parcial-aviso" style="color:#b45309;font-weight:600"></span></p>
             <div class="turismo-charts-row">
               <div class="turismo-chart-card">
                 <h4>Turistas por mes</h4>
@@ -1021,8 +1021,8 @@
             </div>
             <div class="turismo-charts-row">
               <div class="turismo-chart-card">
-                <h4>Precio medio (ADR) y RevPar por mes</h4>
-                <p class="turismo-chart-hint">€ · 2025 (analizado)</p>
+                <h4>Precio medio (ADR) por mes</h4>
+                <p class="turismo-chart-hint">€ · comparación interanual</p>
                 <div class="chart-container" style="height:300px"><canvas id="chart-sitcv-adr-mes"></canvas></div>
               </div>
               <div class="turismo-chart-card">
@@ -1604,7 +1604,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=132"></script>
+  <script src="js/dashboard.js?v=133"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

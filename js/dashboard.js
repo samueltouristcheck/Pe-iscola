@@ -5775,69 +5775,86 @@
   // Enriquece la sección "Demanda online" con: KPIs de rentabilidad, y series mensuales 2025 vs 2024
   // de turistas, ocupación, ADR/RevPar y oferta (apartamentos/plazas).
   var _sitCv = null;
+  var _sitcvAnio = null;
   function renderSitcvDetalle() {
     var MES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
     var render = function (db) {
       var av = db && db.alquiler_vacacional;
       if (!av) return;
       var m = av.mensual || {};
-      var k = av.kpi_2025 || {};
+      var anios = (av.anios || ['2024', '2025']).slice();
+      // Años que pueden ser "analizado" = todos menos el primero (el primero solo hace de comparativo)
+      var opciones = anios.slice(1).reverse(); // p.ej. ['2026','2025']
+      var sel = document.getElementById('sitcv-anio');
+      if (sel && sel.dataset.bound !== '1') {
+        sel.innerHTML = opciones.map(function (y) { return '<option value="' + y + '">' + y + ' vs ' + (parseInt(y, 10) - 1) + '</option>'; }).join('');
+        sel.value = opciones[0];
+        sel.addEventListener('change', function () { _sitcvAnio = sel.value; render(db); });
+        sel.dataset.bound = '1';
+      }
+      var yA = _sitcvAnio || (sel && sel.value) || opciones[0];
+      var yB = String(parseInt(yA, 10) - 1);
+      var tit = document.getElementById('sitcv-titulo-anios'); if (tit) tit.textContent = yA + ' vs ' + yB;
+      var kpis = (av.kpi && av.kpi[yA]) || {};
+      var avi = document.getElementById('sitcv-parcial-aviso');
+      if (avi) avi.textContent = kpis.parcial ? '· ' + yA + ' es parcial (año en curso, datos “on the books”)' : '';
+      var eur = function (v) { return v == null ? '—' : v.toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' €'; };
+      var coma = function (v, suf) { return v == null ? '—' : String(v).replace('.', ',') + (suf || ''); };
       var cont = document.getElementById('turismo-sitcv-kpis');
       if (cont) {
-        var eur = function (v) { return v == null ? '—' : v.toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' €'; };
-        var coma = function (v, suf) { return v == null ? '—' : String(v).replace('.', ',') + (suf || ''); };
         cont.innerHTML = [
-          { l: 'ADR (precio medio)', v: eur(k.adr_eur), sub: '2025' },
-          { l: 'RevPar', v: eur(k.revpar_eur), sub: '2025' },
-          { l: 'Ocupación media', v: coma(k.ocupacion_pct, ' %'), sub: '2025' },
-          { l: 'Estancia media', v: coma(k.estancia_media_noches, ' noches'), sub: 'por reserva' },
-          { l: 'Antelación media', v: coma(k.antelacion_dias, ' días'), sub: 'a la reserva' }
+          { l: 'ADR (precio medio)', v: eur(kpis.adr_eur), sub: yA },
+          { l: 'RevPar', v: eur(kpis.revpar_eur), sub: yA },
+          { l: 'Ocupación media', v: coma(kpis.ocupacion_pct, ' %'), sub: yA },
+          { l: 'Estancia media', v: coma(kpis.estancia_media_noches, ' noches'), sub: 'por reserva' },
+          { l: 'Antelación media', v: coma(kpis.antelacion_dias, ' días'), sub: 'a la reserva' }
         ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span><span class="turismo-mini-kpi-sub">' + it.sub + '</span></div>'; }).join('');
       }
-      var serie = function (metric) {
-        var s = m[metric] || {}; var a25 = [], a24 = [];
-        for (var i = 1; i <= 12; i++) { var key = ('0' + i).slice(-2); var o = s[key] || {}; a25.push(o.v2025 != null ? o.v2025 : null); a24.push(o.v2024 != null ? o.v2024 : null); }
-        return { a25: a25, a24: a24 };
+      // Devuelve [años a usar] para una métrica: usa yA/yB si la métrica tiene datos de yA;
+      // si no (p.ej. oferta no tiene 2026), cae a sus dos años más recientes disponibles.
+      var aniosDe = function (metric) {
+        var s = m[metric] || {};
+        var pres = {};
+        Object.keys(s).forEach(function (mm) { Object.keys(s[mm]).forEach(function (y) { pres[y] = 1; }); });
+        var ys = Object.keys(pres).sort();
+        if (pres[yA]) return [yA, yB];
+        if (ys.length >= 2) return [ys[ys.length - 1], ys[ys.length - 2]];
+        return [yA, yB];
+      };
+      var serie = function (metric, ya, yb) {
+        var s = m[metric] || {}; var aA = [], aB = [];
+        for (var i = 1; i <= 12; i++) { var key = ('0' + i).slice(-2); var o = s[key] || {}; aA.push(o[ya] != null ? o[ya] : null); aB.push(o[yb] != null ? o[yb] : null); }
+        return { aA: aA, aB: aB };
       };
       var mkLine = function (canvasId, chartKey, metric, opts) {
         opts = opts || {}; var c = document.getElementById(canvasId); if (!c) return;
         destroyTurismoChart(chartKey);
-        var s = serie(metric); var mult = opts.pct ? 100 : 1;
-        var d25 = s.a25.map(function (v) { return v == null ? null : v * mult; });
-        var d24 = s.a24.map(function (v) { return v == null ? null : v * mult; });
+        var yy = aniosDe(metric); var s = serie(metric, yy[0], yy[1]); var mult = opts.pct ? 100 : 1;
+        var dA = s.aA.map(function (v) { return v == null ? null : v * mult; });
+        var dB = s.aB.map(function (v) { return v == null ? null : v * mult; });
         var fmt = function (v) { return v == null ? '—' : (opts.pct ? v.toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' %' : (opts.eur ? v.toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' €' : tFmtNum(v))); };
         turismoCharts[chartKey] = new Chart(c, {
           type: 'line',
           data: { labels: MES, datasets: [
-            { label: '2025', data: d25, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,.08)', tension: 0.3, pointRadius: 3, fill: true },
-            { label: '2024', data: d24, borderColor: '#94a3b8', backgroundColor: 'transparent', borderDash: [5, 4], tension: 0.3, pointRadius: 2 }
+            { label: yy[0], data: dA, borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,.08)', tension: 0.3, pointRadius: 3, fill: true },
+            { label: yy[1], data: dB, borderColor: '#94a3b8', backgroundColor: 'transparent', borderDash: [5, 4], tension: 0.3, pointRadius: 2 }
           ] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ': ' + fmt(ctx.raw); } } } }, scales: { y: { beginAtZero: !!opts.pct } } }
         });
       };
       mkLine('chart-sitcv-turistas-mes', 'sitcvTuristas', 'turistas', {});
       mkLine('chart-sitcv-ocupacion-mes', 'sitcvOcupacion', 'ocupacion', { pct: true });
-      var cAdr = document.getElementById('chart-sitcv-adr-mes');
-      if (cAdr) {
-        destroyTurismoChart('sitcvAdr');
-        turismoCharts['sitcvAdr'] = new Chart(cAdr, {
-          type: 'line',
-          data: { labels: MES, datasets: [
-            { label: 'ADR', data: serie('adr').a25, borderColor: '#0d9488', backgroundColor: 'rgba(13,148,136,.08)', tension: 0.3, pointRadius: 3, fill: true },
-            { label: 'RevPar', data: serie('revpar').a25, borderColor: '#f59e0b', backgroundColor: 'transparent', tension: 0.3, pointRadius: 3 }
-          ] },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ': ' + (ctx.raw == null ? '—' : ctx.raw.toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' €'); } } } }, scales: { y: { beginAtZero: false, title: { display: true, text: '€' } } } }
-        });
-      }
+      mkLine('chart-sitcv-adr-mes', 'sitcvAdr', 'adr', { eur: true });
       var cOf = document.getElementById('chart-sitcv-oferta-mes');
       if (cOf) {
         destroyTurismoChart('sitcvOferta');
-        var ap = serie('oferta_apartamentos'), pl = serie('oferta_plazas');
+        var yy = aniosDe('oferta_apartamentos');
+        var ap = serie('oferta_apartamentos', yy[0], yy[1]), pl = serie('oferta_plazas', yy[0], yy[1]);
         turismoCharts['sitcvOferta'] = new Chart(cOf, {
           data: { labels: MES, datasets: [
-            { type: 'bar', label: 'Apartamentos 2025', data: ap.a25, backgroundColor: '#2563eb', yAxisID: 'y', order: 3 },
-            { type: 'bar', label: 'Apartamentos 2024', data: ap.a24, backgroundColor: '#c7d2fe', yAxisID: 'y', order: 3 },
-            { type: 'line', label: 'Plazas 2025', data: pl.a25, borderColor: '#7c2d12', backgroundColor: 'transparent', tension: 0.3, pointRadius: 3, yAxisID: 'y1', order: 1 }
+            { type: 'bar', label: 'Apartamentos ' + yy[0], data: ap.aA, backgroundColor: '#2563eb', yAxisID: 'y', order: 3 },
+            { type: 'bar', label: 'Apartamentos ' + yy[1], data: ap.aB, backgroundColor: '#c7d2fe', yAxisID: 'y', order: 3 },
+            { type: 'line', label: 'Plazas ' + yy[0], data: pl.aA, borderColor: '#7c2d12', backgroundColor: 'transparent', tension: 0.3, pointRadius: 3, yAxisID: 'y1', order: 1 }
           ] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ': ' + tFmtNum(ctx.raw); } } } }, scales: { y: { position: 'left', beginAtZero: false, title: { display: true, text: 'Apartamentos' } }, y1: { position: 'right', beginAtZero: false, grid: { drawOnChartArea: false }, title: { display: true, text: 'Plazas' } } } }
         });
