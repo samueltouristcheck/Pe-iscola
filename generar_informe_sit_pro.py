@@ -21,6 +21,8 @@ PUNTOS = {
     'estibaliz': {'n': 1, 'nombre': 'Rotonda Estíbaliz', 'ent': 'Entrada al municipio', 'sal': 'Salida del municipio'},
     'irta':      {'n': 2, 'nombre': 'Cámara Calle Irta', 'ent': 'Sentido Pueblo', 'sal': 'Sentido Parque'},
     'abellers':  {'n': 3, 'nombre': 'Rotonda Abellers', 'ent': 'Entrada', 'sal': 'Salida'},
+    'pk_turismos': {'n': 4, 'nombre': 'Parking Disuasorio — Turismos (Pk. Peñismar)', 'ent': 'Entradas al parking', 'sal': 'Salidas del parking'},
+    'pk_bus':      {'n': 5, 'nombre': 'Parking Disuasorio — Autobuses (Pk. Peñismar)', 'ent': 'Accesos de autobús', 'sal': '—'},
     'fosc':      {'n': 6, 'nombre': 'Cámara Portal Fosc (Rampa Felipe II – Plaza de Bous – acceso a Santa María)', 'ent': 'Peatones entrada', 'sal': 'Peatones salida'},
     'mar':       {'n': 7, 'nombre': 'Cámara Avenida de la Mar', 'ent': 'Peatones entrada', 'sal': 'Peatones salida'},
     'ayto':      {'n': 8, 'nombre': 'Cámara Ayuntamiento', 'ent': 'Peatones subida', 'sal': 'Peatones bajada'},
@@ -184,7 +186,7 @@ def conclusiones_html(txt):
 
 def generar(mes):
     doc = json.load(open(os.path.join(BASE, 'data', 'camaras', 'sit_fichas.json'), encoding='utf-8'))
-    d = doc['datos'][mes]; lpr = d['lpr']; af = d['aforo']
+    d = doc['datos'][mes]; lpr = d['lpr']; af = d['aforo']; park = d.get('parking') or {}
     an = pedir_analisis(lpr, af, d['periodoLabel']) or {'resumen': '', 'transversal': '', 'conclusiones': '', 'cam': {}}
     # heatmap agregado (suma de todas las cámaras con dato)
     heat = [[0]*24 for _ in range(7)]
@@ -204,7 +206,7 @@ def generar(mes):
     pct_ext = round(100*tot_ext/(tot_nac+tot_ext), 1) if (tot_nac+tot_ext) else 0
 
     orden = [('lpr', 'estibaliz'), ('lpr', 'irta'), ('lpr', 'abellers'),
-             ('pend4', None), ('pend5', None),
+             ('park', 'turismos'), ('park', 'bus'),
              ('af', 'fosc'), ('af', 'mar'), ('af', 'ayto'), ('af', 'santpere')]
     PEND = {
         4: ('Parking Disuasorio — Cámaras de vehículos (turismos)',
@@ -229,10 +231,13 @@ def generar(mes):
                 'solo están disponibles hasta junio de 2026.</p></div>' % (cfg['n'], esc(cfg['nombre'])))
     fichas = ''
     for tipo, key in orden:
-        if tipo == 'pend4':
-            fichas += ficha_pend(4, PEND[4][0], PEND[4][1])
-        elif tipo == 'pend5':
-            fichas += ficha_pend(5, PEND[5][0], PEND[5][1])
+        if tipo == 'park':
+            cfg = PUNTOS['pk_turismos'] if key == 'turismos' else PUNTOS['pk_bus']
+            if park.get(key):
+                fichas += con_nota(ficha_lpr(cfg, park[key]), 'pk_' + key)
+            else:
+                pn = 4 if key == 'turismos' else 5
+                fichas += ficha_pend(pn, PEND[pn][0], PEND[pn][1])
         elif tipo == 'lpr':
             fichas += con_nota(ficha_lpr(PUNTOS[key], lpr[key]), key) if lpr.get(key) else ficha_sindatos(PUNTOS[key])
         elif tipo == 'af':

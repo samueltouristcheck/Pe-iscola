@@ -173,6 +173,79 @@ def aforo_ficha(mes):
         }
     return out
 
+# ---------- Parking disuasorio (LPR/ANPR de las cámaras Pk. Peñismar) ----------
+PARKING_DIR = os.path.join(BASE, 'data', 'camaras', 'Parking_Disuasorio')
+def parking_ficha(mes):
+    anio, mm = mes.split('-'); yi, mi = int(anio), int(mm)
+    path = os.path.join(PARKING_DIR, 'parking_%s.csv' % mes)
+    if not os.path.exists(path):
+        return None
+    raw = open(path, 'rb').read().decode('utf-8-sig', errors='replace')
+    tur = {'dia': {}, 'fEnt': [0]*8, 'fSal': [0]*8, 'nac': 0, 'ext': 0, 'labE': 0, 'labS': 0, 'finE': 0, 'finS': 0, 'heat': [[0]*24 for _ in range(7)]}
+    bus = {'dia': {}, 'fr': [0]*8, 'nac': 0, 'ext': 0, 'lab': 0, 'fin': 0, 'heat': [[0]*24 for _ in range(7)]}
+    for l in raw.split('\n'):
+        p = l.split(';')
+        if len(p) < 13:
+            continue
+        cam = p[3].strip().strip('"')
+        m = re.search(r'(\d{4})/(\d{2})/(\d{2})\s+(\d{2}):', p[2])
+        if not m or int(m.group(2)) != mi:
+            continue
+        d, h = int(m.group(3)), int(m.group(4))
+        pais = p[7].strip().strip('"')
+        fi = franja_idx(h); wd = dow(yi, mi, d); fin = es_finde(yi, mi, d)
+        esp = pais == 'España'; ident = pais and pais not in ('--', 'País/Región')
+        if 'Entrada' in cam or 'Salida' in cam:
+            ent = 'Entrada' in cam
+            if d not in tur['dia']:
+                tur['dia'][d] = {'ent': 0, 'sal': 0}
+            tur['dia'][d]['ent' if ent else 'sal'] += 1
+            if fi is not None:
+                (tur['fEnt'] if ent else tur['fSal'])[fi] += 1
+            tur['heat'][wd][h] += 1
+            if ent:
+                tur['finE' if fin else 'labE'] += 1
+            else:
+                tur['finS' if fin else 'labS'] += 1
+            if ident:
+                tur['nac' if esp else 'ext'] += 1
+        elif 'utobus' in cam or 'utobús' in cam:
+            bus['dia'][d] = bus['dia'].get(d, 0) + 1
+            if fi is not None:
+                bus['fr'][fi] += 1
+            bus['heat'][wd][h] += 1
+            bus['fin' if fin else 'lab'] += 1
+            if ident:
+                bus['nac' if esp else 'ext'] += 1
+    def pico(arr):
+        i = max(range(8), key=lambda x: arr[x]); return {'franja': FRANJAS[i][0], 'val': arr[i]}
+    out = {}
+    if tur['dia']:
+        dias = sorted(tur['dia'])
+        te = sum(tur['dia'][d]['ent'] for d in dias); ts = sum(tur['dia'][d]['sal'] for d in dias)
+        out['turismos'] = {
+            'tipo': 'parking', 'nombre': 'Parking Disuasorio — turismos',
+            'totalEnt': te, 'totalSal': ts, 'balance': te - ts,
+            'diario': [{'d': d, 'ent': tur['dia'][d]['ent'], 'sal': tur['dia'][d]['sal']} for d in dias],
+            'franjas': [{'etq': FRANJAS[i][0], 'ent': tur['fEnt'][i], 'sal': tur['fSal'][i]} for i in range(8)],
+            'picoEnt': pico(tur['fEnt']), 'picoSal': pico(tur['fSal']),
+            'proc': {'nac': tur['nac'], 'ext': tur['ext'], 'pctExt': round(100 * tur['ext'] / (tur['nac'] + tur['ext']), 1) if (tur['nac'] + tur['ext']) else 0},
+            'lab': {'ent': tur['labE'], 'sal': tur['labS']}, 'fin': {'ent': tur['finE'], 'sal': tur['finS']}, 'heat': tur['heat'],
+        }
+    if bus['dia']:
+        dias = sorted(bus['dia'])
+        tb = sum(bus['dia'][d] for d in dias)
+        out['bus'] = {
+            'tipo': 'parking_bus', 'nombre': 'Parking Disuasorio — autobuses',
+            'totalEnt': tb, 'totalSal': 0, 'balance': tb,
+            'diario': [{'d': d, 'ent': bus['dia'][d], 'sal': 0} for d in dias],
+            'franjas': [{'etq': FRANJAS[i][0], 'ent': bus['fr'][i], 'sal': 0} for i in range(8)],
+            'picoEnt': pico(bus['fr']), 'picoSal': {'franja': '—', 'val': 0},
+            'proc': {'nac': bus['nac'], 'ext': bus['ext'], 'pctExt': round(100 * bus['ext'] / (bus['nac'] + bus['ext']), 1) if (bus['nac'] + bus['ext']) else 0},
+            'lab': {'ent': bus['lab'], 'sal': 0}, 'fin': {'ent': bus['fin'], 'sal': 0}, 'heat': bus['heat'],
+        }
+    return out or None
+
 def main():
     meses = sys.argv[1:] or ['2026-06', '2026-07']
     doc = {}
@@ -180,12 +253,14 @@ def main():
         anio, mm = mes.split('-')
         lpr = lpr_ficha(mes)
         af = aforo_ficha(mes)
+        park = parking_ficha(mes)
         doc[mes] = {
             'periodoLabel': MESES_ES[int(mm)-1].capitalize() + ' ' + anio,
-            'lpr': lpr, 'aforo': af,
+            'lpr': lpr, 'aforo': af, 'parking': park or {},
         }
         nlpr = sum(1 for v in lpr.values() if v); naf = sum(1 for v in af.values() if v)
-        print('OK', mes, '-> LPR', nlpr, 'cámaras, aforo', naf, 'cámaras')
+        npark = sum(1 for v in (park or {}).values() if v)
+        print('OK', mes, '-> LPR', nlpr, 'cámaras, aforo', naf, 'cámaras, parking', npark)
     out_path = os.path.join(BASE, 'data', 'camaras', 'sit_fichas.json')
     open(out_path, 'w', encoding='utf-8').write(json.dumps({'meses': list(doc.keys()), 'datos': doc}, ensure_ascii=False))
     print('Guardado', out_path, '(%d KB)' % (os.path.getsize(out_path)//1024))
