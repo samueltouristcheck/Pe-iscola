@@ -158,8 +158,10 @@ def alquiler_vacacional():
                    ('2026', '2025', 'rentabilidad_revpar_mensual_2026_vs_2025.xlsx')],
         'revenue': [('2025', '2024', 'rentabilidad_revenue_mensual_2025_vs_2024.xlsx'),
                     ('2026', '2025', 'rentabilidad_revenue_mensual_2026_vs_2025.xlsx')],
-        'oferta_apartamentos': [('2025', '2024', 'oferta_apartamentos_mensual_2025_vs_2024.xlsx')],
-        'oferta_plazas': [('2025', '2024', 'oferta_plazas_mensual_2025_vs_2024.xlsx')],
+        'oferta_apartamentos': [('2025', '2024', 'oferta_apartamentos_mensual_2025_vs_2024.xlsx'),
+                                ('2026', '2025', 'oferta_apartamentos_mensual_2026_vs_2025.xlsx')],
+        'oferta_plazas': [('2025', '2024', 'oferta_plazas_mensual_2025_vs_2024.xlsx'),
+                          ('2026', '2025', 'oferta_plazas_mensual_2026_vs_2025.xlsx')],
     }
     # metricas cuya tabla es (Mes, variacion, P.analizado, P.comparativo)
     var_primero = {'ocupacion', 'oferta_apartamentos', 'oferta_plazas'}
