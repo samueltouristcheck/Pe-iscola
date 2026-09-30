@@ -6901,13 +6901,13 @@
     var fab = document.createElement('button');
     fab.className = 'dash-help-fab';
     fab.type = 'button';
-    fab.innerHTML = '<span class="dh-ico">🧭</span><span class="dh-txt">¿Dónde está…?</span>';
+    fab.innerHTML = '<span class="dh-ico">💬</span><span class="dh-txt">Asistente</span>';
     var panel = document.createElement('div');
     panel.className = 'dash-help-panel';
     panel.innerHTML =
-      '<div class="dash-help-head"><div><h4>Guía del panel</h4><span class="dh-sub">Te digo dónde está cada dato y te llevo</span></div><button type="button" class="dash-help-close" aria-label="Cerrar">×</button></div>' +
+      '<div class="dash-help-head"><div><h4>Asistente del panel</h4><span class="dh-sub">Pregúntame, te explico y te llevo</span></div><button type="button" class="dash-help-close" aria-label="Cerrar">×</button></div>' +
       '<div class="dash-help-msgs" id="dh-msgs"></div>' +
-      '<div class="dash-help-inputbar"><input type="text" class="dash-help-input" id="dh-input" placeholder="¿Dónde veo…?" autocomplete="off"><button type="button" class="dash-help-send" id="dh-send">Enviar</button></div>';
+      '<div class="dash-help-inputbar"><input type="text" class="dash-help-input" id="dh-input" placeholder="Pregúntame algo del panel…" autocomplete="off"><button type="button" class="dash-help-send" id="dh-send">Enviar</button></div>';
     document.body.appendChild(fab);
     document.body.appendChild(panel);
     var msgs = panel.querySelector('#dh-msgs');
