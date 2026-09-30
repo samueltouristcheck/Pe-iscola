@@ -154,8 +154,10 @@ def alquiler_vacacional():
                 ('2026', '2025', 'rentabilidad_adr_mensual_2026_vs_2025.xlsx')],
         'ocupacion': [('2025', '2024', 'rentabilidad_ocupacion_mensual_2025_vs_2024.xlsx'),
                       ('2026', '2025', 'rentabilidad_ocupacion_mensual_2026_vs_2025.xlsx')],
-        'revpar': [('2025', '2024', 'rentabilidad_revpar_mensual_2025_vs_2024.xlsx')],
-        'revenue': [('2025', '2024', 'rentabilidad_revenue_mensual_2025_vs_2024.xlsx')],
+        'revpar': [('2025', '2024', 'rentabilidad_revpar_mensual_2025_vs_2024.xlsx'),
+                   ('2026', '2025', 'rentabilidad_revpar_mensual_2026_vs_2025.xlsx')],
+        'revenue': [('2025', '2024', 'rentabilidad_revenue_mensual_2025_vs_2024.xlsx'),
+                    ('2026', '2025', 'rentabilidad_revenue_mensual_2026_vs_2025.xlsx')],
         'oferta_apartamentos': [('2025', '2024', 'oferta_apartamentos_mensual_2025_vs_2024.xlsx')],
         'oferta_plazas': [('2025', '2024', 'oferta_plazas_mensual_2025_vs_2024.xlsx')],
     }
@@ -164,7 +166,7 @@ def alquiler_vacacional():
     out = {}
     for metrica, pares in ficheros.items():
         serie = {}  # mes -> {anio: valor}
-        for (ya, yb, fn) in pares:
+        for i, (ya, yb, fn) in enumerate(pares):
             ruta = os.path.join(carpeta, fn)
             if not os.path.exists(ruta):
                 continue
@@ -180,7 +182,10 @@ def alquiler_vacacional():
                 serie.setdefault(ym, {})
                 if p1 is not None:
                     serie[ym][ya] = round(float(p1), 4)
-                if p2 is not None:
+                # El año comparativo (P2) solo es fiable en el PRIMER fichero de cada métrica
+                # (2025-vs-2024). En los ficheros de 2026 el slicer comparativo no es fiable
+                # (a veces 2024, a veces 2025), así que ignoramos su P2 para no pisar el 2025 bueno.
+                if i == 0 and p2 is not None:
                     serie[ym][yb] = round(float(p2), 4)
         if serie:
             out[metrica] = serie
