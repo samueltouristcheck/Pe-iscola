@@ -6951,6 +6951,94 @@
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
   }
 
+  /* ===================== PARKING PEÑISMAR (tiempo de estancia) ===================== */
+  var _parkingData = null;
+  var _parkingCharts = {};
+  function parkingFmtMin(m) {
+    if (m == null) return '—';
+    var h = Math.floor(m / 60), mm = Math.round(m % 60);
+    return h > 0 ? (h + ' h ' + mm + ' min') : (mm + ' min');
+  }
+  function parkingDestroy(k) { if (_parkingCharts[k]) { try { _parkingCharts[k].destroy(); } catch (e) {} _parkingCharts[k] = null; } }
+  function renderParking() {
+    var render = function (db) {
+      if (!db || !db.meses) return;
+      var sel = document.getElementById('parking-mes');
+      var claves = Object.keys(db.meses);
+      if (sel && sel.dataset.bound !== '1') {
+        sel.innerHTML = '<option value="__total">Todos los meses</option>' + claves.map(function (k) { return '<option value="' + k + '">' + k + (db.anio ? ' ' + db.anio : '') + '</option>'; }).join('');
+        sel.value = claves.length ? claves[claves.length - 1] : '__total';
+        sel.addEventListener('change', function () { pintar(sel.value); });
+        sel.dataset.bound = '1';
+      }
+      var pintar = function (clave) {
+        var d = clave === '__total' ? db.total : db.meses[clave];
+        if (!d) return;
+        var e = d.estancia || {};
+        var per = document.getElementById('parking-periodo');
+        if (per) per.textContent = clave === '__total' ? '· todos los meses disponibles' : ('· ' + clave + (db.anio ? ' ' + db.anio : ''));
+        var kc = document.getElementById('parking-kpis');
+        if (kc) {
+          kc.innerHTML = [
+            { l: 'Tiempo medio de estancia', v: parkingFmtMin(e.media_min), s: 'media por vehículo' },
+            { l: 'Estancia mediana', v: parkingFmtMin(e.mediana_min), s: 'la mitad se queda menos' },
+            { l: 'Se quedan >2 h', v: (e.pct_larga_2h != null ? String(e.pct_larga_2h).replace('.', ',') + ' %' : '—'), s: 'estancia larga' },
+            { l: 'Rotación <30 min', v: (e.pct_corta_30 != null ? String(e.pct_corta_30).replace('.', ',') + ' %' : '—'), s: 'paradas cortas' },
+            { l: 'Entradas', v: tFmtNum(d.entradas), s: 'vehículos (mes)' },
+            { l: 'Salidas', v: tFmtNum(d.salidas), s: 'vehículos (mes)' },
+            { l: 'Autobuses', v: tFmtNum(d.bus), s: 'accesos de bus' },
+            { l: 'Emparejadas', v: (e.pct_emparejadas != null ? String(e.pct_emparejadas).replace('.', ',') + ' %' : '—'), s: 'entradas con salida' }
+          ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span><span class="turismo-mini-kpi-sub">' + it.s + '</span></div>'; }).join('');
+        }
+        // Distribución
+        parkingDestroy('dist');
+        var cD = document.getElementById('chart-parking-dist');
+        var dist = e.distribucion || [];
+        if (cD && dist.length) {
+          _parkingCharts['dist'] = new Chart(cD, {
+            type: 'bar',
+            data: { labels: dist.map(function (x) { return x.rango; }), datasets: [{ label: '% de vehículos', data: dist.map(function (x) { return x.pct; }), backgroundColor: '#2563eb', borderRadius: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (ctx) { return String(ctx.raw).replace('.', ',') + ' %'; } } } }, scales: { y: { beginAtZero: true, ticks: { callback: function (v) { return v + ' %'; } } } } }
+          });
+        }
+        // Por hora
+        parkingDestroy('hora');
+        var cH = document.getElementById('chart-parking-hora');
+        var ph = d.porHora || [];
+        if (cH && ph.length) {
+          _parkingCharts['hora'] = new Chart(cH, {
+            type: 'bar',
+            data: { labels: ph.map(function (x) { return ('0' + x.hora).slice(-2) + 'h'; }), datasets: [
+              { label: 'Entradas', data: ph.map(function (x) { return x.ent; }), backgroundColor: '#16a34a', borderRadius: 3 },
+              { label: 'Salidas', data: ph.map(function (x) { return x.sal; }), backgroundColor: '#dc2626', borderRadius: 3 }
+            ] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+          });
+        }
+        // Por día
+        parkingDestroy('dia');
+        var cDia = document.getElementById('chart-parking-dia');
+        var pd = d.porDia || [];
+        if (cDia && pd.length) {
+          _parkingCharts['dia'] = new Chart(cDia, {
+            type: 'line',
+            data: { labels: pd.map(function (x) { return x.fecha.slice(8) + '/' + x.fecha.slice(5, 7); }), datasets: [
+              { label: 'Entradas', data: pd.map(function (x) { return x.ent; }), borderColor: '#16a34a', backgroundColor: 'rgba(22,163,74,.08)', tension: 0.3, pointRadius: 2, fill: true },
+              { label: 'Salidas', data: pd.map(function (x) { return x.sal; }), borderColor: '#dc2626', backgroundColor: 'transparent', tension: 0.3, pointRadius: 2 }
+            ] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+          });
+        }
+      };
+      pintar((sel && sel.value) || (claves.length ? claves[claves.length - 1] : '__total'));
+    };
+    if (_parkingData) { render(_parkingData); return; }
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/camaras/parking.json') : '/data/camaras/parking.json';
+    fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _parkingData = d; render(d); }).catch(function () {
+      var kc = document.getElementById('parking-kpis'); if (kc) kc.innerHTML = '<p style="color:#94a3b8">No se han podido cargar los datos del parking.</p>';
+    });
+  }
+
   function init() {
     initLanding();
     initCamaras();
@@ -7005,9 +7093,10 @@
         }
         if (sname === 'camaras-informes') { setTimeout(function () { initInformesSection('camaras'); }, 60); }
         if (sname === 'camaras-sit') { setTimeout(function () { initSitCamaras(); }, 60); }
+        if (sname === 'camaras-parking') { setTimeout(renderParking, 60); }
         const header = document.getElementById('header-camaras');
         if (header) {
-          const titles = { 'camaras-resumen': 'Accesos — mapa de tráfico (LPR)', 'camaras-evolucion': 'Evolución del tráfico (LPR)', 'camaras-horario': 'Perfil horario (LPR)', 'camaras-procedencia': 'Procedencia de los vehículos (LPR)', 'camaras-colores': 'Vehículos por color (LPR)', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara', 'camaras-informes': 'Cámaras — Informes', 'camaras-sit': 'Informe SIT — cámaras por horas' };
+          const titles = { 'camaras-resumen': 'Accesos — mapa de tráfico (LPR)', 'camaras-evolucion': 'Evolución del tráfico (LPR)', 'camaras-horario': 'Perfil horario (LPR)', 'camaras-procedencia': 'Procedencia de los vehículos (LPR)', 'camaras-colores': 'Vehículos por color (LPR)', 'camaras-multiobjeto': 'Afluencia — mapa de calles', 'camaras-multiobjeto-calles': 'Calles más concurridas', 'camaras-multiobjeto-detalle': 'Aforo por cámara', 'camaras-informes': 'Cámaras — Informes', 'camaras-sit': 'Informe SIT — cámaras por horas', 'camaras-parking': 'Parking disuasorio Peñismar' };
           const h2 = header.querySelector('h2');
           if (h2 && titles[el.dataset.section]) h2.textContent = titles[el.dataset.section];
         }

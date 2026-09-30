@@ -28,3 +28,9 @@ Thumbs.db
 *.tmp
 *.bak
 data/_uploads_tmp/
+
+# CSV crudos del parking (llevan matrículas: no subir; solo se versiona parking.json agregado)
+data/camaras/parking/*.csv
+
+# PDF de sentidos de cámaras (Jorge): referencia local, lleva IPs internas
+data/camaras/camaras_direccion_jorge.pdf

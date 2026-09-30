@@ -164,6 +164,7 @@
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-calles"><span class="nav-icon">🔥</span><span>Calles concurridas</span></a>
         <a href="#" class="nav-item" data-section="camaras-multiobjeto-detalle"><span class="nav-icon">📷</span><span>Por cámara</span></a>
         <a href="#" class="nav-item" data-section="camaras-sit"><span class="nav-icon">🕐</span><span>Por horas</span></a>
+        <a href="#" class="nav-item" data-section="camaras-parking"><span class="nav-icon">🅿️</span><span>Parking Peñismar</span></a>
         <div class="nav-group-label" style="padding:.4rem .9rem .2rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;font-weight:600">Gestión</div>
         <a href="#" class="nav-item" data-section="camaras-repositorio"><span class="nav-icon">📤</span><span>Repositorio (datos brutos)</span></a>
         <a href="#" class="nav-item" data-section="camaras-informes"><span class="nav-icon">📝</span><span>Informes</span></a>
@@ -540,6 +541,40 @@
           </div>
         </div>
         <div id="ph-salida"></div>
+      </section>
+
+      <section id="section-camaras-parking" class="section">
+        <div class="turismo-section-card" style="margin-bottom:1rem">
+          <div class="turismo-section-head">
+            <h2 class="section-title">🅿️ Parking disuasorio Peñismar</h2>
+            <span class="turismo-section-tag">ANPR · matrícula entrada/salida</span>
+          </div>
+          <p class="turismo-chart-hint" style="margin-bottom:.8rem">Tiempo que los vehículos permanecen en el parking, calculado emparejando por <strong>matrícula</strong> cada entrada con su salida. Fuente: cámaras ANPR "Pk. Peñismar" (Entrada / Salida / Acceso Autobuses). <span id="parking-periodo" style="color:#94a3b8"></span></p>
+          <div class="filters-bar" style="gap:.7rem;align-items:end;margin-bottom:.6rem">
+            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="parking-mes" class="fuente-select" style="min-width:150px"></select></span>
+          </div>
+          <div class="turismo-mini-kpis" id="parking-kpis"></div>
+          <p style="font-size:.76rem;color:#94a3b8;margin:.6rem 0 0">La media excluye las matrículas no legibles (~12%) y las entradas sin salida emparejada. “% que se quedan” = vehículos con estancia de más de 2 horas.</p>
+        </div>
+        <div class="turismo-charts-row">
+          <div class="turismo-chart-card">
+            <h4>Distribución del tiempo de estancia</h4>
+            <p class="turismo-chart-hint">% de vehículos por tramo de permanencia</p>
+            <div class="chart-container" style="height:300px"><canvas id="chart-parking-dist"></canvas></div>
+          </div>
+          <div class="turismo-chart-card">
+            <h4>Entradas y salidas por hora</h4>
+            <p class="turismo-chart-hint">Patrón medio del día</p>
+            <div class="chart-container" style="height:300px"><canvas id="chart-parking-hora"></canvas></div>
+          </div>
+        </div>
+        <div class="turismo-charts-row">
+          <div class="turismo-chart-card turismo-chart-wide">
+            <h4>Entradas y salidas por día</h4>
+            <p class="turismo-chart-hint">Ocupación diaria del parking</p>
+            <div class="chart-container" style="height:300px"><canvas id="chart-parking-dia"></canvas></div>
+          </div>
+        </div>
       </section>
 
       </div>
@@ -1697,7 +1732,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=138"></script>
+  <script src="js/dashboard.js?v=139"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

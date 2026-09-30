@@ -18,8 +18,10 @@ const MULTIOBJ_DIR = path.join(BASE, 'Camaras_Multiobjeto', 'CSV');
 const ENTRADA_DIR = path.join(BASE, 'entrada');
 const SALIDA_PATH = path.join(BASE, 'todos.json');
 
-// Ventana deduplicación: misma matrícula en distintas cámaras en <10 min = 1
-const DEDUP_WINDOW_MIN = 10;
+// Ventana deduplicación: misma matrícula (mismo sentido) vista en distintos puntos de
+// conteo en <5 min = 1 solo paso (evita contar dos veces un coche que pasa por una
+// rotonda y otro punto seguido). Cambiar aquí y reprocesar para recalcular todos.json.
+const DEDUP_WINDOW_MIN = 5;
 const BUCKET_MS = DEDUP_WINDOW_MIN * 60 * 1000;
 
 function parseHora(horaStr) {
