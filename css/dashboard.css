@@ -21,6 +21,11 @@
 .turismo-year-dd-acts button:hover { background: #eef2f7; }
 .turismo-year-dd-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.15rem 0.5rem; }
 .turismo-year-dd-list label { display: flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; color: #334155; cursor: pointer; }
+/* Multi-desplegables Año/Mes en la barra de filtros de Turismo */
+.tf-multi { margin: 0; vertical-align: middle; }
+.tf-multi > summary { min-width: 120px; }
+.tf-multi .turismo-year-dd-list { grid-template-columns: repeat(2, 1fr); }
+.turismo-filters-bar { flex-wrap: wrap; align-items: center; gap: 0.5rem 0.7rem; }
 
 .app {
     display: flex;

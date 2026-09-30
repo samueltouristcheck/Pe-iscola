@@ -734,5 +734,83 @@
         }
       }
     }
+  },
+  "movilidad_internacional": {
+    "fuente": "Invattur SIT-CV - Turismo internacional (via conexion movil, INE experimental)",
+    "destino": "Peniscola Municipio",
+    "periodo": "2024-2025",
+    "nota": "Turistas internacionales estimados a partir de datos de telefonia movil (INE experimental). Es el dato que el INE clasico no publica a nivel municipal. Ano anterior derivado del % de variacion interanual.",
+    "anios": [
+      "2024",
+      "2025"
+    ],
+    "kpi": {
+      "2025": {
+        "turistas": 78649,
+        "var": -0.0505
+      }
+    },
+    "mensual": {
+      "01": {
+        "2025": 3150,
+        "2024": 3342,
+        "var": -0.0575
+      },
+      "02": {
+        "2025": 2522,
+        "2024": 2686,
+        "var": -0.0611
+      },
+      "03": {
+        "2025": 3902,
+        "2024": 4195,
+        "var": -0.0698
+      },
+      "04": {
+        "2025": 5774,
+        "2024": 6495,
+        "var": -0.111
+      },
+      "05": {
+        "2025": 6939,
+        "2024": 7690,
+        "var": -0.0977
+      },
+      "06": {
+        "2025": 7099,
+        "2024": 7152,
+        "var": -0.0074
+      },
+      "07": {
+        "2025": 10649,
+        "2024": 10192,
+        "var": 0.0448
+      },
+      "08": {
+        "2025": 16274,
+        "2024": 17217,
+        "var": -0.0548
+      },
+      "09": {
+        "2025": 8481,
+        "2024": 10049,
+        "var": -0.156
+      },
+      "10": {
+        "2025": 8125,
+        "2024": 9444,
+        "var": -0.1397
+      },
+      "11": {
+        "2025": 3271,
+        "2024": 2563,
+        "var": 0.2762
+      },
+      "12": {
+        "2025": 2463,
+        "2024": 1808,
+        "var": 0.3623
+      }
+    }
   }
 }

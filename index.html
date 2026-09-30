@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="stylesheet" href="css/globals.css">
-  <link rel="stylesheet" href="css/dashboard.css?v=7">
+  <link rel="stylesheet" href="css/dashboard.css?v=8">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -92,6 +92,33 @@
     }
     .informe-grafica { break-inside: avoid; }
     .informe-texto .informe-h, .informe-texto .informe-h1 { break-after: avoid; }
+    /* --- Asistente de informes (chat) --- */
+    .inf-chat-msgs { display: flex; flex-direction: column; gap: .7rem; max-height: 460px; overflow-y: auto; padding: .3rem .1rem; }
+    .inf-chat-msgs:empty::before { content: "Aún no hay mensajes. Escribe abajo qué informe quieres y con qué enfoque."; color: #94a3b8; font-size: .88rem; font-style: italic; }
+    .inf-chat-row { display: flex; width: 100%; }
+    .inf-chat-row.user { justify-content: flex-end; }
+    .inf-chat-row.bot { justify-content: flex-start; }
+    .inf-chat-bubble { max-width: 86%; padding: .7rem .9rem; border-radius: 14px; font-size: .92rem; line-height: 1.6; box-shadow: 0 1px 3px rgba(15,23,42,.07); }
+    .inf-chat-row.user .inf-chat-bubble { background: #2563eb; color: #fff; border-bottom-right-radius: 4px; }
+    .inf-chat-row.bot .inf-chat-bubble { background: #f1f5f9; color: #1e293b; border: 1px solid #e2e8f0; border-bottom-left-radius: 4px; }
+    .inf-chat-bubble h2, .inf-chat-bubble h3 { font-size: 1.02rem; font-weight: 800; color: #0f172a; margin: .8rem 0 .35rem; }
+    .inf-chat-bubble h2:first-child, .inf-chat-bubble h3:first-child { margin-top: 0; }
+    .inf-chat-bubble ul { margin: .35rem 0 .5rem 1.1rem; }
+    .inf-chat-bubble li { margin: .18rem 0; }
+    .inf-chat-bubble p { margin: .45rem 0; }
+    .inf-chat-bubble strong { color: inherit; font-weight: 700; }
+    .inf-chat-row.bot .inf-chat-bubble strong { color: #0f172a; }
+    .inf-chat-typing { display: inline-flex; gap: .25rem; align-items: center; }
+    .inf-chat-typing span { width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; animation: infChatBlink 1.2s infinite both; }
+    .inf-chat-typing span:nth-child(2) { animation-delay: .2s; }
+    .inf-chat-typing span:nth-child(3) { animation-delay: .4s; }
+    @keyframes infChatBlink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+    .inf-chat-inputbar { display: flex; gap: .5rem; align-items: flex-end; margin-top: .7rem; }
+    .inf-chat-input { flex: 1; resize: vertical; min-height: 44px; max-height: 160px; padding: .6rem .8rem; border: 1px solid #cbd5e1; border-radius: 10px; font-family: inherit; font-size: .92rem; line-height: 1.5; color: #1e293b; }
+    .inf-chat-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+    .inf-chat-send { background: #2563eb; color: #fff; border: none; border-radius: 10px; padding: 0 1.3rem; height: 44px; font-weight: 600; cursor: pointer; font-size: .92rem; }
+    .inf-chat-send:disabled { opacity: .55; cursor: not-allowed; }
+    .inf-chat-send:hover:not(:disabled) { background: #1d4ed8; }
   </style>
 </head>
 <body>
@@ -763,23 +790,9 @@
             <option value="campings">Campings</option>
           </select>
           <label>Año</label>
-          <select id="turismo-year" class="fuente-select"></select>
+          <span id="turismo-year-mount"></span>
           <label>Mes</label>
-          <select id="turismo-mes" class="fuente-select">
-            <option value="">Todos los meses</option>
-            <option value="1">Enero</option>
-            <option value="2">Febrero</option>
-            <option value="3">Marzo</option>
-            <option value="4">Abril</option>
-            <option value="5">Mayo</option>
-            <option value="6">Junio</option>
-            <option value="7">Julio</option>
-            <option value="8">Agosto</option>
-            <option value="9">Septiembre</option>
-            <option value="10">Octubre</option>
-            <option value="11">Noviembre</option>
-            <option value="12">Diciembre</option>
-          </select>
+          <span id="turismo-mes-mount"></span>
           <label>Comparar con</label>
           <select id="turismo-compare" class="fuente-select">
             <option value="anyo_anterior">Año anterior</option>
@@ -875,6 +888,9 @@
               <div class="chart-container" style="height:320px"><canvas id="chart-turismo-estacionalidad"></canvas></div>
             </div>
           </div>
+          <p class="turismo-source-note" id="turismo-resumen-fuente">
+            Fuentes: <strong>INE</strong> — Encuestas de Ocupación en alojamientos (Hoteles EOH, Apartamentos EOAP, Campings EOAC) y estadística experimental de <strong>movilidad turística por telefonía móvil</strong>; <strong>Generalitat Valenciana</strong> para viviendas de uso turístico (VUT). Los datos del INE se publican con 1–2 meses de desfase: se muestra siempre el <strong>último mes disponible</strong>. <span id="turismo-resumen-ultimo" style="color:#94a3b8"></span>
+          </p>
         </section>
 
         <section id="section-turismo-movilidad" class="section">
@@ -1029,6 +1045,27 @@
                 <h4>Oferta: apartamentos y plazas por mes</h4>
                 <p class="turismo-chart-hint">Nº activos · 2025 vs 2024</p>
                 <div class="chart-container" style="height:300px"><canvas id="chart-sitcv-oferta-mes"></canvas></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="turismo-section-card" style="margin-top:1.25rem">
+            <div class="turismo-section-head">
+              <h2 class="section-title">🌍 Turistas internacionales (vía móvil)</h2>
+              <span class="turismo-section-tag">SIT CV · Datos móvil (INE experimental)</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:1rem">Turistas extranjeros en Peñíscola estimados a partir de <strong>datos de telefonía móvil</strong> (INE experimental, vía SIT-CV de Invat·tur). Es el dato de turismo internacional a nivel municipal que la estadística clásica del INE no publica. <span id="sitcv-movint-periodo" style="color:#94a3b8"></span></p>
+            <p style="font-size:.76rem;color:#94a3b8;margin:-.5rem 0 1rem">Último dato disponible en la fuente: <strong>2025</strong>. El INE experimental de movilidad aún no publica 2026 a nivel municipal; se actualizará en cuanto esté disponible.</p>
+            <div class="turismo-charts-row">
+              <div class="turismo-chart-card">
+                <h4>Turistas internacionales por mes</h4>
+                <p class="turismo-chart-hint">2025 vs 2024</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-sitcv-movint-mes"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>Resumen</h4>
+                <p class="turismo-chart-hint">Total anual y variación interanual</p>
+                <div class="turismo-mini-kpis" id="turismo-sitcv-movint-kpis"></div>
               </div>
             </div>
           </div>
@@ -1250,7 +1287,7 @@
           <div class="turismo-section-card">
             <div class="turismo-section-head">
               <h3 class="section-title">📈 Comparativa entre alojamientos</h3>
-              <span class="turismo-section-tag">Hoteles · Apartamentos · Campings</span>
+              <span class="turismo-section-tag">EOH · EOAP · EOAC · INE</span>
             </div>
             <div class="turismo-charts-row">
               <div class="turismo-chart-card turismo-chart-wide">
@@ -1274,6 +1311,9 @@
                 <div class="chart-container" style="height:320px"><canvas id="chart-turismo-comp-anio"></canvas></div>
               </div>
             </div>
+            <p class="turismo-source-note">
+              Fuente: <strong>INE</strong> — Encuestas de Ocupación en Alojamientos Turísticos (Hoteles EOH, Apartamentos EOAP, Campings EOAC). Comparación entre los tres tipos de alojamiento reglado. Apartamentos en Peñíscola puede no publicarse por secreto estadístico; en ese caso el tipo no aparece en las gráficas. El año en curso es un <strong>acumulado parcial</strong> comparado con el mismo periodo del año anterior.
+            </p>
           </div>
         </section>
 
@@ -1360,11 +1400,39 @@
             <div id="turismo-tabla-hoteles"></div>
             <h4 class="residuos-tabla-subtitle" style="margin-top:1.5rem">Campings</h4>
             <div id="turismo-tabla-campings"></div>
+            <p class="turismo-source-note">
+              Fuente: <strong>INE</strong> — Encuestas de Ocupación en Alojamientos Turísticos (Hoteles EOH y Campings EOAC). Series mensuales originales descargadas del INE. Se actualiza al publicarse cada mes (desfase habitual de 1–2 meses).
+            </p>
           </div>
         </section>
 
         <section id="section-turismo-informes" class="section">
           <div class="turismo-section-card" style="margin-bottom:1rem">
+            <div class="turismo-section-head">
+              <h2 class="section-title">🤖 Asistente de informes</h2>
+              <span class="turismo-section-tag">IA · solo con los datos del panel</span>
+            </div>
+            <p class="turismo-chart-hint" style="margin-bottom:.8rem">Escribe con tus palabras qué informe necesitas y con qué enfoque —por ejemplo <em>"un informe de la ocupación de campings este verano, enfocado a hoteleros y breve"</em>— y ve pidiéndole cambios como en un chat (<em>"hazlo más corto"</em>, <em>"céntrate en las viviendas turísticas"</em>, <em>"tono más institucional"</em>). Usa <strong>únicamente los datos de este panel</strong>; no coge nada de internet, y si un dato no está te lo dirá en vez de inventarlo.</p>
+            <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end;margin-bottom:.8rem">
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo del informe · Año</label><select id="inf-chat-anio" class="fuente-select" style="min-width:110px"></select></span>
+              <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="inf-chat-mes" class="fuente-select" style="min-width:150px"></select></span>
+              <button type="button" id="inf-chat-reset" class="reload-btn" style="background:#e2e8f0;color:#334155">🗑️ Nueva conversación</button>
+            </div>
+            <div id="inf-chat-msgs" class="inf-chat-msgs"></div>
+            <div class="inf-chat-inputbar">
+              <textarea id="inf-chat-input" class="inf-chat-input" rows="2" placeholder="Escribe aquí qué informe quieres… (Enter para enviar, Mayús+Enter para salto de línea)"></textarea>
+              <button type="button" id="inf-chat-send" class="inf-chat-send">Enviar</button>
+            </div>
+            <div id="inf-chat-estado" style="margin-top:.5rem;font-size:.85rem;color:#64748b"></div>
+            <div class="informe-toolbar" style="margin-top:.6rem;justify-content:flex-start">
+              <button type="button" id="inf-chat-word" class="reload-btn" style="background:#2563eb;color:#fff;font-weight:600;display:none">⬇️ Descargar en Word</button>
+              <button type="button" id="inf-chat-copiar" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">📋 Copiar texto</button>
+            </div>
+          </div>
+          <div class="turismo-section-card" style="margin-bottom:1rem">
+            <div class="turismo-section-head">
+              <h2 class="section-title" style="font-size:1.15rem">📄 Informe estándar (plantilla del Ayuntamiento)</h2>
+            </div>
             <p class="turismo-chart-hint" style="margin-bottom:1rem">Se genera un informe escrito, estructurado y comparado (mes y año anteriores) con los datos de <strong>turismo</strong>, con una gráfica por cada dato analizado.</p>
             <div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end">
               <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo</label><select id="inf-turismo-modo" class="fuente-select" style="min-width:130px"><option value="mes">Por mes</option><option value="trimestre">Por trimestre</option></select></span>
@@ -1604,7 +1672,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=133"></script>
+  <script src="js/dashboard.js?v=135"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

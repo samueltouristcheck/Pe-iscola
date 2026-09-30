@@ -4535,6 +4535,145 @@
       });
     }
     infPopulate(amb);
+    if (amb === 'turismo') initInformeChat();
+  }
+
+  /* ===================== ASISTENTE DE INFORMES (chat, datos cerrados) ===================== */
+  var _infChat = { bound: false, history: [], lastBot: '', busy: false };
+  function infChatMd(texto) {
+    // Markdown ligero -> HTML para las burbujas (títulos, negrita, cursiva, listas, párrafos).
+    var inline = function (t) { return infEsc(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>'); };
+    var lines = String(texto || '').split(/\r?\n/), out = [], inList = false;
+    var closeList = function () { if (inList) { out.push('</ul>'); inList = false; } };
+    lines.forEach(function (ln) {
+      var t = ln.trim();
+      if (!t) { closeList(); return; }
+      if (/^###\s+/.test(t)) { closeList(); out.push('<h3>' + inline(t.replace(/^###\s+/, '')) + '</h3>'); }
+      else if (/^##\s+/.test(t)) { closeList(); out.push('<h2>' + inline(t.replace(/^##\s+/, '')) + '</h2>'); }
+      else if (/^#\s+/.test(t)) { closeList(); out.push('<h2>' + inline(t.replace(/^#\s+/, '')) + '</h2>'); }
+      else if (/^[-*]\s+/.test(t)) { if (!inList) { out.push('<ul>'); inList = true; } out.push('<li>' + inline(t.replace(/^[-*]\s+/, '')) + '</li>'); }
+      else { closeList(); out.push('<p>' + inline(t) + '</p>'); }
+    });
+    closeList();
+    return out.join('');
+  }
+  function infChatBubble(role, htmlOrText, isTyping) {
+    var msgs = document.getElementById('inf-chat-msgs'); if (!msgs) return null;
+    var row = document.createElement('div'); row.className = 'inf-chat-row ' + (role === 'user' ? 'user' : 'bot');
+    var b = document.createElement('div'); b.className = 'inf-chat-bubble';
+    if (isTyping) b.innerHTML = '<span class="inf-chat-typing"><span></span><span></span><span></span></span>';
+    else if (role === 'user') b.textContent = htmlOrText;
+    else b.innerHTML = htmlOrText;
+    row.appendChild(b); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
+    return row;
+  }
+  function infChatPopulate() {
+    var selA = document.getElementById('inf-chat-anio');
+    if (!selA) return Promise.resolve();
+    return infEnsure('turismo').then(function () {
+      var anios = infAnios('turismo');
+      selA.innerHTML = anios.map(function (a) { return '<option value="' + a + '">' + a + '</option>'; }).join('');
+      if (anios.length) selA.value = anios[anios.length - 1];
+      infChatPopulateMeses();
+    });
+  }
+  function infChatPopulateMeses() {
+    var anio = (document.getElementById('inf-chat-anio') || {}).value;
+    var selM = document.getElementById('inf-chat-mes'); if (!selM) return;
+    var meses = infMeses('turismo', anio) || [];
+    selM.innerHTML = '<option value="">Todo el año</option>' + meses.map(function (m) { return '<option value="' + m + '">' + infMesNombre(m) + '</option>'; }).join('');
+  }
+  function infChatBuildDatos() {
+    var anio = (document.getElementById('inf-chat-anio') || {}).value;
+    var mes = (document.getElementById('inf-chat-mes') || {}).value;
+    var data = infBuild('turismo', anio, mes, null);
+    var datos = {
+      kpis: (data.kpis || []).map(function (k) { return { label: k.label, valor: k.valor, unidad: k.unidad || '', varMes: k.comp && k.comp.varMes != null ? Math.round(k.comp.varMes * 10) / 10 : null, varAnio: k.comp && k.comp.varAnio != null ? Math.round(k.comp.varAnio * 10) / 10 : null }; }),
+      comparativa: data.comparativa,
+      insights: infInsights(data),
+      graficas: (data.graficas || []).map(function (g) { return { titulo: g.titulo, labels: g.spec.labels, series: g.spec.datasets.map(function (d) { return { nombre: d.label, datos: d.data }; }) }; })
+    };
+    return { datos: datos, periodoLabel: data.periodoLabel };
+  }
+  function infChatSend() {
+    if (_infChat.busy) return;
+    var input = document.getElementById('inf-chat-input');
+    var estado = document.getElementById('inf-chat-estado');
+    var sendBtn = document.getElementById('inf-chat-send');
+    var msg = (input && input.value || '').trim();
+    if (!msg) return;
+    _infChat.busy = true;
+    if (sendBtn) sendBtn.disabled = true;
+    infChatBubble('user', msg);
+    if (input) { input.value = ''; input.style.height = 'auto'; }
+    var typingRow = infChatBubble('bot', '', true);
+    if (estado) estado.textContent = 'Redactando con los datos del panel…';
+    infEnsure('turismo').then(function () {
+      var ctx;
+      try { ctx = infChatBuildDatos(); }
+      catch (e) { throw new Error('No hay datos de turismo para ese periodo.'); }
+      return fetch('/api/informe-chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ambito: 'turismo', periodoLabel: ctx.periodoLabel, datos: ctx.datos, history: _infChat.history, message: msg })
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        if (res.error) throw new Error(res.error);
+        var reply = res.reply || '(sin respuesta)';
+        if (typingRow && typingRow.parentNode) typingRow.parentNode.removeChild(typingRow);
+        infChatBubble('bot', infChatMd(reply));
+        _infChat.history.push({ role: 'user', content: msg });
+        _infChat.history.push({ role: 'assistant', content: reply });
+        _infChat.lastBot = reply;
+        var w = document.getElementById('inf-chat-word'); if (w) w.style.display = '';
+        var c = document.getElementById('inf-chat-copiar'); if (c) c.style.display = '';
+        if (estado) estado.textContent = '';
+      });
+    }).catch(function (e) {
+      if (typingRow && typingRow.parentNode) typingRow.parentNode.removeChild(typingRow);
+      if (estado) estado.textContent = 'Error: ' + (e.message || e);
+    }).finally(function () {
+      _infChat.busy = false; if (sendBtn) sendBtn.disabled = false;
+      if (input) input.focus();
+    });
+  }
+  function infChatReset() {
+    _infChat.history = []; _infChat.lastBot = '';
+    var msgs = document.getElementById('inf-chat-msgs'); if (msgs) msgs.innerHTML = '';
+    ['inf-chat-word', 'inf-chat-copiar'].forEach(function (id) { var e = document.getElementById(id); if (e) e.style.display = 'none'; });
+    var estado = document.getElementById('inf-chat-estado'); if (estado) estado.textContent = '';
+  }
+  function infChatDownloadWord() {
+    if (!_infChat.lastBot) return;
+    var css = 'body{font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#334155;font-size:11pt;line-height:1.55}h2{font-size:14pt;color:#0f172a;font-weight:bold;margin:14pt 0 6pt;border-bottom:2px solid #e2e8f0;padding-bottom:4pt}h3{font-size:12pt;color:#0f172a;font-weight:bold;margin:12pt 0 5pt}p{text-align:justify;margin:6pt 0}ul{margin:6pt 0 6pt 16pt}li{margin:3pt 0}';
+    var hoy = new Date().toLocaleDateString('es-ES');
+    var per = (document.getElementById('inf-chat-mes') && document.getElementById('inf-chat-mes').selectedOptions[0] ? document.getElementById('inf-chat-mes').selectedOptions[0].textContent : '') + ' ' + ((document.getElementById('inf-chat-anio') || {}).value || '');
+    var body = '<h1 style="font-size:17pt;color:#0f172a">Informe de turismo · Peñíscola</h1><p style="color:#64748b;font-size:9.5pt">Periodo: ' + infEsc(per.trim()) + ' · Emitido el ' + hoy + '</p>' + infChatMd(_infChat.lastBot) +
+      '<p style="color:#64748b;font-size:8.5pt;border-top:1px solid #e2e8f0;margin-top:14pt;padding-top:8pt">Informe redactado con el asistente del dashboard municipal a partir de los datos del panel (INE y SIT-CV de Invat·tur). Emitido el ' + hoy + '.</p>';
+    var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Informe turismo</title><style>' + css + '</style></head><body>' + body + '</body></html>';
+    var blob = new Blob(['﻿' + html], { type: 'application/msword' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'Informe_turismo_Peniscola.doc';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
+  }
+  function initInformeChat() {
+    if (_infChat.bound) { infChatPopulate(); return; }
+    _infChat.bound = true;
+    infChatPopulate();
+    var selA = document.getElementById('inf-chat-anio'); if (selA) selA.addEventListener('change', infChatPopulateMeses);
+    var send = document.getElementById('inf-chat-send'); if (send) send.addEventListener('click', infChatSend);
+    var reset = document.getElementById('inf-chat-reset'); if (reset) reset.addEventListener('click', infChatReset);
+    var word = document.getElementById('inf-chat-word'); if (word) word.addEventListener('click', infChatDownloadWord);
+    var cop = document.getElementById('inf-chat-copiar'); if (cop) cop.addEventListener('click', function () {
+      if (!_infChat.lastBot) return;
+      navigator.clipboard && navigator.clipboard.writeText(_infChat.lastBot).then(function () {
+        cop.textContent = '✓ Copiado'; setTimeout(function () { cop.textContent = '📋 Copiar texto'; }, 1500);
+      });
+    });
+    var input = document.getElementById('inf-chat-input');
+    if (input) {
+      input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); infChatSend(); } });
+      input.addEventListener('input', function () { input.style.height = 'auto'; input.style.height = Math.min(160, input.scrollHeight) + 'px'; });
+    }
   }
 
   /* ===================== CÁMARAS — PERFIL POR HORAS ===================== */
@@ -4902,28 +5041,70 @@
     return turismoLoading;
   }
 
+  // Desplegable multi-selección (checkboxes) reutilizando el estilo .turismo-year-dd.
+  // cfg: { id, label, options:[{value,label}], selected:[...], allLabel, onChange }
+  function tfBuildMulti(mountEl, cfg) {
+    if (!mountEl) return;
+    const sel = (cfg.selected || []).map(String);
+    const dd = document.createElement('details');
+    dd.className = 'turismo-year-dd tf-multi';
+    dd.id = cfg.id;
+    const summaryTxt = function (n) {
+      if (!n) return cfg.allLabel || 'Todos';
+      if (n === 1) { const v = dd.querySelector('input:checked'); return v ? (v.getAttribute('data-lbl') || v.value) : '1 sel.'; }
+      return n + ' seleccionados';
+    };
+    dd.innerHTML =
+      '<summary><span class="ty-ico">▾</span> <span class="tf-multi-sum">' + summaryTxt(sel.length) + '</span></summary>' +
+      '<div class="turismo-year-dd-panel">' +
+        '<div class="turismo-year-dd-acts"><button type="button" data-act="all">Todos</button><button type="button" data-act="none">Ninguno</button></div>' +
+        '<div class="turismo-year-dd-list">' +
+          cfg.options.map((o) => '<label><input type="checkbox" value="' + o.value + '" data-lbl="' + o.label + '"' + (sel.indexOf(String(o.value)) >= 0 ? ' checked' : '') + '> ' + o.label + '</label>').join('') +
+        '</div>' +
+      '</div>';
+    mountEl.innerHTML = '';
+    mountEl.appendChild(dd);
+    const refresh = function () { const n = dd.querySelectorAll('input:checked').length; const s = dd.querySelector('.tf-multi-sum'); if (s) s.textContent = summaryTxt(n); };
+    dd.addEventListener('change', function (e) {
+      if (!(e.target && e.target.matches && e.target.matches('input[type=checkbox]'))) return;
+      refresh(); if (cfg.onChange) cfg.onChange();
+    });
+    dd.addEventListener('click', function (e) {
+      const act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
+      if (!act) return;
+      e.preventDefault();
+      dd.querySelectorAll('input[type=checkbox]').forEach((c) => { c.checked = (act === 'all'); });
+      refresh(); if (cfg.onChange) cfg.onChange();
+    });
+  }
+  function tfMultiValues(id) {
+    const dd = document.getElementById(id);
+    if (!dd) return [];
+    return Array.prototype.slice.call(dd.querySelectorAll('input[type=checkbox]:checked')).map((c) => c.value);
+  }
+
   function populateTurismoFilters() {
-    const yearSelect = document.getElementById('turismo-year');
-    if (!yearSelect || !turismoData) return;
+    const yMount = document.getElementById('turismo-year-mount');
+    const mMount = document.getElementById('turismo-mes-mount');
+    if (!yMount || !turismoData) return;
     const years = new Set();
     ['hoteles', 'apartamentos', 'campings'].forEach((cat) => {
       (turismoData.series[cat] || []).forEach((s) => (s.data || []).forEach((d) => years.add(d.anyo)));
     });
-    const sorted = Array.from(years).sort((a, b) => a - b);
-    yearSelect.innerHTML = '';
-    yearSelect.appendChild(new Option('Todos los años', ''));
-    sorted.forEach((y) => yearSelect.appendChild(new Option(y, y)));
-    if (sorted.length) yearSelect.value = sorted[sorted.length - 1];
+    const sorted = Array.from(years).sort((a, b) => a - b).map(String);
+    const ultimo = sorted.length ? [sorted[sorted.length - 1]] : [];
+    tfBuildMulti(yMount, { id: 'turismo-year-dd-g', label: 'Año', allLabel: 'Todos los años', selected: ultimo, onChange: renderTurismoAll, options: sorted.slice().reverse().map((y) => ({ value: y, label: y })) });
+    const MES_NOM = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    tfBuildMulti(mMount, { id: 'turismo-mes-dd-g', label: 'Mes', allLabel: 'Todos los meses', selected: [], onChange: renderTurismoAll, options: MES_NOM.map((n, i) => ({ value: String(i + 1), label: n })) });
   }
 
-  function getTurismoYear() {
-    const sel = document.getElementById('turismo-year');
-    return sel && sel.value ? sel.value : '';
-  }
-  function getTurismoMes() {
-    const sel = document.getElementById('turismo-mes');
-    return sel && sel.value ? parseInt(sel.value, 10) : null;
-  }
+  // Getters multi: [] = todos. Y compat de escalar (1 seleccionado => ese; varios/ninguno => vacío).
+  function getTurismoYears() { return tfMultiValues('turismo-year-dd-g'); }
+  function getTurismoMeses() { return tfMultiValues('turismo-mes-dd-g').map((v) => parseInt(v, 10)); }
+  function tYearMatch(anyo, years) { return !years || !years.length || years.indexOf(String(anyo)) >= 0; }
+  function tMesMatch(mes, meses) { return !meses || !meses.length || meses.indexOf(mes) >= 0; }
+  function getTurismoYear() { const ys = getTurismoYears(); return ys.length === 1 ? ys[0] : ''; }
+  function getTurismoMes() { const ms = getTurismoMeses(); return ms.length === 1 ? ms[0] : null; }
 
   function destroyTurismoChart(key) {
     if (turismoCharts[key]) { try { turismoCharts[key].destroy(); } catch (_) {} turismoCharts[key] = null; }
@@ -4954,10 +5135,14 @@
 
   function turismoSeriesPorMes(series, filtro) {
     const map = {};
+    // Soporta multi-selección: filtro.anyos / filtro.meses (arrays; vacío = todos).
+    // Retrocompatible con filtro.anyo / filtro.mes (escalares).
+    const anyos = filtro.anyos && filtro.anyos.length ? filtro.anyos.map(String) : (filtro.anyo ? [String(filtro.anyo)] : []);
+    const meses = filtro.meses && filtro.meses.length ? filtro.meses : (filtro.mes ? [filtro.mes] : []);
     series.filter((s) => (!filtro.metrica || s.metrica === filtro.metrica) && (!filtro.residencia || s.residencia === filtro.residencia))
       .forEach((s) => (s.data || []).forEach((d) => {
-        if (filtro.anyo && String(d.anyo) !== String(filtro.anyo)) return;
-        if (filtro.mes && d.mes !== filtro.mes) return;
+        if (anyos.length && anyos.indexOf(String(d.anyo)) < 0) return;
+        if (meses.length && meses.indexOf(d.mes) < 0) return;
         map[d.fecha] = (map[d.fecha] || 0) + d.valor;
       }));
     return map;
@@ -4976,6 +5161,8 @@
     if (sub) sub.textContent = 'Hoteles, campings y viviendas turísticas · INE y GVA';
     if (heroMes) heroMes.textContent = ultimo ? fechaLabelTurismo(ultimo) : '—';
     if (heroUpd) heroUpd.textContent = 'Actualizado: ' + new Date(turismoData.generadoEn || Date.now()).toLocaleString('es-ES');
+    const resUlt = document.getElementById('turismo-resumen-ultimo');
+    if (resUlt) resUlt.textContent = ultimo ? ('Último mes con datos: ' + fechaLabelTurismo(ultimo) + '.') : '';
   }
 
   function renderTurismoKPIs() {
@@ -5035,12 +5222,14 @@
   function renderTurismoResumenCharts() {
     if (!turismoData) return;
     const cats = ['hoteles', 'campings'];
+    const years = getTurismoYears();
+    const meses = getTurismoMeses();
     const year = getTurismoYear();
     const mes = getTurismoMes();
     const labelsSet = new Set();
     const porCatPern = {};
     cats.forEach((cat) => {
-      const m = turismoSeriesPorMes(turismoData.series[cat] || [], { metrica: 'pernoctaciones', anyo: year, mes });
+      const m = turismoSeriesPorMes(turismoData.series[cat] || [], { metrica: 'pernoctaciones', anyos: years, meses });
       porCatPern[cat] = m;
       Object.keys(m).forEach((k) => labelsSet.add(k));
     });
@@ -5072,7 +5261,7 @@
     const plazasUlt = (cat) => {
       const s = (turismoData.series[cat] || []).find((x) => x.metrica === 'plazas');
       if (!s || !s.data || !s.data.length) return 0;
-      const rows = year ? s.data.filter((d) => String(d.anyo) === String(year)) : s.data;
+      const rows = years.length ? s.data.filter((d) => tYearMatch(d.anyo, years)) : s.data;
       const arr = rows.length ? rows : s.data;
       return (arr[arr.length - 1].valor) || 0;
     };
@@ -5095,7 +5284,7 @@
     cats.forEach((cat) => {
       (turismoData.series[cat] || []).forEach((s) => {
         if (s.metrica !== 'pernoctaciones') return;
-        const sum = (s.data || []).filter((d) => (!year || String(d.anyo) === String(year)) && (!mes || d.mes === mes)).reduce((a, b) => a + b.valor, 0);
+        const sum = (s.data || []).filter((d) => tYearMatch(d.anyo, years) && tMesMatch(d.mes, meses)).reduce((a, b) => a + b.valor, 0);
         if (s.residencia === 'espana') totEsp += sum;
         else if (s.residencia === 'extranjero') totExt += sum;
       });
@@ -5118,14 +5307,16 @@
         if (s.metrica !== 'pernoctaciones') return;
         (s.data || []).forEach((d) => {
           if (!d.mes) return;
-          if (year && String(d.anyo) !== String(year)) return;
+          if (!tYearMatch(d.anyo, years)) return;
           sumByMonth[d.mes - 1] += d.valor;
           countByMonth[d.mes - 1] += 1;
         });
       });
     });
-    const estData = year ? sumByMonth : sumByMonth.map((s, i) => countByMonth[i] ? s / countByMonth[i] : 0);
-    const estLabel = year ? ('Pernoctaciones ' + year) : 'Pernoctaciones medias (todos los años)';
+    // Un solo año => suma de ese año; varios años o "todos" => media por mes.
+    const unAnio = years.length === 1;
+    const estData = unAnio ? sumByMonth : sumByMonth.map((s, i) => countByMonth[i] ? s / countByMonth[i] : 0);
+    const estLabel = unAnio ? ('Pernoctaciones ' + years[0]) : (years.length ? 'Pernoctaciones medias (años seleccionados)' : 'Pernoctaciones medias (todos los años)');
     destroyTurismoChart('estacionalidad');
     const ctxD = document.getElementById('chart-turismo-estacionalidad');
     if (ctxD) {
@@ -5155,17 +5346,17 @@
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
     destroyTurismoChart(canvasId);
-    const year = getTurismoYear();
-    const mes = getTurismoMes();
+    const years = getTurismoYears();
+    const meses = getTurismoMeses();
     const series = turismoData.series[cat] || [];
     if (!series.length || !series.some((s) => (s.data || []).length)) {
       ctx.parentElement.innerHTML = '<p style="padding:1rem;color:var(--text-muted)">Sin datos publicados.</p>';
       return;
     }
-    const viajEsp = turismoSeriesPorMes(series, { metrica: 'viajeros', residencia: 'espana', anyo: year, mes });
-    const viajExt = turismoSeriesPorMes(series, { metrica: 'viajeros', residencia: 'extranjero', anyo: year, mes });
-    const pernEsp = turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'espana', anyo: year, mes });
-    const pernExt = turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'extranjero', anyo: year, mes });
+    const viajEsp = turismoSeriesPorMes(series, { metrica: 'viajeros', residencia: 'espana', anyos: years, meses });
+    const viajExt = turismoSeriesPorMes(series, { metrica: 'viajeros', residencia: 'extranjero', anyos: years, meses });
+    const pernEsp = turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'espana', anyos: years, meses });
+    const pernExt = turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'extranjero', anyos: years, meses });
     const all = new Set([...Object.keys(viajEsp), ...Object.keys(viajExt), ...Object.keys(pernEsp), ...Object.keys(pernExt)]);
     const labels = Array.from(all).sort();
     turismoCharts[canvasId] = new Chart(ctx, {
@@ -5192,11 +5383,11 @@
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
     destroyTurismoChart(canvasId);
-    const year = getTurismoYear();
-    const mes = getTurismoMes();
+    const years = getTurismoYears();
+    const meses = getTurismoMeses();
     const series = turismoData.series[cat] || [];
-    const sumE = Object.values(turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'espana', anyo: year, mes })).reduce((a, b) => a + b, 0);
-    const sumX = Object.values(turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'extranjero', anyo: year, mes })).reduce((a, b) => a + b, 0);
+    const sumE = Object.values(turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'espana', anyos: years, meses })).reduce((a, b) => a + b, 0);
+    const sumX = Object.values(turismoSeriesPorMes(series, { metrica: 'pernoctaciones', residencia: 'extranjero', anyos: years, meses })).reduce((a, b) => a + b, 0);
     if (sumE + sumX === 0) {
       ctx.parentElement.innerHTML = '<p style="padding:1rem;color:var(--text-muted)">Sin datos publicados.</p>';
       return;
@@ -5513,18 +5704,18 @@
     }
 
     // Chart por mes (total) — fallback al histórico completo si el filtro deja vacío
-    const year = getTurismoYear();
-    const mes = getTurismoMes();
+    const years = getTurismoYears();
+    const meses = getTurismoMeses();
     const total = movil.find((s) => s.residencia === 'total');
     destroyTurismoChart('mov-mes');
     const ctxA = document.getElementById('chart-turismo-mov-mes');
     if (ctxA && total) {
       const todos = total.data || [];
-      let dataFiltered = todos.filter((d) => (!year || String(d.anyo) === String(year)) && (!mes || d.mes === mes));
+      let dataFiltered = todos.filter((d) => tYearMatch(d.anyo, years) && tMesMatch(d.mes, meses));
       // Si el año/mes seleccionado no tiene datos TMOV, mostramos todo el histórico para no dejar el gráfico vacío
       const fallback = dataFiltered.length === 0;
       if (fallback) dataFiltered = todos;
-      const titulo = fallback && (year || mes)
+      const titulo = fallback && (years.length || meses.length)
         ? 'Turistas extranjeros (sin datos para el filtro · mostrando histórico)'
         : 'Turistas extranjeros';
       turismoCharts['mov-mes'] = new Chart(ctxA, {
@@ -5859,6 +6050,37 @@
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ': ' + tFmtNum(ctx.raw); } } } }, scales: { y: { position: 'left', beginAtZero: false, title: { display: true, text: 'Apartamentos' } }, y1: { position: 'right', beginAtZero: false, grid: { drawOnChartArea: false }, title: { display: true, text: 'Plazas' } } } }
         });
       }
+      // Turistas internacionales (vía móvil, INE experimental)
+      var mi = db && db.movilidad_internacional;
+      var cMi = document.getElementById('chart-sitcv-movint-mes');
+      if (mi && cMi) {
+        var mim = mi.mensual || {};
+        var yy = (mi.anios || ['2024', '2025']);
+        var yMiA = yy[yy.length - 1], yMiB = yy[yy.length - 2];
+        var aA = [], aB = [];
+        for (var im = 1; im <= 12; im++) { var kk = ('0' + im).slice(-2); var oo = mim[kk] || {}; aA.push(oo[yMiA] != null ? oo[yMiA] : null); aB.push(oo[yMiB] != null ? oo[yMiB] : null); }
+        destroyTurismoChart('sitcvMovint');
+        turismoCharts['sitcvMovint'] = new Chart(cMi, {
+          type: 'line',
+          data: { labels: MES, datasets: [
+            { label: yMiA, data: aA, borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,.08)', tension: 0.3, pointRadius: 3, fill: true },
+            { label: yMiB, data: aB, borderColor: '#94a3b8', backgroundColor: 'transparent', borderDash: [5, 4], tension: 0.3, pointRadius: 2 }
+          ] },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ': ' + tFmtNum(ctx.raw); } } } }, scales: { y: { beginAtZero: true } } }
+        });
+        var mk = (mi.kpi && mi.kpi[yMiA]) || {};
+        var contMi = document.getElementById('turismo-sitcv-movint-kpis');
+        if (contMi) {
+          var vpct = mk.var == null ? '—' : (mk.var >= 0 ? '+' : '') + (mk.var * 100).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + ' %';
+          contMi.innerHTML = [
+            { l: 'Turistas internacionales', v: mk.turistas != null ? tFmtNum(mk.turistas) : '—', sub: yMiA },
+            { l: 'Variación interanual', v: vpct, sub: yMiA + ' vs ' + yMiB },
+            { l: 'Mes pico', v: 'Agosto', sub: (mim['08'] && mim['08'][yMiA] != null) ? tFmtNum(mim['08'][yMiA]) + ' turistas' : '' }
+          ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span><span class="turismo-mini-kpi-sub">' + it.sub + '</span></div>'; }).join('');
+        }
+        var perMi = document.getElementById('sitcv-movint-periodo');
+        if (perMi) perMi.textContent = mi.periodo ? '· ' + mi.periodo : '';
+      }
     };
     if (_sitCv) { render(_sitCv); return; }
     var url = (typeof dataUrl === 'function') ? dataUrl('data/TURISMO/SIT_CV/sit_cv.json') : '/data/TURISMO/SIT_CV/sit_cv.json';
@@ -5928,11 +6150,11 @@
     }
 
     // Chart ocupación: diario vs fin de semana
-    const year = getTurismoYear();
-    const mes = getTurismoMes();
+    const years = getTurismoYears();
+    const meses = getTurismoMeses();
     const ocupDiar = lookup('grado_ocupacion');
     const ocupFin = lookup('grado_ocupacion_finde');
-    const filterY = (s) => s ? s.data.filter((d) => (!year || String(d.anyo) === String(year)) && (!mes || d.mes === mes)) : [];
+    const filterY = (s) => s ? s.data.filter((d) => tYearMatch(d.anyo, years) && tMesMatch(d.mes, meses)) : [];
     const dataD = filterY(ocupDiar);
     const dataF = filterY(ocupFin);
     destroyTurismoChart('camp-ocupacion');
@@ -6103,12 +6325,10 @@
   }
 
   function initTurismo() {
-    const yearSel = document.getElementById('turismo-year');
+    // Año y Mes son multi-desplegables (se construyen en populateTurismoFilters y
+    // llaman a renderTurismoAll por su onChange). Aquí solo la categoría y comparar.
     const catSel = document.getElementById('turismo-categoria');
-    const mesSel = document.getElementById('turismo-mes');
-    if (yearSel) yearSel.addEventListener('change', () => { renderTurismoAll(); });
     if (catSel) catSel.addEventListener('change', () => { renderTurismoAll(); });
-    if (mesSel) mesSel.addEventListener('change', () => { renderTurismoAll(); });
     document.querySelectorAll('#nav-turismo .nav-item').forEach((el) => {
       el.addEventListener('click', (e) => {
         e.preventDefault();

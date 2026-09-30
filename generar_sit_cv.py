@@ -217,6 +217,47 @@ def alquiler_vacacional():
     }
 
 
+def movilidad_internacional():
+    """Turistas internacionales mensuales (via conexion movil, INE experimental)
+    para Peniscola. Export: exports/movilidad_internacional_turistas_mensual_*.xlsx
+    Cabecera: Mes | Municipio | Turistas (periodo analizado) | % variacion.
+    El % variacion es interanual (ano analizado vs comparativo), asi que el
+    ano anterior se deriva: v_ant = v / (1 + var)."""
+    path = _find(['movilidad_internacional_turistas_mensual_*.xlsx'])
+    if not path:
+        return None
+    cab, datos = _rows(path)
+    mensual = {}
+    for r in datos:
+        mes = MES.get(str(r[0]).strip()) if r[0] else None
+        if not mes:
+            continue
+        try:
+            v = float(r[2])
+        except (TypeError, ValueError):
+            continue
+        var = r[3]
+        rec = {'2025': round(v)}
+        if isinstance(var, (int, float)):
+            rec['2024'] = round(v / (1 + var)) if (1 + var) else None
+            rec['var'] = round(float(var), 4)
+        mensual[mes] = rec
+    tot25 = sum(m['2025'] for m in mensual.values() if m.get('2025') is not None)
+    tot24 = sum(m['2024'] for m in mensual.values() if m.get('2024'))
+    var_glob = round((tot25 - tot24) / tot24, 4) if tot24 else None
+    return {
+        'fuente': 'Invattur SIT-CV - Turismo internacional (via conexion movil, INE experimental)',
+        'destino': 'Peniscola Municipio',
+        'periodo': '2024-2025',
+        'nota': ('Turistas internacionales estimados a partir de datos de telefonia '
+                 'movil (INE experimental). Es el dato que el INE clasico no publica '
+                 'a nivel municipal. Ano anterior derivado del % de variacion interanual.'),
+        'anios': ['2024', '2025'],
+        'kpi': {'2025': {'turistas': tot25, 'var': var_glob}},
+        'mensual': mensual,
+    }
+
+
 def origen_pct():
     """Reutiliza el % pasado/futuro ya extraido a mano si existe."""
     p = os.path.join(BASE, 'data', 'TURISMO', 'sit_prevision_manual.json')
@@ -244,6 +285,7 @@ def main():
         'serie_pais_predictivo': serie_pais(),
         'serie_provincia_predictivo': serie_provincia(),
         'alquiler_vacacional': alquiler_vacacional(),
+        'movilidad_internacional': movilidad_internacional(),
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, 'w', encoding='utf-8') as fh:

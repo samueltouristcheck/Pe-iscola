@@ -748,6 +748,7 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
         'GRÁFICAS (OBLIGATORIO): recibirás una lista `graficas` con {clave, titulo}. Cada vez que analices un dato con gráfica, inserta en una LÍNEA PROPIA y aislada, justo tras ese párrafo, el marcador [GRAFICA: clave] con la clave literal. Intercala las gráficas por el cuerpo (NO al final) y usa TODAS las claves, cada una una sola vez. No expliques el marcador.',
         'LONGITUD (IMPORTANTE): el informe COMPLETO debe rondar 1700-2300 palabras. Es un informe extenso, NO un resumen. Si ves que te quedas corto, AMPLÍA cada sección con más contexto, causas, estacionalidad, comparativas y matices hasta alcanzar esa extensión.',
         'Reglas: usa EXCLUSIVAMENTE los datos proporcionados (no inventes cifras); si falta un dato, dilo. Números en formato español (1.234, 45.380 kg, -12,5%, 31,9%, 54,10 €). Sin tablas Markdown grandes.',
+        'INFORMACIÓN CERRADA (obligatorio): no uses conocimiento externo ni de internet, ni eventos, festivos, climatología o cifras que no estén en los datos. Toda cifra y todo hecho concreto deben salir de los datos proporcionados; si algo no está, indícalo en vez de rellenarlo con información de fuera.',
         esCamaras
             ? [
                 'RIGOR ESPECÍFICO DE CÁMARAS (obligatorio, prevalece sobre lo anterior):',
@@ -791,6 +792,52 @@ app.post('/api/informe-ia', informeLimiter, async (req, res) => {
         res.json({ texto: texto });
     } catch (err) {
         res.status(500).json({ error: err.message || 'Error al generar el informe' });
+    }
+});
+
+// Asistente conversacional de informes ("tipo ChatGPT", pero CERRADO a los datos del dashboard).
+// La usuaria escribe libremente qué informe quiere y lo va afinando en conversación.
+// REGLA CLAVE: solo puede usar los datos que se le pasan (nada de internet ni conocimiento externo).
+app.post('/api/informe-chat', informeLimiter, async (req, res) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const { ambito, periodoLabel, datos, history, message } = req.body || {};
+    if (!message || typeof message !== 'string') return res.status(400).json({ error: 'Falta el mensaje' });
+    if (!datos || typeof datos !== 'object') return res.status(400).json({ error: 'Faltan los datos del periodo' });
+
+    const ambitoTxt = {
+        turismo: 'turismo (ocupación hotelera, apartamentos/VUT, campings, rentabilidad ADR/RevPAR, procedencia y movilidad turística; fuentes INE y SIT-CV de Invat·tur)',
+        residuos: 'gestión de residuos (recogida del camión, pesajes de báscula, reciclaje por zonas, tipos y grandes productores)',
+        camaras: 'movilidad y aforo (cámaras LPR de entradas/salidas y cámaras de aforo de personas y vehículos)'
+    }[ambito] || 'gestión municipal de Peñíscola';
+
+    const system = [
+        'Eres el ASISTENTE DE INFORMES del Ayuntamiento de Peñíscola. Ayudas a una técnica municipal a redactar y AFINAR informes en español, de forma conversacional (como un chat): ella te dice qué informe quiere y con qué enfoque, y tú lo escribes; luego ella te pide cambios ("hazlo más corto", "céntrate en campings", "añade una conclusión", "tono más institucional") y tú devuelves el informe ACTUALIZADO aplicando esos cambios sobre la versión anterior.',
+        'ÁMBITO de los datos: ' + ambitoTxt + '.',
+        'REGLA ABSOLUTA — INFORMACIÓN CERRADA: solo puedes usar los datos que aparecen en el bloque "DATOS DISPONIBLES". NO uses conocimiento externo, NO uses internet, NO uses noticias, eventos, festivos, climatología ni cifras que no estén en esos datos, y NO inventes números. Si ella pide algo que no está en los datos (otro periodo, otra métrica, otra fuente), DÍSELO con claridad ("ese dato no está en el panel para este periodo") y ofrécele lo que SÍ hay. Está TERMINANTEMENTE PROHIBIDO rellenar huecos con datos inventados o traídos de fuera.',
+        'Puedes interpretar y contextualizar los datos que TIENES (estacionalidad, comparación con el mes/periodo anterior y con el año anterior, implicaciones para la gestión), pero toda cifra concreta debe salir de los datos dados.',
+        'FORMATO: cuando entregues un informe, escríbelo en Markdown claro (títulos con ##, negritas con **, viñetas con -). Números en formato español (1.234, 45.380, -12,5 %, 176,4 €). Cuando ella solo pregunte o pida un ajuste pequeño, responde de forma breve y natural; cuando pida "el informe" entero, devuélvelo completo y ya reescrito.',
+        'Sé profesional pero cercano. No te disculpes en exceso. Si el enfoque no está claro, hazle UNA pregunta corta para orientarlo y, si no, tira con un enfoque general sensato.',
+        'Recuerda: es preferible decir "no tengo ese dato" que inventarlo. La credibilidad del informe depende de que cada número sea real.'
+    ].join('\n');
+
+    const messages = [
+        { role: 'system', content: system },
+        { role: 'system', content: 'DATOS DISPONIBLES (ÚNICA fuente permitida). Periodo analizado: ' + (periodoLabel || '—') + '.\n' + JSON.stringify(datos, null, 1) },
+        ...((history || []).slice(-14).map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: String(m.content || '').slice(0, 8000) }))),
+        { role: 'user', content: message }
+    ];
+    try {
+        const r = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+            body: JSON.stringify({ model: 'gpt-4o', messages, max_tokens: 3200, temperature: 0.5 })
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
+        res.json({ reply: data.choices?.[0]?.message?.content?.trim() || '' });
+    } catch (err) {
+        res.status(500).json({ error: err.message || 'Error al generar la respuesta' });
     }
 });
 

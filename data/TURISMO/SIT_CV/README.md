@@ -122,7 +122,13 @@ Base: `https://smarttourismcv.invattur.org`
 > tenemos la movilidad interprovincial; si no aparece ni marcándolo a mano, es que el cuadro no cubre
 > Castellón. Dato del cuadro: W22-2022 → W22-2026, semanal; suma acumulada (no personas reales); se
 > suprimen unidades con <20 registros.
-| Movilidad internacional vía móvil | (por localizar — probablemente otra subpágina de Presencia y movilidad o de Movilidad diurna y nocturna) | — |
+| Movilidad internacional vía móvil | **LOCALIZADO** → Visualizaciones genéricas → **Comportamiento del turismo → Turismo internacional** → menú lateral *Turistas internacionales → Vía conexión móvil* → pestaña **Municipios** → Municipio = **Peñíscola** | `/api/visualizaciones-genericas/comportamiento-del-turismo/turismo-internacional` |
+| (Turismo interprovincial vía móvil) | **LOCALIZADO** → mismo sitio, **Turismo nacional** (Turistas interprovinciales → vía conexión móvil → Municipios → Peñíscola) | `/api/visualizaciones-genericas/comportamiento-del-turismo/turismo-nacional` |
+
+> **Movilidad internacional vía móvil (30/09) — confirmado, con dato, export pendiente:**
+> Es el cuadro **"Turismo internacional"** (fuentes: FRONTUR/EGATUR/IVE **+ INE experimental — medición del turismo por teléfonos móviles**). La sección **"Vía conexión móvil" → Municipios** SÍ tiene Peñíscola. Fijado destino = Peñíscola (el selector es multi-selección: buscar "scola", marcar Peñíscola y desmarcar el resto).
+> **Dato leído (2025 vs 2024):** Peñíscola **83.000 turistas internacionales** (−3,7%), con curva mensual (valle en invierno ~5 mil, pico en agosto ~15 mil; variación MoM: Ene −5,7 / Feb −6,1 / Mar −7,0 / Abr −11,1 / May −9,8 / Jun −0,7 / Jul +4,5 / Ago −5,5 / Sep −15,6 / Oct −14,0 / Nov +27,6 / Dic +36,2).
+> **Export pendiente:** hoy el Power BI iba muy lento (renderer congelado por rachas) y no me dejó abrir el ⋯ de exportar. Con la página respondiendo, es exportar la "Evolución mensual de turistas totales" (Datos resumidos) como el resto. Belén: este es su adjunto #8, y el #7 (interprovincial) es el cuadro "Turismo nacional" (mismo patrón).
 | Análisis vacacional online (demanda/oferta/rentabilidad + *análisis por destino*) | Visualizaciones genéricas → Alojamiento → **Alquiler vacacional online** (fuente **Lighthouse Intelligence**, OTA Airbnb/Booking/Vrbo; secciones DEMANDA/OFERTA/RENTABILIDAD) | `/api/visualizaciones-genericas/alojamientos/alquiler-vacacional-online` |
 | Oferta turística reglada | Visualizaciones genéricas → Alojamiento → Hoteles/apartamentos/campings + Turismo rural (encuestas de ocupación INE) | `/api/alojamientos/hoteles-apartamentos-y-campings` · `/api/alojamientos/turismo-rural` |
 | (Viviendas turísticas online) | Visualizaciones genéricas → Alojamiento → Viviendas turísticas online | `/api/visualizaciones-genericas/alojamientos/viviendas-turisticas-online` |
