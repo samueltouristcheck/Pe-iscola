@@ -5165,9 +5165,33 @@
     if (resUlt) resUlt.textContent = ultimo ? ('Último mes con datos: ' + fechaLabelTurismo(ultimo) + '.') : '';
   }
 
+  // Suma/media de una métrica de una categoría sobre el periodo filtrado (años/meses).
+  function turismoKpiSum(cat, metrica, years, meses) {
+    let sum = 0, n = 0;
+    (turismoData.series[cat] || []).forEach((s) => {
+      if (s.metrica !== metrica) return;
+      (s.data || []).forEach((d) => { if (tYearMatch(d.anyo, years) && tMesMatch(d.mes, meses)) { sum += d.valor; n++; } });
+    });
+    return { sum, n };
+  }
+  function turismoPeriodoLabel(years, meses) {
+    if (!years.length && !meses.length) return null; // sin filtro
+    const MES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const yTxt = years.length ? (years.length <= 3 ? years.slice().sort().join(', ') : years.length + ' años') : 'todos los años';
+    if (!meses.length) {
+      return years.length === 1 ? ('Acumulado ' + years[0]) : ('Acumulado · ' + yTxt);
+    }
+    const mTxt = meses.length <= 3 ? meses.slice().sort((a, b) => a - b).map((m) => MES[m - 1]).join('+') : meses.length + ' meses';
+    return mTxt + ' · ' + yTxt;
+  }
+
   function renderTurismoKPIs() {
     if (!turismoData) return;
     const r = turismoData.resumen || {};
+    const years = getTurismoYears();
+    const meses = getTurismoMeses();
+    const activo = years.length > 0 || meses.length > 0;
+    const periodoLbl = turismoPeriodoLabel(years, meses);
     const cats = [
       { key: 'hoteles', viaj: 'turismo-kpi-hoteles-viajeros', viajSub: 'turismo-kpi-hoteles-viajeros-sub', pern: 'turismo-kpi-hoteles-pern', pernSub: 'turismo-kpi-hoteles-pern-sub' },
       { key: 'campings', viaj: 'turismo-kpi-camp-viajeros', viajSub: 'turismo-kpi-camp-viajeros-sub', pern: 'turismo-kpi-camp-pern', pernSub: 'turismo-kpi-camp-pern-sub', anyo: 'turismo-kpi-camp-anyo', anyoSub: 'turismo-kpi-camp-anyo-sub' }
@@ -5175,27 +5199,56 @@
     cats.forEach((c) => {
       const d = r[c.key] || {};
       const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-      setText(c.viaj, tFmtNum(d.viajerosUltimo));
-      setText(c.pern, tFmtNum(d.pernoctacionesUltimo));
-      setText(c.viajSub, d.ultimoMes ? fechaLabelTurismo(d.ultimoMes) : '—');
-      setText(c.pernSub, d.ultimoMes ? fechaLabelTurismo(d.ultimoMes) : '—');
+      if (activo) {
+        const v = turismoKpiSum(c.key, 'viajeros', years, meses).sum;
+        const p = turismoKpiSum(c.key, 'pernoctaciones', years, meses).sum;
+        setText(c.viaj, tFmtNum(v));
+        setText(c.pern, tFmtNum(p));
+        setText(c.viajSub, periodoLbl || '—');
+        setText(c.pernSub, periodoLbl || '—');
+      } else {
+        setText(c.viaj, tFmtNum(d.viajerosUltimo));
+        setText(c.pern, tFmtNum(d.pernoctacionesUltimo));
+        setText(c.viajSub, d.ultimoMes ? ('Último mes: ' + fechaLabelTurismo(d.ultimoMes)) : '—');
+        setText(c.pernSub, d.ultimoMes ? ('Último mes: ' + fechaLabelTurismo(d.ultimoMes)) : '—');
+      }
       if (c.anyo) {
-        setText(c.anyo, tFmtNum(d.totalPernoctacionesAnyo));
-        const pct = variacionPctTurismo(d.totalPernoctacionesAnyo, d.totalPernoctacionesAnyoAnterior);
-        const sub = document.getElementById(c.anyoSub);
-        if (sub) {
-          sub.textContent = 'vs ' + tFmtNum(d.totalPernoctacionesAnyoAnterior) + ' año anterior · ' + tFmtPct(pct);
-          sub.classList.remove('up', 'down');
-          if (pct != null) sub.classList.add(pct >= 0 ? 'up' : 'down');
+        // "Año actual": si hay UN año seleccionado, ese año; si no, el año en curso del resumen.
+        if (years.length === 1) {
+          const tot = turismoKpiSum(c.key, 'pernoctaciones', [years[0]], []).sum;
+          const prevY = String(parseInt(years[0], 10) - 1);
+          const totPrev = turismoKpiSum(c.key, 'pernoctaciones', [prevY], []).sum;
+          setText(c.anyo, tFmtNum(tot));
+          const pct = variacionPctTurismo(tot, totPrev);
+          const sub = document.getElementById(c.anyoSub);
+          if (sub) {
+            sub.textContent = 'vs ' + tFmtNum(totPrev) + ' en ' + prevY + ' · ' + tFmtPct(pct);
+            sub.classList.remove('up', 'down');
+            if (pct != null) sub.classList.add(pct >= 0 ? 'up' : 'down');
+          }
+        } else {
+          setText(c.anyo, tFmtNum(d.totalPernoctacionesAnyo));
+          const pct = variacionPctTurismo(d.totalPernoctacionesAnyo, d.totalPernoctacionesAnyoAnterior);
+          const sub = document.getElementById(c.anyoSub);
+          if (sub) {
+            sub.textContent = 'vs ' + tFmtNum(d.totalPernoctacionesAnyoAnterior) + ' año anterior · ' + tFmtPct(pct);
+            sub.classList.remove('up', 'down');
+            if (pct != null) sub.classList.add(pct >= 0 ? 'up' : 'down');
+          }
         }
       }
     });
-    const est = (turismoData.series.hoteles || []).find((s) => s.metrica === 'estancia_media');
     const elEst = document.getElementById('turismo-kpi-hoteles-estancia');
     if (elEst) {
-      const data = est?.data || [];
-      const last = data[data.length - 1];
-      elEst.textContent = last ? tFmtDec(last.valor, 2) : '—';
+      if (activo) {
+        const e = turismoKpiSum('hoteles', 'estancia_media', years, meses);
+        elEst.textContent = e.n ? tFmtDec(e.sum / e.n, 2) : '—';
+      } else {
+        const est = (turismoData.series.hoteles || []).find((s) => s.metrica === 'estancia_media');
+        const data = est?.data || [];
+        const last = data[data.length - 1];
+        elEst.textContent = last ? tFmtDec(last.valor, 2) : '—';
+      }
     }
     // Vivienda turística (VUT) — desde viviendasData (registro GVA)
     const setT = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
@@ -5206,12 +5259,17 @@
       setT('turismo-kpi-vut-plazas-sub', tFmtDec(vr.plazas_por_vivienda, 2) + ' plazas/vivienda');
       const altas = viviendasData.altasPorAnyo || {};
       const ys = Object.keys(altas).sort();
-      const cur = ys[ys.length - 1], prev = ys[ys.length - 2];
+      const yrsSel = getTurismoYears();
+      // Si hay UN año seleccionado y tiene altas, muéstralo; si no, el último año.
+      const cur = (yrsSel.length === 1 && altas[yrsSel[0]] != null) ? yrsSel[0] : ys[ys.length - 1];
+      const idxCur = ys.indexOf(cur);
+      const prev = idxCur > 0 ? ys[idxCur - 1] : null;
       setT('turismo-kpi-vut-altas', tFmtNum(altas[cur] || 0));
       const subA = document.getElementById('turismo-kpi-vut-altas-sub');
       if (subA) {
         subA.classList.remove('up', 'down');
-        subA.textContent = 'nuevas en ' + cur + ' (año en curso) · ' + (prev ? tFmtNum(altas[prev] || 0) + ' en ' + prev : '');
+        const esCurso = cur === ys[ys.length - 1];
+        subA.textContent = 'nuevas en ' + cur + (esCurso ? ' (año en curso)' : '') + ' · ' + (prev ? tFmtNum(altas[prev] || 0) + ' en ' + prev : '');
       }
     } else if (typeof ensureViviendasLoaded === 'function' && !window.__vutKpiTried) {
       window.__vutKpiTried = true;
