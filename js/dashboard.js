@@ -6815,12 +6815,91 @@
     });
   }
 
+  /* ============ ASISTENTE FLOTANTE "¿Dónde está tal dato?" ============ */
+  // Navega a un módulo + sección desde cualquier parte del dashboard.
+  function dashGoTo(modulo, section) {
+    try {
+      setMode(modulo);
+      setTimeout(function () {
+        var nav = document.querySelector('#nav-' + modulo + ' [data-section="' + section + '"]');
+        if (nav) { nav.click(); }
+        else {
+          var sec = document.getElementById('section-' + section);
+          if (sec) {
+            document.querySelectorAll('#main-' + modulo + ' .section').forEach(function (s) { s.classList.remove('active'); });
+            sec.classList.add('active');
+          }
+        }
+        var main = document.getElementById('main-' + modulo);
+        if (main && main.scrollIntoView) main.scrollIntoView({ block: 'start' });
+        window.scrollTo(0, 0);
+      }, 70);
+    } catch (e) { /* noop */ }
+  }
+  var _dhChat = { history: [], busy: false, built: false };
+  function initAsistenteDonde() {
+    if (_dhChat.built) return;
+    _dhChat.built = true;
+    var fab = document.createElement('button');
+    fab.className = 'dash-help-fab';
+    fab.type = 'button';
+    fab.innerHTML = '<span class="dh-ico">🧭</span><span class="dh-txt">¿Dónde está…?</span>';
+    var panel = document.createElement('div');
+    panel.className = 'dash-help-panel';
+    panel.innerHTML =
+      '<div class="dash-help-head"><div><h4>Guía del panel</h4><span class="dh-sub">Te digo dónde está cada dato y te llevo</span></div><button type="button" class="dash-help-close" aria-label="Cerrar">×</button></div>' +
+      '<div class="dash-help-msgs" id="dh-msgs"></div>' +
+      '<div class="dash-help-inputbar"><input type="text" class="dash-help-input" id="dh-input" placeholder="¿Dónde veo…?" autocomplete="off"><button type="button" class="dash-help-send" id="dh-send">Enviar</button></div>';
+    document.body.appendChild(fab);
+    document.body.appendChild(panel);
+    var msgs = panel.querySelector('#dh-msgs');
+    var input = panel.querySelector('#dh-input');
+    var sendBtn = panel.querySelector('#dh-send');
+    var open = function () { panel.classList.add('open'); setTimeout(function () { input.focus(); }, 50); };
+    var close = function () { panel.classList.remove('open'); };
+    fab.addEventListener('click', function () { panel.classList.contains('open') ? close() : open(); });
+    panel.querySelector('.dash-help-close').addEventListener('click', close);
+    var addBubble = function (role, text, ir) {
+      var row = document.createElement('div'); row.className = 'dh-row ' + (role === 'user' ? 'user' : 'bot');
+      var b = document.createElement('div'); b.className = 'dh-bubble'; b.textContent = text;
+      if (ir && ir.section) {
+        var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'dh-goto';
+        btn.innerHTML = '➜ Llévame ahí';
+        btn.addEventListener('click', function () { dashGoTo(ir.modulo, ir.section); close(); });
+        b.appendChild(document.createElement('br')); b.appendChild(btn);
+      }
+      row.appendChild(b); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
+    };
+    var send = function () {
+      if (_dhChat.busy) return;
+      var msg = (input.value || '').trim(); if (!msg) return;
+      _dhChat.busy = true; sendBtn.disabled = true;
+      addBubble('user', msg); input.value = '';
+      var typing = document.createElement('div'); typing.className = 'dh-row bot'; typing.innerHTML = '<div class="dh-bubble" style="color:#94a3b8">Buscando…</div>';
+      msgs.appendChild(typing); msgs.scrollTop = msgs.scrollHeight;
+      fetch('/api/asistente-donde', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, history: _dhChat.history }) })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (typing.parentNode) typing.parentNode.removeChild(typing);
+          if (res.error) { addBubble('bot', 'Ups, no he podido responder: ' + res.error); return; }
+          addBubble('bot', res.reply || '(sin respuesta)', res.ir);
+          _dhChat.history.push({ role: 'user', content: msg });
+          _dhChat.history.push({ role: 'assistant', content: res.reply || '' });
+        })
+        .catch(function () { if (typing.parentNode) typing.parentNode.removeChild(typing); addBubble('bot', 'No he podido conectar. Inténtalo de nuevo.'); })
+        .finally(function () { _dhChat.busy = false; sendBtn.disabled = false; input.focus(); });
+    };
+    sendBtn.addEventListener('click', send);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+  }
+
   function init() {
     initLanding();
     initCamaras();
     initResiduos();
     initTurismo();
     initRedes();
+    initAsistenteDonde();
     loadCamarasData();
     document.querySelectorAll('#nav-camaras .nav-item').forEach((el) => {
       el.addEventListener('click', (e) => {

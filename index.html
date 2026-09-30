@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="stylesheet" href="css/globals.css">
-  <link rel="stylesheet" href="css/dashboard.css?v=8">
+  <link rel="stylesheet" href="css/dashboard.css?v=9">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -119,6 +119,31 @@
     .inf-chat-send { background: #2563eb; color: #fff; border: none; border-radius: 10px; padding: 0 1.3rem; height: 44px; font-weight: 600; cursor: pointer; font-size: .92rem; }
     .inf-chat-send:disabled { opacity: .55; cursor: not-allowed; }
     .inf-chat-send:hover:not(:disabled) { background: #1d4ed8; }
+    /* --- Asistente flotante "¿Dónde está tal dato?" --- */
+    .dash-help-fab { position: fixed; right: 22px; bottom: 22px; z-index: 900; display: inline-flex; align-items: center; gap: .5rem; background: #2563eb; color: #fff; border: none; border-radius: 999px; padding: .7rem 1.1rem; font-size: .9rem; font-weight: 600; cursor: pointer; box-shadow: 0 6px 20px rgba(37,99,235,.4); font-family: inherit; }
+    .dash-help-fab:hover { background: #1d4ed8; }
+    .dash-help-fab .dh-ico { font-size: 1.15rem; line-height: 1; }
+    .dash-help-panel { position: fixed; right: 22px; bottom: 82px; z-index: 901; width: 360px; max-width: calc(100vw - 32px); max-height: 70vh; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 16px 48px rgba(15,23,42,.28); display: none; flex-direction: column; overflow: hidden; }
+    .dash-help-panel.open { display: flex; }
+    .dash-help-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .8rem 1rem; background: linear-gradient(135deg,#2563eb,#1d4ed8); color: #fff; }
+    .dash-help-head h4 { margin: 0; font-size: .98rem; font-weight: 700; }
+    .dash-help-head .dh-sub { font-size: .72rem; opacity: .9; font-weight: 400; display: block; margin-top: .1rem; }
+    .dash-help-close { background: rgba(255,255,255,.2); border: none; color: #fff; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; font-size: 1rem; line-height: 1; }
+    .dash-help-msgs { flex: 1; overflow-y: auto; padding: .9rem; display: flex; flex-direction: column; gap: .6rem; background: #f8fafc; }
+    .dash-help-msgs:empty::before { content: "Pregúntame dónde está un dato. Ej.: \"¿dónde veo la ocupación de campings?\""; color: #94a3b8; font-size: .84rem; font-style: italic; }
+    .dh-row { display: flex; }
+    .dh-row.user { justify-content: flex-end; }
+    .dh-bubble { max-width: 88%; padding: .6rem .8rem; border-radius: 13px; font-size: .88rem; line-height: 1.5; white-space: pre-wrap; }
+    .dh-row.user .dh-bubble { background: #2563eb; color: #fff; border-bottom-right-radius: 4px; }
+    .dh-row.bot .dh-bubble { background: #fff; color: #1e293b; border: 1px solid #e2e8f0; border-bottom-left-radius: 4px; }
+    .dh-goto { margin-top: .5rem; display: inline-flex; align-items: center; gap: .35rem; background: #16a34a; color: #fff; border: none; border-radius: 8px; padding: .4rem .8rem; font-size: .82rem; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .dh-goto:hover { background: #15803d; }
+    .dash-help-inputbar { display: flex; gap: .5rem; padding: .7rem; border-top: 1px solid #e2e8f0; background: #fff; }
+    .dash-help-input { flex: 1; border: 1px solid #cbd5e1; border-radius: 10px; padding: .55rem .75rem; font-size: .88rem; font-family: inherit; color: #1e293b; }
+    .dash-help-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+    .dash-help-send { background: #2563eb; color: #fff; border: none; border-radius: 10px; padding: 0 1rem; font-weight: 600; cursor: pointer; }
+    .dash-help-send:disabled { opacity: .55; cursor: not-allowed; }
+    @media (max-width: 640px){ .dash-help-panel { bottom: 74px; } .dash-help-fab .dh-txt { display: none; } .dash-help-fab { padding: .8rem; } }
   </style>
 </head>
 <body>
@@ -1672,7 +1697,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=135"></script>
+  <script src="js/dashboard.js?v=136"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

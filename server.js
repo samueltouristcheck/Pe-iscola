@@ -841,6 +841,99 @@ app.post('/api/informe-chat', informeLimiter, async (req, res) => {
     }
 });
 
+// Asistente "¿dónde está tal dato?": guía de navegación del dashboard.
+// Responde en qué módulo y sección se encuentra cada dato, y puede llevar allí.
+const DASHBOARD_MAPA = [
+  'MÓDULOS del dashboard (se cambia con los botones "Ir a…" de la barra lateral):',
+  '',
+  '=== CÁMARAS (tráfico de vehículos y aforo de personas; cámaras LPR y de conteo) ===',
+  '- camaras-resumen: mapa de accesos/puntos de control y entradas totales.',
+  '- camaras-evolucion: evolución de entradas y salidas de vehículos por mes/día.',
+  '- camaras-horario: perfil horario del tráfico (horas punta).',
+  '- camaras-procedencia: nacionalidad/procedencia de las matrículas (nacional vs extranjero).',
+  '- camaras-colores: color, marca y tipo de los vehículos.',
+  '- camaras-multiobjeto: mapa de afluencia de personas.',
+  '- camaras-multiobjeto-calles: calles más concurridas.',
+  '- camaras-multiobjeto-detalle: aforo por cámara concreta.',
+  '- camaras-sit: aforo de personas por horas (peatones).',
+  '- camaras-repositorio: subir/descargar datos brutos de cámaras.',
+  '- camaras-informes: generar informes de movilidad.',
+  '',
+  '=== RESIDUOS (recogida y reciclaje) ===',
+  '- kpis: indicadores generales de recogida.',
+  '- reciclaje: reciclaje por fracción.',
+  '- hoteles: residuos generados por cada hotel.',
+  '- grandes-productores: mayores productores de residuos.',
+  '- mapa: mapa de contenedores.',
+  '- zonas: residuos por zona.',
+  '- comparacion-tipos: comparación por tipo de residuo.',
+  '- tablas: tablas de datos brutos de residuos.',
+  '- residuos-repositorio: subir/descargar datos brutos.',
+  '- residuos-informes: generar informes de residuos.',
+  '',
+  '=== TURISMO (INE y SIT-CV de Invat·tur) ===',
+  '- turismo-resumen: visión general (KPIs de hoteles, campings, viviendas VUT, presión turística).',
+  '- turismo-movilidad: turistas EXTRANJEROS estimados por datos de móvil (INE experimental) y top países.',
+  '- turismo-procedencia: procedencia NACIONAL de los turistas (por CCAA y provincia).',
+  '- turismo-gasto: gasto con tarjeta en Peñíscola (SIT-CV · Geoblink).',
+  '- turismo-busquedas: "Demanda online" — alquiler vacacional en portales (Airbnb/Booking/Vrbo, Lighthouse): turistas, ADR, ocupación, RevPar, revenue, oferta de apartamentos y plazas; y ahí mismo, más abajo, los TURISTAS INTERNACIONALES vía móvil.',
+  '- turismo-reputacion: menciones y reputación online del destino (SIT-CV escucha activa).',
+  '- turismo-hoteles: ocupación hotelera, viajeros y pernoctaciones (INE EOH).',
+  '- turismo-campings: viajeros, pernoctaciones, ocupación y parcelas de campings (INE EOAC).',
+  '- turismo-viviendas: viviendas de uso turístico (VUT) registradas, plazas y altas (GVA).',
+  '- turismo-rentabilidad: ADR (precio medio) y RevPAR de los hoteles (INE).',
+  '- turismo-comparativa: comparativa entre hoteles, apartamentos y campings.',
+  '- turismo-tablas: tablas de datos brutos del INE.',
+  '- turismo-fuentes: de dónde sale cada dato (fuentes y enlaces oficiales).',
+  '- turismo-informes: asistente de informes (chat) y generador de informes.',
+  '',
+  '=== REDES / WEB ===',
+  '- redes-resumen: resumen de redes y web (seguidores, alcance, sesiones).',
+  '- redes-facebook: métricas de Facebook.',
+  '- redes-instagram: métricas de Instagram.',
+  '- redes-web: tráfico de la web (Google Analytics).',
+  '- redes-fuentes: estado de las conexiones/integraciones.'
+].join('\n');
+
+app.post('/api/asistente-donde', chatLimiter, async (req, res) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
+    const { message, history } = req.body || {};
+    if (!message || typeof message !== 'string') return res.status(400).json({ error: 'Falta el mensaje' });
+    const modOf = (sec) => sec.startsWith('camaras') ? 'camaras' : sec.startsWith('turismo') ? 'turismo' : sec.startsWith('redes') ? 'redes' : 'residuos';
+    const system = [
+        'Eres el GUÍA del dashboard municipal de Peñíscola. Tu única función es decir DÓNDE está cada dato dentro del panel y, si procede, llevar allí. Respondes en español, breve y claro (1-3 frases).',
+        'Usa EXCLUSIVAMENTE el mapa de secciones de abajo; no te inventes secciones ni datos ni cifras (no das valores, solo la ubicación). Si el dato no existe en el panel, dilo con sinceridad y sugiere lo más parecido que sí haya.',
+        'IMPORTANTE sobre cómo lo dices: en el TEXTO refiérete a la sección por su NOMBRE del menú y su módulo, así: "Turismo → Campings" (usa el nombre entre comillas del mapa, p. ej. "Campings", "Rentabilidad hotelera", "Demanda online"). NUNCA escribas el id técnico (como turismo-campings) en el texto visible.',
+        'Cuando identifiques la sección concreta, TERMINA tu respuesta con una línea aparte con el marcador exacto: [IR: <id-de-seccion>] usando el id técnico literal del mapa (p. ej. [IR: turismo-campings]). Ese marcador es lo ÚNICO donde va el id, y se usa para poner el botón "Llévame ahí". Pon UN solo marcador, el de la sección más relevante. Si la pregunta es ambigua o general, no pongas marcador y pide una aclaración corta.',
+        '',
+        'MAPA DEL DASHBOARD:',
+        DASHBOARD_MAPA
+    ].join('\n');
+    const messages = [
+        { role: 'system', content: system },
+        ...((history || []).slice(-8).map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: String(m.content || '').slice(0, 2000) }))),
+        { role: 'user', content: message }
+    ];
+    try {
+        const r = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+            body: JSON.stringify({ model: 'gpt-4o-mini', messages, max_tokens: 400, temperature: 0.3 })
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error?.message || r.statusText || 'Error API');
+        let reply = data.choices?.[0]?.message?.content?.trim() || '';
+        // Extrae el marcador [IR: seccion] si existe
+        let ir = null;
+        const m = reply.match(/\[IR:\s*([a-z0-9-]+)\s*\]/i);
+        if (m) { const sec = m[1]; ir = { section: sec, modulo: modOf(sec) }; reply = reply.replace(/\[IR:[^\]]*\]/i, '').trim(); }
+        res.json({ reply, ir });
+    } catch (err) {
+        res.status(500).json({ error: err.message || 'Error al conectar con el asistente' });
+    }
+});
+
 // Opinión / análisis profesional para el informe SIT de cámaras (movilidad).
 app.post('/api/sit-opinion', informeLimiter, async (req, res) => {
     const apiKey = process.env.OPENAI_API_KEY;
