@@ -4536,6 +4536,106 @@
     }
     infPopulate(amb);
     if (amb === 'turismo') initInformeChat();
+    else injectInformeChat(amb);
+  }
+
+  /* ===== Asistente de informes GENÉRICO para residuos y cámaras (inyectado) ===== */
+  var _gchat = {};
+  function injectInformeChat(amb) {
+    var sec = document.getElementById('section-' + amb + '-informes');
+    if (!sec || document.getElementById('gchat-' + amb + '-card')) { return; }
+    var ambTxt = amb === 'residuos'
+      ? 'Escribe qué informe de <strong>residuos</strong> necesitas y con qué enfoque, y ve pidiéndole cambios como en un chat.'
+      : 'Escribe qué informe de <strong>movilidad/cámaras</strong> necesitas y con qué enfoque, y ve pidiéndole cambios como en un chat.';
+    var card = document.createElement('div');
+    card.className = 'turismo-section-card';
+    card.id = 'gchat-' + amb + '-card';
+    card.style.marginBottom = '1rem';
+    card.innerHTML =
+      '<div class="turismo-section-head"><h2 class="section-title">🤖 Asistente de informes</h2><span class="turismo-section-tag">IA · solo con los datos del panel</span></div>' +
+      '<p class="turismo-chart-hint" style="margin-bottom:.8rem">' + ambTxt + ' Usa <strong>únicamente los datos de este panel</strong>; no coge nada de internet, y si un dato no está te lo dirá en vez de inventarlo.</p>' +
+      '<div class="filters-bar" style="flex-wrap:wrap;gap:.7rem;align-items:end;margin-bottom:.8rem">' +
+        '<span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Periodo · Año</label><select id="gchat-' + amb + '-anio" class="fuente-select" style="min-width:110px"></select></span>' +
+        '<span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="gchat-' + amb + '-mes" class="fuente-select" style="min-width:150px"></select></span>' +
+        '<button type="button" id="gchat-' + amb + '-reset" class="reload-btn" style="background:#e2e8f0;color:#334155">🗑️ Nueva conversación</button>' +
+      '</div>' +
+      '<div id="gchat-' + amb + '-msgs" class="inf-chat-msgs"></div>' +
+      '<div class="inf-chat-inputbar"><textarea id="gchat-' + amb + '-input" class="inf-chat-input" rows="2" placeholder="Escribe aquí qué informe quieres… (Enter para enviar)"></textarea><button type="button" id="gchat-' + amb + '-send" class="inf-chat-send">Enviar</button></div>' +
+      '<div id="gchat-' + amb + '-estado" style="margin-top:.5rem;font-size:.85rem;color:#64748b"></div>' +
+      '<div class="informe-toolbar" style="margin-top:.6rem;justify-content:flex-start"><button type="button" id="gchat-' + amb + '-copiar" class="reload-btn" style="background:#e2e8f0;color:#334155;display:none">📋 Copiar texto</button></div>';
+    sec.insertBefore(card, sec.firstChild);
+    _gchat[amb] = { history: [], busy: false, lastBot: '' };
+    infEnsure(amb).then(function () {
+      var selA = document.getElementById('gchat-' + amb + '-anio');
+      var anios = infAnios(amb);
+      selA.innerHTML = anios.map(function (a) { return '<option value="' + a + '">' + a + '</option>'; }).join('');
+      if (anios.length) selA.value = anios[anios.length - 1];
+      gchatMeses(amb);
+      selA.addEventListener('change', function () { gchatMeses(amb); });
+    });
+    var send = document.getElementById('gchat-' + amb + '-send');
+    var input = document.getElementById('gchat-' + amb + '-input');
+    send.addEventListener('click', function () { gchatSend(amb); });
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); gchatSend(amb); } });
+    document.getElementById('gchat-' + amb + '-reset').addEventListener('click', function () {
+      _gchat[amb].history = []; _gchat[amb].lastBot = '';
+      document.getElementById('gchat-' + amb + '-msgs').innerHTML = '';
+      var c = document.getElementById('gchat-' + amb + '-copiar'); if (c) c.style.display = 'none';
+    });
+    document.getElementById('gchat-' + amb + '-copiar').addEventListener('click', function () {
+      var t = _gchat[amb].lastBot; if (t && navigator.clipboard) navigator.clipboard.writeText(t);
+    });
+  }
+  function gchatMeses(amb) {
+    var anio = (document.getElementById('gchat-' + amb + '-anio') || {}).value;
+    var selM = document.getElementById('gchat-' + amb + '-mes'); if (!selM) return;
+    var meses = infMeses(amb, anio) || [];
+    selM.innerHTML = '<option value="">Todo el año</option>' + meses.map(function (m) { return '<option value="' + m + '">' + infMesNombre(m) + '</option>'; }).join('');
+  }
+  function gchatBubble(amb, role, htmlOrText, isTyping) {
+    var msgs = document.getElementById('gchat-' + amb + '-msgs'); if (!msgs) return null;
+    var row = document.createElement('div'); row.className = 'inf-chat-row ' + (role === 'user' ? 'user' : 'bot');
+    var b = document.createElement('div'); b.className = 'inf-chat-bubble';
+    if (isTyping) b.innerHTML = '<span class="inf-chat-typing"><span></span><span></span><span></span></span>';
+    else if (role === 'user') b.textContent = htmlOrText; else b.innerHTML = htmlOrText;
+    row.appendChild(b); msgs.appendChild(row); msgs.scrollTop = msgs.scrollHeight;
+    return row;
+  }
+  function gchatSend(amb) {
+    var st = _gchat[amb]; if (!st || st.busy) return;
+    var input = document.getElementById('gchat-' + amb + '-input');
+    var estado = document.getElementById('gchat-' + amb + '-estado');
+    var sendBtn = document.getElementById('gchat-' + amb + '-send');
+    var msg = (input && input.value || '').trim(); if (!msg) return;
+    st.busy = true; if (sendBtn) sendBtn.disabled = true;
+    gchatBubble(amb, 'user', msg); if (input) input.value = '';
+    var typing = gchatBubble(amb, 'bot', '', true);
+    if (estado) estado.textContent = 'Redactando con los datos del panel…';
+    infEnsure(amb).then(function () {
+      var anio = (document.getElementById('gchat-' + amb + '-anio') || {}).value;
+      var mes = (document.getElementById('gchat-' + amb + '-mes') || {}).value;
+      var data = infBuild(amb, anio, mes, null);
+      var datos = {
+        kpis: (data.kpis || []).map(function (k) { return { label: k.label, valor: k.valor, unidad: k.unidad || '', varMes: k.comp && k.comp.varMes != null ? Math.round(k.comp.varMes * 10) / 10 : null, varAnio: k.comp && k.comp.varAnio != null ? Math.round(k.comp.varAnio * 10) / 10 : null }; }),
+        comparativa: data.comparativa, insights: infInsights(data),
+        graficas: (data.graficas || []).map(function (g) { return { titulo: g.titulo, labels: g.spec.labels, series: g.spec.datasets.map(function (dd) { return { nombre: dd.label, datos: dd.data }; }) }; })
+      };
+      return fetch('/api/informe-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ambito: amb, periodoLabel: data.periodoLabel, datos: datos, history: st.history, message: msg }) })
+        .then(function (r) { return r.json(); }).then(function (res) {
+          if (res.error) throw new Error(res.error);
+          var reply = res.reply || '(sin respuesta)';
+          if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+          gchatBubble(amb, 'bot', infChatMd(reply));
+          st.history.push({ role: 'user', content: msg });
+          st.history.push({ role: 'assistant', content: reply });
+          st.lastBot = reply;
+          var c = document.getElementById('gchat-' + amb + '-copiar'); if (c) c.style.display = '';
+          if (estado) estado.textContent = '';
+        });
+    }).catch(function (e) {
+      if (typing && typing.parentNode) typing.parentNode.removeChild(typing);
+      if (estado) estado.textContent = 'Error: ' + (e.message || e);
+    }).finally(function () { st.busy = false; if (sendBtn) sendBtn.disabled = false; if (input) input.focus(); });
   }
 
   /* ===================== ASISTENTE DE INFORMES (chat, datos cerrados) ===================== */
