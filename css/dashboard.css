@@ -627,9 +627,16 @@
 .mapa-residuos-map-wrap {
     flex: 1 1 auto;
     min-width: 0;
+    min-height: min(62vh, 540px);
     display: flex;
     flex-direction: column;
     background: #f6f7f8;
+}
+/* El div de Leaflet debe tener altura propia; si el flex colapsa, no se ve el mapa. */
+#mapa-residuos {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 420px;
 }
 
 .mapa-residuos-side {

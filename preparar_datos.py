@@ -289,6 +289,43 @@ def _ticket_celda(val):
         return s if s else None
 
 
+import unicodedata as _ud
+
+
+def _norm_fraccion_key(s):
+    s = _ud.normalize("NFKD", str(s)).encode("ascii", "ignore").decode().upper()
+    return "".join(ch for ch in s if ch.isalnum())
+
+
+# Variantes (normalizadas) -> nombre canónico de fracción. Arregla el lío de
+# ORGANICA/ORGÁNICA/Orgánica, SEL.ENV, mojibake, etc. y hace que "Poda" salga bien.
+_FRACCION_CANON = [
+    (("RSU", "RESTO", "RESTOURBANO", "FRACCIONRESTO", "FRESTO"), "Resto (RSU)"),
+    (("ORGANICA", "ORGANICO", "FORM", "BIORRESIDUO", "MATERIAORGANICA"), "Orgánica"),
+    (("SELPAP", "PAPEL", "CARTON", "PAPELCARTON", "PAPELYCARTON", "PC"), "Papel y cartón"),
+    (("SELENV", "ENVASES", "ENVASESLIGEROS", "ENVLIGEROS", "PLASTICO", "EELL"), "Envases ligeros"),
+    (("VIDRIO", "VIDR", "VID"), "Vidrio"),
+    (("VOL", "VOLUMINOSOS", "VOLUMINOSO", "ENSERES", "MUEBLES", "TRASTOS"), "Voluminosos"),
+    (("BARREDURIA", "BARREDERA", "BARRIDO", "BARRE"), "Barredura"),
+    (("PODA", "VERDE", "JARDIN", "RESTOSVEGETALES", "FRACCIONVERDE", "FV", "VEGETAL"), "Poda y verde"),
+]
+
+
+def normalizar_fraccion(raw):
+    """Devuelve el nombre canónico de la fracción de residuo."""
+    k = _norm_fraccion_key(raw)
+    if not k or k in ("X", "NAN", "NONE"):
+        return "Sin clasificar"
+    for keys, canon in _FRACCION_CANON:
+        if k in keys:
+            return canon
+    for keys, canon in _FRACCION_CANON:
+        for kk in keys:
+            if len(kk) >= 3 and (k.startswith(kk) or kk in k):
+                return canon
+    return str(raw).strip().title()
+
+
 def convertir_pesajes_excel(excel_path: Path) -> list:
     """Convierte Excel de pesajes a registros (columnas tipo Power BI / TO-Pesajes_Excel_Unificados)."""
     try:
@@ -451,7 +488,7 @@ def convertir_pesajes_excel(excel_path: Path) -> list:
         ta_val = _float_celda(row.get(tara_col)) if tara_col else None
 
         poblacion = str(row.get(poblacion_col, "")).strip() if poblacion_col else ""
-        residuo = str(row.get(residuo_col, "")).strip() if residuo_col else "RSU"
+        residuo = normalizar_fraccion(row.get(residuo_col, "")) if residuo_col else "Resto (RSU)"
 
         try:
             rel = str(excel_path.relative_to(PESAJES_ROOT))
@@ -806,9 +843,17 @@ def procesar_camion():
         with open(out / "mapa.json", "w", encoding="utf-8") as fp:
             json.dump(mapa, fp, ensure_ascii=False, indent=0)
         print(f"Mapa: {len(mapa)} contenedores con coordenadas -> data/RESIDUOS/camion/mapa.json")
+        # mapa_sample.json: muestra REDUCIDA (~3 MB) para el navegador. El completo
+        # (mapa.json/todos.json) pesa 200+ MB y cuelga el mapa; además no se despliega.
+        MAX_SAMPLE = 12000
+        if len(mapa) > MAX_SAMPLE:
+            stride = len(mapa) // MAX_SAMPLE + 1
+            sample = mapa[::stride]
+        else:
+            sample = mapa
         with open(out / "mapa_sample.json", "w", encoding="utf-8") as fp:
-            json.dump(mapa, fp, ensure_ascii=False, indent=0)
-        print(f"Mapa UI: {len(mapa)} contenedores (copia completa, como mapa.json) -> mapa_sample.json")
+            json.dump(sample, fp, ensure_ascii=False, indent=0)
+        print(f"Mapa UI: {len(sample)} puntos (muestra reducida de {len(mapa)}) -> mapa_sample.json")
         if len(mapa) < 20000:
             print(
                 "  Aviso: pocos puntos GPS en mapa respecto a lo habitual en Power BI. "

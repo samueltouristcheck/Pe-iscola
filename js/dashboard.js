@@ -26,6 +26,7 @@
   let chartComparacionTiposPct = null;
   let mapaCamaras = null;
   let mapaResiduos = null;
+  let _mapaResiduosSig = null;
   let mapaZonas = null;
   let mapaResiduosGeoCache = null;
   let zonasGeojsonCache = null;
@@ -51,12 +52,13 @@
     }).addTo(map);
   }
 
-  /** Mapa claro (calles suaves, como vistas tipo Power BI); encaja con el dashboard blanco y los puntos de color. */
+  /** Mapa claro. CartoDB dejó de servir tiles sin clave API ("API KEY REQUIRED"),
+   * así que usamos OpenStreetMap (libre, sin clave). */
   function addDashboardBasemapLight(map) {
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 20
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      subdomains: 'abc',
+      maxZoom: 19
     }).addTo(map);
   }
 
@@ -189,6 +191,9 @@
     if (/envase|envases|plastico|lata|brik|metal|brick|aceit|tetrap/.test(n)) return '#d97706';
     if (/organica|compost|biomasa/.test(n)) return '#9a3412';
     if (/vidrio/.test(n)) return '#047857';
+    if (/poda|verde|vegetal|jardin|fraccion verde/.test(n)) return '#65a30d';
+    if (/voluminoso|enseres|mueble|trastos/.test(n)) return '#0e7490';
+    if (/barredura|barred|barrido/.test(n)) return '#a16207';
     if (/textil|ropa|calzado/.test(n)) return '#6d28d9';
     if (/sanitario/.test(n)) return '#db2777';
     if (/pilas|bateria/.test(n)) return '#b91c1c';
@@ -1946,16 +1951,11 @@
    */
   function ensureMapaResiduosPoints() {
     if (mapaResiduosGeoCache) return Promise.resolve(mapaResiduosGeoCache);
-    const uMapa = dataUrl('data/RESIDUOS/camion/mapa.json');
+    // Solo el sample reducido (~3 MB): mapa.json y todos.json pesan 200+ MB cada uno
+    // y colgaban el navegador; en producción ni se despliegan. El sample ya trae coords.
     const uSample = dataUrl('data/RESIDUOS/camion/mapa_sample.json');
-    const uTodos = dataUrl('data/RESIDUOS/camion/todos.json');
-    return Promise.all([
-      fetchJsonArrayOrEmpty(uMapa),
-      fetchJsonArrayOrEmpty(uSample),
-      fetchJsonArrayOrEmpty(uTodos)
-    ]).then(([mapaArr, sampleArr, todosArr]) => {
-      const base = mapaArr.length > 0 ? mapaArr : sampleArr;
-      mapaResiduosGeoCache = mergeMapaConTodos(base, todosArr);
+    return fetchJsonArrayOrEmpty(uSample).then((sampleArr) => {
+      mapaResiduosGeoCache = Array.isArray(sampleArr) ? sampleArr : [];
       return mapaResiduosGeoCache;
     });
   }
@@ -2247,6 +2247,19 @@
     const mesSelect = document.getElementById('residuos-mes');
     const year = (yearSelect && yearSelect.value) || '';
     const mes = (mesSelect && mesSelect.value) || '';
+    // Idempotente: si ya está el mapa con los mismos filtros, solo recalcular tamaño.
+    // Evita reinicializarlo dos veces (triggers duplicados) y el error 'clearRect' del
+    // renderer canvas de Leaflet al eliminar un mapa con un redibujado pendiente.
+    const _sig = [year, mes,
+      ((document.getElementById('mapa-filter-matricula') || {}).value || ''),
+      ((document.getElementById('mapa-filter-garbage') || {}).value || ''),
+      ((document.getElementById('mapa-filter-container') || {}).value || '')
+    ].join('|');
+    if (mapaResiduos && _mapaResiduosSig === _sig) {
+      setTimeout(() => { if (mapaResiduos) mapaResiduos.invalidateSize(true); }, 0);
+      return;
+    }
+    _mapaResiduosSig = _sig;
     if (mapaResiduos) { mapaResiduos.remove(); mapaResiduos = null; }
     container.innerHTML = '';
     const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -2591,12 +2604,25 @@
     const byZona = buildKgPorZona(year, mes);
     let byTipo = {}, byHotel = {};
     if (useResumen) {
+      // Hoteles desde el camión (tiene establecimiento); FRACCIONES desde PESAJES/báscula,
+      // que es la única fuente con Poda, Voluminosos, Barredura, Papel/Envases separados.
       dataCamion.forEach((r) => {
         if (!matchesPeriodo(r.fecha, year, mes)) return;
-        const t = r.tipos || {}, h = r.hoteles || {};
-        Object.entries(t).forEach(([k, v]) => { byTipo[k] = (byTipo[k] || 0) + toNum(v); });
+        const h = r.hoteles || {};
         Object.entries(h).forEach(([k, v]) => { byHotel[k] = (byHotel[k] || 0) + toNum(v); });
       });
+      (dataPesajes || []).forEach((r) => {
+        if (!matchesPeriodo(r.fecha, year, mes)) return;
+        const t = r.tipos || {};
+        Object.entries(t).forEach(([k, v]) => { byTipo[k] = (byTipo[k] || 0) + toNum(v); });
+      });
+      // Si por lo que sea no hay desglose de pesajes, caer al del camión.
+      if (!Object.keys(byTipo).length) {
+        dataCamion.forEach((r) => {
+          if (!matchesPeriodo(r.fecha, year, mes)) return;
+          Object.entries(r.tipos || {}).forEach(([k, v]) => { byTipo[k] = (byTipo[k] || 0) + toNum(v); });
+        });
+      }
     } else {
       const isHotel = (s) => /hotel|camping|aparthotel|resort|hostal/i.test(String(s || ''));
       dataCamion.forEach((r) => {
