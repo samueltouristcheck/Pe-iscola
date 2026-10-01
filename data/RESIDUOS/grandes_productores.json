@@ -1,7 +1,7 @@
 {
   "fuente": "FOBESA · Pesajes de grandes productores (hoteles, campings y aparthoteles) · Ayuntamiento de Peñíscola",
   "nota": "kg de residuo recogido por establecimiento y fracción (Envases mezclados, Orgánica, Papel/Cartón), un fichero por mes. Origen: SharePoint Ciudad › Residuos › Grandes Productores.",
-  "actualizado": "2026-09-14",
+  "actualizado": "2026-10-01",
   "fracciones": [
     "envases",
     "organica",
@@ -22,7 +22,10 @@
     "2025-12",
     "2026-02",
     "2026-03",
-    "2026-04"
+    "2026-04",
+    "2026-05",
+    "2026-07",
+    "2026-08"
   ],
   "establecimientos": [
     "APARTHOTEL JARDINES DEL PLAZA",
@@ -46,6 +49,7 @@
     "HOTEL HEY",
     "HOTEL MARÍA CRISTINA",
     "HOTEL PALACE",
+    "HOTEL PALADIUM",
     "HOTEL PAPA LUNA",
     "HOTEL PEÑÍSCOLA PLAZA SUITES",
     "HOTEL PORTO CRISTO",
@@ -1513,6 +1517,498 @@
         "papel": 88.36,
         "total": 1168.23
       }
+    },
+    "2026-05": {
+      "APARTHOTEL JARDINES DEL PLAZA": {
+        "envases": 0,
+        "organica": 426.13,
+        "papel": 0,
+        "total": 426.13
+      },
+      "CAMPING EDÉN": {
+        "envases": 118.99,
+        "organica": 11718.64,
+        "papel": 410.57,
+        "total": 12248.2
+      },
+      "CAMPING EL CID": {
+        "envases": 118.99,
+        "organica": 745.73,
+        "papel": 0,
+        "total": 864.72
+      },
+      "CAMPING FERRER": {
+        "envases": 214.19,
+        "organica": 3302.53,
+        "papel": 218.97,
+        "total": 3735.69
+      },
+      "CAMPING LA VOLTA": {
+        "envases": 261.78,
+        "organica": 2343.73,
+        "papel": 218.97,
+        "total": 2824.48
+      },
+      "CAMPING LOS PINOS": {
+        "envases": 214.19,
+        "organica": 1171.86,
+        "papel": 218.97,
+        "total": 1605.02
+      },
+      "CAMPING PEÑÍSCOLA": {
+        "envases": 356.98,
+        "organica": 2769.86,
+        "papel": 218.97,
+        "total": 3345.81
+      },
+      "CAMPING VIZMAR": {
+        "envases": 214.19,
+        "organica": 2130.66,
+        "papel": 109.49,
+        "total": 2454.34
+      },
+      "GRAN HOTEL PEÑÍSCOLA": {
+        "envases": 0,
+        "organica": 11612.11,
+        "papel": 0,
+        "total": 11612.11
+      },
+      "HOSTERÍA DEL MAR": {
+        "envases": 428.37,
+        "organica": 4154.79,
+        "papel": 410.57,
+        "total": 4993.73
+      },
+      "HOTEL ACUALANDIA": {
+        "envases": 214.19,
+        "organica": 9481.45,
+        "papel": 656.92,
+        "total": 10352.56
+      },
+      "HOTEL ACUASOL": {
+        "envases": 523.57,
+        "organica": 6924.65,
+        "papel": 246.34,
+        "total": 7694.56
+      },
+      "HOTEL ACUAZUL": {
+        "envases": 285.58,
+        "organica": 5646.26,
+        "papel": 1094.86,
+        "total": 7026.7
+      },
+      "HOTEL ÁGORA": {
+        "envases": 0,
+        "organica": 4048.26,
+        "papel": 985.38,
+        "total": 5033.64
+      },
+      "HOTEL BODEGÓN 2000": {
+        "envases": 23.8,
+        "organica": 0,
+        "papel": 27.37,
+        "total": 51.17
+      },
+      "HOTEL CASABLANCA": {
+        "envases": 428.37,
+        "organica": 9481.45,
+        "papel": 1779.15,
+        "total": 11688.97
+      },
+      "HOTEL CASTILLO DE PEÑÍSCOLA": {
+        "envases": 95.19,
+        "organica": 0,
+        "papel": 410.57,
+        "total": 505.76
+      },
+      "HOTEL DON CARLOS": {
+        "envases": 214.19,
+        "organica": 3409.06,
+        "papel": 410.57,
+        "total": 4033.82
+      },
+      "HOTEL HEY": {
+        "envases": 23.8,
+        "organica": 426.13,
+        "papel": 27.37,
+        "total": 477.3
+      },
+      "HOTEL MARÍA CRISTINA": {
+        "envases": 71.4,
+        "organica": 2876.39,
+        "papel": 218.97,
+        "total": 3166.76
+      },
+      "HOTEL PALACE": {
+        "envases": 285.58,
+        "organica": 7137.72,
+        "papel": 218.97,
+        "total": 7642.27
+      },
+      "HOTEL PAPA LUNA": {
+        "envases": 1380.31,
+        "organica": 11505.58,
+        "papel": 437.95,
+        "total": 13323.84
+      },
+      "HOTEL PEÑÍSCOLA PLAZA SUITES": {
+        "envases": 1380,
+        "organica": 17045.3,
+        "papel": 1820,
+        "total": 20245.3
+      },
+      "HOTEL PORTO CRISTO": {
+        "envases": 23.8,
+        "organica": 11292.51,
+        "papel": 273.72,
+        "total": 11590.03
+      },
+      "HOTEL PRADO": {
+        "envases": 380.78,
+        "organica": 7776.92,
+        "papel": 218.97,
+        "total": 8376.67
+      },
+      "HOTEL PUERTO MAR": {
+        "envases": 214.19,
+        "organica": 0,
+        "papel": 191.6,
+        "total": 405.79
+      },
+      "NUDO BEACH": {
+        "envases": 47.6,
+        "organica": 852.27,
+        "papel": 54.74,
+        "total": 954.61
+      }
+    },
+    "2026-07": {
+      "APARTHOTEL JARDINES DEL PLAZA": {
+        "envases": 0,
+        "organica": 1873.2,
+        "papel": 0,
+        "total": 1873.2
+      },
+      "CAMPING EDÉN": {
+        "envases": 137.9,
+        "organica": 17723.39,
+        "papel": 589.01,
+        "total": 18450.3
+      },
+      "CAMPING EL CID": {
+        "envases": 91.94,
+        "organica": 1008.65,
+        "papel": 32.72,
+        "total": 1133.31
+      },
+      "CAMPING FERRER": {
+        "envases": 137.9,
+        "organica": 4755.06,
+        "papel": 261.78,
+        "total": 5154.74
+      },
+      "CAMPING LA VOLTA": {
+        "envases": 76.61,
+        "organica": 1296.83,
+        "papel": 130.89,
+        "total": 1504.33
+      },
+      "CAMPING LOS PINOS": {
+        "envases": 153.23,
+        "organica": 2305.48,
+        "papel": 261.78,
+        "total": 2720.49
+      },
+      "CAMPING PEÑÍSCOLA": {
+        "envases": 214.52,
+        "organica": 4466.87,
+        "papel": 261.78,
+        "total": 4943.17
+      },
+      "CAMPING VIZMAR": {
+        "envases": 122.58,
+        "organica": 2881.85,
+        "papel": 130.89,
+        "total": 3135.32
+      },
+      "GRAN HOTEL PEÑÍSCOLA": {
+        "envases": 0,
+        "organica": 14697.45,
+        "papel": 0,
+        "total": 14697.45
+      },
+      "HOSTERÍA DEL MAR": {
+        "envases": 199.19,
+        "organica": 8501.46,
+        "papel": 785.34,
+        "total": 9485.99
+      },
+      "HOTEL ACUALANDIA": {
+        "envases": 61.29,
+        "organica": 17147.02,
+        "papel": 981.68,
+        "total": 18189.99
+      },
+      "HOTEL ACUASOL": {
+        "envases": 214.52,
+        "organica": 12824.24,
+        "papel": 294.5,
+        "total": 13333.26
+      },
+      "HOTEL ACUAZUL": {
+        "envases": 91.94,
+        "organica": 8789.65,
+        "papel": 883.51,
+        "total": 9765.1
+      },
+      "HOTEL BODEGÓN 2000": {
+        "envases": 30.65,
+        "organica": 0,
+        "papel": 98.17,
+        "total": 128.82
+      },
+      "HOTEL CASABLANCA": {
+        "envases": 260.48,
+        "organica": 13256.52,
+        "papel": 2650.53,
+        "total": 16167.53
+      },
+      "HOTEL CASTILLO DE PEÑÍSCOLA": {
+        "envases": 76.61,
+        "organica": 0,
+        "papel": 752.62,
+        "total": 829.23
+      },
+      "HOTEL DON CARLOS": {
+        "envases": 107.26,
+        "organica": 4466.87,
+        "papel": 523.56,
+        "total": 5097.69
+      },
+      "HOTEL HEY": {
+        "envases": 122.58,
+        "organica": 4466.87,
+        "papel": 261.78,
+        "total": 4851.23
+      },
+      "HOTEL MARÍA CRISTINA": {
+        "envases": 61.29,
+        "organica": 4322.78,
+        "papel": 261.78,
+        "total": 4645.85
+      },
+      "HOTEL PALACE": {
+        "envases": 199.19,
+        "organica": 9221.93,
+        "papel": 261.78,
+        "total": 9682.9
+      },
+      "HOTEL PALADIUM": {
+        "envases": 275.81,
+        "organica": 10230.58,
+        "papel": 2061.53,
+        "total": 12567.92
+      },
+      "HOTEL PAPA LUNA": {
+        "envases": 674.19,
+        "organica": 16858.84,
+        "papel": 392.67,
+        "total": 17925.7
+      },
+      "HOTEL PEÑÍSCOLA PLAZA SUITES": {
+        "envases": 3920,
+        "organica": 35014.51,
+        "papel": 7540,
+        "total": 46474.51
+      },
+      "HOTEL PORTO CRISTO": {
+        "envases": 30.65,
+        "organica": 14265.17,
+        "papel": 163.61,
+        "total": 14459.43
+      },
+      "HOTEL PRADO": {
+        "envases": 245.16,
+        "organica": 15994.28,
+        "papel": 261.78,
+        "total": 16501.22
+      },
+      "HOTEL PUERTO MAR": {
+        "envases": 137.9,
+        "organica": 0,
+        "papel": 294.5,
+        "total": 432.4
+      },
+      "NUDO BEACH": {
+        "envases": 76.61,
+        "organica": 3890.5,
+        "papel": 261.78,
+        "total": 4228.89
+      }
+    },
+    "2026-08": {
+      "APARTHOTEL JARDINES DEL PLAZA": {
+        "envases": 0,
+        "organica": 1902.6,
+        "papel": 0,
+        "total": 1902.6
+      },
+      "CAMPING EDÉN": {
+        "envases": 141.26,
+        "organica": 21953.13,
+        "papel": 864.72,
+        "total": 22959.11
+      },
+      "CAMPING EL CID": {
+        "envases": 141.26,
+        "organica": 2195.31,
+        "papel": 0,
+        "total": 2336.57
+      },
+      "CAMPING FERRER": {
+        "envases": 161.43,
+        "organica": 5415.11,
+        "papel": 338.37,
+        "total": 5914.91
+      },
+      "CAMPING LA VOLTA": {
+        "envases": 242.15,
+        "organica": 3658.86,
+        "papel": 375.96,
+        "total": 4276.97
+      },
+      "CAMPING LOS PINOS": {
+        "envases": 141.26,
+        "organica": 2488.02,
+        "papel": 225.58,
+        "total": 2854.86
+      },
+      "CAMPING PEÑÍSCOLA": {
+        "envases": 322.87,
+        "organica": 3805.21,
+        "papel": 375.96,
+        "total": 4504.04
+      },
+      "CAMPING VIZMAR": {
+        "envases": 181.61,
+        "organica": 4683.34,
+        "papel": 263.17,
+        "total": 5128.12
+      },
+      "GRAN HOTEL PEÑÍSCOLA": {
+        "envases": 0,
+        "organica": 14342.71,
+        "papel": 0,
+        "total": 14342.71
+      },
+      "HOSTERÍA DEL MAR": {
+        "envases": 100.9,
+        "organica": 7756.77,
+        "papel": 1052.7,
+        "total": 8910.37
+      },
+      "HOTEL ACUALANDIA": {
+        "envases": 141.26,
+        "organica": 18001.57,
+        "papel": 1466.26,
+        "total": 19609.09
+      },
+      "HOTEL ACUASOL": {
+        "envases": 20.18,
+        "organica": 14050.01,
+        "papel": 0,
+        "total": 14070.19
+      },
+      "HOTEL ACUAZUL": {
+        "envases": 121.08,
+        "organica": 8927.61,
+        "papel": 1654.24,
+        "total": 10702.93
+      },
+      "HOTEL BODEGÓN 2000": {
+        "envases": 40.36,
+        "organica": 0,
+        "papel": 112.79,
+        "total": 153.15
+      },
+      "HOTEL CASABLANCA": {
+        "envases": 443.95,
+        "organica": 11854.69,
+        "papel": 2782.13,
+        "total": 15080.77
+      },
+      "HOTEL CASTILLO DE PEÑÍSCOLA": {
+        "envases": 40.36,
+        "organica": 0,
+        "papel": 1278.28,
+        "total": 1318.64
+      },
+      "HOTEL DON CARLOS": {
+        "envases": 161.43,
+        "organica": 4536.98,
+        "papel": 714.33,
+        "total": 5412.74
+      },
+      "HOTEL HEY": {
+        "envases": 141.26,
+        "organica": 4390.63,
+        "papel": 338.37,
+        "total": 4870.26
+      },
+      "HOTEL MARÍA CRISTINA": {
+        "envases": 40.36,
+        "organica": 4390.63,
+        "papel": 300.77,
+        "total": 4731.76
+      },
+      "HOTEL PALACE": {
+        "envases": 262.33,
+        "organica": 9659.38,
+        "papel": 338.37,
+        "total": 10260.08
+      },
+      "HOTEL PALADIUM": {
+        "envases": 565.02,
+        "organica": 8927.61,
+        "papel": 2669.34,
+        "total": 12161.97
+      },
+      "HOTEL PAPA LUNA": {
+        "envases": 484.3,
+        "organica": 16538.03,
+        "papel": 488.75,
+        "total": 17511.08
+      },
+      "HOTEL PEÑÍSCOLA PLAZA SUITES": {
+        "envases": 4700,
+        "organica": 38052.1,
+        "papel": 0,
+        "total": 42752.1
+      },
+      "HOTEL PORTO CRISTO": {
+        "envases": 20.18,
+        "organica": 15367.19,
+        "papel": 263.17,
+        "total": 15650.54
+      },
+      "HOTEL PRADO": {
+        "envases": 302.69,
+        "organica": 14050.01,
+        "papel": 338.37,
+        "total": 14691.07
+      },
+      "HOTEL PUERTO MAR": {
+        "envases": 161.43,
+        "organica": 0,
+        "papel": 6780,
+        "total": 6941.43
+      },
+      "NUDO BEACH": {
+        "envases": 121.08,
+        "organica": 3512.5,
+        "papel": 0,
+        "total": 3633.58
+      }
     }
   },
   "totalesMes": {
@@ -1585,197 +2081,225 @@
       "papel": 10619.99,
       "total": 135800.02,
       "establecimientos": 27
+    },
+    "2026-05": {
+      "envases": 7520.03,
+      "organica": 138279.99,
+      "papel": 10879.96,
+      "total": 156679.98,
+      "establecimientos": 27
+    },
+    "2026-07": {
+      "envases": 7720,
+      "organica": 230260,
+      "papel": 20399.97,
+      "total": 258379.97,
+      "establecimientos": 27
+    },
+    "2026-08": {
+      "envases": 9200.01,
+      "organica": 240460,
+      "papel": 23021.63,
+      "total": 272681.64,
+      "establecimientos": 27
     }
   },
   "totalesEstab": {
     "APARTHOTEL JARDINES DEL PLAZA": {
       "envases": 0,
-      "organica": 12926.95,
+      "organica": 17128.88,
       "papel": 0,
-      "total": 12926.95,
-      "meses": 10
+      "total": 17128.88,
+      "meses": 13
     },
     "CAMPING EDÉN": {
-      "envases": 1957.34,
-      "organica": 122941.91,
-      "papel": 4180.14,
-      "total": 129079.39,
-      "meses": 10
+      "envases": 2355.49,
+      "organica": 174337.07,
+      "papel": 6044.44,
+      "total": 182737,
+      "meses": 13
     },
     "CAMPING EL CID": {
-      "envases": 1101.41,
-      "organica": 11530.18,
-      "papel": 382.1,
-      "total": 13013.69,
-      "meses": 10
+      "envases": 1453.6,
+      "organica": 15479.87,
+      "papel": 414.82,
+      "total": 17348.29,
+      "meses": 13
     },
     "CAMPING FERRER": {
-      "envases": 1867.31,
-      "organica": 30983.46,
-      "papel": 2091.28,
-      "total": 34942.05,
-      "meses": 10
+      "envases": 2380.83,
+      "organica": 44456.16,
+      "papel": 2910.4,
+      "total": 49747.39,
+      "meses": 13
     },
     "CAMPING LA VOLTA": {
-      "envases": 3602.01,
-      "organica": 25954.5,
-      "papel": 2107.78,
-      "total": 31664.29,
-      "meses": 10
+      "envases": 4182.55,
+      "organica": 33253.92,
+      "papel": 2833.6,
+      "total": 40270.07,
+      "meses": 13
     },
     "CAMPING LOS PINOS": {
-      "envases": 2197.44,
-      "organica": 20550.39,
-      "papel": 1884.06,
-      "total": 24631.89,
-      "meses": 10
+      "envases": 2706.12,
+      "organica": 26515.75,
+      "papel": 2590.39,
+      "total": 31812.26,
+      "meses": 13
     },
     "CAMPING PEÑÍSCOLA": {
-      "envases": 1157.31,
-      "organica": 8606.62,
-      "papel": 582.38,
-      "total": 10346.31,
-      "meses": 4
+      "envases": 2051.68,
+      "organica": 19648.56,
+      "papel": 1439.09,
+      "total": 23139.33,
+      "meses": 7
     },
     "CAMPING VIZMAR": {
-      "envases": 2423.97,
-      "organica": 29179.33,
-      "papel": 1458.58,
-      "total": 33061.88,
-      "meses": 10
+      "envases": 2942.35,
+      "organica": 38875.18,
+      "papel": 1962.13,
+      "total": 43779.66,
+      "meses": 13
     },
     "GRAN HOTEL PEÑÍSCOLA": {
       "envases": 0,
-      "organica": 99455.95,
+      "organica": 140108.22,
       "papel": 0,
-      "total": 99455.95,
-      "meses": 9
+      "total": 140108.22,
+      "meses": 12
     },
     "HOSTERÍA DEL MAR": {
-      "envases": 2380.52,
-      "organica": 38296.67,
-      "papel": 4562.77,
-      "total": 45239.96,
-      "meses": 9
+      "envases": 3108.98,
+      "organica": 58709.69,
+      "papel": 6811.38,
+      "total": 68630.05,
+      "meses": 12
     },
     "HOTEL ACUALANDIA": {
-      "envases": 1232.27,
-      "organica": 80878.57,
-      "papel": 6725.4,
-      "total": 88836.24,
-      "meses": 8
+      "envases": 1649.01,
+      "organica": 125508.61,
+      "papel": 9830.26,
+      "total": 136987.88,
+      "meses": 11
     },
     "HOTEL ACUASOL": {
-      "envases": 5366.24,
-      "organica": 30202.34,
-      "papel": 5822.61,
-      "total": 41391.19,
-      "meses": 9
+      "envases": 6124.51,
+      "organica": 64001.24,
+      "papel": 6363.45,
+      "total": 76489.2,
+      "meses": 12
     },
     "HOTEL ACUAZUL": {
-      "envases": 1666.67,
-      "organica": 59013.49,
-      "papel": 8466.07,
-      "total": 69146.23,
-      "meses": 10
+      "envases": 2165.27,
+      "organica": 82377.01,
+      "papel": 12098.68,
+      "total": 96640.96,
+      "meses": 13
     },
     "HOTEL ÁGORA": {
       "envases": 258.99,
-      "organica": 63502.77,
-      "papel": 11929.17,
-      "total": 75690.93,
-      "meses": 8
+      "organica": 67551.03,
+      "papel": 12914.55,
+      "total": 80724.57,
+      "meses": 9
     },
     "HOTEL BODEGÓN 2000": {
-      "envases": 339.75,
+      "envases": 434.56,
       "organica": 0,
-      "papel": 332.23,
-      "total": 671.98,
-      "meses": 8
+      "papel": 570.56,
+      "total": 1005.12,
+      "meses": 11
     },
     "HOTEL CASABLANCA": {
-      "envases": 3587.11,
-      "organica": 75822.25,
-      "papel": 8883.28,
-      "total": 88292.64,
-      "meses": 9
+      "envases": 4719.91,
+      "organica": 110414.91,
+      "papel": 16095.09,
+      "total": 131229.91,
+      "meses": 12
     },
     "HOTEL CASTILLO DE PEÑÍSCOLA": {
-      "envases": 353.46,
+      "envases": 565.62,
       "organica": 0,
-      "papel": 3662.98,
-      "total": 4016.44,
-      "meses": 9
+      "papel": 6104.45,
+      "total": 6670.07,
+      "meses": 12
     },
     "HOTEL DON CARLOS": {
-      "envases": 1065.82,
-      "organica": 26127.74,
-      "papel": 2646.18,
-      "total": 29839.74,
-      "meses": 9
+      "envases": 1548.7,
+      "organica": 38540.65,
+      "papel": 4294.64,
+      "total": 44383.99,
+      "meses": 12
     },
     "HOTEL HEY": {
-      "envases": 461.94,
-      "organica": 15299.25,
-      "papel": 1192.33,
-      "total": 16953.52,
-      "meses": 7
+      "envases": 749.58,
+      "organica": 24582.88,
+      "papel": 1819.85,
+      "total": 27152.31,
+      "meses": 10
     },
     "HOTEL MARÍA CRISTINA": {
-      "envases": 1516.89,
-      "organica": 26739.74,
-      "papel": 1895.55,
-      "total": 30152.18,
-      "meses": 9
+      "envases": 1689.94,
+      "organica": 38329.54,
+      "papel": 2677.07,
+      "total": 42696.55,
+      "meses": 12
     },
     "HOTEL PALACE": {
-      "envases": 2478.42,
-      "organica": 41001.48,
-      "papel": 1838.21,
-      "total": 45318.11,
-      "meses": 8
+      "envases": 3225.52,
+      "organica": 67020.51,
+      "papel": 2657.33,
+      "total": 72903.36,
+      "meses": 11
+    },
+    "HOTEL PALADIUM": {
+      "envases": 840.83,
+      "organica": 19158.19,
+      "papel": 4730.87,
+      "total": 24729.89,
+      "meses": 2
     },
     "HOTEL PAPA LUNA": {
-      "envases": 7990.94,
-      "organica": 73400.42,
-      "papel": 2035.66,
-      "total": 83427.02,
-      "meses": 8
+      "envases": 10529.74,
+      "organica": 118302.87,
+      "papel": 3355.03,
+      "total": 132187.64,
+      "meses": 11
     },
     "HOTEL PEÑÍSCOLA PLAZA SUITES": {
-      "envases": 22560,
-      "organica": 174025.71,
-      "papel": 35640,
-      "total": 232225.71,
-      "meses": 10
+      "envases": 32560,
+      "organica": 264137.62,
+      "papel": 45000,
+      "total": 341697.62,
+      "meses": 13
     },
     "HOTEL PORTO CRISTO": {
-      "envases": 586.52,
-      "organica": 99249.81,
-      "papel": 2378.09,
-      "total": 102214.42,
-      "meses": 10
+      "envases": 661.15,
+      "organica": 140174.68,
+      "papel": 3078.59,
+      "total": 143914.42,
+      "meses": 13
     },
     "HOTEL PRADO": {
-      "envases": 2045.69,
-      "organica": 53769.95,
-      "papel": 2032.28,
-      "total": 57847.92,
-      "meses": 10
+      "envases": 2974.32,
+      "organica": 91591.16,
+      "papel": 2851.4,
+      "total": 97416.88,
+      "meses": 13
     },
     "HOTEL PUERTO MAR": {
-      "envases": 1875.22,
+      "envases": 2388.74,
       "organica": 0,
-      "papel": 2122.27,
-      "total": 3997.49,
-      "meses": 10
+      "papel": 9388.37,
+      "total": 11777.11,
+      "meses": 13
     },
     "NUDO BEACH": {
-      "envases": 176.75,
-      "organica": 2680.51,
-      "papel": 568.63,
-      "total": 3425.89,
-      "meses": 6
+      "envases": 422.04,
+      "organica": 10935.78,
+      "papel": 885.15,
+      "total": 12242.97,
+      "meses": 9
     }
   }
 }
