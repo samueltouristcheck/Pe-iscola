@@ -144,6 +144,16 @@
     .dash-help-send { background: #2563eb; color: #fff; border: none; border-radius: 10px; padding: 0 1rem; font-weight: 600; cursor: pointer; }
     .dash-help-send:disabled { opacity: .55; cursor: not-allowed; }
     @media (max-width: 640px){ .dash-help-panel { bottom: 74px; } .dash-help-fab .dh-txt { display: none; } .dash-help-fab { padding: .8rem; } }
+    /* --- Tarjetas KPI del Parking --- */
+    .parking-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: .8rem; margin: .5rem 0 0; }
+    .parking-kpi { position: relative; background: #fff; border: 1px solid #e6eaf1; border-radius: 14px; padding: .95rem 1rem 1rem 1.15rem; box-shadow: 0 1px 4px rgba(15,23,42,.05); overflow: hidden; transition: box-shadow .15s, transform .15s; }
+    .parking-kpi:hover { box-shadow: 0 6px 18px rgba(15,23,42,.1); transform: translateY(-2px); }
+    .parking-kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pk-accent, #2563eb); }
+    .parking-kpi-top { display: flex; align-items: center; gap: .5rem; }
+    .parking-kpi-ico { width: 34px; height: 34px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.1rem; background: var(--pk-soft, #eff6ff); }
+    .parking-kpi-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .03em; color: #64748b; font-weight: 700; line-height: 1.2; }
+    .parking-kpi-value { font-size: 1.75rem; font-weight: 800; color: #0f172a; line-height: 1.05; margin-top: .55rem; }
+    .parking-kpi-sub { font-size: .76rem; color: #94a3b8; margin-top: .2rem; }
   </style>
 </head>
 <body>
@@ -553,8 +563,9 @@
           <p class="turismo-chart-hint" style="margin-bottom:.8rem">Tiempo que los vehículos permanecen en el parking, calculado emparejando por <strong>matrícula</strong> cada entrada con su salida. Fuente: cámaras ANPR "Pk. Peñismar" (Entrada / Salida / Acceso Autobuses). <span id="parking-periodo" style="color:#94a3b8"></span></p>
           <div class="filters-bar" style="gap:.7rem;align-items:end;margin-bottom:.6rem">
             <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Mes</label><select id="parking-mes" class="fuente-select" style="min-width:150px"></select></span>
+            <span style="display:inline-flex;flex-direction:column;gap:.2rem"><label style="font-size:.78rem;color:#64748b">Día</label><select id="parking-dia" class="fuente-select" style="min-width:150px"></select></span>
           </div>
-          <div class="turismo-mini-kpis" id="parking-kpis"></div>
+          <div class="parking-kpis" id="parking-kpis"></div>
           <p style="font-size:.76rem;color:#94a3b8;margin:.6rem 0 0">La media excluye las matrículas no legibles (~12%) y las entradas sin salida emparejada. “% que se quedan” = vehículos con estancia de más de 2 horas.</p>
         </div>
         <div class="turismo-charts-row">
@@ -1740,7 +1751,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=141"></script>
+  <script src="js/dashboard.js?v=143"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

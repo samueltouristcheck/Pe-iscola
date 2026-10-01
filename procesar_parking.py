@@ -97,6 +97,42 @@ def emparejar_estancias(recs):
     return dwell, entradas_tot
 
 
+def resumen_dia(recs):
+    """Stats de un solo día (ligero): entradas/salidas/bus, estancia, por hora, ocupación."""
+    ent = sum(1 for _, _, k in recs if k == 'ent')
+    sal = sum(1 for _, _, k in recs if k == 'sal')
+    bus = sum(1 for _, _, k in recs if k == 'bus')
+    dwell, ent_par = emparejar_estancias(recs)
+    porHora = {h: {'ent': 0, 'sal': 0} for h in range(24)}
+    for _, t, k in recs:
+        if k == 'ent':
+            porHora[t.hour]['ent'] += 1
+        elif k == 'sal':
+            porHora[t.hour]['sal'] += 1
+    evs = sorted([(t, k) for _, t, k in recs if k in ('ent', 'sal')])
+    saldo = 0
+    idx = 0
+    ocup = []
+    for h in range(24):
+        while idx < len(evs) and evs[idx][0].hour <= h:
+            saldo += 1 if evs[idx][1] == 'ent' else -1
+            idx += 1
+        ocup.append({'hora': h, 'dentro': max(0, saldo)})
+    pico = max(ocup, key=lambda x: x['dentro']) if ocup else {'hora': None, 'dentro': 0}
+    return {
+        'entradas': ent, 'salidas': sal, 'bus': bus,
+        'estancia': {
+            'media_min': round(statistics.mean(dwell), 1) if dwell else None,
+            'mediana_min': round(statistics.median(dwell), 1) if dwell else None,
+            'pct_larga_2h': round(100 * sum(1 for d in dwell if d >= 120) / len(dwell), 1) if dwell else None,
+            'emparejadas': len(dwell),
+        },
+        'porHora': [{'hora': h, 'ent': porHora[h]['ent'], 'sal': porHora[h]['sal']} for h in range(24)],
+        'ocupacionHora': ocup,
+        'pico': pico,
+    }
+
+
 def resumen_mes(recs):
     ent = sum(1 for _, _, k in recs if k == 'ent')
     sal = sum(1 for _, _, k in recs if k == 'sal')
@@ -168,7 +204,15 @@ def resumen_mes(recs):
         'ocupacionHora': ocupacionHora,
         'pico': pico,
         'busHora': [{'hora': h, 'bus': busHora[h]} for h in range(24)],
+        'dias': _dias_detalle(recs),
     }
+
+
+def _dias_detalle(recs):
+    porDia = defaultdict(list)
+    for r in recs:
+        porDia[r[1].strftime('%Y-%m-%d')].append(r)
+    return {dia: resumen_dia(evs) for dia, evs in sorted(porDia.items())}
 
 
 def mes_de_fichero(fn):
@@ -195,6 +239,7 @@ def main():
         key = MES_NOM[num - 1] if num else os.path.basename(f)
         meses[key] = resumen_mes(recs)
     total = resumen_mes(todos) if todos else {}
+    total.pop('dias', None)  # el detalle por día solo se guarda por mes
     db = {
         'fuente': 'Cámaras ANPR Parking Peñismar (Entrada / Salida / Acceso Autobuses)',
         'destino': 'Parking disuasorio Peñismar',

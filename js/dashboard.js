@@ -7087,37 +7087,61 @@
     return h > 0 ? (h + ' h ' + mm + ' min') : (mm + ' min');
   }
   function parkingDestroy(k) { if (_parkingCharts[k]) { try { _parkingCharts[k].destroy(); } catch (e) {} _parkingCharts[k] = null; } }
+  function parkingKpiCard(it) {
+    return '<div class="parking-kpi" style="--pk-accent:' + it.c + ';--pk-soft:' + it.soft + '">'
+      + '<div class="parking-kpi-top"><span class="parking-kpi-ico">' + it.ico + '</span><span class="parking-kpi-label">' + it.l + '</span></div>'
+      + '<div class="parking-kpi-value">' + it.v + '</div><div class="parking-kpi-sub">' + it.s + '</div></div>';
+  }
   function renderParking() {
     var render = function (db) {
       if (!db || !db.meses) return;
-      var sel = document.getElementById('parking-mes');
+      var selM = document.getElementById('parking-mes');
+      var selD = document.getElementById('parking-dia');
       var claves = Object.keys(db.meses);
-      if (sel && sel.dataset.bound !== '1') {
-        sel.innerHTML = '<option value="__total">Todos los meses</option>' + claves.map(function (k) { return '<option value="' + k + '">' + k + (db.anio ? ' ' + db.anio : '') + '</option>'; }).join('');
-        sel.value = claves.length ? claves[claves.length - 1] : '__total';
-        sel.addEventListener('change', function () { pintar(sel.value); });
-        sel.dataset.bound = '1';
+      if (selM && selM.dataset.bound !== '1') {
+        selM.innerHTML = '<option value="__total">Todos los meses</option>' + claves.map(function (k) { return '<option value="' + k + '">' + k + (db.anio ? ' ' + db.anio : '') + '</option>'; }).join('');
+        selM.value = claves.length ? claves[claves.length - 1] : '__total';
+        selM.addEventListener('change', function () { pobDias(); pintar(); });
+        selM.dataset.bound = '1';
       }
-      var pintar = function (clave) {
-        var d = clave === '__total' ? db.total : db.meses[clave];
+      if (selD && selD.dataset.bound !== '1') { selD.addEventListener('change', function () { pintar(); }); selD.dataset.bound = '1'; }
+      var pct = function (v) { return v != null ? String(v).replace('.', ',') + ' %' : '—'; };
+      var picoSub = function (d) { return d.pico && d.pico.hora != null ? 'hacia las ' + ('0' + d.pico.hora).slice(-2) + ':00' : 'coches dentro'; };
+      var toggleCard = function (canvasId, show) { var c = document.getElementById(canvasId); var card = c && c.closest('.turismo-chart-card'); if (card) card.style.display = show ? '' : 'none'; };
+      var pobDias = function () {
+        if (!selD) return;
+        var mk = selM.value;
+        var dias = (mk !== '__total' && db.meses[mk] && db.meses[mk].dias) ? Object.keys(db.meses[mk].dias).sort() : [];
+        selD.innerHTML = '<option value="">Todo el mes</option>' + dias.map(function (dk) { return '<option value="' + dk + '">' + dk.slice(8) + '/' + dk.slice(5, 7) + '</option>'; }).join('');
+        selD.disabled = !dias.length;
+      };
+      var pintar = function () {
+        var clave = selM.value;
+        var dk = selD ? selD.value : '';
+        var esDia = !!dk;
+        var d = esDia ? (db.meses[clave] && db.meses[clave].dias && db.meses[clave].dias[dk]) : (clave === '__total' ? db.total : db.meses[clave]);
         if (!d) return;
         var e = d.estancia || {};
+        var unidad = esDia ? 'vehículos (día)' : 'vehículos (mes)';
         var per = document.getElementById('parking-periodo');
-        if (per) per.textContent = clave === '__total' ? '· todos los meses disponibles' : ('· ' + clave + (db.anio ? ' ' + db.anio : ''));
+        if (per) per.textContent = esDia ? ('· ' + dk.slice(8) + '/' + dk.slice(5, 7) + (db.anio ? '/' + (db.anio || '') : '')) : (clave === '__total' ? '· todos los meses disponibles' : ('· ' + clave + (db.anio ? ' ' + db.anio : '')));
         var kc = document.getElementById('parking-kpis');
         if (kc) {
-          kc.innerHTML = [
-            { l: 'Tiempo medio de estancia', v: parkingFmtMin(e.media_min), s: 'media por vehículo' },
-            { l: 'Estancia mediana', v: parkingFmtMin(e.mediana_min), s: 'la mitad se queda menos' },
-            { l: 'Se quedan >2 h', v: (e.pct_larga_2h != null ? String(e.pct_larga_2h).replace('.', ',') + ' %' : '—'), s: 'estancia larga' },
-            { l: 'Rotación <30 min', v: (e.pct_corta_30 != null ? String(e.pct_corta_30).replace('.', ',') + ' %' : '—'), s: 'paradas cortas' },
-            { l: 'Entradas', v: tFmtNum(d.entradas), s: 'vehículos (mes)' },
-            { l: 'Salidas', v: tFmtNum(d.salidas), s: 'vehículos (mes)' },
-            { l: 'Pico de ocupación', v: (d.pico && d.pico.dentro != null ? tFmtNum(d.pico.dentro) + ' coches' : '—'), s: (d.pico && d.pico.hora != null ? 'hacia las ' + ('0' + d.pico.hora).slice(-2) + ':00' : 'coches dentro') },
-            { l: 'Autobuses', v: tFmtNum(d.bus), s: 'accesos de bus' },
-            { l: 'Emparejadas', v: (e.pct_emparejadas != null ? String(e.pct_emparejadas).replace('.', ',') + ' %' : '—'), s: 'entradas con salida' }
-          ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span><span class="turismo-mini-kpi-sub">' + it.s + '</span></div>'; }).join('');
+          var cards = [
+            { ico: '⏱️', c: '#2563eb', soft: '#eff6ff', l: 'Tiempo medio de estancia', v: parkingFmtMin(e.media_min), s: 'media por vehículo' },
+            { ico: '⏳', c: '#6366f1', soft: '#eef2ff', l: 'Estancia mediana', v: parkingFmtMin(e.mediana_min), s: 'la mitad se queda menos' },
+            { ico: '🅿️', c: '#d97706', soft: '#fffbeb', l: 'Se quedan >2 h', v: pct(e.pct_larga_2h), s: 'estancia larga' }
+          ];
+          if (!esDia) cards.push({ ico: '🔄', c: '#0d9488', soft: '#f0fdfa', l: 'Rotación <30 min', v: pct(e.pct_corta_30), s: 'paradas cortas' });
+          cards.push({ ico: '⬇️', c: '#16a34a', soft: '#f0fdf4', l: 'Entradas', v: tFmtNum(d.entradas), s: unidad });
+          cards.push({ ico: '⬆️', c: '#dc2626', soft: '#fef2f2', l: 'Salidas', v: tFmtNum(d.salidas), s: unidad });
+          cards.push({ ico: '📈', c: '#7c3aed', soft: '#f5f3ff', l: 'Pico de ocupación', v: (d.pico && d.pico.dentro != null ? tFmtNum(d.pico.dentro) + ' coches' : '—'), s: picoSub(d) });
+          cards.push({ ico: '🚌', c: '#475569', soft: '#f1f5f9', l: 'Autobuses', v: tFmtNum(d.bus), s: 'accesos de bus' });
+          kc.innerHTML = cards.map(parkingKpiCard).join('');
         }
+        // Distribución y "por día" solo tienen sentido en vista de MES
+        toggleCard('chart-parking-dist', !esDia);
+        toggleCard('chart-parking-dia', !esDia);
         // Distribución
         parkingDestroy('dist');
         var cD = document.getElementById('chart-parking-dist');
@@ -7150,7 +7174,7 @@
         if (cOc && oh.length) {
           _parkingCharts['ocup'] = new Chart(cOc, {
             type: 'line',
-            data: { labels: oh.map(function (x) { return ('0' + x.hora).slice(-2) + 'h'; }), datasets: [{ label: 'Coches dentro (media)', data: oh.map(function (x) { return x.dentro; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,.12)', tension: 0.35, pointRadius: 2, fill: true }] },
+            data: { labels: oh.map(function (x) { return ('0' + x.hora).slice(-2) + 'h'; }), datasets: [{ label: 'Coches dentro', data: oh.map(function (x) { return x.dentro; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,.12)', tension: 0.35, pointRadius: 2, fill: true }] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
           });
         }
@@ -7169,7 +7193,8 @@
           });
         }
       };
-      pintar((sel && sel.value) || (claves.length ? claves[claves.length - 1] : '__total'));
+      pobDias();
+      pintar();
     };
     if (_parkingData) { render(_parkingData); return; }
     var url = (typeof dataUrl === 'function') ? dataUrl('data/camaras/parking.json') : '/data/camaras/parking.json';
