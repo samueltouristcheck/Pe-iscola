@@ -186,9 +186,15 @@ function gaCredentials() {
             }
         } catch (_) { /* cae al método B */ }
     }
-    // Opción B: variables sueltas en .env (private_key con \n escapados)
+    // Opción B: variables sueltas en el entorno.
     const clientEmail = process.env.GA_CLIENT_EMAIL || '';
-    let privateKey = process.env.GA_PRIVATE_KEY || '';
+    let privateKey = '';
+    // B.1: clave en base64 (preferente: a prueba de saltos de línea al pegar en paneles)
+    if (process.env.GA_PRIVATE_KEY_B64) {
+        try { privateKey = Buffer.from(process.env.GA_PRIVATE_KEY_B64, 'base64').toString('utf8'); } catch (_) { /* nada */ }
+    }
+    // B.2: clave en texto (con \n escapados o reales)
+    if (!privateKey) privateKey = process.env.GA_PRIVATE_KEY || '';
     if (privateKey.includes('\\n')) privateKey = privateKey.replace(/\\n/g, '\n');
     if (clientEmail && privateKey) return { clientEmail, privateKey };
     return null;
