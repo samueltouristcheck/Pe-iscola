@@ -1481,15 +1481,22 @@
     return !isNaN(n) && n >= 1990 && n <= cy;
   }
 
+  // year puede ser 'YYYY' o array de 'YYYY'; mes puede ser 'YYYY-MM', 'MM', nº, o array.
+  function _mm2(v) { const s = String(v); return s.length > 2 ? s.slice(5, 7) : ('0' + s).slice(-2); }
   function matchesPeriodo(fecha, year, mes) {
     if (!fecha || typeof fecha !== 'string') return false;
     const m = String(fecha).match(/^(\d{4})-(\d{2})/);
     if (!m) return false;
     if (!anioResiduosOk(m[1])) return false;
-    if (year && m[1] !== year) return false;
-    if (mes && m[2] !== mes.slice(5)) return false;
+    const ys = Array.isArray(year) ? year.map(String) : (year ? [String(year)] : []);
+    const ms = Array.isArray(mes) ? mes.map(_mm2) : (mes ? [_mm2(mes)] : []);
+    if (ys.length && ys.indexOf(m[1]) < 0) return false;
+    if (ms.length && ms.indexOf(m[2]) < 0) return false;
     return true;
   }
+  // Lectura de los multi-desplegables de residuos (año/mes).
+  function getResiduosYearsSel() { return (typeof tfMultiValues === 'function') ? tfMultiValues('residuos-anio-dd') : []; }
+  function getResiduosMesesSel() { return (typeof tfMultiValues === 'function') ? tfMultiValues('residuos-mes-dd') : []; }
 
   /** YYYY-MM solo si viene en los datos (Excels/JSON); null si no es válido */
   function mesDesdeFecha(fecha) {
@@ -1650,8 +1657,8 @@
   }
 
   function updateComparacionTiposVista() {
-    const yearSelect = document.getElementById('residuos-year');
-    const year = (yearSelect && yearSelect.value) || '';
+    const _yrs = getResiduosYearsSel();
+    const year = _yrs.length ? String(_yrs[_yrs.length - 1]) : '';
     const wrapMes = document.getElementById('comparacion-tabla-mes-tipo');
     const wrapYoy = document.getElementById('comparacion-tabla-yoy');
     const cStack = document.getElementById('chart-comparacion-tipos-stack');
@@ -1983,38 +1990,9 @@
     return s;
   }
 
-  /** El resumen puede incluir meses sin puntos en mapa.json/mapa_sample (p. ej. camión sí, GPS aún no). Alinea el desplegable. */
+  /** Con filtros multi-selección el mes ya no se autoalinea; solo precargamos los puntos del mapa. */
   function syncMesSelectWithMapaData() {
-    const mesSelect = document.getElementById('residuos-mes');
-    const yearSelect = document.getElementById('residuos-year');
-    if (!mesSelect || !yearSelect) return Promise.resolve();
-    return ensureMapaResiduosPoints()
-      .then((points) => {
-        const mesesMapa = collectMesesFromMapaPoints(points);
-        if (mesesMapa.size === 0) return;
-        const current = mesSelect.value;
-        if (!current) return;
-        if (mesesMapa.has(current)) return;
-        const candidates = [];
-        for (let i = 0; i < mesSelect.options.length; i++) {
-          const v = mesSelect.options[i].value;
-          if (v && mesesMapa.has(v)) candidates.push(v);
-        }
-        candidates.sort();
-        let pick = '';
-        if (candidates.length) pick = candidates[candidates.length - 1];
-        else {
-          const y = yearSelect.value || '';
-          const fallback = [];
-          mesesMapa.forEach((m) => {
-            if (!y || m.indexOf(y + '-') === 0) fallback.push(m);
-          });
-          fallback.sort();
-          if (fallback.length) pick = fallback[fallback.length - 1];
-        }
-        if (pick) mesSelect.value = pick;
-      })
-      .catch(function () {});
+    return ensureMapaResiduosPoints().then(function () {}).catch(function () {});
   }
 
   function camionRowsPeriodOnly(year, mes) {
@@ -2213,10 +2191,8 @@
   }
 
   function updateZonasTabKpiAndChart() {
-    const yearSelect = document.getElementById('residuos-year');
-    const mesSelect = document.getElementById('residuos-mes');
-    const year = (yearSelect && yearSelect.value) || '';
-    const mes = (mesSelect && mesSelect.value) || '';
+    const year = getResiduosYearsSel();
+    const mes = getResiduosMesesSel();
     const kgMap = buildKgPorZona(year, mes);
     const sel = getZonasSlicerValue();
     const kpiEl = document.getElementById('zonas-kpi-kg');
@@ -2254,14 +2230,12 @@
   function initMapaResiduos() {
     const container = document.getElementById('mapa-residuos');
     if (!container || typeof L === 'undefined') return;
-    const yearSelect = document.getElementById('residuos-year');
-    const mesSelect = document.getElementById('residuos-mes');
-    const year = (yearSelect && yearSelect.value) || '';
-    const mes = (mesSelect && mesSelect.value) || '';
+    const year = getResiduosYearsSel();
+    const mes = getResiduosMesesSel();
     // Idempotente: si ya está el mapa con los mismos filtros, solo recalcular tamaño.
     // Evita reinicializarlo dos veces (triggers duplicados) y el error 'clearRect' del
     // renderer canvas de Leaflet al eliminar un mapa con un redibujado pendiente.
-    const _sig = [year, mes,
+    const _sig = [year.join(','), mes.join(','),
       ((document.getElementById('mapa-filter-matricula') || {}).value || ''),
       ((document.getElementById('mapa-filter-garbage') || {}).value || ''),
       ((document.getElementById('mapa-filter-container') || {}).value || '')
@@ -2438,10 +2412,8 @@
   function initMapaZonasResiduos() {
     const container = document.getElementById('mapa-zonas-residuos');
     if (!container || typeof L === 'undefined') return;
-    const yearSelect = document.getElementById('residuos-year');
-    const mesSelect = document.getElementById('residuos-mes');
-    const year = (yearSelect && yearSelect.value) || '';
-    const mes = (mesSelect && mesSelect.value) || '';
+    const year = getResiduosYearsSel();
+    const mes = getResiduosMesesSel();
     if (mapaZonas) { mapaZonas.remove(); mapaZonas = null; }
     container.innerHTML = '';
 
@@ -2555,19 +2527,20 @@
   }
 
   function updateResiduosKPIs() {
-    const yearSelect = document.getElementById('residuos-year');
-    const mesSelect = document.getElementById('residuos-mes');
     const compareSelect = document.getElementById('residuos-compare');
-    if (!yearSelect || !mesSelect) return;
-    const year = yearSelect.value || '';
-    const mes = mesSelect.value || '';
+    const years = getResiduosYearsSel();
+    const meses = getResiduosMesesSel();
+    // Para la comparación "vs anterior" (que necesita un periodo único) derivamos escalares
+    // solo si hay 1 año seleccionado (y 1 mes para el mes concreto). Si hay varios, no se compara.
+    const year = years.length === 1 ? String(years[0]) : '';
+    const mes = (years.length === 1 && meses.length === 1) ? (year + '-' + ('0' + meses[0]).slice(-2)) : '';
     const compare = (compareSelect && compareSelect.value) || 'mes_anterior';
     let kgExcel = 0, kgCamion = 0, salidas = 0;
-    dataPesajes.forEach((r) => { if (matchesPeriodo(r.fecha, year, mes)) kgExcel += toNum(r.kg); });
+    dataPesajes.forEach((r) => { if (matchesPeriodo(r.fecha, years, meses)) kgExcel += toNum(r.kg); });
     if (useResumen) {
-      dataCamion.forEach((r) => { if (matchesPeriodo(r.fecha, year, mes)) { kgCamion += toNum(r.kg || r.weight); salidas += (r.salidas || 0); } });
+      dataCamion.forEach((r) => { if (matchesPeriodo(r.fecha, years, meses)) { kgCamion += toNum(r.kg || r.weight); salidas += (r.salidas || 0); } });
     } else {
-      dataCamion.forEach((r) => { if (matchesPeriodo(r.fecha, year, mes)) { kgCamion += toNum(r.weight || r.kg); salidas += 1; } });
+      dataCamion.forEach((r) => { if (matchesPeriodo(r.fecha, years, meses)) { kgCamion += toNum(r.weight || r.kg); salidas += 1; } });
     }
     let compKgExcel = 0, compKgCamion = 0, compSalidas = 0, compLabel = '';
     if (compare === 'mes_anterior' && mes) {
@@ -2594,7 +2567,13 @@
     }
     const fmt = (n) => (n != null ? n : 0).toLocaleString('es-ES');
     const pct = (curr, prev) => (prev === 0 ? (curr > 0 ? 100 : 0) : ((curr - prev) / prev) * 100);
-    const periodoLabel = mes ? (MESES[parseInt(mes.slice(5), 10) - 1] || mes) + ' ' + (year || '') : (year || 'Todo');
+    let periodoLabel;
+    if (mes) periodoLabel = (MESES[parseInt(mes.slice(5), 10) - 1] || mes) + ' ' + (year || '');
+    else if (years.length === 1 && meses.length) periodoLabel = meses.map((m) => MESES[m - 1] || m).join(', ') + ' ' + years[0];
+    else if (years.length === 1) periodoLabel = years[0];
+    else if (years.length) periodoLabel = years.slice().sort().join(', ');
+    else if (meses.length) periodoLabel = meses.map((m) => MESES[m - 1] || m).join(', ') + ' (todos los años)';
+    else periodoLabel = 'Todo';
     document.getElementById('kpi-periodo-excel').textContent = periodoLabel;
     document.getElementById('kpi-value-excel').textContent = fmt(kgExcel);
     document.getElementById('kpi-compare-excel').innerHTML = compLabel ? 'vs ' + compLabel + ': <span class="kpi-diff ' + (pct(kgExcel, compKgExcel) > 0 ? 'positivo' : pct(kgExcel, compKgExcel) < 0 ? 'negativo' : 'neutro') + '">' + pct(kgExcel, compKgExcel).toFixed(2).replace('.', ',') + '%</span>' : '';
@@ -2604,7 +2583,7 @@
     document.getElementById('kpi-periodo-salidas').textContent = periodoLabel;
     document.getElementById('kpi-value-salidas').textContent = fmt(salidas);
     document.getElementById('kpi-compare-salidas').innerHTML = compLabel ? 'vs ' + compLabel + ': <span class="kpi-diff ' + (pct(salidas, compSalidas) > 0 ? 'positivo' : pct(salidas, compSalidas) < 0 ? 'negativo' : 'neutro') + '">' + pct(salidas, compSalidas).toFixed(2).replace('.', ',') + '%</span>' : '';
-    updateResiduosCharts(year, mes);
+    updateResiduosCharts(years, meses);
     syncResiduosMapIfNeeded();
     syncMapaZonasIfNeeded();
     updateComparacionTiposVista();
@@ -2732,6 +2711,9 @@
   }
   let _reciclajeEvolChart = null;
   function renderReciclajeExtra(tiposEntries, year, mes) {
+    // year/mes son arrays (multi-selección). Normalizamos.
+    const years = Array.isArray(year) ? year.map(String) : (year ? [String(year)] : []);
+    const meses = Array.isArray(mes) ? mes.map((x) => parseInt(x, 10)) : (mes ? [parseInt(mes, 10)] : []);
     // KPIs del periodo seleccionado
     const tiposObj = {}; (tiposEntries || []).forEach(([k, v]) => { tiposObj[k] = v; });
     const total = (tiposEntries || []).reduce((s, [, v]) => s + toNum(v), 0);
@@ -2739,7 +2721,15 @@
     const recicladas = (tiposEntries || []).filter(([k]) => fraccionReciclable(k)).reduce((s, [, v]) => s + toNum(v), 0);
     const kc = document.getElementById('reciclaje-kpis');
     const per = document.getElementById('reciclaje-periodo');
-    if (per) per.textContent = mes ? ('· ' + (MESES[parseInt(mes, 10) - 1] || mes) + ' ' + (year || '')) : (year ? ('· ' + year) : '· todos los periodos');
+    if (per) {
+      let lbl;
+      if (years.length === 1 && meses.length) lbl = meses.map((m) => MESES[m - 1] || m).join(', ') + ' ' + years[0];
+      else if (years.length === 1) lbl = years[0];
+      else if (years.length) lbl = years.slice().sort().join(', ');
+      else if (meses.length) lbl = meses.map((m) => MESES[m - 1] || m).join(', ');
+      else lbl = 'todos los periodos';
+      per.textContent = '· ' + lbl;
+    }
     if (kc) {
       const fmtkg = (n) => Math.round(n).toLocaleString('es-ES') + ' kg';
       kc.innerHTML = [
@@ -2755,7 +2745,7 @@
       const porMes = {};
       (dataPesajes || []).forEach((r) => {
         if (!r.fecha || !r.tipos) return;
-        if (year && String(r.fecha).indexOf(year + '-') !== 0) return;
+        if (years.length && years.indexOf(String(r.fecha).slice(0, 4)) < 0) return;
         const p = porcentajeReciclaje(r.tipos);
         if (p != null) porMes[r.fecha] = p;
       });
@@ -3476,10 +3466,8 @@
   function updateTablasFuenteCruda() {
     const root = document.getElementById('tablas-root');
     if (!root) return;
-    const yearSelect = document.getElementById('residuos-year');
-    const mesSelect  = document.getElementById('residuos-mes');
-    const year = (yearSelect && yearSelect.value) || '';
-    const mes  = (mesSelect  && mesSelect.value)  || '';
+    const year = getResiduosYearsSel();
+    const mes  = getResiduosMesesSel();
 
     const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
@@ -5052,9 +5040,18 @@
     });
   }
 
+  function onResiduosFilterChange() {
+    syncMesSelectWithMapaData().then(() => {
+      if (residuosMainVisible()) updateResiduosKPIs();
+      const secMapa = document.getElementById('section-mapa');
+      if (secMapa && secMapa.classList.contains('active')) setTimeout(initMapaResiduos, 0);
+      const secZonas = document.getElementById('section-zonas');
+      if (secZonas && secZonas.classList.contains('active')) updateZonasTabKpiAndChart();
+    });
+  }
   function initResiduos() {
-    const yearSelect = document.getElementById('residuos-year');
-    const mesSelect = document.getElementById('residuos-mes');
+    const yMount = document.getElementById('residuos-year-mount');
+    const mMount = document.getElementById('residuos-mes-mount');
     const reloadBtn = document.getElementById('residuos-reload');
     wireModeButtons();
     ['mapa-filter-matricula', 'mapa-filter-garbage', 'mapa-filter-container'].forEach((fid) => {
@@ -5080,35 +5077,16 @@
       })
       .then(function () {
       const years = getResiduosYears();
-      if (yearSelect) {
-        yearSelect.innerHTML = '';
-        yearSelect.appendChild(new Option('Todos los años', ''));
-        years.forEach((y) => yearSelect.appendChild(new Option(y, y)));
-        if (years.length) yearSelect.value = years[years.length - 1];
+      if (yMount && typeof tfBuildMulti === 'function' && yMount.dataset.built !== '1') {
+        const ultimo = years.length ? [String(years[years.length - 1])] : [];
+        tfBuildMulti(yMount, { id: 'residuos-anio-dd', label: 'Año', allLabel: 'Todos los años', selected: ultimo, onChange: onResiduosFilterChange, options: years.slice().reverse().map((y) => ({ value: String(y), label: String(y) })) });
+        yMount.dataset.built = '1';
       }
-      if (mesSelect) {
-        mesSelect.innerHTML = '';
-        var y0 = (yearSelect && yearSelect.value) || '';
-        mesSelect.appendChild(new Option(y0 ? 'Todo el año' : 'Todos los meses', ''));
-        const months = getResiduosMonths(y0);
-        months.forEach((m) => { const mm = m.split('-')[1]; mesSelect.appendChild(new Option(MESES[parseInt(mm, 10) - 1] || m, m)); });
-        if (months.length) mesSelect.value = months[months.length - 1];
+      if (mMount && typeof tfBuildMulti === 'function' && mMount.dataset.built !== '1') {
+        const MES_NOM = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        tfBuildMulti(mMount, { id: 'residuos-mes-dd', label: 'Mes', allLabel: 'Todos los meses', selected: [], onChange: onResiduosFilterChange, options: MES_NOM.map((n, i) => ({ value: String(i + 1), label: n })) });
+        mMount.dataset.built = '1';
       }
-      if (yearSelect) {
-        yearSelect.addEventListener('change', () => {
-          const y = yearSelect.value;
-          mesSelect.innerHTML = '';
-          mesSelect.appendChild(new Option(y ? 'Todo el año' : 'Todos los meses', ''));
-          const months = getResiduosMonths(y);
-          months.forEach((m) => {
-            const mm = m.split('-')[1];
-            mesSelect.appendChild(new Option(MESES[parseInt(mm, 10) - 1] || m, m));
-          });
-          if (months.length) mesSelect.value = months[months.length - 1];
-          syncMesSelectWithMapaData().then(() => updateResiduosKPIs());
-        });
-      }
-      if (mesSelect) mesSelect.addEventListener('change', updateResiduosKPIs);
       const cmp = document.getElementById('residuos-compare');
       if (cmp) cmp.addEventListener('change', updateResiduosKPIs);
       syncMesSelectWithMapaData().then(() => {
