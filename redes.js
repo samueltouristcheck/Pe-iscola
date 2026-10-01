@@ -271,30 +271,9 @@ function base64url(input) {
 
 let _gaTokenCache = { token: null, exp: 0 };
 
-async function getGoogleAccessToken() {
-    if (_gaTokenCache.token && Date.now() < _gaTokenCache.exp - 60000) return _gaTokenCache.token;
-
-    // Método preferente: OAuth de usuario (tu cuenta, que ya tiene acceso a GA).
-    const oauth = gaOAuthConfig();
-    if (oauth) {
-        const body = new URLSearchParams({
-            client_id: oauth.clientId,
-            client_secret: oauth.clientSecret,
-            refresh_token: oauth.refreshToken,
-            grant_type: 'refresh_token'
-        });
-        const resp = await fetchJson('https://oauth2.googleapis.com/token', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: body.toString()
-        });
-        _gaTokenCache = { token: resp.access_token, exp: Date.now() + (resp.expires_in || 3600) * 1000 };
-        return _gaTokenCache.token;
-    }
-
-    // Método alternativo: cuenta de servicio (robot) firmando un JWT.
-    const creds = gaCredentials();
-    if (!creds) throw new Error('Sin credenciales de Google Analytics');
+/** Token vía cuenta de servicio (robot) firmando un JWT. NO caduca el método:
+ *  no depende de reconexiones ni de tokens de refresco que expiran. */
+async function getServiceAccountToken(creds) {
     const now = Math.floor(Date.now() / 1000);
     const header = { alg: 'RS256', typ: 'JWT' };
     const claim = {
@@ -314,8 +293,57 @@ async function getGoogleAccessToken() {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${jwt}`
     });
-    _gaTokenCache = { token: tokenResp.access_token, exp: Date.now() + (tokenResp.expires_in || 3600) * 1000 };
-    return _gaTokenCache.token;
+    if (!tokenResp || !tokenResp.access_token) {
+        throw new Error(tokenResp && tokenResp.error_description ? tokenResp.error_description : 'sin access_token');
+    }
+    return { access_token: tokenResp.access_token, expires_in: tokenResp.expires_in || 3600 };
+}
+
+/** Token vía OAuth de usuario (refresh_token). Puede caducar (invalid_grant). */
+async function getOAuthToken(oauth) {
+    const body = new URLSearchParams({
+        client_id: oauth.clientId,
+        client_secret: oauth.clientSecret,
+        refresh_token: oauth.refreshToken,
+        grant_type: 'refresh_token'
+    });
+    const resp = await fetchJson('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString()
+    });
+    if (!resp || !resp.access_token) {
+        throw new Error(resp && resp.error_description ? resp.error_description : (resp && resp.error) || 'sin access_token');
+    }
+    return { access_token: resp.access_token, expires_in: resp.expires_in || 3600 };
+}
+
+async function getGoogleAccessToken() {
+    if (_gaTokenCache.token && Date.now() < _gaTokenCache.exp - 60000) return _gaTokenCache.token;
+
+    const errors = [];
+
+    // Método preferente: cuenta de servicio (robot). No caduca ni exige reconexión.
+    const creds = gaCredentials();
+    if (creds) {
+        try {
+            const t = await getServiceAccountToken(creds);
+            _gaTokenCache = { token: t.access_token, exp: Date.now() + t.expires_in * 1000 };
+            return _gaTokenCache.token;
+        } catch (e) { errors.push('cuenta de servicio: ' + e.message); }
+    }
+
+    // Respaldo: OAuth de usuario (puede dar invalid_grant si caducó).
+    const oauth = gaOAuthConfig();
+    if (oauth) {
+        try {
+            const t = await getOAuthToken(oauth);
+            _gaTokenCache = { token: t.access_token, exp: Date.now() + t.expires_in * 1000 };
+            return _gaTokenCache.token;
+        } catch (e) { errors.push('OAuth: ' + e.message); }
+    }
+
+    throw new Error('Sin credenciales válidas de Google Analytics' + (errors.length ? ' (' + errors.join(' | ') + ')' : ''));
 }
 
 async function gaRunReport(propertyId, accessToken, body) {
