@@ -119,27 +119,106 @@ async function getFacebook(token, pageId) {
 
 async function getInstagram(token, igUserId) {
     if (!igUserId) return null;
-    const since = isoDaysAgo(30);
+    const since = isoDaysAgo(28);
     const until = todayIso();
-    const out = { id: igUserId, username: null, name: null, followers: null, mediaCount: null, reach: 0, daily: [] };
+    const enc = encodeURIComponent;
+    const out = { id: igUserId, username: null, name: null, followers: null, mediaCount: null, reach: 0, impressions: 0, engagement: 0, daily: [] };
 
     try {
-        const info = await fetchJson(`${GRAPH_BASE}/${igUserId}?fields=username,name,followers_count,media_count&access_token=${encodeURIComponent(token)}`);
+        const info = await fetchJson(`${GRAPH_BASE}/${igUserId}?fields=username,name,followers_count,media_count&access_token=${enc(token)}`);
         out.username = info.username || null;
         out.name = info.name || null;
         out.followers = info.followers_count != null ? info.followers_count : null;
         out.mediaCount = info.media_count != null ? info.media_count : null;
     } catch (e) { out.infoError = e.message; }
 
-    // Alcance diario (la API de IG ha ido cambiando; lo envolvemos con tolerancia a fallos)
+    // Totales de los últimos 28 días: alcance ÚNICO, interacciones y visualizaciones (total_value).
     try {
-        const ins = await fetchJson(`${GRAPH_BASE}/${igUserId}/insights?metric=reach&period=day&since=${since}&until=${until}&access_token=${encodeURIComponent(token)}`);
-        const reachMetric = (ins.data || []).find((m) => m.name === 'reach');
-        out.reach = sumInsightValues(reachMetric);
-        out.daily = dailyFromInsight(reachMetric).filter((d) => d.date).map((d) => ({ date: d.date, reach: d.value }));
+        const ins = await fetchJson(`${GRAPH_BASE}/${igUserId}/insights?metric=reach,total_interactions,views&metric_type=total_value&period=day&since=${since}&until=${until}&access_token=${enc(token)}`);
+        (ins.data || []).forEach((m) => {
+            const v = (m.total_value && typeof m.total_value.value === 'number') ? m.total_value.value : null;
+            if (m.name === 'reach') out.reach = v;
+            else if (m.name === 'total_interactions') out.engagement = v;
+            else if (m.name === 'views') out.impressions = v;
+        });
     } catch (e) { out.insightsError = e.message; }
 
+    // Serie diaria de alcance (para la gráfica de evolución).
+    try {
+        const insD = await fetchJson(`${GRAPH_BASE}/${igUserId}/insights?metric=reach&period=day&since=${since}&until=${until}&access_token=${enc(token)}`);
+        const reachMetric = (insD.data || []).find((m) => m.name === 'reach');
+        out.daily = dailyFromInsight(reachMetric).filter((d) => d.date).map((d) => ({ date: d.date, reach: d.value }));
+    } catch (e) { /* la gráfica diaria es opcional */ }
+
     return out;
+}
+
+// Mapa de códigos ISO de país → nombre en español (para la demografía de Instagram).
+const IG_PAISES = {
+    ES: 'España', FR: 'Francia', DE: 'Alemania', IT: 'Italia', GB: 'Reino Unido', US: 'Estados Unidos',
+    AR: 'Argentina', NL: 'Países Bajos', BE: 'Bélgica', PT: 'Portugal', MA: 'Marruecos', BR: 'Brasil',
+    CH: 'Suiza', MX: 'México', CO: 'Colombia', CL: 'Chile', RO: 'Rumanía', PL: 'Polonia', IE: 'Irlanda',
+    AT: 'Austria', SE: 'Suecia', RU: 'Rusia', UY: 'Uruguay', AD: 'Andorra', VE: 'Venezuela', EC: 'Ecuador',
+    PE: 'Perú', CA: 'Canadá', AU: 'Australia', DZ: 'Argelia', NO: 'Noruega', FI: 'Finlandia', DK: 'Dinamarca',
+    CZ: 'Chequia', HU: 'Hungría', BG: 'Bulgaria', UA: 'Ucrania', LU: 'Luxemburgo', DO: 'Rep. Dominicana',
+    PY: 'Paraguay', PR: 'Puerto Rico', CR: 'Costa Rica', NG: 'Nigeria', IN: 'India', CN: 'China'
+};
+
+async function igFollowerBreakdown(token, igUserId, breakdown) {
+    const j = await fetchJson(`${GRAPH_BASE}/${igUserId}/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=${encodeURIComponent(breakdown)}&access_token=${encodeURIComponent(token)}`);
+    const bd = j && j.data && j.data[0] && j.data[0].total_value && j.data[0].total_value.breakdowns && j.data[0].total_value.breakdowns[0];
+    return (bd && bd.results) || [];
+}
+
+// Construye la demografía de Instagram (edad/sexo, ciudades, países) desde follower_demographics.
+async function getInstagramAudiencia(token, igUserId, totalFollowers) {
+    try {
+        const [ag, cities, countries] = await Promise.all([
+            igFollowerBreakdown(token, igUserId, 'age,gender'),
+            igFollowerBreakdown(token, igUserId, 'city'),
+            igFollowerBreakdown(token, igUserId, 'country')
+        ]);
+        if (!ag.length && !cities.length && !countries.length) return null;
+
+        // Edad y sexo: se excluye 'U' (desconocido) y se normaliza sobre F+M (como Meta Business Suite).
+        var rangos = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'];
+        var fAge = {}, mAge = {}, totalF = 0, totalM = 0;
+        ag.forEach(function (r) {
+            var edad = r.dimension_values[0], sexo = r.dimension_values[1], v = r.value || 0;
+            if (sexo === 'F') { fAge[edad] = (fAge[edad] || 0) + v; totalF += v; }
+            else if (sexo === 'M') { mAge[edad] = (mAge[edad] || 0) + v; totalM += v; }
+        });
+        var totalFM = (totalF + totalM) || 1;
+        var pct1 = function (x) { return Math.round((x / totalFM) * 1000) / 10; };
+        var edadSexo = rangos.map(function (rg) { return { rango: rg, mujeres: pct1(fAge[rg] || 0), hombres: pct1(mAge[rg] || 0) }; });
+        var edadPrincipal = '', best = -1;
+        rangos.forEach(function (rg) { var t = (fAge[rg] || 0) + (mAge[rg] || 0); if (t > best) { best = t; edadPrincipal = rg; } });
+
+        // Ciudades y países: porcentaje sobre el total de seguidores.
+        var denom = totalFollowers || totalFM || 1;
+        var pctD = function (x) { return Math.round((x / denom) * 1000) / 10; };
+        var topN = function (results, nombreFn, n) {
+            return results.map(function (r) { return { nombre: nombreFn(r.dimension_values[0]), pct: pctD(r.value || 0), _v: r.value || 0 }; })
+                .sort(function (a, b) { return b._v - a._v; }).slice(0, n)
+                .map(function (o) { return { nombre: o.nombre, pct: o.pct }; });
+        };
+        var ciudades = topN(cities, function (c) { return String(c).split(',')[0].trim(); }, 8);
+        var paises = topN(countries, function (c) { return IG_PAISES[c] || c; }, 8);
+
+        return {
+            mujeres: pct1(totalF), hombres: pct1(totalM), edadPrincipal: edadPrincipal,
+            topCiudad: (ciudades[0] && ciudades[0].nombre) || null,
+            topPais: (paises[0] && paises[0].nombre) || null,
+            edadSexo: edadSexo, ciudades: ciudades, paises: paises
+        };
+    } catch (e) { return null; }
+}
+
+// Solo el nº de seguidores de Facebook (el resto de FB ya no lo da la API de Meta).
+async function getFacebookFollowers(token, pageId) {
+    if (!pageId) return null;
+    const info = await fetchJson(`${GRAPH_BASE}/${pageId}?fields=followers_count,fan_count&access_token=${encodeURIComponent(token)}`);
+    return info.followers_count != null ? info.followers_count : (info.fan_count != null ? info.fan_count : null);
 }
 
 async function getMeta() {
@@ -160,18 +239,51 @@ async function getMeta() {
         }
         return { configured: false };
     }
+    // HÍBRIDO: Instagram en directo por API (seguidores, alcance, interacciones, visualizaciones y
+    // demografía) + Facebook de los datos manuales de Business Suite (su API ya no da esas métricas),
+    // con el nº de seguidores de FB también en directo.
+    const manual = metaManualData() || {};
     const { token, pageId, igUserId } = metaConfig();
-    const result = { configured: true, apiVersion: META_API_VERSION };
+    const result = {
+        configured: true,
+        source: 'hibrido',
+        apiVersion: META_API_VERSION,
+        actualizado: manual.actualizado || null,
+        periodo: manual.periodo || null,
+        facebook: manual.facebook || null,
+        audiencia: manual.audiencia || null,
+        historico: manual.historico || [],
+        igLive: false
+    };
+
+    // Instagram en directo (con repliegue a los datos manuales si la API fallara).
     try {
-        const [fb, ig] = await Promise.all([
-            getFacebook(token, pageId).catch((e) => ({ error: e.message })),
-            getInstagram(token, igUserId).catch((e) => ({ error: e.message }))
-        ]);
-        result.facebook = fb;
-        result.instagram = ig;
+        const ig = await getInstagram(token, igUserId);
+        if (ig && ig.followers != null) {
+            result.instagram = ig;
+            result.igLive = true;
+            const dem = await getInstagramAudiencia(token, igUserId, ig.followers);
+            result.audienciaInstagram = dem || manual.audienciaInstagram || null;
+        } else {
+            result.instagram = manual.instagram || null;
+            result.audienciaInstagram = manual.audienciaInstagram || null;
+            if (ig && (ig.infoError || ig.insightsError)) result.instagramError = ig.infoError || ig.insightsError;
+        }
     } catch (e) {
-        result.error = e.message;
+        result.instagram = manual.instagram || null;
+        result.audienciaInstagram = manual.audienciaInstagram || null;
+        result.instagramError = e.message;
     }
+
+    // Seguidores de Facebook en directo (el resto de FB sigue de Business Suite).
+    try {
+        const fbFollowers = await getFacebookFollowers(token, pageId);
+        if (fbFollowers != null && result.facebook) {
+            result.facebook = Object.assign({}, result.facebook, { followers: fbFollowers });
+            result.fbFollowersLive = true;
+        }
+    } catch (e) { /* se mantiene el seguidores manual */ }
+
     return result;
 }
 

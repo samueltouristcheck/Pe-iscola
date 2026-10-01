@@ -6745,9 +6745,15 @@
       box.className = 'redes-status redes-status-ok';
       box.style.display = 'flex';
       var metaMes = d && d.meta && redesMesLargo(d.meta.periodo || d.meta.actualizado);
-      var metaTxt = cfg.metaManual
-        ? 'Google Analytics en directo (últimos 30 días) · Meta (Facebook/Instagram): datos de Meta Business Suite' + (metaMes ? ', ' + metaMes : '') + '.'
-        : 'Mostrando datos reales de Meta y Google Analytics (últimos 30 días).';
+      var metaSrc = d && d.meta && d.meta.source;
+      var metaTxt;
+      if (metaSrc === 'hibrido') {
+        metaTxt = 'Google Analytics e Instagram en directo · Facebook de Meta Business Suite' + (metaMes ? ' (' + metaMes + ')' : '') + '.';
+      } else if (cfg.metaManual || metaSrc === 'manual') {
+        metaTxt = 'Google Analytics en directo (últimos 30 días) · Meta (Facebook/Instagram): datos de Meta Business Suite' + (metaMes ? ', ' + metaMes : '') + '.';
+      } else {
+        metaTxt = 'Mostrando datos reales de Meta y Google Analytics (últimos 30 días).';
+      }
       box.innerHTML = '<span class="redes-status-icon">✅</span><div><strong>Conexiones activas</strong>' + metaTxt + '</div>';
       return;
     }
@@ -6833,7 +6839,9 @@
   function renderRedesFacebook(d) {
     var meta = (d && d.meta) || {};
     var fb = meta.facebook || {};
-    var manual = meta.source === 'manual';
+    // Facebook siempre es de Business Suite (manual), también en el modo híbrido: la API de Meta
+    // ya no ofrece su alcance/interacciones/demografía.
+    var manual = (meta.source === 'manual' || meta.source === 'hibrido');
     var cont = document.getElementById('redes-mini-facebook');
     if (cont) {
       if (!(d && d.config && d.config.meta)) {
@@ -6894,7 +6902,13 @@
         cont.innerHTML = c;
       }
     }
-    setRedesSectionTag('section-redes-instagram', manual, meta.periodo || meta.actualizado);
+    if (manual) {
+      setRedesSectionTag('section-redes-instagram', true, meta.periodo || meta.actualizado);
+    } else if (meta.igLive) {
+      var _igSec = document.getElementById('section-redes-instagram');
+      var _igTag = _igSec && _igSec.querySelector('.turismo-section-tag');
+      if (_igTag) _igTag.textContent = 'En directo · API de Instagram';
+    }
     var daily = ig.daily || [];
     var showCharts = !manual && daily.length > 0;
     toggleRedesChartCard('chart-redes-ig-reach', showCharts);
@@ -6974,13 +6988,21 @@
     var igName = (meta.instagram && meta.instagram.username) ? '@' + meta.instagram.username : '';
     var nombres = [fbName, igName].filter(Boolean).join(' · ');
     var metaMes = redesMesLargo(meta.periodo || meta.actualizado);
-    var metaDetail = (meta.source === 'manual')
-      ? ('datos de Meta Business Suite' + (metaMes ? ', ' + metaMes : '') + (nombres ? ' (' + nombres + ')' : ''))
-      : (nombres || 'sin nombre');
+    var metaDetail;
+    if (meta.source === 'hibrido') {
+      metaDetail = 'Instagram en directo (API) · Facebook de Business Suite' + (metaMes ? ', ' + metaMes : '') + (nombres ? ' (' + nombres + ')' : '');
+    } else if (meta.source === 'manual') {
+      metaDetail = 'datos de Meta Business Suite' + (metaMes ? ', ' + metaMes : '') + (nombres ? ' (' + nombres + ')' : '');
+    } else {
+      metaDetail = nombres || 'sin nombre';
+    }
     var gaDetail = 'en directo · cuenta de servicio' + (ga.propertyId ? ' · propiedad ' + ga.propertyId : '');
+    var nota = (meta.source === 'hibrido')
+      ? 'Instagram se actualiza en directo por la API de Meta (seguidores, alcance, interacciones y demografía). Facebook se lee de Meta Business Suite porque su API ya no ofrece esas métricas. Google Analytics, en directo.'
+      : 'Google Analytics se actualiza en directo (últimos 30 días). Los datos de Meta se leen de Meta Business Suite porque la API de Meta ya no ofrece el alcance, las interacciones ni la demografía de Facebook.';
     cont.innerHTML = card('Meta (Facebook + Instagram)', cfg.meta && !meta.error, metaDetail) +
       card('Google Analytics 4', cfg.ga && !ga.error, gaDetail) +
-      '<div style="margin-top:.75rem;font-size:.82rem;color:#64748b;line-height:1.45">Google Analytics se actualiza en directo (últimos 30 días). Los datos de Meta se leen de Meta Business Suite porque la API de Meta ya no ofrece el alcance, las interacciones ni la demografía de Facebook.</div>';
+      '<div style="margin-top:.75rem;font-size:.82rem;color:#64748b;line-height:1.45">' + nota + '</div>';
   }
 
   // Dibuja las 4 gráficas de audiencia para una plataforma ('fb' o 'ig').
