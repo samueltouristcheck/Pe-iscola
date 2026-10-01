@@ -666,9 +666,11 @@
   function multiDestroy(k) { if (multiCharts[k]) { try { multiCharts[k].destroy(); } catch (_) {} multiCharts[k] = null; } }
 
   function multiFiltro() {
+    var anios = (typeof tfMultiValues === 'function') ? tfMultiValues('multi-anio-dd') : [];
+    var meses = ((typeof tfMultiValues === 'function') ? tfMultiValues('multi-mes-dd') : []).map(function (v) { return parseInt(v, 10); });
     return {
-      anio: (document.getElementById('multi-f-anio') || {}).value || '',
-      mes: (document.getElementById('multi-f-mes') || {}).value || '',
+      anios: anios, meses: meses,
+      anio: anios.length === 1 ? anios[0] : '',
       cam: (document.getElementById('multi-f-cam') || {}).value || '',
       desde: (document.getElementById('multi-f-desde') || {}).value || '',
       hasta: (document.getElementById('multi-f-hasta') || {}).value || ''
@@ -683,8 +685,9 @@
       if (f.hasta && fd > f.hasta) return false;
       return true; // el rango personalizado ignora año/mes
     }
-    if (f.mes && r.fecha !== f.mes) return false;
-    if (f.anio && String(r.fecha).slice(0, 4) !== f.anio) return false;
+    var y = String(r.fecha).slice(0, 4), m = parseInt(String(r.fecha).slice(5, 7), 10);
+    if (f.anios && f.anios.length && f.anios.indexOf(y) < 0) return false;
+    if (f.meses && f.meses.length && f.meses.indexOf(m) < 0) return false;
     return true;
   }
   function multiAgg() {
@@ -736,9 +739,19 @@
     var fechas = multiFechas();
     var anios = Object.keys(fechas.reduce(function (a, x) { a[x.slice(0, 4)] = 1; return a; }, {})).sort();
     var cams = Object.keys(m.reduce(function (a, r) { a[r.camara] = 1; return a; }, {})).filter(function (c) { return !multiEsAgregado(c); }).sort();
-    var aSel = document.getElementById('multi-f-anio');
-    if (aSel) { var pa = aSel.value; aSel.innerHTML = ''; aSel.appendChild(new Option('Todos los años', '')); anios.forEach(function (a) { aSel.appendChild(new Option(a, a)); }); if (pa) aSel.value = pa; }
-    multiPoblarMeses();
+    var onCh = function () { multiActualizarNota(); renderActiveMulti(); };
+    var yMount = document.getElementById('multi-f-anio-mount');
+    var mMount = document.getElementById('multi-f-mes-mount');
+    if (yMount && typeof tfBuildMulti === 'function' && yMount.dataset.built !== '1') {
+      var ultimo = anios.length ? [anios[anios.length - 1]] : [];
+      tfBuildMulti(yMount, { id: 'multi-anio-dd', label: 'Año', allLabel: 'Todos los años', selected: ultimo, onChange: onCh, options: anios.slice().reverse().map(function (a) { return { value: a, label: a }; }) });
+      yMount.dataset.built = '1';
+    }
+    if (mMount && typeof tfBuildMulti === 'function' && mMount.dataset.built !== '1') {
+      var MES_NOM = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      tfBuildMulti(mMount, { id: 'multi-mes-dd', label: 'Mes', allLabel: 'Todos los meses', selected: [], onChange: onCh, options: MES_NOM.map(function (n, i) { return { value: String(i + 1), label: n }; }) });
+      mMount.dataset.built = '1';
+    }
     var cSel = document.getElementById('multi-f-cam');
     if (cSel) { var pc = cSel.value; cSel.innerHTML = ''; cSel.appendChild(new Option('Todas las cámaras', '')); cams.forEach(function (c) { cSel.appendChild(new Option(multiNombre(c), c)); }); if (pc) cSel.value = pc; }
     // límites de fecha en los date pickers
@@ -748,12 +761,19 @@
       var max = lm + '-' + ('' + ld).padStart(2, '0');
       ['multi-f-desde', 'multi-f-hasta'].forEach(function (id) { var el = document.getElementById(id); if (el) { el.min = min; el.max = max; } });
     }
-    ['multi-f-anio', 'multi-f-mes', 'multi-f-cam', 'multi-f-desde', 'multi-f-hasta'].forEach(function (id) {
+    ['multi-f-cam', 'multi-f-desde', 'multi-f-hasta'].forEach(function (id) {
       var el = document.getElementById(id);
-      if (el && !el._bound) { el.addEventListener('change', function () { if (id === 'multi-f-anio') multiPoblarMeses(); multiActualizarNota(); renderActiveMulti(); }); el._bound = true; }
+      if (el && !el._bound) { el.addEventListener('change', function () { multiActualizarNota(); renderActiveMulti(); }); el._bound = true; }
     });
     var clr = document.getElementById('multi-f-clear');
-    if (clr && !clr._bound) { clr.addEventListener('click', function () { ['multi-f-anio', 'multi-f-mes', 'multi-f-cam', 'multi-f-desde', 'multi-f-hasta'].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ''; }); multiPoblarMeses(); multiActualizarNota(); renderActiveMulti(); }); clr._bound = true; }
+    if (clr && !clr._bound) {
+      clr.addEventListener('click', function () {
+        ['multi-f-cam', 'multi-f-desde', 'multi-f-hasta'].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ''; });
+        [yMount, mMount].forEach(function (mt) { if (mt) { var dd = mt.querySelector('details'); if (dd) { dd.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = false; }); var s = dd.querySelector('.tf-multi-sum'); if (s) s.textContent = mt === yMount ? 'Todos los años' : 'Todos los meses'; } } });
+        multiActualizarNota(); renderActiveMulti();
+      });
+      clr._bound = true;
+    }
     multiActualizarNota();
   }
 
