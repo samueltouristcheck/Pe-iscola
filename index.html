@@ -641,7 +641,19 @@
         <section id="section-reciclaje" class="section">
           <div class="residuos-section-card">
             <h3 class="section-title">Tipos de residuos (reciclaje)</h3>
-            <div class="chart-container residuos-tab-chart residuos-tab-chart--donut"><canvas id="chart-residuos-tipos-tab"></canvas></div>
+            <p class="residuos-tablas-hint">Desglose por fracción de los pesajes de báscula (Orgánica, Papel y cartón, Envases, Vidrio, Poda y verde = recicladas; Resto/RSU y Barredura = no recicladas). <span id="reciclaje-periodo" style="color:#94a3b8"></span></p>
+            <div class="turismo-mini-kpis" id="reciclaje-kpis"></div>
+            <div class="turismo-charts-row" style="margin-top:.6rem">
+              <div class="turismo-chart-card">
+                <h4>Reparto por fracción</h4>
+                <div class="chart-container residuos-tab-chart residuos-tab-chart--donut"><canvas id="chart-residuos-tipos-tab"></canvas></div>
+              </div>
+              <div class="turismo-chart-card">
+                <h4>% de reciclaje por mes</h4>
+                <p class="turismo-chart-hint">Fracciones recicladas sobre el total</p>
+                <div class="chart-container" style="height:300px"><canvas id="chart-reciclaje-evol"></canvas></div>
+              </div>
+            </div>
             <div id="tabla-reciclaje-container"></div>
           </div>
         </section>
@@ -1751,7 +1763,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=149"></script>
+  <script src="js/dashboard.js?v=150"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

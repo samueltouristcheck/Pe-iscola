@@ -2722,6 +2722,57 @@
     populateZonasSlicer(zonasEntries);
     updateZonasTabKpiAndChart();
     renderResiduosTablas(zonasEntriesAll, tiposEntriesAll, hotelesEntriesAll);
+    renderReciclajeExtra(tiposEntriesAll, year, mes);
+  }
+
+  // ¿Es una fracción que cuenta como reciclaje? (todo menos Resto/RSU y Barredura)
+  function fraccionReciclable(nombre) {
+    const n = String(nombre || '').toLowerCase();
+    if (/resto|rsu|rechazo|mezcla|municipales|barred/.test(n)) return false;
+    return /organic|papel|carton|cartón|envase|vidrio|poda|verde|vegetal/.test(n);
+  }
+  function porcentajeReciclaje(tiposObj) {
+    let tot = 0, rec = 0;
+    Object.entries(tiposObj || {}).forEach(([k, v]) => { const w = toNum(v); tot += w; if (fraccionReciclable(k)) rec += w; });
+    return tot > 0 ? (rec / tot * 100) : null;
+  }
+  let _reciclajeEvolChart = null;
+  function renderReciclajeExtra(tiposEntries, year, mes) {
+    // KPIs del periodo seleccionado
+    const tiposObj = {}; (tiposEntries || []).forEach(([k, v]) => { tiposObj[k] = v; });
+    const total = (tiposEntries || []).reduce((s, [, v]) => s + toNum(v), 0);
+    const pct = porcentajeReciclaje(tiposObj);
+    const recicladas = (tiposEntries || []).filter(([k]) => fraccionReciclable(k)).reduce((s, [, v]) => s + toNum(v), 0);
+    const kc = document.getElementById('reciclaje-kpis');
+    const per = document.getElementById('reciclaje-periodo');
+    if (per) per.textContent = mes ? ('· ' + (MESES[parseInt(mes, 10) - 1] || mes) + ' ' + (year || '')) : (year ? ('· ' + year) : '· todos los periodos');
+    if (kc) {
+      const fmtkg = (n) => Math.round(n).toLocaleString('es-ES') + ' kg';
+      kc.innerHTML = [
+        { l: '% de reciclaje', v: pct != null ? pct.toFixed(1).replace('.', ',') + ' %' : '—', s: 'recicladas / total' },
+        { l: 'Recicladas', v: fmtkg(recicladas), s: 'orgánica, papel, envases, vidrio, poda' },
+        { l: 'No recicladas', v: fmtkg(total - recicladas), s: 'resto (RSU) y barredura' },
+        { l: 'Total pesado', v: fmtkg(total), s: 'báscula' }
+      ].map((it) => `<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">${it.l}</span><span class="turismo-mini-kpi-value">${it.v}</span><span class="turismo-mini-kpi-sub">${it.s}</span></div>`).join('');
+    }
+    // Evolución mensual del % de reciclaje (desde dataPesajes, filtrado por año si lo hay)
+    const ctx = document.getElementById('chart-reciclaje-evol');
+    if (ctx) {
+      const porMes = {};
+      (dataPesajes || []).forEach((r) => {
+        if (!r.fecha || !r.tipos) return;
+        if (year && String(r.fecha).indexOf(year + '-') !== 0) return;
+        const p = porcentajeReciclaje(r.tipos);
+        if (p != null) porMes[r.fecha] = p;
+      });
+      const meses = Object.keys(porMes).sort().slice(-24);
+      if (_reciclajeEvolChart) { try { _reciclajeEvolChart.destroy(); } catch (e) {} _reciclajeEvolChart = null; }
+      _reciclajeEvolChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: meses.map((m) => { const p = m.split('-'); return (MESES_CORTOS ? MESES_CORTOS[parseInt(p[1], 10) - 1] : p[1]) + ' ' + p[0].slice(2); }), datasets: [{ label: '% reciclaje', data: meses.map((m) => Math.round(porMes[m] * 10) / 10), borderColor: '#16a34a', backgroundColor: 'rgba(22,163,74,.12)', tension: 0.3, pointRadius: 3, fill: true }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => String(c.raw).replace('.', ',') + ' %' } } }, scales: { y: { beginAtZero: true, ticks: { callback: (v) => v + ' %' } } } }
+      });
+    }
   }
 
   function renderResiduosTablas(zonasEntries, tiposEntries, hotelesEntries) {
