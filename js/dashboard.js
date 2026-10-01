@@ -952,12 +952,22 @@
   function lprNombre(c) { return String(c || '').replace(/\s*LPR\s*$/i, '').trim(); }
   function lprData() { return (camarasData && camarasData.lpr) || {}; }
   function lprFiltro() {
+    var anios = (typeof tfMultiValues === 'function') ? tfMultiValues('lpr-anio-dd') : [];
+    var meses = ((typeof tfMultiValues === 'function') ? tfMultiValues('lpr-mes-dd') : []).map(function (v) { return parseInt(v, 10); });
     return {
-      anio: (document.getElementById('lpr-f-anio') || {}).value || '',
-      mes: (document.getElementById('lpr-f-mes') || {}).value || '',
+      anios: anios, meses: meses,
+      anio: anios.length === 1 ? anios[0] : '',
       dir: (document.getElementById('lpr-f-dir') || {}).value || '',
       cam: (document.getElementById('lpr-f-cam') || {}).value || ''
     };
+  }
+  // ¿El mes 'YYYY-MM' pasa el filtro multi (años + meses)?
+  function lprYmOk(ym, f) {
+    f = f || lprFiltro();
+    var y = String(ym).slice(0, 4), m = parseInt(String(ym).slice(5, 7), 10);
+    if (f.anios && f.anios.length && f.anios.indexOf(y) < 0) return false;
+    if (f.meses && f.meses.length && f.meses.indexOf(m) < 0) return false;
+    return true;
   }
   function lprClavesMes() {
     var pm = lprData().porMes || {};
@@ -966,11 +976,7 @@
   }
   function lprMesesFiltrados() {
     var f = lprFiltro();
-    return lprClavesMes().filter(function (m) {
-      if (f.mes) return m === f.mes;
-      if (f.anio) return m.slice(0, 4) === f.anio;
-      return true;
-    }).sort();
+    return lprClavesMes().filter(function (m) { return lprYmOk(m, f); }).sort();
   }
   function lprCamaras() {
     var pm = lprData().porMes || {}; var set = {};
@@ -1006,7 +1012,7 @@
   function lprMensualCH() {
     var pm = lprData().porMes || {};
     var f = lprFiltro();
-    var meses = lprClavesMes().filter(function (m) { return !f.anio || m.slice(0, 4) === f.anio; }).sort();
+    var meses = lprClavesMes().filter(function (m) { return lprYmOk(m, f); }).sort();
     var data = {};
     meses.forEach(function (mes) {
       var ch = (pm[mes] && pm[mes].camaraHora) || {}; var acc = { av: 0, re: 0, ot: 0 };
@@ -1117,11 +1123,7 @@
       if (card) card.style.display = 'none';
     } else {
       if (card) card.style.display = '';
-      var dias = Object.keys(dia).filter(function (d) {
-        if (f.mes) return d.slice(0, 7) === f.mes;
-        if (f.anio) return d.slice(0, 4) === f.anio;
-        return true;
-      }).sort();
+      var dias = Object.keys(dia).filter(function (d) { return lprYmOk(d.slice(0, 7), f); }).sort();
       var dsD = [];
       if (f.dir !== 're') dsD.push({ label: 'Entradas', data: dias.map(function (d) { return dia[d].Avance || 0; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.10)', fill: true, tension: 0.25, pointRadius: 0 });
       if (f.dir !== 'av') dsD.push({ label: 'Salidas', data: dias.map(function (d) { return dia[d].Retroceso || 0; }), borderColor: '#f59e0b', fill: false, tension: 0.25, pointRadius: 0 });
@@ -1209,19 +1211,6 @@
 
   // Filtros año/mes para las vistas LPR
   function lprAnios() { return Object.keys(lprClavesMes().reduce(function (a, m) { a[m.slice(0, 4)] = 1; return a; }, {})).sort(); }
-  function lprPoblarMeses() {
-    var sel = document.getElementById('lpr-f-mes'); if (!sel) return;
-    var anio = (document.getElementById('lpr-f-anio') || {}).value || '';
-    var meses = lprClavesMes().filter(function (m) { return !anio || m.slice(0, 4) === anio; }).sort();
-    var prev = sel.value;
-    sel.innerHTML = ''; sel.appendChild(new Option('Todos los meses', ''));
-    // Sin año selecciondo puede haber meses repetidos (2 años): solo entonces añade el año para distinguir.
-    meses.forEach(function (m) {
-      var etq = anio ? (MESES[parseInt(m.slice(5, 7), 10) - 1] || m) : mesEtiqueta(m);
-      sel.appendChild(new Option(etq, m));
-    });
-    sel.value = (prev && meses.indexOf(prev) >= 0) ? prev : '';
-  }
   function lprPoblarCamaras() {
     var sel = document.getElementById('lpr-f-cam'); if (!sel) return;
     var prev = sel.value;
@@ -1230,16 +1219,21 @@
     if (prev) sel.value = prev;
   }
   function initLprFiltros() {
-    var anioSel = document.getElementById('lpr-f-anio'); if (!anioSel) return;
-    var prevA = anioSel.value;
-    anioSel.innerHTML = ''; anioSel.appendChild(new Option('Todos los años', ''));
-    lprAnios().forEach(function (a) { anioSel.appendChild(new Option(a, a)); });
-    if (prevA) anioSel.value = prevA;
-    lprPoblarMeses();
+    var yMount = document.getElementById('lpr-f-anio-mount');
+    var mMount = document.getElementById('lpr-f-mes-mount');
+    if (!yMount || typeof tfBuildMulti !== 'function') return;
+    var anios = lprAnios();
+    if (yMount.dataset.built !== '1') {
+      var ultimo = anios.length ? [anios[anios.length - 1]] : [];
+      tfBuildMulti(yMount, { id: 'lpr-anio-dd', label: 'Año', allLabel: 'Todos los años', selected: ultimo, onChange: renderAllLpr, options: anios.slice().reverse().map(function (a) { return { value: a, label: a }; }) });
+      yMount.dataset.built = '1';
+    }
+    if (mMount && mMount.dataset.built !== '1') {
+      var MES_NOM = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      tfBuildMulti(mMount, { id: 'lpr-mes-dd', label: 'Mes', allLabel: 'Todos los meses', selected: [], onChange: renderAllLpr, options: MES_NOM.map(function (n, i) { return { value: String(i + 1), label: n }; }) });
+      mMount.dataset.built = '1';
+    }
     lprPoblarCamaras();
-    if (!anioSel._bound) { anioSel.addEventListener('change', function () { lprPoblarMeses(); renderAllLpr(); }); anioSel._bound = true; }
-    var mesSel = document.getElementById('lpr-f-mes');
-    if (mesSel && !mesSel._bound) { mesSel.addEventListener('change', renderAllLpr); mesSel._bound = true; }
     var dirSel = document.getElementById('lpr-f-dir');
     if (dirSel && !dirSel._bound) { dirSel.addEventListener('change', renderAllLpr); dirSel._bound = true; }
     var camSel = document.getElementById('lpr-f-cam');
