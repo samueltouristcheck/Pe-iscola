@@ -25688,149 +25688,149 @@
     "total": 17975271,
     "entradasSalidasPorMes": {
       "2025-04": {
-        "Avance": 84798,
-        "Retroceso": 91495,
-        "Otro": 546327
+        "Avance": 87790,
+        "Retroceso": 92970,
+        "Otro": 590396
       },
       "2025-05": {
-        "Avance": 502400,
-        "Retroceso": 551252,
-        "Otro": 739
+        "Avance": 519564,
+        "Retroceso": 560667,
+        "Otro": 746
       },
       "2025-06": {
-        "Avance": 619419,
-        "Retroceso": 655400,
-        "Otro": 35891
+        "Avance": 641249,
+        "Retroceso": 665108,
+        "Otro": 36143
       },
       "2025-07": {
-        "Avance": 812655,
-        "Retroceso": 816495,
-        "Otro": 291
+        "Avance": 845076,
+        "Retroceso": 825924,
+        "Otro": 292
       },
       "2025-08": {
-        "Avance": 970570,
-        "Retroceso": 906073,
+        "Avance": 1016396,
+        "Retroceso": 914352,
         "Otro": 628
       },
       "2025-09": {
-        "Avance": 663022,
-        "Retroceso": 641924,
-        "Otro": 571
+        "Avance": 696048,
+        "Retroceso": 649703,
+        "Otro": 581
       },
       "2025-10": {
-        "Avance": 526275,
-        "Retroceso": 521773,
-        "Otro": 1587
+        "Avance": 551039,
+        "Retroceso": 529589,
+        "Otro": 1699
       },
       "2025-11": {
-        "Avance": 406499,
-        "Retroceso": 434418,
-        "Otro": 630
+        "Avance": 417474,
+        "Retroceso": 441352,
+        "Otro": 637
       },
       "2025-12": {
-        "Avance": 426855,
-        "Retroceso": 456820,
+        "Avance": 437929,
+        "Retroceso": 462986,
         "Otro": 114
       },
       "2026-01": {
-        "Avance": 370165,
-        "Retroceso": 405350,
+        "Avance": 381407,
+        "Retroceso": 411595,
         "Otro": 76
       },
       "2026-02": {
-        "Avance": 333343,
-        "Retroceso": 359564,
+        "Avance": 342544,
+        "Retroceso": 364801,
         "Otro": 32
       },
       "2026-03": {
-        "Avance": 439285,
-        "Retroceso": 494615,
-        "Otro": 32836
+        "Avance": 454390,
+        "Retroceso": 503213,
+        "Otro": 35639
       },
       "2026-04": {
-        "Avance": 568807,
-        "Retroceso": 617196,
-        "Otro": 2059
+        "Avance": 589132,
+        "Retroceso": 626553,
+        "Otro": 2148
       },
       "2026-05": {
-        "Avance": 577222,
-        "Retroceso": 645045,
+        "Avance": 598318,
+        "Retroceso": 654904,
         "Otro": 12849
       },
       "2026-06": {
-        "Avance": 653131,
-        "Retroceso": 722720,
+        "Avance": 677333,
+        "Retroceso": 731795,
         "Otro": 13757
       }
     },
     "entradasSalidasPorDia": {
       "2025-04-30": {
-        "Avance": 19777,
-        "Retroceso": 20922,
+        "Avance": 20438,
+        "Retroceso": 21296,
         "Otro": 5
       },
       "2025-04-29": {
-        "Avance": 9757,
-        "Retroceso": 11016,
-        "Otro": 13415
+        "Avance": 10071,
+        "Retroceso": 11227,
+        "Otro": 14518
       },
       "2025-04-28": {
-        "Avance": 6568,
-        "Retroceso": 6977,
+        "Avance": 6849,
+        "Retroceso": 7071,
         "Otro": 44
       },
       "2025-04-27": {
-        "Avance": 15105,
-        "Retroceso": 16334,
+        "Avance": 15675,
+        "Retroceso": 16561,
         "Otro": 1
       },
       "2025-04-26": {
-        "Avance": 18024,
-        "Retroceso": 19284
+        "Avance": 18673,
+        "Retroceso": 19577
       },
       "2025-04-25": {
-        "Avance": 15567,
-        "Retroceso": 16962
+        "Avance": 16084,
+        "Retroceso": 17238
       },
       "2025-04-23": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 24831
+        "Otro": 27144
       },
       "2025-04-22": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 37720
+        "Otro": 40913
       },
       "2025-04-21": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 42131
+        "Otro": 45853
       },
       "2025-04-20": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 48126
+        "Otro": 51916
       },
       "2025-04-19": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 57062
+        "Otro": 61184
       },
       "2025-04-18": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 52624
+        "Otro": 56517
       },
       "2025-04-17": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 54737
+        "Otro": 58801
       },
       "2025-04-16": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 15676
+        "Otro": 16515
       },
       "2025-04-15": {
         "Avance": 0,
@@ -25840,2099 +25840,2099 @@
       "2025-04-07": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 19656
+        "Otro": 21433
       },
       "2025-04-06": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 25698
+        "Otro": 28003
       },
       "2025-04-05": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 31018
+        "Otro": 33568
       },
       "2025-04-04": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 34420
+        "Otro": 37101
       },
       "2025-04-03": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 30005
+        "Otro": 32633
       },
       "2025-04-02": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 29435
+        "Otro": 31991
       },
       "2025-04-01": {
         "Avance": 0,
         "Retroceso": 0,
-        "Otro": 29578
+        "Otro": 32111
       },
       "2025-05-31": {
-        "Avance": 20096,
-        "Retroceso": 21159,
+        "Avance": 20803,
+        "Retroceso": 21459,
         "Otro": 33
       },
       "2025-05-30": {
-        "Avance": 20564,
-        "Retroceso": 21918,
+        "Avance": 21255,
+        "Retroceso": 22304,
         "Otro": 1
       },
       "2025-05-29": {
-        "Avance": 18171,
-        "Retroceso": 20108,
+        "Avance": 18842,
+        "Retroceso": 20463,
         "Otro": 5
       },
       "2025-05-28": {
-        "Avance": 17522,
-        "Retroceso": 18964,
+        "Avance": 18178,
+        "Retroceso": 19297,
         "Otro": 1
       },
       "2025-05-27": {
-        "Avance": 16680,
-        "Retroceso": 18220,
+        "Avance": 17229,
+        "Retroceso": 18552,
         "Otro": 2
       },
       "2025-05-26": {
-        "Avance": 17472,
-        "Retroceso": 19020,
+        "Avance": 18039,
+        "Retroceso": 19377,
         "Otro": 1
       },
       "2025-05-25": {
-        "Avance": 15310,
-        "Retroceso": 16930
+        "Avance": 15911,
+        "Retroceso": 17180
       },
       "2025-05-24": {
-        "Avance": 18058,
-        "Retroceso": 18776,
+        "Avance": 18729,
+        "Retroceso": 19042,
         "Otro": 17
       },
       "2025-05-23": {
-        "Avance": 19232,
-        "Retroceso": 20857,
+        "Avance": 19923,
+        "Retroceso": 21212,
         "Otro": 3
       },
       "2025-05-22": {
-        "Avance": 16994,
-        "Retroceso": 18631,
+        "Avance": 17609,
+        "Retroceso": 18953,
         "Otro": 6
       },
       "2025-05-21": {
-        "Avance": 16587,
-        "Retroceso": 18062,
+        "Avance": 17133,
+        "Retroceso": 18414,
         "Otro": 2
       },
       "2025-05-20": {
-        "Avance": 15991,
-        "Retroceso": 17857,
+        "Avance": 16526,
+        "Retroceso": 18204,
         "Otro": 35
       },
       "2025-05-19": {
-        "Avance": 16875,
-        "Retroceso": 18282,
+        "Avance": 17477,
+        "Retroceso": 18630,
         "Otro": 2
       },
       "2025-05-18": {
-        "Avance": 14866,
-        "Retroceso": 16225,
+        "Avance": 15419,
+        "Retroceso": 16511,
         "Otro": 2
       },
       "2025-05-17": {
-        "Avance": 17647,
-        "Retroceso": 18479,
+        "Avance": 18264,
+        "Retroceso": 18796,
         "Otro": 3
       },
       "2025-05-16": {
-        "Avance": 15384,
-        "Retroceso": 16089,
+        "Avance": 15863,
+        "Retroceso": 16320,
         "Otro": 8
       },
       "2025-05-15": {
-        "Avance": 11767,
-        "Retroceso": 12680,
+        "Avance": 12116,
+        "Retroceso": 12903,
         "Otro": 2
       },
       "2025-05-14": {
-        "Avance": 14943,
-        "Retroceso": 16292,
+        "Avance": 15468,
+        "Retroceso": 16600,
         "Otro": 2
       },
       "2025-05-13": {
-        "Avance": 15698,
-        "Retroceso": 17131,
+        "Avance": 16268,
+        "Retroceso": 17460,
         "Otro": 3
       },
       "2025-05-12": {
-        "Avance": 16630,
-        "Retroceso": 18368
+        "Avance": 17197,
+        "Retroceso": 18702
       },
       "2025-05-11": {
-        "Avance": 13616,
-        "Retroceso": 14759
+        "Avance": 14119,
+        "Retroceso": 15032
       },
       "2025-05-10": {
-        "Avance": 16590,
-        "Retroceso": 17764
+        "Avance": 17162,
+        "Retroceso": 18119
       },
       "2025-05-09": {
-        "Avance": 17250,
-        "Retroceso": 18574,
+        "Avance": 17819,
+        "Retroceso": 18915,
         "Otro": 5
       },
       "2025-05-08": {
-        "Avance": 16839,
-        "Retroceso": 18203,
+        "Avance": 17439,
+        "Retroceso": 18547,
         "Otro": 2
       },
       "2025-05-07": {
-        "Avance": 16667,
-        "Retroceso": 18196,
+        "Avance": 17303,
+        "Retroceso": 18563,
         "Otro": 5
       },
       "2025-05-06": {
-        "Avance": 15739,
-        "Retroceso": 18030
+        "Avance": 16235,
+        "Retroceso": 18366
       },
       "2025-05-05": {
-        "Avance": 11935,
-        "Retroceso": 14500,
-        "Otro": 536
+        "Avance": 12284,
+        "Retroceso": 14731,
+        "Otro": 543
       },
       "2025-05-04": {
-        "Avance": 9367,
-        "Retroceso": 14327,
+        "Avance": 9655,
+        "Retroceso": 14496,
         "Otro": 3
       },
       "2025-05-03": {
-        "Avance": 12633,
-        "Retroceso": 15132,
+        "Avance": 12973,
+        "Retroceso": 15305,
         "Otro": 1
       },
       "2025-05-02": {
-        "Avance": 15273,
-        "Retroceso": 17803,
+        "Avance": 15688,
+        "Retroceso": 18000,
         "Otro": 58
       },
       "2025-05-01": {
-        "Avance": 20004,
-        "Retroceso": 19916,
+        "Avance": 20638,
+        "Retroceso": 20214,
         "Otro": 1
       },
       "2025-06-30": {
-        "Avance": 22694,
-        "Retroceso": 24039,
+        "Avance": 23490,
+        "Retroceso": 24399,
         "Otro": 4
       },
       "2025-06-29": {
-        "Avance": 21570,
-        "Retroceso": 22755,
+        "Avance": 22374,
+        "Retroceso": 23034,
         "Otro": 2
       },
       "2025-06-28": {
-        "Avance": 23819,
-        "Retroceso": 24744,
+        "Avance": 24735,
+        "Retroceso": 25048,
         "Otro": 9
       },
       "2025-06-27": {
-        "Avance": 24236,
-        "Retroceso": 25115,
+        "Avance": 25119,
+        "Retroceso": 25477,
         "Otro": 171
       },
       "2025-06-26": {
-        "Avance": 22260,
-        "Retroceso": 23330,
+        "Avance": 23040,
+        "Retroceso": 23632,
         "Otro": 3
       },
       "2025-06-25": {
-        "Avance": 22314,
-        "Retroceso": 23384
+        "Avance": 23111,
+        "Retroceso": 23714
       },
       "2025-06-24": {
-        "Avance": 21706,
-        "Retroceso": 22882,
+        "Avance": 22536,
+        "Retroceso": 23151,
         "Otro": 2
       },
       "2025-06-23": {
-        "Avance": 19373,
-        "Retroceso": 19739,
+        "Avance": 19942,
+        "Retroceso": 19958,
         "Otro": 6
       },
       "2025-06-22": {
-        "Avance": 20798,
-        "Retroceso": 22073,
+        "Avance": 21540,
+        "Retroceso": 22328,
         "Otro": 2
       },
       "2025-06-21": {
-        "Avance": 24171,
-        "Retroceso": 24474,
+        "Avance": 25057,
+        "Retroceso": 24801,
         "Otro": 32
       },
       "2025-06-20": {
-        "Avance": 23035,
-        "Retroceso": 23618,
+        "Avance": 23834,
+        "Retroceso": 23963,
         "Otro": 3
       },
       "2025-06-19": {
-        "Avance": 20373,
-        "Retroceso": 21291,
-        "Otro": 2564
+        "Avance": 21031,
+        "Retroceso": 21575,
+        "Otro": 2580
       },
       "2025-06-18": {
-        "Avance": 19242,
-        "Retroceso": 20816,
-        "Otro": 4799
+        "Avance": 19936,
+        "Retroceso": 21153,
+        "Otro": 4826
       },
       "2025-06-17": {
-        "Avance": 19035,
-        "Retroceso": 20458,
-        "Otro": 4921
+        "Avance": 19721,
+        "Retroceso": 20754,
+        "Otro": 4949
       },
       "2025-06-16": {
-        "Avance": 20345,
-        "Retroceso": 21887,
-        "Otro": 5131
+        "Avance": 20979,
+        "Retroceso": 22253,
+        "Otro": 5160
       },
       "2025-06-15": {
-        "Avance": 19018,
-        "Retroceso": 20193,
-        "Otro": 4905
+        "Avance": 19687,
+        "Retroceso": 20438,
+        "Otro": 4937
       },
       "2025-06-14": {
-        "Avance": 21156,
-        "Retroceso": 21541,
-        "Otro": 5383
+        "Avance": 21944,
+        "Retroceso": 21845,
+        "Otro": 5412
       },
       "2025-06-13": {
-        "Avance": 22191,
-        "Retroceso": 23193,
-        "Otro": 5376
+        "Avance": 22898,
+        "Retroceso": 23558,
+        "Otro": 5417
       },
       "2025-06-12": {
-        "Avance": 19075,
-        "Retroceso": 20676,
-        "Otro": 2042
+        "Avance": 19737,
+        "Retroceso": 21032,
+        "Otro": 2053
       },
       "2025-06-11": {
-        "Avance": 18987,
-        "Retroceso": 20752,
+        "Avance": 19692,
+        "Retroceso": 21101,
         "Otro": 6
       },
       "2025-06-10": {
-        "Avance": 18456,
-        "Retroceso": 19937,
+        "Avance": 19119,
+        "Retroceso": 20295,
         "Otro": 3
       },
       "2025-06-09": {
-        "Avance": 21675,
-        "Retroceso": 23168,
-        "Otro": 496
+        "Avance": 22395,
+        "Retroceso": 23517,
+        "Otro": 535
       },
       "2025-06-08": {
-        "Avance": 19963,
-        "Retroceso": 21179,
+        "Avance": 20640,
+        "Retroceso": 21479,
         "Otro": 10
       },
       "2025-06-07": {
-        "Avance": 22669,
-        "Retroceso": 23779,
+        "Avance": 23541,
+        "Retroceso": 24130,
         "Otro": 5
       },
       "2025-06-06": {
-        "Avance": 21229,
-        "Retroceso": 22415,
+        "Avance": 22000,
+        "Retroceso": 22773,
         "Otro": 3
       },
       "2025-06-05": {
-        "Avance": 18156,
-        "Retroceso": 19648,
+        "Avance": 18759,
+        "Retroceso": 20004,
         "Otro": 4
       },
       "2025-06-04": {
-        "Avance": 17732,
-        "Retroceso": 19640
+        "Avance": 18358,
+        "Retroceso": 19994
       },
       "2025-06-03": {
-        "Avance": 17557,
-        "Retroceso": 19215,
+        "Avance": 18170,
+        "Retroceso": 19533,
         "Otro": 2
       },
       "2025-06-02": {
-        "Avance": 18792,
-        "Retroceso": 20378,
+        "Avance": 19375,
+        "Retroceso": 20769,
         "Otro": 2
       },
       "2025-06-01": {
-        "Avance": 17792,
-        "Retroceso": 19081,
+        "Avance": 18489,
+        "Retroceso": 19400,
         "Otro": 5
       },
       "2025-07-31": {
-        "Avance": 29307,
-        "Retroceso": 27381,
+        "Avance": 30736,
+        "Retroceso": 27660,
         "Otro": 6
       },
       "2025-07-30": {
-        "Avance": 29314,
-        "Retroceso": 27562,
+        "Avance": 30877,
+        "Retroceso": 27862,
         "Otro": 2
       },
       "2025-07-29": {
-        "Avance": 28842,
-        "Retroceso": 26775,
+        "Avance": 30320,
+        "Retroceso": 27051,
         "Otro": 5
       },
       "2025-07-28": {
-        "Avance": 30593,
-        "Retroceso": 28495,
+        "Avance": 32053,
+        "Retroceso": 28798,
         "Otro": 9
       },
       "2025-07-27": {
-        "Avance": 28052,
-        "Retroceso": 26918,
+        "Avance": 29353,
+        "Retroceso": 27177,
         "Otro": 1
       },
       "2025-07-26": {
-        "Avance": 32664,
-        "Retroceso": 30772,
+        "Avance": 34236,
+        "Retroceso": 31039,
         "Otro": 37
       },
       "2025-07-25": {
-        "Avance": 31438,
-        "Retroceso": 29198,
+        "Avance": 33022,
+        "Retroceso": 29528,
         "Otro": 12
       },
       "2025-07-24": {
-        "Avance": 31436,
-        "Retroceso": 29309,
+        "Avance": 33020,
+        "Retroceso": 29584,
         "Otro": 19
       },
       "2025-07-23": {
-        "Avance": 28185,
-        "Retroceso": 26730,
+        "Avance": 29732,
+        "Retroceso": 27035,
         "Otro": 4
       },
       "2025-07-22": {
-        "Avance": 27464,
-        "Retroceso": 25832,
+        "Avance": 28821,
+        "Retroceso": 26142,
         "Otro": 4
       },
       "2025-07-21": {
-        "Avance": 27963,
-        "Retroceso": 28998,
+        "Avance": 28851,
+        "Retroceso": 29299,
         "Otro": 21
       },
       "2025-07-20": {
-        "Avance": 25460,
-        "Retroceso": 26649,
+        "Avance": 26355,
+        "Retroceso": 26910,
         "Otro": 2
       },
       "2025-07-19": {
-        "Avance": 28240,
-        "Retroceso": 28992,
+        "Avance": 29249,
+        "Retroceso": 29290,
         "Otro": 44
       },
       "2025-07-18": {
-        "Avance": 27384,
-        "Retroceso": 27863,
+        "Avance": 28336,
+        "Retroceso": 28205,
         "Otro": 3
       },
       "2025-07-17": {
-        "Avance": 25368,
-        "Retroceso": 26387,
+        "Avance": 26263,
+        "Retroceso": 26703,
         "Otro": 6
       },
       "2025-07-16": {
-        "Avance": 24959,
-        "Retroceso": 25915,
+        "Avance": 25853,
+        "Retroceso": 26199,
         "Otro": 8
       },
       "2025-07-15": {
-        "Avance": 24444,
-        "Retroceso": 25305,
-        "Otro": 12
+        "Avance": 25309,
+        "Retroceso": 25630,
+        "Otro": 13
       },
       "2025-07-14": {
-        "Avance": 25793,
-        "Retroceso": 26922,
+        "Avance": 26701,
+        "Retroceso": 27265,
         "Otro": 4
       },
       "2025-07-13": {
-        "Avance": 21870,
-        "Retroceso": 25009,
+        "Avance": 22405,
+        "Retroceso": 25290,
         "Otro": 9
       },
       "2025-07-12": {
-        "Avance": 23056,
-        "Retroceso": 24947,
+        "Avance": 23656,
+        "Retroceso": 25238,
         "Otro": 7
       },
       "2025-07-11": {
-        "Avance": 26674,
-        "Retroceso": 27573,
+        "Avance": 27551,
+        "Retroceso": 27905,
         "Otro": 13
       },
       "2025-07-10": {
-        "Avance": 23546,
-        "Retroceso": 24606,
+        "Avance": 24356,
+        "Retroceso": 24929,
         "Otro": 2
       },
       "2025-07-09": {
-        "Avance": 25208,
-        "Retroceso": 26533,
+        "Avance": 26067,
+        "Retroceso": 26851,
         "Otro": 5
       },
       "2025-07-08": {
-        "Avance": 24372,
-        "Retroceso": 25207,
+        "Avance": 25234,
+        "Retroceso": 25531,
         "Otro": 6
       },
       "2025-07-07": {
-        "Avance": 25193,
-        "Retroceso": 26444,
+        "Avance": 26146,
+        "Retroceso": 26778,
         "Otro": 3
       },
       "2025-07-06": {
-        "Avance": 23317,
-        "Retroceso": 24090,
+        "Avance": 24162,
+        "Retroceso": 24359,
         "Otro": 3
       },
       "2025-07-05": {
-        "Avance": 25677,
-        "Retroceso": 26106,
+        "Avance": 26679,
+        "Retroceso": 26412,
         "Otro": 3
       },
       "2025-07-04": {
-        "Avance": 25055,
-        "Retroceso": 25815,
+        "Avance": 25834,
+        "Retroceso": 26210,
         "Otro": 17
       },
       "2025-07-03": {
-        "Avance": 22819,
-        "Retroceso": 23732
+        "Avance": 23579,
+        "Retroceso": 24063
       },
       "2025-07-02": {
-        "Avance": 19572,
-        "Retroceso": 20311,
+        "Avance": 20259,
+        "Retroceso": 20576,
         "Otro": 20
       },
       "2025-07-01": {
-        "Avance": 19390,
-        "Retroceso": 20119,
+        "Avance": 20061,
+        "Retroceso": 20405,
         "Otro": 4
       },
       "2025-08-31": {
-        "Avance": 24140,
-        "Retroceso": 23488,
+        "Avance": 25278,
+        "Retroceso": 23740,
         "Otro": 2
       },
       "2025-08-30": {
-        "Avance": 28154,
-        "Retroceso": 26584,
+        "Avance": 29513,
+        "Retroceso": 26844,
         "Otro": 4
       },
       "2025-08-29": {
-        "Avance": 29142,
-        "Retroceso": 27171,
+        "Avance": 30531,
+        "Retroceso": 27458,
         "Otro": 3
       },
       "2025-08-28": {
-        "Avance": 27751,
-        "Retroceso": 25794,
+        "Avance": 29053,
+        "Retroceso": 26080,
         "Otro": 3
       },
       "2025-08-27": {
-        "Avance": 28314,
-        "Retroceso": 27206,
+        "Avance": 29708,
+        "Retroceso": 27483,
         "Otro": 4
       },
       "2025-08-26": {
-        "Avance": 27375,
-        "Retroceso": 26188,
+        "Avance": 28804,
+        "Retroceso": 26474,
         "Otro": 3
       },
       "2025-08-25": {
-        "Avance": 30590,
-        "Retroceso": 28663,
+        "Avance": 32071,
+        "Retroceso": 28948,
         "Otro": 3
       },
       "2025-08-24": {
-        "Avance": 26703,
-        "Retroceso": 25662,
+        "Avance": 27931,
+        "Retroceso": 25894,
         "Otro": 83
       },
       "2025-08-23": {
-        "Avance": 31929,
-        "Retroceso": 30014,
+        "Avance": 33366,
+        "Retroceso": 30264,
         "Otro": 3
       },
       "2025-08-22": {
-        "Avance": 31941,
-        "Retroceso": 29735,
+        "Avance": 33429,
+        "Retroceso": 29975,
         "Otro": 6
       },
       "2025-08-21": {
-        "Avance": 31704,
-        "Retroceso": 29613,
+        "Avance": 33179,
+        "Retroceso": 29884,
         "Otro": 5
       },
       "2025-08-20": {
-        "Avance": 31039,
-        "Retroceso": 29107,
+        "Avance": 32492,
+        "Retroceso": 29381,
         "Otro": 3
       },
       "2025-08-19": {
-        "Avance": 31576,
-        "Retroceso": 29436,
+        "Avance": 33091,
+        "Retroceso": 29670,
         "Otro": 7
       },
       "2025-08-18": {
-        "Avance": 33498,
-        "Retroceso": 31177,
+        "Avance": 35021,
+        "Retroceso": 31430,
         "Otro": 8
       },
       "2025-08-17": {
-        "Avance": 29725,
-        "Retroceso": 27765,
+        "Avance": 31091,
+        "Retroceso": 28009,
         "Otro": 19
       },
       "2025-08-16": {
-        "Avance": 34388,
-        "Retroceso": 31729,
+        "Avance": 35987,
+        "Retroceso": 31988,
         "Otro": 70
       },
       "2025-08-15": {
-        "Avance": 33593,
-        "Retroceso": 30736,
+        "Avance": 35031,
+        "Retroceso": 30993,
         "Otro": 23
       },
       "2025-08-14": {
-        "Avance": 34878,
-        "Retroceso": 32371,
+        "Avance": 36526,
+        "Retroceso": 32656,
         "Otro": 17
       },
       "2025-08-13": {
-        "Avance": 33280,
-        "Retroceso": 30775,
+        "Avance": 34890,
+        "Retroceso": 31038,
         "Otro": 18
       },
       "2025-08-12": {
-        "Avance": 32396,
-        "Retroceso": 29402,
+        "Avance": 33948,
+        "Retroceso": 29639,
         "Otro": 116
       },
       "2025-08-11": {
-        "Avance": 34596,
-        "Retroceso": 32127,
+        "Avance": 36169,
+        "Retroceso": 32400,
         "Otro": 12
       },
       "2025-08-10": {
-        "Avance": 30524,
-        "Retroceso": 28633,
+        "Avance": 31903,
+        "Retroceso": 28879,
         "Otro": 8
       },
       "2025-08-09": {
-        "Avance": 34337,
-        "Retroceso": 31825,
+        "Avance": 36011,
+        "Retroceso": 32086,
         "Otro": 17
       },
       "2025-08-08": {
-        "Avance": 33513,
-        "Retroceso": 31418,
+        "Avance": 35124,
+        "Retroceso": 31710,
         "Otro": 33
       },
       "2025-08-07": {
-        "Avance": 32741,
-        "Retroceso": 30366,
+        "Avance": 34229,
+        "Retroceso": 30604,
         "Otro": 12
       },
       "2025-08-06": {
-        "Avance": 31902,
-        "Retroceso": 29563,
+        "Avance": 33508,
+        "Retroceso": 29850,
         "Otro": 15
       },
       "2025-08-05": {
-        "Avance": 30716,
-        "Retroceso": 28706,
+        "Avance": 32234,
+        "Retroceso": 29003,
         "Otro": 17
       },
       "2025-08-04": {
-        "Avance": 34594,
-        "Retroceso": 33062,
+        "Avance": 36130,
+        "Retroceso": 33356,
         "Otro": 28
       },
       "2025-08-03": {
-        "Avance": 30639,
-        "Retroceso": 28069,
+        "Avance": 32106,
+        "Retroceso": 28303,
         "Otro": 12
       },
       "2025-08-02": {
-        "Avance": 33012,
-        "Retroceso": 30354,
+        "Avance": 34632,
+        "Retroceso": 30623,
         "Otro": 62
       },
       "2025-08-01": {
-        "Avance": 31880,
-        "Retroceso": 29334,
+        "Avance": 33410,
+        "Retroceso": 29690,
         "Otro": 12
       },
       "2025-09-30": {
-        "Avance": 18839,
-        "Retroceso": 18700,
+        "Avance": 19797,
+        "Retroceso": 18975,
         "Otro": 3
       },
       "2025-09-29": {
-        "Avance": 11695,
-        "Retroceso": 12434,
-        "Otro": 203
+        "Avance": 12125,
+        "Retroceso": 12598,
+        "Otro": 213
       },
       "2025-09-28": {
-        "Avance": 16117,
-        "Retroceso": 16099,
+        "Avance": 16910,
+        "Retroceso": 16315,
         "Otro": 2
       },
       "2025-09-27": {
-        "Avance": 20522,
-        "Retroceso": 20012
+        "Avance": 21529,
+        "Retroceso": 20267
       },
       "2025-09-26": {
-        "Avance": 22060,
-        "Retroceso": 21375,
+        "Avance": 23183,
+        "Retroceso": 21655,
         "Otro": 4
       },
       "2025-09-25": {
-        "Avance": 20494,
-        "Retroceso": 20185,
+        "Avance": 21548,
+        "Retroceso": 20476,
         "Otro": 5
       },
       "2025-09-24": {
-        "Avance": 20690,
-        "Retroceso": 20261,
+        "Avance": 21764,
+        "Retroceso": 20552,
         "Otro": 1
       },
       "2025-09-23": {
-        "Avance": 20535,
-        "Retroceso": 20149,
+        "Avance": 21627,
+        "Retroceso": 20421,
         "Otro": 1
       },
       "2025-09-22": {
-        "Avance": 22251,
-        "Retroceso": 21853,
+        "Avance": 23420,
+        "Retroceso": 22137,
         "Otro": 2
       },
       "2025-09-21": {
-        "Avance": 20123,
-        "Retroceso": 19418,
+        "Avance": 21085,
+        "Retroceso": 19613,
         "Otro": 13
       },
       "2025-09-20": {
-        "Avance": 24066,
-        "Retroceso": 22780,
+        "Avance": 25253,
+        "Retroceso": 23002,
         "Otro": 8
       },
       "2025-09-19": {
-        "Avance": 23480,
-        "Retroceso": 22302,
+        "Avance": 24673,
+        "Retroceso": 22585,
         "Otro": 4
       },
       "2025-09-18": {
-        "Avance": 19959,
-        "Retroceso": 19327,
+        "Avance": 21050,
+        "Retroceso": 19611,
         "Otro": 5
       },
       "2025-09-17": {
-        "Avance": 20474,
-        "Retroceso": 20053
+        "Avance": 21510,
+        "Retroceso": 20317
       },
       "2025-09-16": {
-        "Avance": 20758,
-        "Retroceso": 20208,
+        "Avance": 21847,
+        "Retroceso": 20495,
         "Otro": 2
       },
       "2025-09-15": {
-        "Avance": 21841,
-        "Retroceso": 21861,
+        "Avance": 22889,
+        "Retroceso": 22153,
         "Otro": 8
       },
       "2025-09-14": {
-        "Avance": 22444,
-        "Retroceso": 22758,
+        "Avance": 23436,
+        "Retroceso": 22955,
         "Otro": 13
       },
       "2025-09-13": {
-        "Avance": 26079,
-        "Retroceso": 24859,
+        "Avance": 27383,
+        "Retroceso": 25137,
         "Otro": 64
       },
       "2025-09-12": {
-        "Avance": 26388,
-        "Retroceso": 25032,
+        "Avance": 27702,
+        "Retroceso": 25301,
         "Otro": 6
       },
       "2025-09-11": {
-        "Avance": 24758,
-        "Retroceso": 24103,
+        "Avance": 25958,
+        "Retroceso": 24404,
         "Otro": 1
       },
       "2025-09-10": {
-        "Avance": 23250,
-        "Retroceso": 21905,
+        "Avance": 24479,
+        "Retroceso": 22170,
         "Otro": 185
       },
       "2025-09-09": {
-        "Avance": 21527,
-        "Retroceso": 20303,
+        "Avance": 22655,
+        "Retroceso": 20525,
         "Otro": 3
       },
       "2025-09-08": {
-        "Avance": 22453,
-        "Retroceso": 21957,
+        "Avance": 23559,
+        "Retroceso": 22197,
         "Otro": 1
       },
       "2025-09-07": {
-        "Avance": 21898,
-        "Retroceso": 21244,
+        "Avance": 22910,
+        "Retroceso": 21445,
         "Otro": 3
       },
       "2025-09-06": {
-        "Avance": 24846,
-        "Retroceso": 23580,
+        "Avance": 26083,
+        "Retroceso": 23855,
         "Otro": 3
       },
       "2025-09-05": {
-        "Avance": 27167,
-        "Retroceso": 26059,
+        "Avance": 28471,
+        "Retroceso": 26338,
         "Otro": 4
       },
       "2025-09-04": {
-        "Avance": 24043,
-        "Retroceso": 22922,
+        "Avance": 25155,
+        "Retroceso": 23175,
         "Otro": 12
       },
       "2025-09-03": {
-        "Avance": 23617,
-        "Retroceso": 22513,
+        "Avance": 24854,
+        "Retroceso": 22795,
         "Otro": 7
       },
       "2025-09-02": {
-        "Avance": 24175,
-        "Retroceso": 22786,
+        "Avance": 25365,
+        "Retroceso": 23048,
         "Otro": 5
       },
       "2025-09-01": {
-        "Avance": 26473,
-        "Retroceso": 24886,
+        "Avance": 27828,
+        "Retroceso": 25186,
         "Otro": 3
       },
       "2025-10-31": {
-        "Avance": 17932,
-        "Retroceso": 18248,
+        "Avance": 18497,
+        "Retroceso": 18551,
         "Otro": 4
       },
       "2025-10-30": {
-        "Avance": 16613,
-        "Retroceso": 16327,
-        "Otro": 546
+        "Avance": 17295,
+        "Retroceso": 16567,
+        "Otro": 596
       },
       "2025-10-29": {
-        "Avance": 16474,
-        "Retroceso": 16439
+        "Avance": 17302,
+        "Retroceso": 16713
       },
       "2025-10-28": {
-        "Avance": 15939,
-        "Retroceso": 16026
+        "Avance": 16558,
+        "Retroceso": 16267
       },
       "2025-10-27": {
-        "Avance": 16723,
-        "Retroceso": 16779,
+        "Avance": 17476,
+        "Retroceso": 17028,
         "Otro": 4
       },
       "2025-10-26": {
-        "Avance": 13849,
-        "Retroceso": 13789
+        "Avance": 14417,
+        "Retroceso": 14031
       },
       "2025-10-25": {
-        "Avance": 17250,
-        "Retroceso": 16306,
+        "Avance": 18018,
+        "Retroceso": 16557,
         "Otro": 1
       },
       "2025-10-24": {
-        "Avance": 19126,
-        "Retroceso": 18712,
+        "Avance": 20010,
+        "Retroceso": 18971,
         "Otro": 1
       },
       "2025-10-23": {
-        "Avance": 17274,
-        "Retroceso": 16981,
+        "Avance": 18068,
+        "Retroceso": 17243,
         "Otro": 5
       },
       "2025-10-22": {
-        "Avance": 17001,
-        "Retroceso": 16864,
+        "Avance": 17861,
+        "Retroceso": 17135,
         "Otro": 1
       },
       "2025-10-21": {
-        "Avance": 16863,
-        "Retroceso": 16588,
+        "Avance": 17711,
+        "Retroceso": 16831,
         "Otro": 3
       },
       "2025-10-20": {
-        "Avance": 17823,
-        "Retroceso": 17563,
+        "Avance": 18638,
+        "Retroceso": 17844,
         "Otro": 1
       },
       "2025-10-19": {
-        "Avance": 15199,
-        "Retroceso": 15464
+        "Avance": 15965,
+        "Retroceso": 15697
       },
       "2025-10-18": {
-        "Avance": 18265,
-        "Retroceso": 17861,
+        "Avance": 19160,
+        "Retroceso": 18095,
         "Otro": 4
       },
       "2025-10-17": {
-        "Avance": 19103,
-        "Retroceso": 18882,
+        "Avance": 19959,
+        "Retroceso": 19150,
         "Otro": 4
       },
       "2025-10-16": {
-        "Avance": 17207,
-        "Retroceso": 16997
+        "Avance": 18119,
+        "Retroceso": 17260
       },
       "2025-10-15": {
-        "Avance": 16710,
-        "Retroceso": 16761,
+        "Avance": 17548,
+        "Retroceso": 17019,
         "Otro": 1
       },
       "2025-10-14": {
-        "Avance": 16792,
-        "Retroceso": 16709,
+        "Avance": 17647,
+        "Retroceso": 17009,
         "Otro": 1
       },
       "2025-10-13": {
-        "Avance": 16415,
-        "Retroceso": 16525,
-        "Otro": 981
+        "Avance": 17145,
+        "Retroceso": 16726,
+        "Otro": 1043
       },
       "2025-10-12": {
-        "Avance": 10911,
-        "Retroceso": 11520
+        "Avance": 11338,
+        "Retroceso": 11707
       },
       "2025-10-11": {
-        "Avance": 13716,
-        "Retroceso": 13686
+        "Avance": 14235,
+        "Retroceso": 13821
       },
       "2025-10-10": {
-        "Avance": 19230,
-        "Retroceso": 18208,
+        "Avance": 20168,
+        "Retroceso": 18438,
         "Otro": 16
       },
       "2025-10-09": {
-        "Avance": 13635,
-        "Retroceso": 13376,
+        "Avance": 14315,
+        "Retroceso": 13582,
         "Otro": 1
       },
       "2025-10-08": {
-        "Avance": 18714,
-        "Retroceso": 18706,
+        "Avance": 19632,
+        "Retroceso": 18971,
         "Otro": 1
       },
       "2025-10-07": {
-        "Avance": 17759,
-        "Retroceso": 17794
+        "Avance": 18634,
+        "Retroceso": 18054
       },
       "2025-10-06": {
-        "Avance": 18903,
-        "Retroceso": 18830,
+        "Avance": 19831,
+        "Retroceso": 19117,
         "Otro": 4
       },
       "2025-10-05": {
-        "Avance": 15350,
-        "Retroceso": 15658,
+        "Avance": 16092,
+        "Retroceso": 15911,
         "Otro": 2
       },
       "2025-10-04": {
-        "Avance": 18347,
-        "Retroceso": 17893,
+        "Avance": 19286,
+        "Retroceso": 18150,
         "Otro": 1
       },
       "2025-10-03": {
-        "Avance": 20013,
-        "Retroceso": 19671,
+        "Avance": 21045,
+        "Retroceso": 19958,
         "Otro": 3
       },
       "2025-10-02": {
-        "Avance": 18485,
-        "Retroceso": 18183,
+        "Avance": 19444,
+        "Retroceso": 18460,
         "Otro": 2
       },
       "2025-10-01": {
-        "Avance": 18654,
-        "Retroceso": 18427
+        "Avance": 19625,
+        "Retroceso": 18726
       },
       "2025-11-30": {
-        "Avance": 11593,
-        "Retroceso": 12453,
+        "Avance": 11875,
+        "Retroceso": 12655,
         "Otro": 5
       },
       "2025-11-29": {
-        "Avance": 15294,
-        "Retroceso": 15689,
+        "Avance": 15637,
+        "Retroceso": 15879,
         "Otro": 1
       },
       "2025-11-28": {
-        "Avance": 19076,
-        "Retroceso": 19810,
+        "Avance": 19460,
+        "Retroceso": 20048,
         "Otro": 2
       },
       "2025-11-27": {
-        "Avance": 13537,
-        "Retroceso": 14850,
+        "Avance": 13860,
+        "Retroceso": 15087,
         "Otro": 3
       },
       "2025-11-26": {
-        "Avance": 13126,
-        "Retroceso": 14197,
+        "Avance": 13465,
+        "Retroceso": 14445,
         "Otro": 1
       },
       "2025-11-25": {
-        "Avance": 13050,
-        "Retroceso": 14011,
-        "Otro": 571
+        "Avance": 13372,
+        "Retroceso": 14222,
+        "Otro": 578
       },
       "2025-11-24": {
-        "Avance": 13698,
-        "Retroceso": 14758,
+        "Avance": 14048,
+        "Retroceso": 15006,
         "Otro": 3
       },
       "2025-11-23": {
-        "Avance": 10326,
-        "Retroceso": 10977,
+        "Avance": 10629,
+        "Retroceso": 11164,
         "Otro": 1
       },
       "2025-11-22": {
-        "Avance": 12567,
-        "Retroceso": 13408,
+        "Avance": 12898,
+        "Retroceso": 13591,
         "Otro": 9
       },
       "2025-11-21": {
-        "Avance": 14847,
-        "Retroceso": 15978,
+        "Avance": 15223,
+        "Retroceso": 16274,
         "Otro": 2
       },
       "2025-11-20": {
-        "Avance": 13575,
-        "Retroceso": 14799,
+        "Avance": 13931,
+        "Retroceso": 15065,
         "Otro": 3
       },
       "2025-11-19": {
-        "Avance": 13154,
-        "Retroceso": 14250,
+        "Avance": 13492,
+        "Retroceso": 14495,
         "Otro": 1
       },
       "2025-11-18": {
-        "Avance": 13485,
-        "Retroceso": 14473
+        "Avance": 13837,
+        "Retroceso": 14683
       },
       "2025-11-17": {
-        "Avance": 13758,
-        "Retroceso": 14828,
+        "Avance": 14166,
+        "Retroceso": 15051,
         "Otro": 1
       },
       "2025-11-16": {
-        "Avance": 9727,
-        "Retroceso": 10581
+        "Avance": 10009,
+        "Retroceso": 10752
       },
       "2025-11-15": {
-        "Avance": 12634,
-        "Retroceso": 13293,
+        "Avance": 12978,
+        "Retroceso": 13508,
         "Otro": 2
       },
       "2025-11-14": {
-        "Avance": 15159,
-        "Retroceso": 15713,
+        "Avance": 15570,
+        "Retroceso": 15961,
         "Otro": 5
       },
       "2025-11-13": {
-        "Avance": 13511,
-        "Retroceso": 14427,
+        "Avance": 13910,
+        "Retroceso": 14665,
         "Otro": 1
       },
       "2025-11-12": {
-        "Avance": 13450,
-        "Retroceso": 14594
+        "Avance": 13810,
+        "Retroceso": 14854
       },
       "2025-11-11": {
-        "Avance": 13517,
-        "Retroceso": 14602,
+        "Avance": 13882,
+        "Retroceso": 14856,
         "Otro": 1
       },
       "2025-11-10": {
-        "Avance": 14126,
-        "Retroceso": 15179,
+        "Avance": 14522,
+        "Retroceso": 15419,
         "Otro": 8
       },
       "2025-11-09": {
-        "Avance": 10912,
-        "Retroceso": 11940,
+        "Avance": 11256,
+        "Retroceso": 12113,
         "Otro": 2
       },
       "2025-11-08": {
-        "Avance": 13108,
-        "Retroceso": 14147
+        "Avance": 13500,
+        "Retroceso": 14391
       },
       "2025-11-07": {
-        "Avance": 15596,
-        "Retroceso": 16155,
+        "Avance": 16068,
+        "Retroceso": 16402,
         "Otro": 1
       },
       "2025-11-06": {
-        "Avance": 14301,
-        "Retroceso": 15358,
+        "Avance": 14712,
+        "Retroceso": 15609,
         "Otro": 1
       },
       "2025-11-05": {
-        "Avance": 13862,
-        "Retroceso": 14902
+        "Avance": 14219,
+        "Retroceso": 15156
       },
       "2025-11-04": {
-        "Avance": 13825,
-        "Retroceso": 14968,
+        "Avance": 14241,
+        "Retroceso": 15214,
         "Otro": 3
       },
       "2025-11-03": {
-        "Avance": 14481,
-        "Retroceso": 15759,
+        "Avance": 14870,
+        "Retroceso": 16032,
         "Otro": 2
       },
       "2025-11-02": {
-        "Avance": 12142,
-        "Retroceso": 12892
+        "Avance": 12520,
+        "Retroceso": 13073
       },
       "2025-11-01": {
-        "Avance": 15062,
-        "Retroceso": 15427,
+        "Avance": 15514,
+        "Retroceso": 15682,
         "Otro": 1
       },
       "2025-12-31": {
-        "Avance": 14101,
-        "Retroceso": 14375,
+        "Avance": 14554,
+        "Retroceso": 14593,
         "Otro": 2
       },
       "2025-12-30": {
-        "Avance": 16982,
-        "Retroceso": 17734,
+        "Avance": 17448,
+        "Retroceso": 17918,
         "Otro": 3
       },
       "2025-12-29": {
-        "Avance": 14583,
-        "Retroceso": 15623,
+        "Avance": 14949,
+        "Retroceso": 15811,
         "Otro": 1
       },
       "2025-12-28": {
-        "Avance": 10032,
-        "Retroceso": 11072,
+        "Avance": 10326,
+        "Retroceso": 11230,
         "Otro": 42
       },
       "2025-12-27": {
-        "Avance": 10609,
-        "Retroceso": 11781,
+        "Avance": 10900,
+        "Retroceso": 11951,
         "Otro": 1
       },
       "2025-12-26": {
-        "Avance": 12437,
-        "Retroceso": 12795,
+        "Avance": 12821,
+        "Retroceso": 13004,
         "Otro": 4
       },
       "2025-12-25": {
-        "Avance": 7896,
-        "Retroceso": 8509
+        "Avance": 8094,
+        "Retroceso": 8634
       },
       "2025-12-24": {
-        "Avance": 11851,
-        "Retroceso": 12455
+        "Avance": 12196,
+        "Retroceso": 12625
       },
       "2025-12-23": {
-        "Avance": 14033,
-        "Retroceso": 15023,
+        "Avance": 14412,
+        "Retroceso": 15238,
         "Otro": 1
       },
       "2025-12-22": {
-        "Avance": 14428,
-        "Retroceso": 15794,
+        "Avance": 14808,
+        "Retroceso": 16033,
         "Otro": 2
       },
       "2025-12-21": {
-        "Avance": 11501,
-        "Retroceso": 11983,
+        "Avance": 11784,
+        "Retroceso": 12151,
         "Otro": 3
       },
       "2025-12-20": {
-        "Avance": 13556,
-        "Retroceso": 14412
+        "Avance": 13899,
+        "Retroceso": 14608
       },
       "2025-12-19": {
-        "Avance": 14421,
-        "Retroceso": 15870,
+        "Avance": 14817,
+        "Retroceso": 16109,
         "Otro": 1
       },
       "2025-12-18": {
-        "Avance": 13434,
-        "Retroceso": 15185
+        "Avance": 13777,
+        "Retroceso": 15378
       },
       "2025-12-17": {
-        "Avance": 11949,
-        "Retroceso": 13603,
+        "Avance": 12294,
+        "Retroceso": 13793,
         "Otro": 2
       },
       "2025-12-16": {
-        "Avance": 12538,
-        "Retroceso": 13752,
+        "Avance": 12862,
+        "Retroceso": 13978,
         "Otro": 1
       },
       "2025-12-15": {
-        "Avance": 12137,
-        "Retroceso": 13514,
+        "Avance": 12465,
+        "Retroceso": 13669,
         "Otro": 8
       },
       "2025-12-14": {
-        "Avance": 7512,
-        "Retroceso": 8385,
+        "Avance": 7714,
+        "Retroceso": 8485,
         "Otro": 1
       },
       "2025-12-13": {
-        "Avance": 13795,
-        "Retroceso": 14806
+        "Avance": 14150,
+        "Retroceso": 15025
       },
       "2025-12-12": {
-        "Avance": 14936,
-        "Retroceso": 16001,
+        "Avance": 15342,
+        "Retroceso": 16242,
         "Otro": 2
       },
       "2025-12-11": {
-        "Avance": 13453,
-        "Retroceso": 14544,
+        "Avance": 13777,
+        "Retroceso": 14757,
         "Otro": 4
       },
       "2025-12-10": {
-        "Avance": 13675,
-        "Retroceso": 14667,
+        "Avance": 13973,
+        "Retroceso": 14874,
         "Otro": 4
       },
       "2025-12-09": {
-        "Avance": 14291,
-        "Retroceso": 15552
+        "Avance": 14705,
+        "Retroceso": 15797
       },
       "2025-12-08": {
-        "Avance": 16338,
-        "Retroceso": 17219
+        "Avance": 16774,
+        "Retroceso": 17369
       },
       "2025-12-07": {
-        "Avance": 22112,
-        "Retroceso": 22648,
+        "Avance": 22509,
+        "Retroceso": 22809,
         "Otro": 5
       },
       "2025-12-06": {
-        "Avance": 21270,
-        "Retroceso": 21602,
+        "Avance": 21751,
+        "Retroceso": 21814,
         "Otro": 13
       },
       "2025-12-05": {
-        "Avance": 17034,
-        "Retroceso": 17362
+        "Avance": 17437,
+        "Retroceso": 17584
       },
       "2025-12-04": {
-        "Avance": 14389,
-        "Retroceso": 15486,
+        "Avance": 14791,
+        "Retroceso": 15709,
         "Otro": 1
       },
       "2025-12-03": {
-        "Avance": 13951,
-        "Retroceso": 15186,
+        "Avance": 14267,
+        "Retroceso": 15424,
         "Otro": 2
       },
       "2025-12-02": {
-        "Avance": 13612,
-        "Retroceso": 14645,
+        "Avance": 13963,
+        "Retroceso": 14903,
         "Otro": 10
       },
       "2025-12-01": {
-        "Avance": 13999,
-        "Retroceso": 15237,
+        "Avance": 14370,
+        "Retroceso": 15471,
         "Otro": 1
       },
       "2026-01-31": {
-        "Avance": 11090,
-        "Retroceso": 12094
+        "Avance": 11468,
+        "Retroceso": 12322
       },
       "2026-01-30": {
-        "Avance": 14106,
-        "Retroceso": 15309,
+        "Avance": 14547,
+        "Retroceso": 15539,
         "Otro": 7
       },
       "2026-01-29": {
-        "Avance": 13220,
-        "Retroceso": 14467,
+        "Avance": 13603,
+        "Retroceso": 14674,
         "Otro": 32
       },
       "2026-01-28": {
-        "Avance": 12501,
-        "Retroceso": 13850
+        "Avance": 12891,
+        "Retroceso": 14078
       },
       "2026-01-27": {
-        "Avance": 12656,
-        "Retroceso": 14227,
+        "Avance": 13014,
+        "Retroceso": 14447,
         "Otro": 1
       },
       "2026-01-26": {
-        "Avance": 13309,
-        "Retroceso": 14762
+        "Avance": 13728,
+        "Retroceso": 14993
       },
       "2026-01-25": {
-        "Avance": 8963,
-        "Retroceso": 9615,
+        "Avance": 9271,
+        "Retroceso": 9774,
         "Otro": 2
       },
       "2026-01-24": {
-        "Avance": 11405,
-        "Retroceso": 12242,
+        "Avance": 11749,
+        "Retroceso": 12459,
         "Otro": 4
       },
       "2026-01-23": {
-        "Avance": 14067,
-        "Retroceso": 14996,
+        "Avance": 14543,
+        "Retroceso": 15236,
         "Otro": 3
       },
       "2026-01-22": {
-        "Avance": 13523,
-        "Retroceso": 14389,
+        "Avance": 13989,
+        "Retroceso": 14600,
         "Otro": 2
       },
       "2026-01-21": {
-        "Avance": 12618,
-        "Retroceso": 13897,
+        "Avance": 12973,
+        "Retroceso": 14085,
         "Otro": 1
       },
       "2026-01-20": {
-        "Avance": 11251,
-        "Retroceso": 12565,
+        "Avance": 11619,
+        "Retroceso": 12687,
         "Otro": 4
       },
       "2026-01-19": {
-        "Avance": 12292,
-        "Retroceso": 13993,
+        "Avance": 12637,
+        "Retroceso": 14227,
         "Otro": 3
       },
       "2026-01-18": {
-        "Avance": 7841,
-        "Retroceso": 8526
+        "Avance": 8092,
+        "Retroceso": 8698
       },
       "2026-01-17": {
-        "Avance": 9117,
-        "Retroceso": 10279,
+        "Avance": 9405,
+        "Retroceso": 10473,
         "Otro": 1
       },
       "2026-01-16": {
-        "Avance": 12941,
-        "Retroceso": 14431,
+        "Avance": 13304,
+        "Retroceso": 14630,
         "Otro": 2
       },
       "2026-01-15": {
-        "Avance": 12700,
-        "Retroceso": 14130
+        "Avance": 13084,
+        "Retroceso": 14330
       },
       "2026-01-14": {
-        "Avance": 12269,
-        "Retroceso": 13728,
+        "Avance": 12667,
+        "Retroceso": 13947,
         "Otro": 1
       },
       "2026-01-13": {
-        "Avance": 12497,
-        "Retroceso": 14083,
+        "Avance": 12867,
+        "Retroceso": 14295,
         "Otro": 1
       },
       "2026-01-12": {
-        "Avance": 12825,
-        "Retroceso": 14355,
+        "Avance": 13196,
+        "Retroceso": 14583,
         "Otro": 1
       },
       "2026-01-11": {
-        "Avance": 8324,
-        "Retroceso": 9039,
+        "Avance": 8602,
+        "Retroceso": 9214,
         "Otro": 1
       },
       "2026-01-10": {
-        "Avance": 10858,
-        "Retroceso": 11850
+        "Avance": 11222,
+        "Retroceso": 12043
       },
       "2026-01-09": {
-        "Avance": 13466,
-        "Retroceso": 14859,
+        "Avance": 13854,
+        "Retroceso": 15124,
         "Otro": 1
       },
       "2026-01-08": {
-        "Avance": 12645,
-        "Retroceso": 14024,
+        "Avance": 13010,
+        "Retroceso": 14243,
         "Otro": 2
       },
       "2026-01-07": {
-        "Avance": 13045,
-        "Retroceso": 14632,
+        "Avance": 13418,
+        "Retroceso": 14857,
         "Otro": 1
       },
       "2026-01-06": {
-        "Avance": 8122,
-        "Retroceso": 8879
+        "Avance": 8404,
+        "Retroceso": 9056
       },
       "2026-01-05": {
-        "Avance": 12204,
-        "Retroceso": 13026,
+        "Avance": 12555,
+        "Retroceso": 13232,
         "Otro": 1
       },
       "2026-01-04": {
-        "Avance": 8693,
-        "Retroceso": 9380,
+        "Avance": 8942,
+        "Retroceso": 9503,
         "Otro": 1
       },
       "2026-01-03": {
-        "Avance": 13875,
-        "Retroceso": 14464,
+        "Avance": 14247,
+        "Retroceso": 14634,
         "Otro": 2
       },
       "2026-01-02": {
-        "Avance": 15993,
-        "Retroceso": 16737,
+        "Avance": 16444,
+        "Retroceso": 16921,
         "Otro": 1
       },
       "2026-01-01": {
-        "Avance": 11749,
-        "Retroceso": 12522,
+        "Avance": 12062,
+        "Retroceso": 12691,
         "Otro": 1
       },
       "2026-02-28": {
-        "Avance": 10853,
-        "Retroceso": 11046,
+        "Avance": 11076,
+        "Retroceso": 11186,
         "Otro": 1
       },
       "2026-02-27": {
-        "Avance": 12782,
-        "Retroceso": 13224,
+        "Avance": 13074,
+        "Retroceso": 13386,
         "Otro": 3
       },
       "2026-02-26": {
-        "Avance": 11761,
-        "Retroceso": 11902,
+        "Avance": 12058,
+        "Retroceso": 12015,
         "Otro": 4
       },
       "2026-02-25": {
-        "Avance": 11314,
-        "Retroceso": 11565,
+        "Avance": 11594,
+        "Retroceso": 11712,
         "Otro": 1
       },
       "2026-02-24": {
-        "Avance": 11370,
-        "Retroceso": 11822
+        "Avance": 11687,
+        "Retroceso": 11963
       },
       "2026-02-23": {
-        "Avance": 11858,
-        "Retroceso": 12438,
+        "Avance": 12150,
+        "Retroceso": 12586,
         "Otro": 3
       },
       "2026-02-22": {
-        "Avance": 9315,
-        "Retroceso": 9369,
+        "Avance": 9564,
+        "Retroceso": 9449,
         "Otro": 2
       },
       "2026-02-21": {
-        "Avance": 11368,
-        "Retroceso": 11575,
+        "Avance": 11655,
+        "Retroceso": 11687,
         "Otro": 1
       },
       "2026-02-20": {
-        "Avance": 12640,
-        "Retroceso": 13008,
+        "Avance": 12965,
+        "Retroceso": 13176,
         "Otro": 2
       },
       "2026-02-19": {
-        "Avance": 11482,
-        "Retroceso": 11882,
+        "Avance": 11741,
+        "Retroceso": 12018,
         "Otro": 2
       },
       "2026-02-18": {
-        "Avance": 11387,
-        "Retroceso": 11666
+        "Avance": 11674,
+        "Retroceso": 11805
       },
       "2026-02-17": {
-        "Avance": 11795,
-        "Retroceso": 12046,
+        "Avance": 12126,
+        "Retroceso": 12177,
         "Otro": 1
       },
       "2026-02-16": {
-        "Avance": 13021,
-        "Retroceso": 13158
+        "Avance": 13433,
+        "Retroceso": 13317
       },
       "2026-02-15": {
-        "Avance": 11246,
-        "Retroceso": 11992
+        "Avance": 11652,
+        "Retroceso": 12210
       },
       "2026-02-14": {
-        "Avance": 7784,
-        "Retroceso": 8230,
+        "Avance": 8053,
+        "Retroceso": 8365,
         "Otro": 1
       },
       "2026-02-13": {
-        "Avance": 15311,
-        "Retroceso": 16319,
+        "Avance": 15814,
+        "Retroceso": 16614,
         "Otro": 2
       },
       "2026-02-12": {
-        "Avance": 14079,
-        "Retroceso": 15533,
+        "Avance": 14544,
+        "Retroceso": 15802,
         "Otro": 1
       },
       "2026-02-11": {
-        "Avance": 13284,
-        "Retroceso": 14880
+        "Avance": 13671,
+        "Retroceso": 15156
       },
       "2026-02-10": {
-        "Avance": 12669,
-        "Retroceso": 14643
+        "Avance": 12972,
+        "Retroceso": 14840
       },
       "2026-02-09": {
-        "Avance": 12826,
-        "Retroceso": 14850,
+        "Avance": 13114,
+        "Retroceso": 15042,
         "Otro": 3
       },
       "2026-02-08": {
-        "Avance": 9006,
-        "Retroceso": 10345,
+        "Avance": 9253,
+        "Retroceso": 10532,
         "Otro": 2
       },
       "2026-02-07": {
-        "Avance": 11629,
-        "Retroceso": 13485,
+        "Avance": 11920,
+        "Retroceso": 13743,
         "Otro": 1
       },
       "2026-02-06": {
-        "Avance": 13749,
-        "Retroceso": 15974,
+        "Avance": 14099,
+        "Retroceso": 16228,
         "Otro": 1
       },
       "2026-02-05": {
-        "Avance": 12752,
-        "Retroceso": 14988
+        "Avance": 13067,
+        "Retroceso": 15219
       },
       "2026-02-04": {
-        "Avance": 12537,
-        "Retroceso": 14523
+        "Avance": 12908,
+        "Retroceso": 14794
       },
       "2026-02-03": {
-        "Avance": 12950,
-        "Retroceso": 14512
+        "Avance": 13351,
+        "Retroceso": 14766
       },
       "2026-02-02": {
-        "Avance": 13380,
-        "Retroceso": 14819
+        "Avance": 13809,
+        "Retroceso": 15057
       },
       "2026-02-01": {
-        "Avance": 9195,
-        "Retroceso": 9770,
+        "Avance": 9520,
+        "Retroceso": 9956,
         "Otro": 1
       },
       "2026-03-31": {
-        "Avance": 21125,
-        "Retroceso": 23146,
+        "Avance": 21963,
+        "Retroceso": 23467,
         "Otro": 1
       },
       "2026-03-30": {
-        "Avance": 21131,
-        "Retroceso": 23266,
+        "Avance": 21941,
+        "Retroceso": 23642,
         "Otro": 1
       },
       "2026-03-29": {
-        "Avance": 14989,
-        "Retroceso": 16167
+        "Avance": 15611,
+        "Retroceso": 16470
       },
       "2026-03-28": {
-        "Avance": 18326,
-        "Retroceso": 19614,
+        "Avance": 18986,
+        "Retroceso": 19934,
         "Otro": 1
       },
       "2026-03-27": {
-        "Avance": 19050,
-        "Retroceso": 21175,
+        "Avance": 19746,
+        "Retroceso": 21552,
         "Otro": 3
       },
       "2026-03-26": {
-        "Avance": 16274,
-        "Retroceso": 18781,
+        "Avance": 16868,
+        "Retroceso": 19127,
         "Otro": 4
       },
       "2026-03-25": {
-        "Avance": 7976,
-        "Retroceso": 9424,
-        "Otro": 14528
+        "Avance": 8249,
+        "Retroceso": 9591,
+        "Otro": 15936
       },
       "2026-03-24": {
-        "Avance": 15595,
-        "Retroceso": 17971,
-        "Otro": 69
+        "Avance": 16158,
+        "Retroceso": 18304,
+        "Otro": 71
       },
       "2026-03-23": {
-        "Avance": 15942,
-        "Retroceso": 18362,
+        "Avance": 16477,
+        "Retroceso": 18678,
         "Otro": 1
       },
       "2026-03-22": {
-        "Avance": 12378,
-        "Retroceso": 14084,
+        "Avance": 12865,
+        "Retroceso": 14359,
         "Otro": 1
       },
       "2026-03-21": {
-        "Avance": 15217,
-        "Retroceso": 17181
+        "Avance": 15739,
+        "Retroceso": 17492
       },
       "2026-03-20": {
-        "Avance": 16723,
-        "Retroceso": 18728,
+        "Avance": 17321,
+        "Retroceso": 19014,
         "Otro": 1
       },
       "2026-03-19": {
-        "Avance": 12371,
-        "Retroceso": 14007,
+        "Avance": 12828,
+        "Retroceso": 14262,
         "Otro": 2
       },
       "2026-03-18": {
-        "Avance": 16134,
-        "Retroceso": 18029
+        "Avance": 16700,
+        "Retroceso": 18389
       },
       "2026-03-17": {
-        "Avance": 15609,
-        "Retroceso": 17728,
+        "Avance": 16182,
+        "Retroceso": 18047,
         "Otro": 2
       },
       "2026-03-16": {
-        "Avance": 16066,
-        "Retroceso": 18252,
+        "Avance": 16602,
+        "Retroceso": 18584,
         "Otro": 1
       },
       "2026-03-15": {
-        "Avance": 11787,
-        "Retroceso": 13350,
+        "Avance": 12209,
+        "Retroceso": 13593,
         "Otro": 2
       },
       "2026-03-14": {
-        "Avance": 14036,
-        "Retroceso": 16038
+        "Avance": 14540,
+        "Retroceso": 16348
       },
       "2026-03-13": {
-        "Avance": 16442,
-        "Retroceso": 18473,
+        "Avance": 16982,
+        "Retroceso": 18801,
         "Otro": 11
       },
       "2026-03-12": {
-        "Avance": 14862,
-        "Retroceso": 17022,
+        "Avance": 15390,
+        "Retroceso": 17339,
         "Otro": 3
       },
       "2026-03-11": {
-        "Avance": 14351,
-        "Retroceso": 16369,
+        "Avance": 14811,
+        "Retroceso": 16675,
         "Otro": 3
       },
       "2026-03-10": {
-        "Avance": 14431,
-        "Retroceso": 16160
+        "Avance": 14849,
+        "Retroceso": 16449
       },
       "2026-03-09": {
-        "Avance": 14648,
-        "Retroceso": 16838,
+        "Avance": 15098,
+        "Retroceso": 17171,
         "Otro": 2
       },
       "2026-03-08": {
-        "Avance": 10251,
-        "Retroceso": 11879
+        "Avance": 10599,
+        "Retroceso": 12104
       },
       "2026-03-07": {
-        "Avance": 11053,
-        "Retroceso": 12429,
+        "Avance": 11416,
+        "Retroceso": 12643,
         "Otro": 1
       },
       "2026-03-06": {
-        "Avance": 14650,
-        "Retroceso": 16963,
+        "Avance": 15116,
+        "Retroceso": 17280,
         "Otro": 3
       },
       "2026-03-05": {
-        "Avance": 13892,
-        "Retroceso": 15746
+        "Avance": 14210,
+        "Retroceso": 15957
       },
       "2026-03-04": {
-        "Avance": 12061,
-        "Retroceso": 14201,
-        "Otro": 2948
+        "Avance": 12418,
+        "Retroceso": 14435,
+        "Otro": 3075
       },
       "2026-03-03": {
-        "Avance": 5732,
-        "Retroceso": 6879,
-        "Otro": 15247
+        "Avance": 5871,
+        "Retroceso": 6985,
+        "Otro": 16513
       },
       "2026-03-02": {
-        "Avance": 8990,
-        "Retroceso": 9514,
+        "Avance": 9202,
+        "Retroceso": 9622,
         "Otro": 1
       },
       "2026-03-01": {
-        "Avance": 7193,
-        "Retroceso": 6839
+        "Avance": 7443,
+        "Retroceso": 6899
       },
       "2026-04-30": {
-        "Avance": 21234,
-        "Retroceso": 22281,
+        "Avance": 22018,
+        "Retroceso": 22670,
         "Otro": 10
       },
       "2026-04-29": {
-        "Avance": 17711,
-        "Retroceso": 19675,
+        "Avance": 18316,
+        "Retroceso": 20063,
         "Otro": 1
       },
       "2026-04-28": {
-        "Avance": 16790,
-        "Retroceso": 18445
+        "Avance": 17384,
+        "Retroceso": 18764
       },
       "2026-04-27": {
-        "Avance": 17381,
-        "Retroceso": 19286,
+        "Avance": 17974,
+        "Retroceso": 19628,
         "Otro": 1
       },
       "2026-04-26": {
-        "Avance": 14752,
-        "Retroceso": 17608,
+        "Avance": 15277,
+        "Retroceso": 17881,
         "Otro": 1
       },
       "2026-04-25": {
-        "Avance": 18192,
-        "Retroceso": 19781,
+        "Avance": 18773,
+        "Retroceso": 20035,
         "Otro": 3
       },
       "2026-04-24": {
-        "Avance": 20805,
-        "Retroceso": 22532,
+        "Avance": 21511,
+        "Retroceso": 22900,
         "Otro": 1
       },
       "2026-04-23": {
-        "Avance": 18891,
-        "Retroceso": 20673
+        "Avance": 19599,
+        "Retroceso": 21053
       },
       "2026-04-22": {
-        "Avance": 16890,
-        "Retroceso": 18660,
+        "Avance": 17417,
+        "Retroceso": 18982,
         "Otro": 1
       },
       "2026-04-21": {
-        "Avance": 16247,
-        "Retroceso": 18025,
+        "Avance": 16775,
+        "Retroceso": 18370,
         "Otro": 4
       },
       "2026-04-20": {
-        "Avance": 16957,
-        "Retroceso": 18614,
+        "Avance": 17517,
+        "Retroceso": 18954,
         "Otro": 1
       },
       "2026-04-19": {
-        "Avance": 14234,
-        "Retroceso": 15634,
+        "Avance": 14681,
+        "Retroceso": 15895,
         "Otro": 1
       },
       "2026-04-18": {
-        "Avance": 16536,
-        "Retroceso": 17810,
+        "Avance": 17097,
+        "Retroceso": 18085,
         "Otro": 3
       },
       "2026-04-17": {
-        "Avance": 17841,
-        "Retroceso": 19710,
+        "Avance": 18423,
+        "Retroceso": 20031,
         "Otro": 5
       },
       "2026-04-16": {
-        "Avance": 16767,
-        "Retroceso": 18837
+        "Avance": 17362,
+        "Retroceso": 19160
       },
       "2026-04-15": {
-        "Avance": 16220,
-        "Retroceso": 18143
+        "Avance": 16760,
+        "Retroceso": 18464
       },
       "2026-04-14": {
-        "Avance": 16490,
-        "Retroceso": 18837,
+        "Avance": 17062,
+        "Retroceso": 19164,
         "Otro": 2
       },
       "2026-04-13": {
-        "Avance": 15825,
-        "Retroceso": 17325,
+        "Avance": 16443,
+        "Retroceso": 17628,
         "Otro": 1
       },
       "2026-04-12": {
-        "Avance": 12740,
-        "Retroceso": 13712
+        "Avance": 13273,
+        "Retroceso": 13987
       },
       "2026-04-11": {
-        "Avance": 17936,
-        "Retroceso": 19010
+        "Avance": 18619,
+        "Retroceso": 19346
       },
       "2026-04-10": {
-        "Avance": 18909,
-        "Retroceso": 20041,
+        "Avance": 19583,
+        "Retroceso": 20344,
         "Otro": 4
       },
       "2026-04-09": {
-        "Avance": 17895,
-        "Retroceso": 19320
+        "Avance": 18583,
+        "Retroceso": 19610
       },
       "2026-04-08": {
-        "Avance": 17895,
-        "Retroceso": 19332,
+        "Avance": 18587,
+        "Retroceso": 19624,
         "Otro": 3
       },
       "2026-04-07": {
-        "Avance": 18674,
-        "Retroceso": 20043,
-        "Otro": 1758
+        "Avance": 19431,
+        "Retroceso": 20348,
+        "Otro": 1847
       },
       "2026-04-06": {
-        "Avance": 21365,
-        "Retroceso": 23102,
+        "Avance": 22166,
+        "Retroceso": 23399,
         "Otro": 2
       },
       "2026-04-05": {
-        "Avance": 26097,
-        "Retroceso": 28018,
+        "Avance": 26995,
+        "Retroceso": 28231,
         "Otro": 4
       },
       "2026-04-04": {
-        "Avance": 28769,
-        "Retroceso": 30281,
+        "Avance": 29818,
+        "Retroceso": 30537,
         "Otro": 4
       },
       "2026-04-03": {
-        "Avance": 26869,
-        "Retroceso": 27962,
+        "Avance": 27780,
+        "Retroceso": 28206,
         "Otro": 5
       },
       "2026-04-02": {
-        "Avance": 27603,
-        "Retroceso": 28481,
+        "Avance": 28664,
+        "Retroceso": 28808,
         "Otro": 243
       },
       "2026-04-01": {
-        "Avance": 24292,
-        "Retroceso": 26018,
+        "Avance": 25244,
+        "Retroceso": 26386,
         "Otro": 1
       },
       "2026-05-31": {
-        "Avance": 17966,
-        "Retroceso": 20973,
+        "Avance": 18622,
+        "Retroceso": 21211,
         "Otro": 630
       },
       "2026-05-30": {
-        "Avance": 19945,
-        "Retroceso": 22063,
+        "Avance": 20656,
+        "Retroceso": 22333,
         "Otro": 137
       },
       "2026-05-29": {
-        "Avance": 22150,
-        "Retroceso": 24049,
+        "Avance": 23035,
+        "Retroceso": 24421,
         "Otro": 339
       },
       "2026-05-28": {
-        "Avance": 19446,
-        "Retroceso": 22184,
+        "Avance": 20160,
+        "Retroceso": 22511,
         "Otro": 566
       },
       "2026-05-27": {
-        "Avance": 17857,
-        "Retroceso": 19973,
+        "Avance": 18522,
+        "Retroceso": 20315,
         "Otro": 123
       },
       "2026-05-26": {
-        "Avance": 18421,
-        "Retroceso": 20270,
+        "Avance": 19113,
+        "Retroceso": 20571,
         "Otro": 283
       },
       "2026-05-25": {
-        "Avance": 20130,
-        "Retroceso": 22400,
+        "Avance": 20863,
+        "Retroceso": 22741,
         "Otro": 235
       },
       "2026-05-24": {
-        "Avance": 18727,
-        "Retroceso": 21262,
+        "Avance": 19414,
+        "Retroceso": 21533,
         "Otro": 425
       },
       "2026-05-23": {
-        "Avance": 20278,
-        "Retroceso": 22381,
+        "Avance": 21015,
+        "Retroceso": 22681,
         "Otro": 1243
       },
       "2026-05-22": {
-        "Avance": 22166,
-        "Retroceso": 23188,
+        "Avance": 22961,
+        "Retroceso": 23546,
         "Otro": 933
       },
       "2026-05-21": {
-        "Avance": 18216,
-        "Retroceso": 19693,
+        "Avance": 18905,
+        "Retroceso": 20054,
         "Otro": 182
       },
       "2026-05-20": {
-        "Avance": 17811,
-        "Retroceso": 19221,
+        "Avance": 18485,
+        "Retroceso": 19556,
         "Otro": 174
       },
       "2026-05-19": {
-        "Avance": 17664,
-        "Retroceso": 19665,
+        "Avance": 18343,
+        "Retroceso": 19994,
         "Otro": 943
       },
       "2026-05-18": {
-        "Avance": 18501,
-        "Retroceso": 20582,
+        "Avance": 19170,
+        "Retroceso": 20938,
         "Otro": 192
       },
       "2026-05-17": {
-        "Avance": 15750,
-        "Retroceso": 19067,
+        "Avance": 16355,
+        "Retroceso": 19306,
         "Otro": 1456
       },
       "2026-05-16": {
-        "Avance": 19010,
-        "Retroceso": 21889,
+        "Avance": 19698,
+        "Retroceso": 22128,
         "Otro": 1863
       },
       "2026-05-15": {
-        "Avance": 20991,
-        "Retroceso": 23715,
+        "Avance": 21794,
+        "Retroceso": 24027,
         "Otro": 393
       },
       "2026-05-14": {
-        "Avance": 19087,
-        "Retroceso": 21718,
+        "Avance": 19829,
+        "Retroceso": 22073,
         "Otro": 401
       },
       "2026-05-13": {
-        "Avance": 17401,
-        "Retroceso": 21274,
+        "Avance": 18051,
+        "Retroceso": 21608,
         "Otro": 576
       },
       "2026-05-12": {
-        "Avance": 16908,
-        "Retroceso": 18538,
+        "Avance": 17525,
+        "Retroceso": 18851,
         "Otro": 190
       },
       "2026-05-11": {
-        "Avance": 18476,
-        "Retroceso": 20095,
+        "Avance": 19093,
+        "Retroceso": 20414,
         "Otro": 431
       },
       "2026-05-10": {
-        "Avance": 16395,
-        "Retroceso": 20038,
+        "Avance": 16974,
+        "Retroceso": 20318,
         "Otro": 645
       },
       "2026-05-09": {
-        "Avance": 17016,
-        "Retroceso": 19113,
+        "Avance": 17628,
+        "Retroceso": 19445,
         "Otro": 279
       },
       "2026-05-08": {
-        "Avance": 19029,
-        "Retroceso": 21239,
+        "Avance": 19759,
+        "Retroceso": 21602,
         "Otro": 201
       },
       "2026-05-07": {
-        "Avance": 17044,
-        "Retroceso": 18977,
+        "Avance": 17678,
+        "Retroceso": 19300,
         "Otro": 1
       },
       "2026-05-06": {
-        "Avance": 16694,
-        "Retroceso": 18567,
+        "Avance": 17351,
+        "Retroceso": 18945,
         "Otro": 3
       },
       "2026-05-05": {
-        "Avance": 16575,
-        "Retroceso": 18267,
+        "Avance": 17187,
+        "Retroceso": 18639,
         "Otro": 1
       },
       "2026-05-04": {
-        "Avance": 17326,
-        "Retroceso": 19354
+        "Avance": 17965,
+        "Retroceso": 19715
       },
       "2026-05-03": {
-        "Avance": 17789,
-        "Retroceso": 19892
+        "Avance": 18400,
+        "Retroceso": 20164
       },
       "2026-05-02": {
-        "Avance": 22128,
-        "Retroceso": 23982,
+        "Avance": 22823,
+        "Retroceso": 24287,
         "Otro": 3
       },
       "2026-05-01": {
-        "Avance": 20325,
-        "Retroceso": 21416,
+        "Avance": 20944,
+        "Retroceso": 21677,
         "Otro": 1
       },
       "2026-06-30": {
-        "Avance": 22520,
-        "Retroceso": 23836,
+        "Avance": 23475,
+        "Retroceso": 24117,
         "Otro": 232
       },
       "2026-06-29": {
-        "Avance": 23359,
-        "Retroceso": 24855,
+        "Avance": 24239,
+        "Retroceso": 25169,
         "Otro": 92
       },
       "2026-06-28": {
-        "Avance": 22807,
-        "Retroceso": 24832,
+        "Avance": 23683,
+        "Retroceso": 25116,
         "Otro": 103
       },
       "2026-06-27": {
-        "Avance": 24697,
-        "Retroceso": 26629,
+        "Avance": 25609,
+        "Retroceso": 26869,
         "Otro": 149
       },
       "2026-06-26": {
-        "Avance": 25602,
-        "Retroceso": 26783,
+        "Avance": 26580,
+        "Retroceso": 27054,
         "Otro": 40
       },
       "2026-06-25": {
-        "Avance": 24250,
-        "Retroceso": 26023,
+        "Avance": 25218,
+        "Retroceso": 26350,
         "Otro": 55
       },
       "2026-06-24": {
-        "Avance": 20686,
-        "Retroceso": 22290,
+        "Avance": 21503,
+        "Retroceso": 22536,
         "Otro": 412
       },
       "2026-06-23": {
-        "Avance": 22575,
-        "Retroceso": 24144,
+        "Avance": 23387,
+        "Retroceso": 24443,
         "Otro": 218
       },
       "2026-06-22": {
-        "Avance": 23691,
-        "Retroceso": 26415,
+        "Avance": 24586,
+        "Retroceso": 26705,
         "Otro": 275
       },
       "2026-06-21": {
-        "Avance": 19850,
-        "Retroceso": 22222,
+        "Avance": 20552,
+        "Retroceso": 22487,
         "Otro": 338
       },
       "2026-06-20": {
-        "Avance": 24439,
-        "Retroceso": 27327,
+        "Avance": 25323,
+        "Retroceso": 27576,
         "Otro": 684
       },
       "2026-06-19": {
-        "Avance": 24318,
-        "Retroceso": 27065,
+        "Avance": 25230,
+        "Retroceso": 27402,
         "Otro": 330
       },
       "2026-06-18": {
-        "Avance": 21154,
-        "Retroceso": 23485,
+        "Avance": 21962,
+        "Retroceso": 23842,
         "Otro": 200
       },
       "2026-06-17": {
-        "Avance": 19944,
-        "Retroceso": 22024,
+        "Avance": 20662,
+        "Retroceso": 22311,
         "Otro": 137
       },
       "2026-06-16": {
-        "Avance": 19647,
-        "Retroceso": 21254,
+        "Avance": 20386,
+        "Retroceso": 21575,
         "Otro": 152
       },
       "2026-06-15": {
-        "Avance": 20805,
-        "Retroceso": 23173,
+        "Avance": 21576,
+        "Retroceso": 23508,
         "Otro": 889
       },
       "2026-06-14": {
-        "Avance": 20255,
-        "Retroceso": 23631,
+        "Avance": 21087,
+        "Retroceso": 23873,
         "Otro": 569
       },
       "2026-06-13": {
-        "Avance": 23490,
-        "Retroceso": 26165,
+        "Avance": 24336,
+        "Retroceso": 26449,
         "Otro": 708
       },
       "2026-06-12": {
-        "Avance": 24251,
-        "Retroceso": 27887,
+        "Avance": 25039,
+        "Retroceso": 28207,
         "Otro": 2006
       },
       "2026-06-11": {
-        "Avance": 21007,
-        "Retroceso": 25686,
+        "Avance": 21837,
+        "Retroceso": 26019,
         "Otro": 1418
       },
       "2026-06-10": {
-        "Avance": 19393,
-        "Retroceso": 21637,
+        "Avance": 20138,
+        "Retroceso": 21962,
         "Otro": 130
       },
       "2026-06-09": {
-        "Avance": 20765,
-        "Retroceso": 23020,
+        "Avance": 21521,
+        "Retroceso": 23339,
         "Otro": 342
       },
       "2026-06-08": {
-        "Avance": 22119,
-        "Retroceso": 23989,
+        "Avance": 22890,
+        "Retroceso": 24282,
         "Otro": 456
       },
       "2026-06-07": {
-        "Avance": 19248,
-        "Retroceso": 22093,
+        "Avance": 19958,
+        "Retroceso": 22345,
         "Otro": 117
       },
       "2026-06-06": {
-        "Avance": 22527,
-        "Retroceso": 24249,
+        "Avance": 23380,
+        "Retroceso": 24531,
         "Otro": 392
       },
       "2026-06-05": {
-        "Avance": 23951,
-        "Retroceso": 26377,
+        "Avance": 24750,
+        "Retroceso": 26746,
         "Otro": 682
       },
       "2026-06-04": {
-        "Avance": 19429,
-        "Retroceso": 21325,
+        "Avance": 20150,
+        "Retroceso": 21649,
         "Otro": 301
       },
       "2026-06-03": {
-        "Avance": 19358,
-        "Retroceso": 22326,
+        "Avance": 20070,
+        "Retroceso": 22666,
         "Otro": 619
       },
       "2026-06-02": {
-        "Avance": 17986,
-        "Retroceso": 19776,
+        "Avance": 18628,
+        "Retroceso": 20103,
         "Otro": 696
       },
       "2026-06-01": {
-        "Avance": 19008,
-        "Retroceso": 22202,
+        "Avance": 19578,
+        "Retroceso": 22564,
         "Otro": 1015
       }
     },

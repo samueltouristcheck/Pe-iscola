@@ -895,6 +895,34 @@ const DASHBOARD_MAPA = [
   '- redes-fuentes: estado de las conexiones/integraciones.'
 ].join('\n');
 
+// Snapshot de cifras clave (cacheado 10 min) para que el asistente pueda dar números reales.
+let _snapCache = { at: 0, text: '' };
+function datosClaveSnapshot() {
+    if (_snapCache.text && (Date.now() - _snapCache.at) < 10 * 60 * 1000) return _snapCache.text;
+    const read = (p) => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, p), 'utf8')); } catch (e) { return null; } };
+    const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const lab = (ym) => { if (!ym) return ''; const [a, m] = String(ym).split('-'); return (MES[parseInt(m, 10) - 1] || '') + ' ' + a; };
+    const nf = (n) => (n == null ? '—' : Number(n).toLocaleString('es-ES'));
+    const out = [];
+    const t = read('data/TURISMO/todos.json');
+    if (t && t.resumen) {
+        const h = t.resumen.hoteles || {}, c = t.resumen.campings || {};
+        if (h.ultimoMes) out.push('Turismo · hoteles (último mes con dato, ' + lab(h.ultimoMes) + '): ' + nf(h.viajerosUltimo) + ' viajeros, ' + nf(h.pernoctacionesUltimo) + ' pernoctaciones, ocupación ' + (h.ultimoGradoOcupacion != null ? String(h.ultimoGradoOcupacion).replace('.', ',') + '%' : '—') + ', ADR ' + (h.ultimoAdr != null ? String(h.ultimoAdr).replace('.', ',') + ' €' : '—') + '.');
+        if (c.ultimoMes) out.push('Turismo · campings (' + lab(c.ultimoMes) + '): ' + nf(c.viajerosUltimo) + ' viajeros, ' + nf(c.pernoctacionesUltimo) + ' pernoctaciones.');
+    }
+    const cam = read('data/camaras/todos.json');
+    if (cam && cam.lpr) {
+        const esm = cam.lpr.entradasSalidasPorMes || {}; const ks = Object.keys(esm).sort(); const last = ks[ks.length - 1];
+        if (last) out.push('Cámaras LPR · tráfico de vehículos (' + lab(last) + '): ' + nf(esm[last].Avance) + ' entradas y ' + nf(esm[last].Retroceso) + ' salidas (dato deduplicado). Total histórico de lecturas de matrícula: ' + nf(cam.lpr.total) + '.');
+    }
+    const pk = read('data/camaras/parking.json');
+    if (pk && pk.total && pk.total.estancia) { const e = pk.total.estancia; out.push('Parking Peñismar · estancia media ' + (e.media_min != null ? Math.round(e.media_min) + ' min' : '—') + ', ' + (e.pct_larga_2h != null ? e.pct_larga_2h + '% se quedan más de 2 h' : '') + '.'); }
+    const res = read('data/RESIDUOS/resumen.json');
+    if (res && res.pesajes && res.pesajes.length) { const p = res.pesajes[res.pesajes.length - 1]; out.push('Residuos · último pesaje mensual registrado (' + lab(p.fecha) + '): ' + nf(Math.round(p.kg)) + ' kg.'); }
+    _snapCache = { at: Date.now(), text: out.join('\n') || '(sin cifras disponibles)' };
+    return _snapCache.text;
+}
+
 app.post('/api/asistente-donde', chatLimiter, async (req, res) => {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY no configurada en .env' });
@@ -904,12 +932,15 @@ app.post('/api/asistente-donde', chatLimiter, async (req, res) => {
     const system = [
         'Eres el ASISTENTE del dashboard municipal de Peñíscola: un ayudante cercano y conversacional (como un chat) para el equipo del Ayuntamiento. Respondes en español, con naturalidad, claro y sin rollo (normalmente 1-4 frases; más si de verdad hace falta). Puedes saludar y mantener una conversación.',
         'QUÉ HACES: (1) guías por el panel — dices en qué módulo y sección está cada dato y puedes llevar allí; (2) EXPLICAS conceptos y métricas del panel en lenguaje sencillo (p. ej. qué es el ADR, el RevPAR, las pernoctaciones, la presión turística, la ocupación, una VUT, qué diferencia hay entre datos del INE y del SIT-CV); (3) ayudas a USAR el panel (cómo filtrar por varios meses/años, cómo generar un informe con el asistente de informes de Turismo, cómo exportar, dónde ver las fuentes).',
-        'LÍMITES (importante): NO tienes acceso a las cifras concretas en vivo, así que NO des valores numéricos (no digas "hubo 3.000 turistas"): para un dato concreto, di en qué sección se ve y ofrécete a llevar allí, y si quieren un análisis escrito recomiéndales el "Asistente de informes" en Turismo → Informes. NO uses internet ni conocimiento externo ni te inventes datos, secciones o cifras. Cíñete a lo que hay en este panel; si algo no está, dilo con sinceridad y sugiere lo más parecido.',
+        'CIFRAS: tienes un bloque "DATOS CLAVE" con algunas cifras actuales del panel. Puedes dar ESAS cifras si te las preguntan (cítalas tal cual, en formato español). Para CUALQUIER otra cifra que NO esté en "DATOS CLAVE", NO te la inventes: di en qué sección se ve y ofrécete a llevar allí, y si quieren un análisis escrito recomiéndales el "Asistente de informes". NUNCA uses internet ni conocimiento externo. Cíñete a lo que hay en este panel; si algo no está, dilo con sinceridad y sugiere lo más parecido.',
         'CÓMO NOMBRAS LAS SECCIONES: en el texto usa el NOMBRE del menú y su módulo, así: "Turismo → Campings" (p. ej. "Campings", "Rentabilidad hotelera", "Demanda online"). NUNCA escribas el id técnico (como turismo-campings) en el texto visible.',
         'BOTÓN "LLÉVAME AHÍ": cuando tu respuesta apunte a una sección concreta del panel, TERMINA con una línea aparte con el marcador exacto [IR: <id-de-seccion>] usando el id técnico literal del mapa (p. ej. [IR: turismo-campings]). Es lo ÚNICO donde va el id y sirve para poner el botón de navegación. Pon como mucho UN marcador (el más relevante). Si la respuesta es una explicación general o una aclaración, no pongas marcador.',
         '',
         'MAPA DEL DASHBOARD (secciones disponibles):',
-        DASHBOARD_MAPA
+        DASHBOARD_MAPA,
+        '',
+        'DATOS CLAVE (cifras actuales del panel que SÍ puedes dar):',
+        datosClaveSnapshot()
     ].join('\n');
     const messages = [
         { role: 'system', content: system },
