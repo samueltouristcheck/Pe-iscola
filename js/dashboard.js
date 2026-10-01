@@ -1598,8 +1598,25 @@
     return o;
   }
 
+  function mesTiposFromPesajes() {
+    const o = {};
+    (dataPesajes || []).forEach((r) => {
+      const m = mesDesdeFecha(r.fecha);
+      if (!m || !r.tipos || typeof r.tipos !== 'object' || !Object.keys(r.tipos).length) return;
+      o[m] = Object.assign({}, r.tipos);
+    });
+    return o;
+  }
+
   function getMesToTiposMapComparacion() {
-    return useResumen ? mesTiposFromCamionResumen() : mesTiposFromCamionRaw();
+    // Fracciones desde PESAJES (tiene Poda/Voluminosos/Barredura/Papel/Envases);
+    // si no hay, caer al camión.
+    if (useResumen) {
+      const p = mesTiposFromPesajes();
+      if (Object.keys(p).length) return p;
+      return mesTiposFromCamionResumen();
+    }
+    return mesTiposFromCamionRaw();
   }
 
   function mesesEnAnioDesdeMap(mesToTipos, year) {

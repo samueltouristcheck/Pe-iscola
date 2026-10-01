@@ -512,7 +512,11 @@ app.get('/api/residuos/informe-data', (req, res) => {
 
         const hoteles    = agrupar(rowsMes, 'establecimiento', 'kg');
         const zonas      = agrupar(rowsMes, 'zona',            'kg');
-        const tipos      = agrupar(rowsMes, 'tipo',            'kg');
+        const tiposCamion = agrupar(rowsMes, 'tipo',           'kg');
+        // Fracciones desde PESAJES/báscula (incluyen Poda, Voluminosos, Barredura, Papel/Envases).
+        const pesMes = pesajesData.find((r) => r.fecha === mes);
+        const tiposPesajes = pesMes && pesMes.tipos ? Object.entries(pesMes.tipos).map(([k, v]) => [k, Math.round(v)]).sort((a, b) => b[1] - a[1]) : [];
+        const tipos = tiposPesajes.length ? tiposPesajes : tiposCamion;
         const contenedores = agrupar(rowsMes, 'containerType', 'kg');
         const matriculas = agrupar(rowsMes, 'matricula',       'kg');
 
@@ -593,7 +597,10 @@ app.get('/api/residuos/descargar-informe', async (req, res) => {
 
         const hoteles     = agrupar(rowsMes, 'establecimiento', 'kg');
         const zonas       = agrupar(rowsMes, 'zona',            'kg');
-        const tipos       = agrupar(rowsMes, 'tipo',            'kg');
+        const tiposCamion = agrupar(rowsMes, 'tipo',            'kg');
+        const pesMes = pesajesData.find((r) => r.fecha === mes);
+        const tiposPesajes = pesMes && pesMes.tipos ? Object.entries(pesMes.tipos).map(([k, v]) => [k, Math.round(v)]).sort((a, b) => b[1] - a[1]) : [];
+        const tipos = tiposPesajes.length ? tiposPesajes : tiposCamion;
         const contenedores = agrupar(rowsMes, 'containerType',  'kg');
         const matriculas  = agrupar(rowsMes, 'matricula',       'kg');
 
