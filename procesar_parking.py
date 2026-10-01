@@ -125,6 +125,31 @@ def resumen_mes(recs):
             porDia[d]['ent'] += 1
         elif k == 'sal':
             porDia[d]['sal'] += 1
+    # Ocupación media por hora del día: coches dentro = acumulado(entradas-salidas)
+    # Se calcula por día (saldo acumulado desde las 00:00) y se promedia entre días.
+    saldo_por_hora = {h: [] for h in range(24)}
+    porDiaEventos = defaultdict(list)
+    for _, t, k in recs:
+        if k in ('ent', 'sal'):
+            porDiaEventos[t.strftime('%Y-%m-%d')].append((t, k))
+    for dia, evs in porDiaEventos.items():
+        evs.sort()
+        # saldo al final de cada hora
+        saldo = 0
+        idx = 0
+        for h in range(24):
+            # aplica todos los eventos hasta el final de la hora h
+            while idx < len(evs) and evs[idx][0].hour <= h:
+                saldo += 1 if evs[idx][1] == 'ent' else -1
+                idx += 1
+            saldo_por_hora[h].append(max(0, saldo))
+    ocupacionHora = [{'hora': h, 'dentro': round(sum(saldo_por_hora[h]) / len(saldo_por_hora[h])) if saldo_por_hora[h] else 0} for h in range(24)]
+    pico = max(ocupacionHora, key=lambda x: x['dentro']) if ocupacionHora else {'hora': None, 'dentro': 0}
+    # Autobuses por hora
+    busHora = {h: 0 for h in range(24)}
+    for _, t, k in recs:
+        if k == 'bus':
+            busHora[t.hour] += 1
     return {
         'entradas': ent, 'salidas': sal, 'bus': bus,
         'matriculas_legibles': legibles, 'pasos_totales': len(recs),
@@ -140,6 +165,9 @@ def resumen_mes(recs):
         },
         'porHora': [{'hora': h, 'ent': porHora[h]['ent'], 'sal': porHora[h]['sal']} for h in range(24)],
         'porDia': [{'fecha': d, 'ent': porDia[d]['ent'], 'sal': porDia[d]['sal']} for d in sorted(porDia)],
+        'ocupacionHora': ocupacionHora,
+        'pico': pico,
+        'busHora': [{'hora': h, 'bus': busHora[h]} for h in range(24)],
     }
 
 

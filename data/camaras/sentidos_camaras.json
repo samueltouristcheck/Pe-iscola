@@ -1,0 +1,124 @@
+{
+ "fuente": "PDF Novatel \"Cámaras conteo Direccion\" (Jorge, feb 2026)",
+ "camaras": [
+  {
+   "nombre": "Acceso Portal Fosc",
+   "ip": "192.168.104.151",
+   "ab": "Salida",
+   "ba": "Entrada",
+   "foto": "assets/camaras/acceso-portal-fosc.jpg"
+  },
+  {
+   "nombre": "Avda. Akra Leuca",
+   "ip": "192.168.104.129",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/avda-akra-leuca.jpg"
+  },
+  {
+   "nombre": "Avda. Del Mar – Marcelino Roca",
+   "ip": "192.168.104.140",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/avda-del-mar-marcelino-roca.jpg"
+  },
+  {
+   "nombre": "Avda. España – Plaza Constitución",
+   "ip": "192.168.104.130",
+   "ab": "Salida",
+   "ba": "Entrada",
+   "foto": "assets/camaras/avda-espana-plaza-constitucion.jpg"
+  },
+  {
+   "nombre": "Avda. Papa Luna – Calle Navarra",
+   "ip": "192.168.104.109",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/avda-papa-luna-calle-navarra.jpg"
+  },
+  {
+   "nombre": "Ayuntamiento",
+   "ip": "192.168.104.141",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/ayuntamiento.jpg"
+  },
+  {
+   "nombre": "Calle Mayor – Baluarte Del Principe",
+   "ip": "192.168.104.147",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/calle-mayor-baluarte-del-principe.jpg"
+  },
+  {
+   "nombre": "Calle Saiz De Carlos",
+   "ip": "192.168.104.145",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/calle-saiz-de-carlos.jpg"
+  },
+  {
+   "nombre": "Calle Fulladosa",
+   "ip": "192.168.104.146",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/calle-fulladosa.jpg"
+  },
+  {
+   "nombre": "Calle LLevant",
+   "ip": "192.168.104.144",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/calle-llevant.jpg"
+  },
+  {
+   "nombre": "Casco Antiguo – Marcelino Roca",
+   "ip": "192.168.104.150",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/casco-antiguo-marcelino-roca.jpg"
+  },
+  {
+   "nombre": "Cruce Cv-140 – Camí Vell",
+   "ip": "192.168.104.119",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/cruce-cv-140-cami-vell.jpg"
+  },
+  {
+   "nombre": "Estíbaliz – Cv-140",
+   "ip": "192.168.104.122",
+   "ab": "Salida",
+   "ba": "Entrada",
+   "foto": "assets/camaras/estibaliz-cv-140.jpg"
+  },
+  {
+   "nombre": "Plaza Illueca – Avda. Papa Luna",
+   "ip": "192.168.104.114",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/plaza-illueca-avda-papa-luna.jpg"
+  },
+  {
+   "nombre": "Rotonda 3 CV-140",
+   "ip": "192.168.104.106",
+   "ab": "Salida",
+   "ba": "Entrada",
+   "foto": "assets/camaras/rotonda-3-cv-140.jpg"
+  },
+  {
+   "nombre": "Rotonda Avda. Papa Luna Sur",
+   "ip": "192.168.104.116",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/rotonda-avda-papa-luna-sur.jpg"
+  },
+  {
+   "nombre": "Rotonda Venus",
+   "ip": "192.168.104.133",
+   "ab": "Entrada",
+   "ba": "Salida",
+   "foto": "assets/camaras/rotonda-venus.jpg"
+  }
+ ]
+}

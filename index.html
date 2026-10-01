@@ -457,6 +457,7 @@
           <label>Cámara</label>
           <select id="multi-cam-select" class="fuente-select"></select>
         </div>
+        <div id="multi-det-foto"></div>
         <div class="turismo-context-row" style="margin-bottom:1rem">
           <div class="turismo-context-card"><span class="turismo-context-icon">👥</span><div><span class="turismo-context-label">Personas</span><span class="turismo-context-value" id="multi-det-personas">—</span><span class="turismo-context-sub">paso total</span></div></div>
           <div class="turismo-context-card"><span class="turismo-context-icon">🚗</span><div><span class="turismo-context-label">Vehículos a motor</span><span class="turismo-context-value" id="multi-det-motor">—</span><span class="turismo-context-sub">total</span></div></div>
@@ -570,8 +571,15 @@
         </div>
         <div class="turismo-charts-row">
           <div class="turismo-chart-card turismo-chart-wide">
+            <h4>Coches dentro del parking por hora</h4>
+            <p class="turismo-chart-hint">Ocupación media estimada a lo largo del día (entradas − salidas acumuladas)</p>
+            <div class="chart-container" style="height:300px"><canvas id="chart-parking-ocupacion"></canvas></div>
+          </div>
+        </div>
+        <div class="turismo-charts-row">
+          <div class="turismo-chart-card turismo-chart-wide">
             <h4>Entradas y salidas por día</h4>
-            <p class="turismo-chart-hint">Ocupación diaria del parking</p>
+            <p class="turismo-chart-hint">Movimiento diario del parking</p>
             <div class="chart-container" style="height:300px"><canvas id="chart-parking-dia"></canvas></div>
           </div>
         </div>
@@ -1732,7 +1740,7 @@
     la línea de abajo con el puerto real de server.js:
     <script>window.__DASHBOARD_API_PORT__ = 7777;<\/script>
   -->
-  <script src="js/dashboard.js?v=140"></script>
+  <script src="js/dashboard.js?v=141"></script>
   <script src="js/repositorio.js?v=6"></script>
 </body>
 </html>

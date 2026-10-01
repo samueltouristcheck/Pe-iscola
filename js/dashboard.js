@@ -875,6 +875,32 @@
     if (met && !met._bound) { met.addEventListener('change', function () { updateMultiMapa(); }); met._bound = true; }
   }
 
+  // Foto + sentido (entrada/salida) de cada cámara, desde el PDF de Novatel (Jorge).
+  var _sentidosCam = null;
+  function camSlugMatch(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/^\s*\d+\s*[-.)]?\s*/, '').replace(/[^a-z0-9]+/g, ''); }
+  function renderCamFoto(camName) {
+    var cont = document.getElementById('multi-det-foto'); if (!cont) return;
+    var fill = function (data) {
+      var key = camSlugMatch(camName);
+      var m = (data.camaras || []).find(function (c) { var k = camSlugMatch(c.nombre); return k === key || (k && key.indexOf(k) >= 0) || (key && k.indexOf(key) >= 0); });
+      if (!m || !m.foto) { cont.innerHTML = ''; return; }
+      cont.innerHTML = '<div class="turismo-chart-card" style="display:flex;gap:1.1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">'
+        + '<img src="' + m.foto + '" alt="' + (m.nombre || '') + '" style="width:340px;max-width:100%;border-radius:10px;border:1px solid #e2e8f0">'
+        + '<div style="flex:1;min-width:230px">'
+        + '<h4 style="margin:.1rem 0 .3rem">📷 ' + (m.nombre || camName) + '</h4>'
+        + '<p class="turismo-chart-hint" style="margin:.2rem 0 .5rem">Vista de la cámara con su línea de conteo. Las flechas A/B marcan el sentido del paso.</p>'
+        + '<div style="display:flex;gap:.5rem;flex-wrap:wrap">'
+        + '<span style="background:#dcfce7;color:#166534;padding:.32rem .7rem;border-radius:999px;font-size:.84rem;font-weight:700">A → B: ' + (m.ab || '—') + '</span>'
+        + '<span style="background:#fee2e2;color:#991b1b;padding:.32rem .7rem;border-radius:999px;font-size:.84rem;font-weight:700">B → A: ' + (m.ba || '—') + '</span>'
+        + '</div>'
+        + (m.ip ? '<p style="font-size:.74rem;color:#94a3b8;margin:.5rem 0 0">IP ' + m.ip + '</p>' : '')
+        + '</div></div>';
+    };
+    if (_sentidosCam) { fill(_sentidosCam); return; }
+    var url = (typeof dataUrl === 'function') ? dataUrl('data/camaras/sentidos_camaras.json') : '/data/camaras/sentidos_camaras.json';
+    fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) { _sentidosCam = d; fill(d); }).catch(function () { cont.innerHTML = ''; });
+  }
+
   function renderMultiDetalle() {
     var agg = multiAgg();
     var sel = document.getElementById('multi-cam-select');
@@ -885,6 +911,7 @@
       return;
     }
     var c = sel.value || agg.cams[0];
+    renderCamFoto(multiNombre(c) || c);
     var o = agg.porCam[c]; if (!o) return;
     var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
     set('multi-det-personas', multiNf(o.p));
@@ -7086,6 +7113,7 @@
             { l: 'Rotación <30 min', v: (e.pct_corta_30 != null ? String(e.pct_corta_30).replace('.', ',') + ' %' : '—'), s: 'paradas cortas' },
             { l: 'Entradas', v: tFmtNum(d.entradas), s: 'vehículos (mes)' },
             { l: 'Salidas', v: tFmtNum(d.salidas), s: 'vehículos (mes)' },
+            { l: 'Pico de ocupación', v: (d.pico && d.pico.dentro != null ? tFmtNum(d.pico.dentro) + ' coches' : '—'), s: (d.pico && d.pico.hora != null ? 'hacia las ' + ('0' + d.pico.hora).slice(-2) + ':00' : 'coches dentro') },
             { l: 'Autobuses', v: tFmtNum(d.bus), s: 'accesos de bus' },
             { l: 'Emparejadas', v: (e.pct_emparejadas != null ? String(e.pct_emparejadas).replace('.', ',') + ' %' : '—'), s: 'entradas con salida' }
           ].map(function (it) { return '<div class="turismo-mini-kpi"><span class="turismo-mini-kpi-label">' + it.l + '</span><span class="turismo-mini-kpi-value">' + it.v + '</span><span class="turismo-mini-kpi-sub">' + it.s + '</span></div>'; }).join('');
@@ -7113,6 +7141,17 @@
               { label: 'Salidas', data: ph.map(function (x) { return x.sal; }), backgroundColor: '#dc2626', borderRadius: 3 }
             ] },
             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+          });
+        }
+        // Ocupación por hora (coches dentro)
+        parkingDestroy('ocup');
+        var cOc = document.getElementById('chart-parking-ocupacion');
+        var oh = d.ocupacionHora || [];
+        if (cOc && oh.length) {
+          _parkingCharts['ocup'] = new Chart(cOc, {
+            type: 'line',
+            data: { labels: oh.map(function (x) { return ('0' + x.hora).slice(-2) + 'h'; }), datasets: [{ label: 'Coches dentro (media)', data: oh.map(function (x) { return x.dentro; }), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,.12)', tension: 0.35, pointRadius: 2, fill: true }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
           });
         }
         // Por día
