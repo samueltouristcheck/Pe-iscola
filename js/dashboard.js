@@ -7097,7 +7097,8 @@
       if (!db || !db.meses) return;
       var selM = document.getElementById('parking-mes');
       var selD = document.getElementById('parking-dia');
-      var claves = Object.keys(db.meses);
+      var MES_ORD = { Enero: 1, Febrero: 2, Marzo: 3, Abril: 4, Mayo: 5, Junio: 6, Julio: 7, Agosto: 8, Septiembre: 9, Octubre: 10, Noviembre: 11, Diciembre: 12 };
+      var claves = Object.keys(db.meses).sort(function (a, b) { return (MES_ORD[a] || 99) - (MES_ORD[b] || 99); });
       if (selM && selM.dataset.bound !== '1') {
         selM.innerHTML = '<option value="__total">Todos los meses</option>' + claves.map(function (k) { return '<option value="' + k + '">' + k + (db.anio ? ' ' + db.anio : '') + '</option>'; }).join('');
         selM.value = claves.length ? claves[claves.length - 1] : '__total';
