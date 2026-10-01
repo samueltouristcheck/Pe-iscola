@@ -1,6 +1,7 @@
 {
   "_info": "Datos de Meta (Facebook + Instagram) leidos de Meta Business Suite (Insights). Meta DEPRECO en su API las estadisticas de pagina de Facebook (alcance, impresiones, interacciones) y la demografia, por eso se mantienen a mano; Instagram si tiene API. Fuente: Business Suite > Insights (periodo 'Ultimos 28 dias') y Audiencia (demografia). Nota: Meta ahora llama 'Espectadores' al alcance de Facebook y 'Visualizaciones' a las impresiones. Actualiza 'facebook', 'instagram', 'audiencia', 'audienciaInstagram' y anade una entrada a 'historico' cada mes (formato AAAA-MM).",
   "actualizado": "2026-10-01",
+  "periodo": "2026-09",
   "facebook": {
     "name": "Peñíscola",
     "followers": 61374,

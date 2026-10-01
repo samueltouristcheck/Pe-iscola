@@ -149,6 +149,8 @@ async function getMeta() {
             return {
                 configured: true,
                 source: 'manual',
+                actualizado: manual.actualizado || null,
+                periodo: manual.periodo || null,
                 facebook: manual.facebook || null,
                 instagram: manual.instagram || null,
                 audiencia: manual.audiencia || null,

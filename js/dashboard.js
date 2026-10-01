@@ -6683,7 +6683,18 @@
 
   function redesFmt(n) {
     if (n == null || isNaN(n)) return '—';
-    return Math.round(n).toLocaleString('es-ES');
+    // Agrupación de miles con punto, consistente para cualquier tamaño (es-ES no agrupa 4 cifras).
+    return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
+  // Formatea 'AAAA-MM-DD' como 'mes AAAA' (ej. "septiembre 2026"). Devuelve '' si no hay fecha.
+  function redesMesLargo(ymd) {
+    if (!ymd) return '';
+    var m = String(ymd).match(/^(\d{4})-(\d{2})/);
+    if (!m) return '';
+    var meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    var idx = parseInt(m[2], 10) - 1;
+    return (meses[idx] || '') + ' ' + m[1];
   }
 
   function redesPalette() {
@@ -6733,8 +6744,9 @@
     if (!problems.length && !errs.length) {
       box.className = 'redes-status redes-status-ok';
       box.style.display = 'flex';
+      var metaMes = d && d.meta && redesMesLargo(d.meta.periodo || d.meta.actualizado);
       var metaTxt = cfg.metaManual
-        ? 'Google Analytics en directo · Meta (Facebook/Instagram) con datos manuales, actualización mensual.'
+        ? 'Google Analytics en directo (últimos 30 días) · Meta (Facebook/Instagram): datos de Meta Business Suite' + (metaMes ? ', ' + metaMes : '') + '.'
         : 'Mostrando datos reales de Meta y Google Analytics (últimos 30 días).';
       box.innerHTML = '<span class="redes-status-icon">✅</span><div><strong>Conexiones activas</strong>' + metaTxt + '</div>';
       return;
@@ -6809,10 +6821,13 @@
     if (card) card.style.display = show ? '' : 'none';
   }
   // Cambia la etiqueta de la cabecera de una sección a "Datos manuales" cuando aplica.
-  function setRedesSectionTag(sectionId, manual) {
+  function setRedesSectionTag(sectionId, manual, fecha) {
     var sec = document.getElementById(sectionId);
     var tag = sec && sec.querySelector('.turismo-section-tag');
-    if (tag && manual) tag.textContent = 'Datos manuales · mensual';
+    if (tag && manual) {
+      var mes = redesMesLargo(fecha);
+      tag.textContent = 'Datos manuales · Business Suite' + (mes ? ' · ' + mes : '');
+    }
   }
 
   function renderRedesFacebook(d) {
@@ -6842,7 +6857,7 @@
         cont.innerHTML = c;
       }
     }
-    setRedesSectionTag('section-redes-facebook', manual);
+    setRedesSectionTag('section-redes-facebook', manual, meta.periodo || meta.actualizado);
     var daily = fb.daily || [];
     var showCharts = !manual && daily.length > 0;
     toggleRedesChartCard('chart-redes-fb-reach', showCharts);
@@ -6879,7 +6894,7 @@
         cont.innerHTML = c;
       }
     }
-    setRedesSectionTag('section-redes-instagram', manual);
+    setRedesSectionTag('section-redes-instagram', manual, meta.periodo || meta.actualizado);
     var daily = ig.daily || [];
     var showCharts = !manual && daily.length > 0;
     toggleRedesChartCard('chart-redes-ig-reach', showCharts);
@@ -6957,10 +6972,15 @@
     var ga = (d && d.ga) || {};
     var fbName = (meta.facebook && meta.facebook.name) || '';
     var igName = (meta.instagram && meta.instagram.username) ? '@' + meta.instagram.username : '';
-    var metaDetail = [fbName, igName].filter(Boolean).join(' · ') || 'sin nombre';
-    var reconectar = ga.error ? '<div style="margin-top:.5rem"><a href="/api/redes/oauth/start" target="_blank" rel="noopener" class="reload-btn" style="display:inline-block;text-decoration:none">🔄 Reconectar Google Analytics</a></div>' : '';
+    var nombres = [fbName, igName].filter(Boolean).join(' · ');
+    var metaMes = redesMesLargo(meta.periodo || meta.actualizado);
+    var metaDetail = (meta.source === 'manual')
+      ? ('datos de Meta Business Suite' + (metaMes ? ', ' + metaMes : '') + (nombres ? ' (' + nombres + ')' : ''))
+      : (nombres || 'sin nombre');
+    var gaDetail = 'en directo · cuenta de servicio' + (ga.propertyId ? ' · propiedad ' + ga.propertyId : '');
     cont.innerHTML = card('Meta (Facebook + Instagram)', cfg.meta && !meta.error, metaDetail) +
-      card('Google Analytics 4', cfg.ga && !ga.error, ga.propertyId ? 'propiedad ' + ga.propertyId : '') + reconectar;
+      card('Google Analytics 4', cfg.ga && !ga.error, gaDetail) +
+      '<div style="margin-top:.75rem;font-size:.82rem;color:#64748b;line-height:1.45">Google Analytics se actualiza en directo (últimos 30 días). Los datos de Meta se leen de Meta Business Suite porque la API de Meta ya no ofrece el alcance, las interacciones ni la demografía de Facebook.</div>';
   }
 
   // Dibuja las 4 gráficas de audiencia para una plataforma ('fb' o 'ig').
